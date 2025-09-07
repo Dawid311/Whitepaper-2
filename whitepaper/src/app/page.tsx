@@ -23,6 +23,7 @@ import {
 // Komponenten
 import NavigationMenu from '../components/NavigationMenu'
 import HeroSection from '../components/HeroSection'
+import SolutionSection from '../components/SolutionSection'
 import TokenomicsChart from '../components/TokenomicsChart'
 import StakingCalculator from '../components/StakingCalculator'
 import HalvingVisualizationNew from '../components/HalvingVisualizationNew'
@@ -138,91 +139,7 @@ const WhitepaperPage = () => {
       </section>
 
       {/* Solution Section */}
-      <section id="solution" className="py-20 px-4 bg-gradient-to-r from-blue-900/20 to-purple-900/20">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Die D.FAITH Lösung
-            </h2>
-            <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
-              Revolutionäres Fan-Engagement durch direkte Token-Belohnungen und Gamification
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              <div className="bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 rounded-2xl p-6 border border-zinc-700">
-                <FaInstagram className="text-3xl text-pink-400 mb-4" />
-                <h3 className="text-xl font-bold mb-3">Social Media Integration</h3>
-                <p className="text-zinc-400">
-                  Automatische Erkennung von Likes, Kommentaren und Shares. 
-                  Fans erhalten sofort D.FAITH Token für jede Interaktion.
-                </p>
-              </div>
-
-              <div className="bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 rounded-2xl p-6 border border-zinc-700">
-                <FaRocket className="text-3xl text-blue-400 mb-4" />
-                <h3 className="text-xl font-bold mb-3">EXP & Level System</h3>
-                <p className="text-zinc-400">
-                  Gamification durch Experience Points und Levels. 
-                  Höhere Level = Mehr Belohnungen und exklusive Vorteile.
-                </p>
-              </div>
-
-              <div className="bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 rounded-2xl p-6 border border-zinc-700">
-                <FaGlobe className="text-3xl text-green-400 mb-4" />
-                <h3 className="text-xl font-bold mb-3">Cross-Platform</h3>
-                <p className="text-zinc-400">
-                  Ein globales Profil für alle Plattformen. 
-                  EXP sammeln auf Instagram wirkt sich auch auf TikTok aus.
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-3xl p-8 border border-blue-500/30">
-                <h3 className="text-2xl font-bold mb-6 text-center">So funktioniert es:</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-sm font-bold">1</div>
-                    <p>Fan kommentiert "D.FAITH" unter Instagram Post</p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-sm font-bold">2</div>
-                    <p>System erstellt automatisch Fan-Profil</p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-sm font-bold">3</div>
-                    <p>Engagement wird analysiert (Like, Share, Save)</p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-sm font-bold">4</div>
-                    <p>Fan erhält Link zur Webapp und kann Token claimen</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      <SolutionSection />
 
       {/* Tokenomics Section */}
       <section id="tokenomics" className="py-20 px-4">
