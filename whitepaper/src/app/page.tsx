@@ -83,58 +83,89 @@ const WhitepaperPage = () => {
       </div>
 
       {/* Problem Section */}
-      <section id="problem" className="py-20 px-4 max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent">
-            Das Problem
-          </h2>
-          <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
-            Künstler kämpfen mit mangelnder Reichweite, teurer Werbung und fehlendem Kapital für Musikproduktion
-          </p>
-        </motion.div>
+      <section id="problem" className="py-20 bg-gradient-to-br from-slate-900 via-red-900/20 to-slate-900">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent mb-6">
+              Das Problem
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Dawid Faith identifizierte diese Kernprobleme in der Musikindustrie
+            </p>
+          </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            {
-              icon: <FaChartLine className="text-3xl text-red-400" />,
-              title: "Reichweiten-Problem",
-              description: "Organische Reichweite stark limitiert, Algorithmen bevorzugen etablierte Accounts"
-            },
-            {
-              icon: <FaUsers className="text-3xl text-orange-400" />,
-              title: "Engagement-Defizit", 
-              description: "Geringe Interaktionsraten trotz qualitativem Content, schwer echte Fans zu identifizieren"
-            },
-            {
-              icon: <FaCoins className="text-3xl text-yellow-400" />,
-              title: "Kapital-Mangel",
-              description: "Hohe Kosten für Musikproduktion, Videos und Marketing ohne ausreichende Ressourcen"
-            },
-            {
-              icon: <FaMusic className="text-3xl text-purple-400" />,
-              title: "Content-Erstellung",
-              description: "Zeitintensiv und teuer, benötigt Expertise in verschiedenen Bereichen"
-            }
-          ].map((problem, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 rounded-2xl p-6 border border-zinc-700 hover:border-zinc-600 transition-colors"
-            >
-              <div className="mb-4">{problem.icon}</div>
-              <h3 className="text-xl font-bold mb-3 text-white">{problem.title}</h3>
-              <p className="text-zinc-400">{problem.description}</p>
-            </motion.div>
-          ))}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {[
+              {
+                icon: <FaInstagram className="text-3xl text-purple-500" />,
+                title: "Geringe Reichweite",
+                description: "Trotz qualitativem Content ist es schwer, organisch neue Follower zu gewinnen"
+              },
+              {
+                icon: <FaChartLine className="text-3xl text-red-500" />,
+                title: "Teure Werbung",
+                description: "Paid Ads für Reichweite sind kostspielig und nicht immer nachhaltig"
+              },
+              {
+                icon: <FaMusic className="text-3xl text-blue-500" />,
+                title: "Fehlendes Kapital",
+                description: "Keine Mittel für Musikproduktion, Videos und professionelle Vermarktung"
+              },
+              {
+                icon: <FaUsers className="text-3xl text-green-500" />,
+                title: "Schwaches Engagement",
+                description: "Fan-Interaktionen bringen keinen direkten Mehrwert für beide Seiten"
+              }
+            ].map((problem, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-red-500/50 transition-all duration-300"
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="mb-4 p-3 bg-slate-700/50 rounded-full">
+                    {problem.icon}
+                  </div>
+                  <h4 className="text-xl font-semibold text-white mb-3">
+                    {problem.title}
+                  </h4>
+                  <p className="text-gray-400">
+                    {problem.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700 rounded-xl p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <Image
+                src="/dawid-faith-photo.jpg"
+                alt="Dawid Faith"
+                width={80}
+                height={80}
+                className="rounded-full border-2 border-red-500"
+              />
+              <div>
+                <h4 className="text-xl font-semibold text-white">Dawid Faith</h4>
+                <p className="text-red-400">Künstler & Token-Entwickler</p>
+              </div>
+            </div>
+            <blockquote className="text-gray-300 italic text-lg leading-relaxed">
+              "Ich hatte das Problem, dass mein Content nicht die Reichweite bekommen hat, die er verdient. 
+              Bezahlte Werbung ist teuer und nicht nachhaltig. Also entwickelte ich D.FAITH - ein System, 
+              das meine Fans direkt für ihre Unterstützung belohnt und mir gleichzeitig hilft, meine Musik zu finanzieren."
+            </blockquote>
+          </div>
         </div>
       </section>
 

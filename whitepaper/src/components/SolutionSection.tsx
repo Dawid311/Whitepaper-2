@@ -1,253 +1,220 @@
-'use client'
-
-import React from 'react'
-import { motion } from 'framer-motion'
-import { 
-  FaInstagram, 
-  FaRocket, 
-  FaSpotify,
-  FaQrcode,
-  FaTrophy,
-  FaExchangeAlt,
-  FaShoppingCart,
-  FaChartLine,
-  FaCoins,
-  FaUsers
-} from 'react-icons/fa'
+"use client"
+import React, { useState } from 'react'
+import { FaUsers, FaExchangeAlt, FaCoins, FaLock, FaTrophy, FaTiktok, FaInstagram, FaFacebook, FaDollarSign, FaMusic, FaChartLine, FaHeart, FaComment, FaShare, FaSave } from 'react-icons/fa'
+import Image from 'next/image'
 
 const SolutionSection = () => {
-  const engagementFlow = [
+  const [selectedBranch, setSelectedBranch] = useState<'contract' | 'rewards' | null>(null)
+
+  const steps = [
     {
-      step: 1,
-      icon: <FaInstagram className="text-3xl text-pink-400" />,
-      title: "Kommentar mit D.FAITH",
-      description: "Fan kommentiert mit Keyword 'D.FAITH'",
-      action: "Automatische Profilerstellung"
+      id: 1,
+      title: 'Fan Interaktion',
+      description: 'Fans liken, kommentieren, teilen und speichern',
+      icons: [FaTiktok, FaInstagram, FaFacebook],
+      color: 'from-purple-500 to-pink-500'
     },
     {
-      step: 2,
-      icon: <FaQrcode className="text-3xl text-blue-400" />,
-      title: "Sofortige Verifizierung",
-      description: "System prüft: Like, Share, Save, Kommentar",
-      action: "Link zur Dawid Faith Wallet"
+      id: 2,
+      title: 'Automatische Käufe',
+      description: 'Werbebudget und Musikeinnahmen als Quelle',
+      icons: [FaDollarSign, FaMusic],
+      color: 'from-green-500 to-emerald-500'
     },
     {
-      step: 3,
-      icon: <FaShoppingCart className="text-3xl text-purple-400" />,
-      title: "Automatischer Token-Kauf",
-      description: "Marketing Budget kauft Token basierend auf User Level",
-      action: "Token bereit zum Claimen"
+      id: 3,
+      title: 'Token Verteilung',
+      description: 'D.FAITH Tokens werden aufgeteilt',
+      iconType: 'dfaith',
+      color: 'from-yellow-500 to-orange-500'
+    }
+  ]
+
+  const branches = [
+    {
+      key: 'contract' as const,
+      title: 'Smart Contract Pfad',
+      subtitle: 'Wertsteigerung durch Verknappung',
+      icon: FaLock,
+      color: 'from-blue-500 to-cyan-500',
+      details: [
+        'Teil der Tokens fließt zurück in Smart Contract',
+        'Halving-System reduziert verfügbare Supply',
+        'D.FAITH Preis steigt durch Verknappung'
+      ]
     },
     {
-      step: 4,
-      icon: <FaCoins className="text-3xl text-yellow-400" />,
-      title: "Token Claim",
-      description: "Belohnung abhängig vom User Level",
-      action: "D.FAITH Token erhalten"
-    },
-    {
-      step: 5,
-      icon: <FaChartLine className="text-3xl text-green-400" />,
-      title: "Token-Preis steigt",
-      description: "Durch Verknappung steigt der Wert",
-      action: "Motivation weiterzumachen"
+      key: 'rewards' as const,
+      title: 'Token Rewards Pfad',
+      subtitle: 'Direkte Fan-Belohnungen',
+      icon: FaTrophy,
+      color: 'from-purple-500 to-pink-500',
+      details: [
+        'Fan-Aktivitäten werden in EXP umgewandelt',
+        'Level-basierte Token-Verteilung an Fans',
+        'Zugang zu Shop, ETH-Tausch und VIP Benefits'
+      ]
     }
   ]
 
   return (
-    <section id="solution" className="py-20 px-4 bg-gradient-to-r from-blue-900/20 to-purple-900/20">
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            Die Social Media Revolution
+    <section id="solution" className="py-20 bg-gradient-to-br from-slate-900 via-blue-900/20 to-slate-900">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-6">
+            Die D.FAITH Lösung
           </h2>
-          <p className="text-xl text-zinc-400 max-w-4xl mx-auto mb-8">
-            Vom Problem zur Lösung: Wie D.FAITH das Engagement-Game für immer verändert
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Drei Schritte - Zwei Wege: Der Weg von Fan-Interaktion zur Token-Verteilung
           </p>
-          <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-2xl p-6 border border-green-500/20 max-w-4xl mx-auto">
-            <p className="text-lg text-green-300 font-medium">
-              🚀 <strong>Die Revolution:</strong> Fans werden für ihr Engagement belohnt und entwickeln echte Verbindungen zur Musik
-            </p>
-          </div>
-        </motion.div>
+        </div>
 
-        {/* Engagement Flow Process */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-white mb-4">Der revolutionäre Engagement-Flow</h3>
-            <p className="text-zinc-400 max-w-3xl mx-auto">
-              Vom ersten Kommentar bis zum exklusiven VIP-Zugang - so funktioniert die neue Ära des Fan-Engagements
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {engagementFlow.map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                viewport={{ once: true }}
-                className="relative bg-gradient-to-br from-zinc-800/50 to-zinc-900/70 rounded-2xl p-6 border border-zinc-700/50 text-center hover:scale-105 transition-all duration-300"
-              >
-                {/* Step Number */}
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                  {step.step}
-                </div>
-                
-                {/* Icon */}
-                <div className="flex justify-center items-center mb-4 h-16">
-                  {step.icon}
-                </div>
-                
-                {/* Content */}
-                <h4 className="text-lg font-bold text-white mb-2">{step.title}</h4>
-                <p className="text-zinc-400 text-sm mb-3">{step.description}</p>
-                <div className="border-t border-zinc-700 pt-3">
-                  <p className="text-green-400 text-xs font-medium">→ {step.action}</p>
-                </div>
-
-                {/* Connection Arrow */}
-                {index < engagementFlow.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-3 transform -translate-y-1/2">
-                    <div className="w-6 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400"></div>
-                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-0 h-0 border-l-4 border-l-purple-400 border-t-2 border-b-2 border-t-transparent border-b-transparent"></div>
+        {/* Horizontale 3 Schritte */}
+        <div className="mb-20">
+          <div className="flex flex-col lg:flex-row items-center justify-center space-y-8 lg:space-y-0 lg:space-x-12">
+            {steps.map((step, index) => {
+              return (
+                <div key={step.id} className="flex items-center">
+                  {/* Step */}
+                  <div className="flex flex-col items-center text-center max-w-xs">
+                    {/* Fan Interaktion - Social Media Icons */}
+                    {step.id === 1 && (
+                      <div className="flex space-x-4 mb-4">
+                        <FaInstagram className="text-3xl text-pink-500" />
+                        <FaTiktok className="text-3xl text-black" />
+                        <FaFacebook className="text-3xl text-blue-600" />
+                      </div>
+                    )}
+                    
+                    {/* Automatische Käufe - Chart Icon */}
+                    {step.id === 2 && (
+                      <div className="mb-4">
+                        <FaChartLine className="text-4xl text-green-500" />
+                      </div>
+                    )}
+                    
+                    {/* Token Verteilung - Münzen Symbol */}
+                    {step.id === 3 && (
+                      <div className="mb-4">
+                        <FaCoins className="text-4xl text-yellow-500" />
+                      </div>
+                    )}
+                    
+                    <h4 className="text-xl font-bold text-white mb-3">{step.title}</h4>
+                    {step.id === 1 ? (
+                      <div className="text-gray-300 text-sm flex flex-wrap items-center justify-center gap-2">
+                        <span className="flex items-center gap-1">
+                          <FaHeart className="text-red-500" /> Liken
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <FaComment className="text-blue-400" /> Kommentieren
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <FaShare className="text-green-500" /> Share
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <FaSave className="text-yellow-500" /> Save
+                        </span>
+                      </div>
+                    ) : (
+                      <p className="text-gray-300 text-sm">{step.description}</p>
+                    )}
                   </div>
-                )}
-              </motion.div>
-            ))}
+
+                  {/* Pfeil zwischen Schritten */}
+                  {index < steps.length - 1 && (
+                    <div className="hidden lg:flex items-center mx-8">
+                      <div className="w-12 h-0.5 bg-gradient-to-r from-gray-400 to-gray-600"></div>
+                      <div className="w-0 h-0 border-l-4 border-l-gray-500 border-y-4 border-y-transparent ml-1"></div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
 
-        {/* Ergebnisse des Engagement-Flows */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-white mb-4">Was dieser Flow bewirkt</h3>
-            <p className="text-zinc-400 max-w-3xl mx-auto">
-              Durch Levelsystem und Tokenisierung entstehen messbare Erfolge für das Projekt
+        {/* Verweis auf 2 Wege */}
+        <div className="flex justify-center mb-16">
+          <div className="bg-slate-800/50 backdrop-blur rounded-xl p-8 border border-slate-600/30 max-w-lg text-center">
+            <div className="flex items-center justify-center space-x-3 mb-4">
+              <div className="w-4 h-4 bg-blue-500 rounded-full shadow-lg"></div>
+              <span className="text-gray-300">Tokens verzweigen sich in</span>
+              <div className="w-4 h-4 bg-purple-500 rounded-full shadow-lg"></div>
+            </div>
+            <h4 className="text-2xl font-bold text-white mb-3">2 Parallele Pfade</h4>
+            <p className="text-gray-400">
+              Jeder Pfad verstärkt das D.FAITH Ecosystem auf seine eigene Art und trägt zum Gesamterfolg bei
             </p>
           </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-2xl p-6 border border-pink-500/20 text-center"
-            >
-              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaUsers className="text-2xl text-white" />
-              </div>
-              <h4 className="text-xl font-bold text-pink-300 mb-2">Mehr Reichweite</h4>
-              <p className="text-zinc-400 text-sm mb-3">
-                Levelsystem motiviert zu organischem Teilen und Interagieren
-              </p>
-              <div className="bg-pink-500/10 rounded-lg p-2 border border-pink-500/20">
-                <p className="text-pink-300 text-xs font-bold">📈 +300% Social Media Reach</p>
-              </div>
-            </motion.div>
+        </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-2xl p-6 border border-blue-500/20 text-center"
-            >
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaTrophy className="text-2xl text-white" />
-              </div>
-              <h4 className="text-xl font-bold text-blue-300 mb-2">Mehr Konzerte</h4>
-              <p className="text-zinc-400 text-sm mb-3">
-                Exklusive Live-Codes schaffen stärkere Fan-Bindung
-              </p>
-              <div className="bg-blue-500/10 rounded-lg p-2 border border-blue-500/20">
-                <p className="text-blue-300 text-xs font-bold">🎤 +200% Konzertbesucher</p>
-              </div>
-            </motion.div>
+        {/* Branch Auswahl */}
+        <div className="grid md:grid-cols-2 gap-12 mb-16">
+          {branches.map((branch) => {
+            const IconComponent = branch.icon
+            const isSelected = selectedBranch === branch.key
+            
+            return (
+              <div
+                key={branch.key}
+                className={`bg-slate-800/50 backdrop-blur rounded-2xl p-8 cursor-pointer transition-all duration-300 border-2 ${
+                  isSelected 
+                    ? 'border-white/30 bg-slate-800/70 shadow-2xl scale-105' 
+                    : 'border-slate-700/50 hover:border-slate-600/50 hover:bg-slate-800/60'
+                }`}
+                onClick={() => setSelectedBranch(prev => prev === branch.key ? null : branch.key)}
+              >
+                {/* Branch Header */}
+                <div className="flex flex-col items-center text-center mb-6">
+                  <div className={`w-20 h-20 rounded-full bg-gradient-to-r ${branch.color} flex items-center justify-center shadow-lg mb-4`}>
+                    <IconComponent className="text-2xl text-white" />
+                  </div>
+                  <h4 className={`text-2xl font-bold mb-2 bg-gradient-to-r ${branch.color} bg-clip-text text-transparent`}>
+                    {branch.title}
+                  </h4>
+                  <p className="text-gray-400">{branch.subtitle}</p>
+                </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-2xl p-6 border border-green-500/20 text-center"
-            >
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaSpotify className="text-2xl text-white" />
-              </div>
-              <h4 className="text-xl font-bold text-green-300 mb-2">Mehr Streams</h4>
-              <p className="text-zinc-400 text-sm mb-3">
-                EXP für jeden Stream motiviert zu mehr Hörzeit
-              </p>
-              <div className="bg-green-500/10 rounded-lg p-2 border border-green-500/20">
-                <p className="text-green-300 text-xs font-bold">🎵 +500% Spotify Streams</p>
-              </div>
-            </motion.div>
+                {/* Branch Details */}
+                <div className={`transition-all duration-300 overflow-hidden ${
+                  isSelected ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                }`}>
+                  <div className="pt-6 border-t border-slate-600">
+                    <h5 className="text-lg font-semibold text-white mb-4">Wie es funktioniert:</h5>
+                    <ul className="space-y-3">
+                      {branch.details.map((detail, index) => (
+                        <li key={index} className="flex items-start space-x-3">
+                          <div className={`w-6 h-6 rounded-full bg-gradient-to-r ${branch.color} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                            <span className="text-white text-xs font-bold">{index + 1}</span>
+                          </div>
+                          <p className="text-gray-300 text-sm leading-relaxed">{detail}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 rounded-2xl p-6 border border-yellow-500/20 text-center"
-            >
-              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaRocket className="text-2xl text-white" />
+                {/* Expand Hint */}
+                {!isSelected && (
+                  <div className="text-center mt-4">
+                    <span className="text-sm text-gray-500">Klicken für Details</span>
+                  </div>
+                )}
               </div>
-              <h4 className="text-xl font-bold text-yellow-300 mb-2">Mehr Kapital</h4>
-              <p className="text-zinc-400 text-sm mb-3">
-                D.INVEST Token schaffen direkte Finanzierung
-              </p>
-              <div className="bg-yellow-500/10 rounded-lg p-2 border border-yellow-500/20">
-                <p className="text-yellow-300 text-xs font-bold">💰 50.000€ Projektkapital</p>
-              </div>
-            </motion.div>
-          </div>
+            )
+          })}
+        </div>
 
-          {/* Zusammenfassung der Erfolge */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="mt-8 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-2xl p-8 border border-emerald-500/20 max-w-4xl mx-auto text-center"
-          >
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <FaChartLine className="text-3xl text-emerald-400" />
-              <h4 className="text-2xl font-bold text-emerald-300">Das Ergebnis: Nachhaltiges Wachstum</h4>
-              <FaCoins className="text-3xl text-teal-400" />
-            </div>
-            <p className="text-zinc-400 text-lg mb-4">
-              Der <strong className="text-white">Engagement-Flow mit Tokenisierung</strong> schafft eine Win-Win-Situation: 
-              Fans werden belohnt, Künstler wachsen organisch
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-3 h-3 bg-pink-400 rounded-full"></div>
-                <span className="text-pink-300 text-sm font-medium">Social Reach</span>
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                <span className="text-blue-300 text-sm font-medium">Live Events</span>
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                <span className="text-green-300 text-sm font-medium">Music Streams</span>
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <span className="text-yellow-300 text-sm font-medium">Project Capital</span>
-              </div>
-            </div>
-          </motion.div>
+        {/* Zusammenfassung */}
+        <div className="text-center bg-slate-800/30 rounded-2xl p-8">
+          <h4 className="text-2xl font-bold text-white mb-4">
+            Das Ergebnis: Beide Wege verstärken sich gegenseitig
+          </h4>
+          <p className="text-gray-300 text-lg max-w-4xl mx-auto">
+            Während der Smart Contract Pfad den Token-Wert durch Verknappung steigert, 
+            sorgt der Rewards Pfad für mehr Fan-Engagement und Ecosystem-Wachstum.
+          </p>
         </div>
       </div>
     </section>
