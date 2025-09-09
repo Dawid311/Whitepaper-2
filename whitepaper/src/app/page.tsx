@@ -25,8 +25,6 @@ import NavigationMenu from '../components/NavigationMenu'
 import HeroSection from '../components/HeroSection'
 import SolutionSection from '../components/SolutionSection'
 import TokenomicsChart from '../components/TokenomicsChart'
-import StakingCalculator from '../components/StakingCalculator'
-import HalvingVisualizationNew from '../components/HalvingVisualizationNew'
 import TeamSection from '../components/TeamSection'
 import TechnicalArchitecture from '../components/TechnicalArchitecture'
 import RoadmapTimeline from '../components/RoadmapTimeline'
@@ -38,7 +36,7 @@ const WhitepaperPage = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'problem', 'solution', 'tokenomics', 'tech', 'staking', 'halving', 'roadmap', 'team']
+      const sections = ['hero', 'problem', 'solution', 'tokenomics', 'tech', 'roadmap', 'team']
       const currentSection = sections.find(section => {
         const element = document.getElementById(section)
         if (element) {
@@ -291,49 +289,7 @@ const WhitepaperPage = () => {
         <TechnicalArchitecture />
       </section>
 
-      {/* Staking Calculator */}
-      <section id="staking" className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-              Staking Rechner
-            </h2>
-            <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
-              Berechnen Sie Ihre potenziellen D.FAITH Rewards durch D.INVEST Staking
-            </p>
-          </motion.div>
 
-          <StakingCalculator />
-        </div>
-      </section>
-
-      {/* Halving Visualization */}
-      <section id="halving" className="py-20 px-4 bg-gradient-to-r from-orange-900/20 to-red-900/20">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
-              Halving-Mechanismus
-            </h2>
-            <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
-              6-stufiges Belohnungssystem mit kontinuierlicher Verknappung
-            </p>
-          </motion.div>
-
-          <HalvingVisualizationNew />
-        </div>
-      </section>
 
       {/* Roadmap */}
       <section id="roadmap" className="py-20 px-4">
