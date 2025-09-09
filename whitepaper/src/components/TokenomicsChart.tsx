@@ -191,11 +191,8 @@ const TokenomicsChart = () => {
                   alt="D.FAITH Logo" 
                   width={60} 
                   height={60}
-                  className="rounded-lg border-2 border-amber-400/50"
+                  className="rounded-lg"
                 />
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center">
-                  <FaCoins className="text-xs text-white" />
-                </div>
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-amber-400">D.FAITH</h3>
@@ -273,11 +270,8 @@ const TokenomicsChart = () => {
                   alt="D.INVEST Logo" 
                   width={60} 
                   height={60}
-                  className="rounded-lg border-2 border-purple-400/50"
+                  className="rounded-lg"
                 />
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
-                  <FaDollarSign className="text-xs text-white" />
-                </div>
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-purple-400">D.INVEST</h3>
