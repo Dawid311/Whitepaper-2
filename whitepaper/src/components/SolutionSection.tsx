@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react'
-import { FaUsers, FaExchangeAlt, FaCoins, FaLock, FaTrophy, FaTiktok, FaInstagram, FaFacebook, FaDollarSign, FaMusic, FaChartLine, FaHeart, FaComment, FaShare, FaSave, FaUser, FaRobot, FaShieldAlt, FaRocket, FaUnlock, FaClock, FaInfoCircle, FaTimes, FaMobileAlt, FaCheckCircle, FaShoppingCart, FaChartBar, FaArrowRight } from 'react-icons/fa'
+import { FaUsers, FaExchangeAlt, FaCoins, FaLock, FaTrophy, FaTiktok, FaInstagram, FaFacebook, FaDollarSign, FaMusic, FaChartLine, FaHeart, FaComment, FaShare, FaSave, FaUser, FaRobot, FaShieldAlt, FaRocket, FaUnlock, FaClock, FaInfoCircle, FaTimes, FaMobileAlt, FaCheckCircle, FaShoppingCart, FaChartBar, FaArrowRight, FaCalendarAlt } from 'react-icons/fa'
 import Image from 'next/image'
 
 const SolutionSection = () => {
@@ -1109,6 +1109,164 @@ const SolutionSection = () => {
           </div>
         )
 
+      case 'fan-interaktion':
+        return (
+          <div className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-xl">
+                <FaUsers className="text-2xl text-white" />
+              </div>
+            </div>
+            <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-3">
+              Fan Interaktion
+            </h3>
+            <p className="text-gray-300 mb-6">
+              Fans liken, kommentieren und teilen → System erkennt sie automatisch
+            </p>
+            
+            <div className="bg-slate-800/40 rounded-xl p-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div className="text-center">
+                  <FaHeart className="text-red-400 text-xl mx-auto mb-2" />
+                  <div className="text-white font-semibold">Like</div>
+                  <div className="text-green-400">+1 EXP</div>
+                </div>
+                <div className="text-center">
+                  <FaComment className="text-blue-400 text-xl mx-auto mb-2" />
+                  <div className="text-white font-semibold">Kommentar</div>
+                  <div className="text-green-400">+3 EXP</div>
+                </div>
+                <div className="text-center">
+                  <FaShare className="text-green-400 text-xl mx-auto mb-2" />
+                  <div className="text-white font-semibold">Share</div>
+                  <div className="text-green-400">+5 EXP</div>
+                </div>
+                <div className="text-center">
+                  <FaTrophy className="text-yellow-400 text-xl mx-auto mb-2" />
+                  <div className="text-white font-semibold">Auto-Profil</div>
+                  <div className="text-purple-400">Erstellt</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+
+      case 'automatische-kaeufe':
+        return (
+          <div className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-xl">
+                <FaDollarSign className="text-2xl text-white" />
+              </div>
+            </div>
+            <h3 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent mb-3">
+              Automatische D.FAITH Käufe
+            </h3>
+            <p className="text-gray-300 mb-6">
+              Marketing Budget → D.FAITH Token kaufen → An Fans verteilen
+            </p>
+            
+            <div className="grid md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-slate-800/40 rounded-lg p-4 text-center">
+                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-2">1</div>
+                <div className="text-blue-400 font-semibold text-sm">Budget bereitstellen</div>
+                <div className="text-gray-400 text-xs">500€ Marketing Budget</div>
+              </div>
+              
+              <div className="bg-slate-800/40 rounded-lg p-4 text-center">
+                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-2">2</div>
+                <div className="text-green-400 font-semibold text-sm">Auto-Kauf</div>
+                <div className="text-gray-400 text-xs">~3,340 D.FAITH Token</div>
+              </div>
+              
+              <div className="bg-slate-800/40 rounded-lg p-4 text-center">
+                <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-2">3</div>
+                <div className="text-purple-400 font-semibold text-sm">50/50 Split</div>
+                <div className="text-gray-400 text-xs">Fans & Smart Contract</div>
+              </div>
+            </div>
+            
+            <div className="bg-green-900/30 rounded-lg p-4 border border-green-500/30">
+              <div className="text-green-400 font-semibold mb-2">Ergebnis:</div>
+              <div className="text-sm space-y-1">
+                <div>• 1,670 Token für aktive Fans</div>
+                <div>• 1,670 Token dauerhaft gesperrt</div>
+                <div>• Token werden knapper → Preis steigt</div>
+              </div>
+            </div>
+          </div>
+        )
+
+      case 'token-verteilung':
+        return (
+          <div className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center shadow-xl">
+                <FaCoins className="text-2xl text-white" />
+              </div>
+            </div>
+            <h3 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent mb-3">
+              Token Verteilung
+            </h3>
+            <p className="text-gray-300 mb-6">
+              Level-basierte Rewards: Höheres Level = Mehr Token
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-slate-800/40 rounded-lg p-4 text-center border border-green-500/30">
+                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-2">1</div>
+                <div className="text-green-400 font-semibold">Level 1</div>
+                <div className="text-gray-400 text-sm">0.50€ × Level 1 = 0.50€</div>
+              </div>
+              
+              <div className="bg-slate-800/40 rounded-lg p-4 text-center border border-purple-500/30">
+                <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-2">5</div>
+                <div className="text-purple-400 font-semibold">Level 5</div>
+                <div className="text-gray-400 text-sm">0.50€ × Level 5 = 2.50€</div>
+              </div>
+              
+              <div className="bg-slate-800/40 rounded-lg p-4 text-center border border-yellow-500/30">
+                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-2">10</div>
+                <div className="text-yellow-400 font-semibold">Level 10</div>
+                <div className="text-gray-400 text-sm">0.50€ × Level 10 = 5.00€</div>
+              </div>
+            </div>
+            
+            <div className="bg-slate-800/40 rounded-lg p-4 mb-4">
+              <div className="text-center mb-3">
+                <div className="text-blue-400 font-semibold">Beispiel: 500€ Budget → 1,670 Token für Fans</div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                <div className="bg-slate-700/50 rounded p-2 text-center">
+                  <div className="text-green-400 font-bold">167 Token</div>
+                  <div className="text-gray-400">5× Level 10</div>
+                </div>
+                <div className="bg-slate-700/50 rounded p-2 text-center">
+                  <div className="text-blue-400 font-bold">250 Token</div>
+                  <div className="text-gray-400">10× Level 5</div>
+                </div>
+                <div className="bg-slate-700/50 rounded p-2 text-center">
+                  <div className="text-purple-400 font-bold">251 Token</div>
+                  <div className="text-gray-400">25× Level 3</div>
+                </div>
+                <div className="bg-slate-700/50 rounded p-2 text-center">
+                  <div className="text-yellow-400 font-bold">167 Token</div>
+                  <div className="text-gray-400">50× Level 1</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-orange-900/30 rounded-lg p-4 border border-orange-500/30">
+              <div className="text-orange-400 font-semibold mb-2">Automatische Verteilung:</div>
+              <div className="text-sm space-y-1">
+                <div>• Mehr Engagement = Höheres Level</div>
+                <div>• Höheres Level = Mehr Token pro Interaktion</div>
+                <div>• Echtzeit-Tracking aller Social Media Aktivitäten</div>
+              </div>
+            </div>
+          </div>
+        )
+
       default:
         return null
     }
@@ -1231,221 +1389,6 @@ const SolutionSection = () => {
             Belohnung des Fan-Engagements durch das duale Token-System
           </p>
           
-          {/* Vorher vs. Nachher Comparison */}
-          <div className="max-w-6xl mx-auto mb-8">
-            <div className="text-center mb-8">
-              <h3 className="text-3xl font-bold bg-gradient-to-r from-red-400 via-yellow-400 to-green-400 bg-clip-text text-transparent mb-4">
-                🔄 Von Problem zur Revolution
-              </h3>
-              <p className="text-gray-400 text-lg">
-                Wie D.FAITH die traditionelle Musikindustrie komplett umkrempelt
-              </p>
-            </div>
-
-            {/* Vorher vs. Nachher Karten */}
-            <div className="grid lg:grid-cols-2 gap-8 mb-12">
-              
-              {/* VORHER - Traditionell */}
-              <div className="relative group">
-                <div className="bg-gradient-to-br from-red-900/50 to-gray-900/50 rounded-3xl p-8 border-2 border-red-500/40 hover:border-red-400/60 transition-all duration-500">
-                  {/* Header */}
-                  <div className="flex items-center justify-center mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-xl mr-4">
-                      <span className="text-2xl text-white">😔</span>
-                    </div>
-                    <div>
-                      <h4 className="text-2xl font-bold text-red-400">VORHER</h4>
-                      <p className="text-red-300 text-sm">Traditionelle Musikindustrie</p>
-                    </div>
-                  </div>
-
-                  {/* Probleme */}
-                  <div className="space-y-4">
-                    <div className="bg-red-900/30 rounded-xl p-4 border border-red-500/30">
-                      <div className="flex items-center mb-2">
-                        <FaUsers className="text-red-400 mr-3" />
-                        <span className="text-red-300 font-semibold">Fans</span>
-                      </div>
-                      <p className="text-gray-300 text-sm">• Konsumieren nur passiv</p>
-                      <p className="text-gray-300 text-sm">• Bekommen nichts zurück</p>
-                      <p className="text-gray-300 text-sm">• Keine echte Verbindung</p>
-                    </div>
-
-                    <div className="bg-red-900/30 rounded-xl p-4 border border-red-500/30">
-                      <div className="flex items-center mb-2">
-                        <FaMusic className="text-red-400 mr-3" />
-                        <span className="text-red-300 font-semibold">Künstler (Dawid)</span>
-                      </div>
-                      <p className="text-gray-300 text-sm">• Wenig Reichweite</p>
-                      <p className="text-gray-300 text-sm">• Teure Werbung nötig</p>
-                      <p className="text-gray-300 text-sm">• Kein Kapital für Produktion</p>
-                    </div>
-
-                    <div className="bg-red-900/30 rounded-xl p-4 border border-red-500/30">
-                      <div className="flex items-center mb-2">
-                        <FaDollarSign className="text-red-400 mr-3" />
-                        <span className="text-red-300 font-semibold">Investoren</span>
-                      </div>
-                      <p className="text-gray-300 text-sm">• Schwer in Musik zu investieren</p>
-                      <p className="text-gray-300 text-sm">• Keine direkten Beteiligungen</p>
-                      <p className="text-gray-300 text-sm">• Komplizierte Verträge</p>
-                    </div>
-                  </div>
-
-                  <div className="mt-6 text-center bg-red-800/20 rounded-lg p-3">
-                    <span className="text-red-300 font-bold">❌ Alle verlieren</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* NACHHER - Mit D.FAITH */}
-              <div className="relative group">
-                <div className="bg-gradient-to-br from-green-900/50 to-blue-900/50 rounded-3xl p-8 border-2 border-green-500/40 hover:border-green-400/60 transition-all duration-500 hover:scale-102">
-                  {/* Glow Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-blue-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  <div className="relative z-10">
-                    {/* Header */}
-                    <div className="flex items-center justify-center mb-6">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center shadow-xl mr-4 animate-pulse">
-                        <span className="text-2xl text-white">🚀</span>
-                      </div>
-                      <div>
-                        <h4 className="text-2xl font-bold text-green-400">NACHHER</h4>
-                        <p className="text-green-300 text-sm">Mit D.FAITH Ökosystem</p>
-                      </div>
-                    </div>
-
-                    {/* Lösungen */}
-                    <div className="space-y-4">
-                      <div className="bg-green-900/30 rounded-xl p-4 border border-green-500/30 hover:border-green-400/50 transition-colors duration-300">
-                        <div className="flex items-center mb-2">
-                          <FaCoins className="text-green-400 mr-3 animate-bounce" />
-                          <span className="text-green-300 font-semibold">Fans</span>
-                        </div>
-                        <p className="text-gray-300 text-sm">• Bekommen D.FAITH Token für Likes</p>
-                        <p className="text-gray-300 text-sm">• Können Token verkaufen (ETH)</p>
-                        <p className="text-gray-300 text-sm">• Exklusive Musik & Shop</p>
-                      </div>
-
-                      <div className="bg-blue-900/30 rounded-xl p-4 border border-blue-500/30 hover:border-blue-400/50 transition-colors duration-300">
-                        <div className="flex items-center mb-2">
-                          <FaChartLine className="text-blue-400 mr-3" />
-                          <span className="text-blue-300 font-semibold">Künstler (Dawid)</span>
-                        </div>
-                        <p className="text-gray-300 text-sm">• Automatisch mehr Engagement</p>
-                        <p className="text-gray-300 text-sm">• Kapital durch D.INVEST (5€/Token)</p>
-                        <p className="text-gray-300 text-sm">• Loyale Fan-Community</p>
-                      </div>
-
-                      <div className="bg-purple-900/30 rounded-xl p-4 border border-purple-500/30 hover:border-purple-400/50 transition-colors duration-300">
-                        <div className="flex items-center mb-2">
-                          <FaTrophy className="text-purple-400 mr-3" />
-                          <span className="text-purple-300 font-semibold">Investoren</span>
-                        </div>
-                        <p className="text-gray-300 text-sm">• Einfach D.INVEST kaufen</p>
-                        <p className="text-gray-300 text-sm">• Token-Wertsteigerung durch Burns</p>
-                        <p className="text-gray-300 text-sm">• Staking-Rewards (D.FAITH)</p>
-                      </div>
-                    </div>
-
-                    <div className="mt-6 text-center bg-green-800/20 rounded-lg p-3 border border-green-500/30">
-                      <span className="text-green-300 font-bold">✅ Alle gewinnen!</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Der Zauber: Wie funktioniert's? */}
-            <div className="bg-gradient-to-br from-slate-900/80 to-slate-800/80 rounded-3xl p-8 border border-slate-700/50 backdrop-blur-xl">
-              <div className="text-center mb-8">
-                <h4 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-4">
-                  ✨ Der Zauber dahinter
-                </h4>
-                <p className="text-gray-400">Wie ein einfacher Kommentar eine ganze Ökonomie antreibt</p>
-              </div>
-
-              {/* Magic Flow */}
-              <div className="relative overflow-hidden">
-                <div className="flex flex-col lg:flex-row items-center justify-between space-y-8 lg:space-y-0 lg:space-x-6">
-                  
-                  {/* Schritt 1: Fan Engagement */}
-                  <div className="flex-1 group relative">
-                    <div className="bg-gradient-to-br from-pink-900/40 to-purple-900/40 rounded-2xl p-6 border border-pink-500/30 hover:border-pink-400/60 transition-all duration-300 hover:scale-105 text-center">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse">
-                        <FaHeart className="text-2xl text-white" />
-                      </div>
-                      <h5 className="text-pink-400 font-bold mb-2">1. Fan liked Post</h5>
-                      <p className="text-gray-300 text-sm">Mit Keyword "D.FAITH"</p>
-                      <div className="mt-3 bg-slate-800/50 rounded-lg p-2">
-                        <span className="text-pink-300 text-xs font-mono">"D.FAITH 🔥❤️"</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Pfeil */}
-                  <div className="hidden lg:block">
-                    <FaArrowRight className="text-2xl text-yellow-400 animate-pulse" />
-                  </div>
-
-                  {/* Schritt 2: Auto-System */}
-                  <div className="flex-1 group relative">
-                    <div className="bg-gradient-to-br from-yellow-900/40 to-orange-900/40 rounded-2xl p-6 border border-yellow-500/30 hover:border-yellow-400/60 transition-all duration-300 hover:scale-105 text-center">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center mx-auto mb-4">
-                        <FaRobot className="text-2xl text-white animate-bounce" />
-                      </div>
-                      <h5 className="text-yellow-400 font-bold mb-2">2. System aktiviert</h5>
-                      <p className="text-gray-300 text-sm">Marketing-Budget kauft Token</p>
-                      <div className="mt-3 bg-slate-800/50 rounded-lg p-2">
-                        <span className="text-yellow-300 text-xs">0.50€ × Level 3 = 1.50€</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Pfeil */}
-                  <div className="hidden lg:block">
-                    <FaArrowRight className="text-2xl text-green-400 animate-pulse" style={{animationDelay: '0.5s'}} />
-                  </div>
-
-                  {/* Schritt 3: Token Magic */}
-                  <div className="flex-1 group relative">
-                    <div className="bg-gradient-to-br from-green-900/40 to-emerald-900/40 rounded-2xl p-6 border border-green-500/30 hover:border-green-400/60 transition-all duration-300 hover:scale-105 text-center">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center mx-auto mb-4">
-                        <FaCoins className="text-2xl text-white animate-spin" style={{animationDuration: '2s'}} />
-                      </div>
-                      <h5 className="text-green-400 font-bold mb-2">3. Token Magie</h5>
-                      <p className="text-gray-300 text-sm">50% für Fan, 50% geburnt</p>
-                      <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-                        <div className="bg-green-800/30 rounded p-2">
-                          <span className="text-green-300">Fan: 0.75€</span>
-                        </div>
-                        <div className="bg-red-800/30 rounded p-2">
-                          <span className="text-red-300">🔥 Burn: 0.75€</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Magic Result */}
-                <div className="mt-8 text-center">
-                  <div className="inline-flex items-center bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-2xl p-6 border border-purple-500/30">
-                    <FaRocket className="text-3xl text-purple-400 mr-4 animate-bounce" />
-                    <div className="text-left">
-                      <h6 className="text-purple-300 font-bold text-lg">Resultat: Alle gewinnen sofort!</h6>
-                      <p className="text-gray-400">Fan bekommt Token, Dawid bekommt Engagement, Token wird seltener → Preis steigt</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed mb-6">
-            Navigieren Sie durch den gesamten Prozess und lernen Sie, wie jede Interaktion automatisch Token-Wert schafft
-          </p>
-          
           {/* Dawid Faith's persönliche Motivation */}
           <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700 rounded-xl p-6 max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-4">
@@ -1472,12 +1415,22 @@ const SolutionSection = () => {
 
         {/* Horizontale 3 Schritte */}
         <div className="mb-20">
+          <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed mb-8 text-center">
+            Navigieren Sie durch den gesamten Prozess und lernen Sie, wie jede Interaktion automatisch Token-Wert schafft
+          </p>
           <div className="flex flex-col lg:flex-row items-center justify-center space-y-8 lg:space-y-0 lg:space-x-12">
             {steps.map((step, index) => {
               return (
                 <div key={step.id} className="flex items-center">
                   {/* Step */}
-                  <div className="flex flex-col items-center text-center max-w-xs bg-slate-800/30 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-slate-600/50 transition-all duration-300 hover:transform hover:scale-105">
+                  <div 
+                    className="flex flex-col items-center text-center max-w-xs bg-slate-800/30 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-slate-600/50 transition-all duration-300 hover:transform hover:scale-105 cursor-pointer"
+                    onClick={() => setActiveModal(
+                      step.id === 1 ? 'fan-interaktion' : 
+                      step.id === 2 ? 'automatische-kaeufe' : 
+                      'token-verteilung'
+                    )}
+                  >
                     {/* Fan Interaktion - Social Media Icons */}
                     {step.id === 1 && (
                       <div className="flex space-x-4 mb-4">
@@ -1509,39 +1462,10 @@ const SolutionSection = () => {
                     
                     <h4 className="text-xl font-bold text-white mb-3">{step.title}</h4>
                     {step.id === 1 ? (
-                      <div className="text-gray-300 text-sm space-y-2">
+                      <div className="text-gray-300 text-sm">
                         <p className="font-semibold text-purple-400">Keyword "D.FAITH" im Kommentar</p>
-                        <div className="flex flex-wrap items-center justify-center gap-2">
-                          <span className="flex items-center gap-1">
-                            <FaHeart className="text-red-500" /> Liken
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <FaComment className="text-blue-400" /> Kommentieren
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <FaShare className="text-green-500" /> Share
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <FaSave className="text-yellow-500" /> Save
-                          </span>
-                        </div>
-                        <p className="text-xs text-gray-400">→ Automatische Profilerstellung</p>
                       </div>
-                    ) : step.id === 2 ? (
-                      <div className="text-gray-300 text-sm space-y-1">
-                        <p>Marketing-Budget wird aktiviert</p>
-                        <p className="text-green-400">Token-Käufe je nach User Level</p>
-                        <p className="text-xs text-gray-400">→ Feeds Smart Contract</p>
-                      </div>
-                    ) : step.id === 3 ? (
-                      <div className="text-gray-300 text-sm space-y-1">
-                        <p>50% → Smart Contract (gesperrt)</p>
-                        <p>50% → Fan Rewards (Level-System)</p>
-                        <p className="text-xs text-gray-400">→ Verknappung & Wertsteigerung</p>
-                      </div>
-                    ) : (
-                      <p className="text-gray-300 text-sm">{step.description}</p>
-                    )}
+                    ) : null}
                   </div>
 
                   {/* Pfeil zwischen Schritten */}
@@ -1772,32 +1696,7 @@ const SolutionSection = () => {
             </div>
           </div>
 
-          {/* Call to Action */}
-          <div className="mt-8 text-center">
-            <div className="bg-gradient-to-r from-amber-900/40 to-yellow-900/40 rounded-xl p-6 border border-amber-500/30">
-              <h6 className="text-xl font-bold text-amber-400 mb-3">
-                🚀 Komplett Live & Funktionsfähig!
-              </h6>
-              <p className="text-gray-300 mb-4">
-                Die D.FAITH Webapp ist bereits vollständig entwickelt und operational. 
-                Alle Features aus dem Whitepaper sind implementiert und können sofort genutzt werden.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <div className="flex items-center justify-center text-sm">
-                  <FaCheckCircle className="text-green-400 mr-2" />
-                  <span className="text-gray-300">Smart Contracts deployed</span>
-                </div>
-                <div className="flex items-center justify-center text-sm">
-                  <FaCheckCircle className="text-green-400 mr-2" />
-                  <span className="text-gray-300">Social Media APIs aktiv</span>
-                </div>
-                <div className="flex items-center justify-center text-sm">
-                  <FaCheckCircle className="text-green-400 mr-2" />
-                  <span className="text-gray-300">Token-System funktional</span>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
 
         {/* Zusammenfassung - Das Ergebnis */}
