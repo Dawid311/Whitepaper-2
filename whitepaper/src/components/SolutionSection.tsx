@@ -1681,64 +1681,6 @@ const SolutionSection = () => {
                 </div>
               </div>
             </div>
-
-            {/* Success Formula */}
-            <div className="bg-gradient-to-r from-green-900/30 via-purple-900/30 to-cyan-900/30 rounded-3xl p-8 border border-purple-500/30 mb-8">
-              <div className="text-center mb-8">
-                <h5 className="text-3xl font-bold bg-gradient-to-r from-green-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent mb-4">
-                  Die Erfolgsformel
-                </h5>
-                <p className="text-gray-300 text-lg">Mathematisch bewiesener Win-Win-Win Effekt</p>
-              </div>
-              
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <div className="bg-green-500/20 rounded-2xl p-6 mb-4">
-                    <FaUsers className="text-4xl text-green-400 mx-auto mb-3" />
-                    <div className="text-2xl font-bold text-white">Mehr Fans</div>
-                  </div>
-                  <p className="text-gray-300 text-sm">Höhere Interaktion durch Token-Incentives</p>
-                </div>
-                
-                <div className="text-center">
-                  <div className="bg-purple-500/20 rounded-2xl p-6 mb-4">
-                    <FaRocket className="text-4xl text-purple-400 mx-auto mb-3" />
-                    <div className="text-2xl font-bold text-white">Mehr Reichweite</div>
-                  </div>
-                  <p className="text-gray-300 text-sm">Organisches Wachstum ohne Werbung</p>
-                </div>
-                
-                <div className="text-center">
-                  <div className="bg-cyan-500/20 rounded-2xl p-6 mb-4">
-                    <FaCoins className="text-4xl text-cyan-400 mx-auto mb-3" />
-                    <div className="text-2xl font-bold text-white">Mehr Wert</div>
-                  </div>
-                  <p className="text-gray-300 text-sm">Token-Wertsteigerung durch echten Nutzen</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Call to Action */}
-            <div className="text-center bg-gradient-to-r from-purple-900/40 to-pink-900/40 rounded-2xl p-8 border border-purple-500/30">
-              <FaRocket className="text-5xl text-purple-400 mx-auto mb-4 animate-bounce" />
-              <h6 className="text-2xl font-bold text-white mb-4">
-                🚀 Ein revolutionäres System, das ALLE Beteiligten gleichzeitig belohnt!
-              </h6>
-              <p className="text-gray-300 text-lg mb-6">
-                Nicht nur eine weitere Kryptowährung - sondern ein komplettes Ökosystem mit realem Nutzen
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <div className="bg-green-500/20 px-6 py-3 rounded-xl">
-                  <span className="text-green-400 font-semibold">✓ Nachhaltig</span>
-                </div>
-                <div className="bg-purple-500/20 px-6 py-3 rounded-xl">
-                  <span className="text-purple-400 font-semibold">✓ Skalierbar</span>
-                </div>
-                <div className="bg-cyan-500/20 px-6 py-3 rounded-xl">
-                  <span className="text-cyan-400 font-semibold">✓ Profitabel</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
