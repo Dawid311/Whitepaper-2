@@ -143,27 +143,6 @@ const WhitepaperPage = () => {
               </motion.div>
             ))}
           </div>
-
-          <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700 rounded-xl p-8">
-            <div className="flex items-center gap-4 mb-6">
-              <Image
-                src="/dawid-faith-photo.jpg"
-                alt="Dawid Faith"
-                width={80}
-                height={80}
-                className="rounded-full border-2 border-red-500"
-              />
-              <div>
-                <h4 className="text-xl font-semibold text-white">Dawid Faith</h4>
-                <p className="text-red-400">Künstler & Token-Entwickler</p>
-              </div>
-            </div>
-            <blockquote className="text-gray-300 italic text-lg leading-relaxed">
-              "Ich hatte das Problem, dass mein Content nicht die Reichweite bekommen hat, die er verdient. 
-              Bezahlte Werbung ist teuer und nicht nachhaltig. Also entwickelte ich D.FAITH - ein System, 
-              das meine Fans direkt für ihre Unterstützung belohnt und mir gleichzeitig hilft, meine Musik zu finanzieren."
-            </blockquote>
-          </div>
         </div>
       </section>
 

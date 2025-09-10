@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react'
-import { FaUsers, FaExchangeAlt, FaCoins, FaLock, FaTrophy, FaTiktok, FaInstagram, FaFacebook, FaDollarSign, FaMusic, FaChartLine, FaHeart, FaComment, FaShare, FaSave, FaUser, FaRobot, FaShieldAlt, FaRocket, FaUnlock, FaClock, FaInfoCircle, FaTimes, FaMobileAlt, FaCheckCircle, FaShoppingCart, FaChartBar } from 'react-icons/fa'
+import { FaUsers, FaExchangeAlt, FaCoins, FaLock, FaTrophy, FaTiktok, FaInstagram, FaFacebook, FaDollarSign, FaMusic, FaChartLine, FaHeart, FaComment, FaShare, FaSave, FaUser, FaRobot, FaShieldAlt, FaRocket, FaUnlock, FaClock, FaInfoCircle, FaTimes, FaMobileAlt, FaCheckCircle, FaShoppingCart, FaChartBar, FaArrowRight } from 'react-icons/fa'
 import Image from 'next/image'
 
 const SolutionSection = () => {
@@ -693,17 +693,59 @@ const SolutionSection = () => {
               </div>
             </div>
             <h3 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent mb-4">
-              D.FAITH Preisentwicklung
+              💰 Wie wird D.FAITH immer wertvoller?
             </h3>
             <p className="text-gray-300 text-lg mb-8">
-              Durch Verknappung und Halving-Mechanismus explodiert der D.FAITH Preis langfristig
+              Einfach erklärt: Je mehr Leute mitmachen, desto weniger Token gibt es → Preis steigt automatisch!
             </p>
             
-            {/* Visueller Chart */}
+            {/* Kompakte Start-Info */}
+            <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 rounded-2xl p-4 mb-6 border border-blue-500/30">
+              <div className="grid md:grid-cols-3 gap-3 text-center">
+                <div className="bg-slate-800/60 rounded-xl p-3">
+                  <div className="text-green-400 text-xl font-bold">1.000€</div>
+                  <div className="text-gray-300 text-sm">💰 Startkapital</div>
+                </div>
+                <div className="bg-slate-800/60 rounded-xl p-3">
+                  <div className="text-purple-400 text-xl font-bold">20.000</div>
+                  <div className="text-gray-300 text-sm">🪙 D.FAITH Token</div>
+                </div>
+                <div className="bg-slate-800/60 rounded-xl p-3">
+                  <div className="text-cyan-400 text-xl font-bold">0.05€</div>
+                  <div className="text-gray-300 text-sm">💎 Startpreis</div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Einfacher Preis Chart */}
             <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/50 rounded-2xl p-8 mb-8 border border-slate-700/50">
-              <h4 className="text-green-400 font-bold text-xl mb-6">Prognose: D.FAITH Preisentwicklung</h4>
+              <h4 className="text-green-400 font-bold text-xl mb-4 flex items-center justify-center">
+                <FaChartLine className="mr-3" />
+                📈 So entwickelt sich der D.FAITH Preis
+              </h4>
               
-              {/* Exponential Line Chart */}
+              {/* Kompakte Uniswap Mathematik */}
+              <div className="bg-slate-800/60 rounded-xl p-3 mb-4">
+                <div className="text-cyan-300 text-lg mb-3 text-center font-bold">
+                  🧮 Nur 2.162€ → 10x Preissteigerung
+                </div>
+                <div className="grid grid-cols-3 gap-2 text-xs text-center">
+                  <div className="bg-blue-900/30 rounded p-2">
+                    <div className="text-blue-400 font-bold">Start</div>
+                    <div className="text-white">0.05€</div>
+                  </div>
+                  <div className="bg-orange-900/30 rounded p-2">
+                    <div className="text-orange-400 font-bold">+2.162€</div>
+                    <div className="text-gray-300">benötigt</div>
+                  </div>
+                  <div className="bg-green-900/30 rounded p-2">
+                    <div className="text-green-400 font-bold">Ziel</div>
+                    <div className="text-white">0.50€</div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Exponentieller Chart */}
               <div className="relative h-80 bg-slate-800/30 rounded-xl p-6 mb-6 overflow-hidden">
                 {/* Grid Lines */}
                 <div className="absolute inset-6 opacity-20">
@@ -717,168 +759,199 @@ const SolutionSection = () => {
                   
                   {/* Vertical Grid Lines */}
                   <div className="absolute h-full border-l border-gray-600" style={{left: '0%'}}></div>
-                  <div className="absolute h-full border-l border-gray-600" style={{left: '16.66%'}}></div>
-                  <div className="absolute h-full border-l border-gray-600" style={{left: '33.33%'}}></div>
-                  <div className="absolute h-full border-l border-gray-600" style={{left: '50%'}}></div>
-                  <div className="absolute h-full border-l border-gray-600" style={{left: '66.66%'}}></div>
-                  <div className="absolute h-full border-l border-gray-600" style={{left: '83.33%'}}></div>
+                  <div className="absolute h-full border-l border-gray-600" style={{left: '20%'}}></div>
+                  <div className="absolute h-full border-l border-gray-600" style={{left: '40%'}}></div>
+                  <div className="absolute h-full border-l border-gray-600" style={{left: '60%'}}></div>
+                  <div className="absolute h-full border-l border-gray-600" style={{left: '80%'}}></div>
                   <div className="absolute h-full border-l border-gray-600" style={{left: '100%'}}></div>
                 </div>
 
-                {/* Y-Achse Labels */}
+                {/* Y-Achse Labels (einfache Preise) */}
                 <div className="absolute left-0 top-6 h-64 flex flex-col justify-between text-xs text-gray-400">
-                  <span className="text-pink-400 font-bold">$15.00</span>
-                  <span className="text-purple-400">$8.00</span>
-                  <span className="text-red-400">$2.50</span>
-                  <span className="text-orange-400">$0.75</span>
-                  <span className="text-yellow-400">$0.25</span>
-                  <span className="text-green-400">$0.05</span>
-                  <span className="text-blue-400">$0.01</span>
+                  <span className="text-pink-400 font-bold">💎 5.00€</span>
+                  <span className="text-purple-400">🚀 2.00€</span>
+                  <span className="text-red-400">⭐ 1.00€</span>
+                  <span className="text-orange-400">🔥 0.50€</span>
+                  <span className="text-yellow-400">✨ 0.25€</span>
+                  <span className="text-green-400">📈 0.10€</span>
+                  <span className="text-blue-400">🌱 0.05€</span>
                 </div>
 
-                {/* Exponential Curve mit SVG */}
+                {/* Exponential Curve basierend auf AMM-Formel */}
                 <div className="absolute inset-6">
                   <svg className="w-full h-64" viewBox="0 0 400 200" preserveAspectRatio="none">
-                    {/* Exponential Curve Path */}
+                    {/* Exponential AMM Curve - steiler Anstieg durch Verknappung */}
                     <path
-                      d="M 0 190 Q 50 180 100 160 Q 150 130 200 90 Q 250 50 300 20 Q 350 5 400 0"
-                      stroke="url(#exponentialGradient)"
+                      d="M 0 195 L 80 185 L 160 165 L 240 130 L 280 90 L 320 45 L 360 15 L 400 0"
+                      stroke="url(#ammGradient)"
                       strokeWidth="4"
                       fill="none"
                       className="drop-shadow-lg"
                     />
                     
-                    {/* Gradient für die Linie */}
+                    {/* Gradient für AMM-Kurve */}
                     <defs>
-                      <linearGradient id="exponentialGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <linearGradient id="ammGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#3B82F6" />
-                        <stop offset="16%" stopColor="#10B981" />
-                        <stop offset="33%" stopColor="#F59E0B" />
-                        <stop offset="50%" stopColor="#F97316" />
-                        <stop offset="66%" stopColor="#EF4444" />
-                        <stop offset="83%" stopColor="#8B5CF6" />
+                        <stop offset="20%" stopColor="#10B981" />
+                        <stop offset="40%" stopColor="#F59E0B" />
+                        <stop offset="60%" stopColor="#F97316" />
+                        <stop offset="80%" stopColor="#8B5CF6" />
                         <stop offset="100%" stopColor="#EC4899" />
                       </linearGradient>
                     </defs>
                     
-                    {/* Glow Effect unter der Kurve */}
+                    {/* Glow Effect unter der AMM-Kurve */}
                     <path
-                      d="M 0 190 Q 50 180 100 160 Q 150 130 200 90 Q 250 50 300 20 Q 350 5 400 0 L 400 200 L 0 200 Z"
-                      fill="url(#glowGradient)"
-                      opacity="0.1"
+                      d="M 0 195 L 80 185 L 160 165 L 240 130 L 280 90 L 320 45 L 360 15 L 400 0 L 400 200 L 0 200 Z"
+                      fill="url(#ammGlowGradient)"
+                      opacity="0.15"
                     />
                     
                     <defs>
-                      <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <linearGradient id="ammGlowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#3B82F6" />
                         <stop offset="50%" stopColor="#F59E0B" />
                         <stop offset="100%" stopColor="#EC4899" />
                       </linearGradient>
                     </defs>
                     
-                    {/* Datenpunkte */}
-                    <circle cx="0" cy="190" r="4" fill="#3B82F6" className="animate-pulse">
+                    {/* Halving Event Markers */}
+                    <line x1="160" y1="165" x2="160" y2="200" stroke="#F59E0B" strokeWidth="2" strokeDasharray="5,5" opacity="0.7" />
+                    <line x1="280" y1="90" x2="280" y2="200" stroke="#F97316" strokeWidth="2" strokeDasharray="5,5" opacity="0.7" />
+                    
+                    {/* Datenpunkte mit Uniswap-berechneten Preisen */}
+                    <circle cx="0" cy="195" r="4" fill="#3B82F6" className="animate-pulse">
                       <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite" />
                     </circle>
-                    <circle cx="67" cy="160" r="4" fill="#10B981" className="animate-pulse">
-                      <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite" begin="0.3s" />
+                    <circle cx="80" cy="185" r="4" fill="#10B981" className="animate-pulse">
+                      <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite" begin="0.4s" />
                     </circle>
-                    <circle cx="133" cy="120" r="4" fill="#F59E0B" className="animate-pulse">
-                      <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite" begin="0.6s" />
+                    <circle cx="160" cy="165" r="5" fill="#F59E0B" className="animate-pulse">
+                      <animate attributeName="r" values="5;8;5" dur="1.5s" repeatCount="indefinite" begin="0.8s" />
                     </circle>
-                    <circle cx="200" cy="90" r="4" fill="#F97316" className="animate-pulse">
-                      <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite" begin="0.9s" />
+                    <circle cx="240" cy="130" r="5" fill="#F97316" className="animate-pulse">
+                      <animate attributeName="r" values="5;8;5" dur="1.5s" repeatCount="indefinite" begin="1.2s" />
                     </circle>
-                    <circle cx="267" cy="50" r="4" fill="#EF4444" className="animate-pulse">
-                      <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite" begin="1.2s" />
+                    <circle cx="320" cy="45" r="6" fill="#8B5CF6" className="animate-pulse">
+                      <animate attributeName="r" values="6;9;6" dur="1s" repeatCount="indefinite" begin="1.6s" />
                     </circle>
-                    <circle cx="333" cy="20" r="5" fill="#8B5CF6" className="animate-pulse">
-                      <animate attributeName="r" values="5;8;5" dur="1.5s" repeatCount="indefinite" begin="1.5s" />
-                    </circle>
-                    <circle cx="400" cy="0" r="6" fill="#EC4899" className="animate-pulse">
-                      <animate attributeName="r" values="6;10;6" dur="1s" repeatCount="indefinite" begin="1.8s" />
+                    <circle cx="400" cy="0" r="7" fill="#EC4899" className="animate-pulse">
+                      <animate attributeName="r" values="7;12;7" dur="0.8s" repeatCount="indefinite" begin="2s" />
                     </circle>
                   </svg>
                 </div>
 
-                {/* X-Achse Labels */}
+                {/* X-Achse Labels (verständliche Zeitrahmen) */}
                 <div className="absolute bottom-0 left-6 right-6 flex justify-between text-xs text-gray-400">
-                  <span className="text-blue-400 font-bold">Start<br/>$0.01</span>
-                  <span className="text-green-400 font-bold">6M<br/>$0.05</span>
-                  <span className="text-yellow-400 font-bold">1J<br/>$0.25</span>
-                  <span className="text-orange-400 font-bold">2J<br/>$0.75</span>
-                  <span className="text-red-400 font-bold">3J<br/>$2.50</span>
-                  <span className="text-purple-400 font-bold">5J<br/>$8.00</span>
-                  <span className="text-pink-400 font-bold animate-pulse">10J<br/>$15.00+</span>
+                  <span className="text-blue-400 font-bold">🌱 Start<br/>0.05€</span>
+                  <span className="text-green-400 font-bold">📈 6 Monate<br/>0.10€</span>
+                  <span className="text-yellow-400 font-bold">✨ 1 Jahr<br/>0.25€</span>
+                  <span className="text-orange-400 font-bold">🔥 2 Jahre<br/>0.50€</span>
+                  <span className="text-purple-400 font-bold">🚀 3 Jahre<br/>2.00€</span>
+                  <span className="text-pink-400 font-bold animate-pulse">💎 5 Jahre<br/>5.00€+</span>
                 </div>
                 
-                {/* Exponential Growth Arrow */}
+                {/* Verknappungs-Indicator */}
                 <div className="absolute top-4 right-4">
                   <div className="flex items-center text-green-400">
-                    <FaRocket className="mr-2 animate-bounce" />
-                    <span className="text-sm font-bold">Exponentielles Wachstum!</span>
+                    <FaCoins className="mr-2 animate-bounce" />
+                    <span className="text-sm font-bold">Uniswap AMM</span>
                   </div>
                 </div>
 
-                {/* "Halving Events" Labels */}
-                <div className="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="bg-yellow-900/60 text-yellow-300 px-2 py-1 rounded text-xs">
-                    Halving Events →<br/>weniger neue Token
+                {/* Verknappungs-Events (einfach erklärt) */}
+                <div className="absolute" style={{top: '30%', left: '35%'}}>
+                  <div className="bg-yellow-900/80 text-yellow-300 px-3 py-2 rounded-lg text-xs text-center border border-yellow-600/50">
+                    <div className="font-bold">⚡ 1. Verknappung</div>
+                    <div>Weniger neue Token!</div>
+                  </div>
+                </div>
+                
+                <div className="absolute" style={{top: '15%', left: '65%'}}>
+                  <div className="bg-orange-900/80 text-orange-300 px-3 py-2 rounded-lg text-xs text-center border border-orange-600/50">
+                    <div className="font-bold">⚡ 2. Verknappung</div>
+                    <div>Noch seltener!</div>
                   </div>
                 </div>
               </div>
               
-              {/* Key Insights */}
-              <div className="grid md:grid-cols-3 gap-4">
+              {/* Einfache Key Facts */}
+              <div className="grid md:grid-cols-4 gap-4">
                 <div className="bg-green-900/30 rounded-lg p-4 border border-green-500/30">
-                  <div className="text-green-400 font-bold text-2xl mb-1">1.500x</div>
-                  <div className="text-green-300 text-sm">Potentielle Wertsteigerung</div>
-                  <div className="text-green-200 text-xs">von $0.01 auf $15+</div>
+                  <div className="text-green-400 font-bold text-2xl mb-1">💰 100x</div>
+                  <div className="text-green-300 text-sm">Möglicher Gewinn</div>
+                  <div className="text-green-200 text-xs">0.05€ → 5.00€+</div>
                 </div>
                 <div className="bg-blue-900/30 rounded-lg p-4 border border-blue-500/30">
-                  <div className="text-blue-400 font-bold text-2xl mb-1">50%</div>
-                  <div className="text-blue-300 text-sm">Token permanent gesperrt</div>
-                  <div className="text-blue-200 text-xs">durch automatische Käufe</div>
+                  <div className="text-blue-400 font-bold text-2xl mb-1">🔒 50%</div>
+                  <div className="text-blue-300 text-sm">Token weggesperrt</div>
+                  <div className="text-blue-200 text-xs">bei jedem Kauf</div>
                 </div>
                 <div className="bg-purple-900/30 rounded-lg p-4 border border-purple-500/30">
-                  <div className="text-purple-400 font-bold text-2xl mb-1">0.31%</div>
-                  <div className="text-purple-300 text-sm">Finale Reward-Rate</div>
-                  <div className="text-purple-200 text-xs">extreme Verknappung</div>
+                  <div className="text-purple-400 font-bold text-2xl mb-1">📈 Auto</div>
+                  <div className="text-purple-300 text-sm">Preisanstieg</div>
+                  <div className="text-purple-200 text-xs">garantiert durch System</div>
+                </div>
+                <div className="bg-orange-900/30 rounded-lg p-4 border border-orange-500/30">
+                  <div className="text-orange-400 font-bold text-2xl mb-1">⚡ Weniger</div>
+                  <div className="text-orange-300 text-sm">Neue Token</div>
+                  <div className="text-orange-200 text-xs">mit der Zeit</div>
                 </div>
               </div>
             </div>
 
-            {/* Wertsteigerungs-Faktoren */}
+            {/* Einfach erklärt: Warum steigt der Preis? */}
             <div className="bg-slate-800/40 rounded-2xl p-6">
-              <h4 className="text-emerald-400 font-bold text-xl mb-4">Was treibt den Preis:</h4>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-3 text-left">
-                  <div className="flex items-center">
-                    <span className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></span>
-                    <span className="text-gray-300">Stetig sinkende Reward-Rate (Halving)</span>
+              <h4 className="text-emerald-400 font-bold text-xl mb-4 flex items-center">
+                <FaRocket className="mr-3" />
+                🤔 Warum wird D.FAITH immer wertvoller?
+              </h4>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="bg-slate-700/50 rounded-lg p-4">
+                    <div className="flex items-center mb-2">
+                      <span className="text-2xl mr-3">💰</span>
+                      <span className="text-cyan-300 font-semibold">Automatische Token-Käufe</span>
+                    </div>
+                    <div className="text-gray-300 text-sm">Jeder Euro für Werbung kauft automatisch D.FAITH Token</div>
                   </div>
-                  <div className="flex items-center">
-                    <span className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></span>
-                    <span className="text-gray-300">50% aller Käufe dauerhaft gesperrt</span>
+                  <div className="bg-slate-700/50 rounded-lg p-4">
+                    <div className="flex items-center mb-2">
+                      <span className="text-2xl mr-3">🔒</span>
+                      <span className="text-purple-300 font-semibold">Token werden weggesperrt</span>
+                    </div>
+                    <div className="text-gray-300 text-sm">50% aller gekauften Token verschwinden für immer aus dem Markt</div>
                   </div>
                 </div>
-                <div className="space-y-3 text-left">
-                  <div className="flex items-center">
-                    <span className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></span>
-                    <span className="text-gray-300">Wachsende Fan-Base = höhere Nachfrage</span>
+                <div className="space-y-4">
+                  <div className="bg-slate-700/50 rounded-lg p-4">
+                    <div className="flex items-center mb-2">
+                      <span className="text-2xl mr-3">📈</span>
+                      <span className="text-green-300 font-semibold">Weniger = Teurer</span>
+                    </div>
+                    <div className="text-gray-300 text-sm">Je weniger Token verfügbar sind, desto höher wird der Preis</div>
                   </div>
-                  <div className="flex items-center">
-                    <span className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></span>
-                    <span className="text-gray-300">Utility im D.FAITH Shop steigt</span>
+                  <div className="bg-slate-700/50 rounded-lg p-4">
+                    <div className="flex items-center mb-2">
+                      <span className="text-2xl mr-3">⚡</span>
+                      <span className="text-orange-300 font-semibold">Immer weniger neue Token</span>
+                    </div>
+                    <div className="text-gray-300 text-sm">Mit der Zeit gibt es immer weniger neue D.FAITH Token</div>
                   </div>
                 </div>
               </div>
               
-              {/* Call to Action */}
-              <div className="mt-6 bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-lg p-4 border border-green-500/30">
-                <p className="text-green-300 text-center font-semibold">
-                  🚀 Je früher du einsteigst, desto mehr profitierst du von der langfristigen Wertsteigerung!
-                </p>
+              {/* Kompakte Zusammenfassung */}
+              <div className="mt-4 bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-lg p-4 border border-green-500/30">
+                <div className="text-center">
+                  <div className="text-green-300 text-lg mb-2">
+                    � Käufe → 🔒 Weniger Token → 📈 Höherer Preis
+                  </div>
+                  <div className="text-gray-300 text-sm">
+                    Das System arbeitet automatisch für alle Beteiligten!
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -896,131 +969,139 @@ const SolutionSection = () => {
               </div>
             </div>
             <h3 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-4">
-              D.INVEST Staking
+              💎 D.INVEST Staking
             </h3>
             <p className="text-gray-300 text-lg mb-8">
-              Der einzige Weg, um gesperrte D.FAITH Token aus dem Smart Contract zu entsperren
+              Der einzige Weg zu gesperrten D.FAITH Token + unterstützt Musikproduktion! 🎵
             </p>
             
-            {/* Wie das Entsperren funktioniert */}
-            <div className="bg-gradient-to-r from-blue-900/40 to-cyan-900/40 rounded-2xl p-8 mb-8 border border-cyan-500/30">
-              <h4 className="text-cyan-400 font-bold text-2xl mb-6 flex items-center justify-center">
-                <FaUnlock className="mr-3" />
-                So funktioniert das Token-Entsperren
-              </h4>
-              
-              {/* Visueller Prozess */}
-              <div className="space-y-6">
-                {/* Schritt 1: D.INVEST kaufen */}
-                <div className="flex items-center bg-slate-800/40 rounded-xl p-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mr-6 flex-shrink-0">
-                    <span className="text-white font-bold text-lg">1</span>
-                  </div>
-                  <div className="flex-1 text-left">
-                    <h5 className="text-blue-400 font-bold text-lg">D.INVEST Token kaufen</h5>
-                    <p className="text-gray-300 text-sm">Investiere in Dawid Faith's Musikproduktion</p>
-                  </div>
-                  <div className="text-blue-400 text-2xl">
-                    <FaDollarSign />
-                  </div>
-                </div>
-
-                {/* Schritt 2: Staking */}
-                <div className="flex items-center bg-slate-800/40 rounded-xl p-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mr-6 flex-shrink-0">
-                    <span className="text-white font-bold text-lg">2</span>
-                  </div>
-                  <div className="flex-1 text-left">
-                    <h5 className="text-purple-400 font-bold text-lg">D.INVEST Token staken</h5>
-                    <p className="text-gray-300 text-sm">Setze deine Token in den Staking-Pool ein</p>
-                  </div>
-                  <div className="text-purple-400 text-2xl animate-spin" style={{animationDuration: '3s'}}>
-                    <FaLock />
-                  </div>
-                </div>
-
-                {/* Schritt 3: Token entsperren */}
-                <div className="flex items-center bg-gradient-to-r from-green-800/40 to-emerald-800/40 rounded-xl p-4 border border-green-500/30">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mr-6 flex-shrink-0 animate-pulse">
-                    <span className="text-white font-bold text-lg">3</span>
-                  </div>
-                  <div className="flex-1 text-left">
-                    <h5 className="text-green-400 font-bold text-lg">D.FAITH Token erhalten</h5>
-                    <p className="text-gray-300 text-sm">Smart Contract entsperrt gesperrte Token für dich</p>
-                  </div>
-                  <div className="text-green-400 text-2xl animate-bounce">
-                    <FaCoins />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Mathematisches Beispiel */}
-            <div className="bg-gradient-to-r from-amber-900/40 to-orange-900/40 rounded-2xl p-6 mb-8 border border-amber-500/30">
+            {/* Rentabilitäts-Rechnung für 1 D.INVEST Token */}
+            <div className="bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-2xl p-6 mb-8 border border-green-500/30">
               <h4 className="text-amber-400 font-bold text-xl mb-4 flex items-center justify-center">
                 <FaChartLine className="mr-3" />
-                Beispiel-Rechnung
+                � Wann wird's profitabel?
               </h4>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-slate-800/50 rounded-lg p-4">
-                  <h5 className="text-amber-400 font-semibold mb-3">Du stakest 1.000 D.INVEST</h5>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Wöchentliche Rate (Stufe 1):</span>
-                      <span className="text-amber-300 font-bold">10.00%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Entsperrte D.FAITH/Woche:</span>
-                      <span className="text-green-400 font-bold">100 Token</span>
-                    </div>
-                    <div className="flex justify-between border-t border-slate-600 pt-2">
-                      <span className="text-gray-400">Pro Monat:</span>
-                      <span className="text-green-400 font-bold">~400 Token</span>
-                    </div>
+              
+              {/* Kern-Botschaft mit konkreten Zahlen */}
+              <div className="bg-slate-800/60 rounded-xl p-4 mb-6">
+                <div className="text-cyan-300 font-bold text-lg mb-3 text-center">🎯 Die einfache Formel</div>
+                <div className="text-center mb-4">
+                  <div className="text-gray-300">1 D.INVEST (5€) → 0.1 D.FAITH pro Woche (10% Rate in Stufe 1)</div>
+                  <div className="text-green-400 font-bold mt-2">
+                    ✨ Je höher D.FAITH Preis steigt, desto schneller wird D.INVEST rentabel! ✨
                   </div>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4">
-                  <h5 className="text-cyan-400 font-semibold mb-3">Ohne D.INVEST Staking</h5>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Gesperrte Token:</span>
-                      <span className="text-red-400 font-bold">82.500 D.FAITH</span>
+                
+                {/* Konkrete Pool-Mathematik */}
+                <div className="bg-slate-700/50 rounded-lg p-3">
+                  <div className="text-cyan-300 font-bold text-sm mb-2 text-center">🧮 Realistische Pool-Entwicklung</div>
+                  <div className="grid grid-cols-3 gap-2 text-xs">
+                    <div className="text-center">
+                      <div className="text-blue-400 font-bold">Start</div>
+                      <div className="text-gray-300">1.000€ + 20k Token</div>
+                      <div className="text-blue-300">= 0.05€</div>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Für dich verfügbar:</span>
-                      <span className="text-red-400 font-bold">0 Token</span>
+                    <div className="text-center">
+                      <div className="text-orange-400 font-bold">+2.162€</div>
+                      <div className="text-gray-300">Fan-Käufe</div>
+                      <div className="text-orange-300">Uniswap AMM</div>
                     </div>
-                    <div className="flex justify-between border-t border-slate-600 pt-2">
-                      <span className="text-gray-400">Zugang:</span>
-                      <span className="text-red-400 font-bold">❌ Gesperrt</span>
+                    <div className="text-center">
+                      <div className="text-green-400 font-bold">Ziel</div>
+                      <div className="text-gray-300">3.162€ + 6k Token</div>
+                      <div className="text-green-300">= 0.50€</div>
                     </div>
                   </div>
                 </div>
               </div>
+              
+              {/* Zwei Szenarien */}
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-red-900/30 rounded-lg p-4 border border-red-500/30">
+                  <h5 className="text-red-400 font-bold mb-2">❌ Ohne Fan-Käufe (unrealistisch)</h5>
+                  <div className="text-gray-300 text-sm">Break-even: 1000 Wochen</div>
+                  <div className="text-red-300 text-xs mt-1">Aber: Schon 2.162€ Fan-Engagement reicht! �</div>
+                </div>
+
+                <div className="bg-green-900/30 rounded-lg p-4 border border-green-500/30">
+                  <h5 className="text-green-400 font-bold mb-2">✅ Mit 2.162€ Fan-Käufen</h5>
+                  <div className="text-gray-300 text-sm">D.FAITH → 0.50€, Break-even: 100 Wochen (~2 Jahre)</div>
+                  <div className="text-green-300 text-xs mt-1">Sehr realistisch erreichbar! 🚀</div>
+                </div>
+              </div>
+              
+              {/* Früh-Einsteiger Vorteil */}
+              <div className="bg-purple-900/30 rounded-xl p-4 mt-4 border border-purple-500/30">
+                <div className="text-center">
+                  <div className="text-purple-400 font-bold mb-2">🔥 Früh-Einsteiger Bonus</div>
+                  <div className="text-gray-300 text-sm">
+                    Stufe 1: 10% Rate • Stufe 3: 2.5% Rate • Stufe 6+: 0.31% Rate
+                  </div>
+                  <div className="text-purple-300 text-sm font-bold mt-1">
+                    💡 Jetzt einsteigen = Dauerhaft bessere Konditionen!
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Wie das Entsperren funktioniert */}
+            <div className="bg-gradient-to-r from-blue-900/40 to-cyan-900/40 rounded-2xl p-6 mb-8 border border-cyan-500/30">
+              <h4 className="text-cyan-400 font-bold text-xl mb-6 flex items-center justify-center">
+                <FaUnlock className="mr-3" />
+                🔓 So funktioniert's
+              </h4>
+              
+              {/* Vereinfachter 3-Schritt Prozess */}
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="bg-slate-800/40 rounded-xl p-4 text-center">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mx-auto mb-3">
+                    <FaDollarSign className="text-white text-xl" />
+                  </div>
+                  <h5 className="text-blue-400 font-bold">1. D.INVEST kaufen</h5>
+                  <p className="text-gray-300 text-sm mt-2">Unterstütze Musik-produktion</p>
+                </div>
+
+                <div className="bg-slate-800/40 rounded-xl p-4 text-center">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mx-auto mb-3">
+                    <FaLock className="text-white text-xl" />
+                  </div>
+                  <h5 className="text-purple-400 font-bold">2. Token staken</h5>
+                  <p className="text-gray-300 text-sm mt-2">In den Pool einsetzen</p>
+                </div>
+
+                <div className="bg-slate-800/40 rounded-xl p-4 text-center border border-green-500/30">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mx-auto mb-3 animate-pulse">
+                    <FaCoins className="text-white text-xl" />
+                  </div>
+                  <h5 className="text-green-400 font-bold">3. D.FAITH erhalten</h5>
+                  <p className="text-gray-300 text-sm mt-2">Wöchentlich entsperren</p>
+                </div>
+              </div>
             </div>
 
-            {/* Wichtige Erkenntnisse */}
+            
+            {/* Warum es wertvoll ist */}
             <div className="bg-slate-800/40 rounded-2xl p-6">
-              <h4 className="text-cyan-400 font-bold text-xl mb-4">Warum D.INVEST Staking so wertvoll ist:</h4>
+              <h4 className="text-cyan-400 font-bold text-xl mb-4 text-center">🎯 Warum D.INVEST Staking wertvoll ist</h4>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-3 text-left">
                   <div className="flex items-center">
-                    <span className="w-2 h-2 bg-cyan-400 rounded-full mr-3"></span>
-                    <span className="text-gray-300">Einziger Weg zu gesperrten Token</span>
+                    <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                    <span className="text-gray-300">Einziger Weg zu gesperrten D.FAITH</span>
                   </div>
                   <div className="flex items-center">
-                    <span className="w-2 h-2 bg-cyan-400 rounded-full mr-3"></span>
-                    <span className="text-gray-300">Kontinuierliche D.FAITH Rewards</span>
+                    <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                    <span className="text-gray-300">Unterstützt echte Musikproduktion</span>
                   </div>
                 </div>
                 <div className="space-y-3 text-left">
                   <div className="flex items-center">
-                    <span className="w-2 h-2 bg-cyan-400 rounded-full mr-3"></span>
-                    <span className="text-gray-300">Finanziert gleichzeitig Musikproduktion</span>
+                    <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                    <span className="text-gray-300">Profitiert von D.FAITH Wertsteigerung</span>
                   </div>
                   <div className="flex items-center">
-                    <span className="w-2 h-2 bg-cyan-400 rounded-full mr-3"></span>
-                    <span className="text-gray-300">Je früher, desto höhere Raten</span>
+                    <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                    <span className="text-gray-300">Frühe Investoren = bessere Raten</span>
                   </div>
                 </div>
               </div>
@@ -1149,6 +1230,218 @@ const SolutionSection = () => {
           <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-4">
             Belohnung des Fan-Engagements durch das duale Token-System
           </p>
+          
+          {/* Vorher vs. Nachher Comparison */}
+          <div className="max-w-6xl mx-auto mb-8">
+            <div className="text-center mb-8">
+              <h3 className="text-3xl font-bold bg-gradient-to-r from-red-400 via-yellow-400 to-green-400 bg-clip-text text-transparent mb-4">
+                🔄 Von Problem zur Revolution
+              </h3>
+              <p className="text-gray-400 text-lg">
+                Wie D.FAITH die traditionelle Musikindustrie komplett umkrempelt
+              </p>
+            </div>
+
+            {/* Vorher vs. Nachher Karten */}
+            <div className="grid lg:grid-cols-2 gap-8 mb-12">
+              
+              {/* VORHER - Traditionell */}
+              <div className="relative group">
+                <div className="bg-gradient-to-br from-red-900/50 to-gray-900/50 rounded-3xl p-8 border-2 border-red-500/40 hover:border-red-400/60 transition-all duration-500">
+                  {/* Header */}
+                  <div className="flex items-center justify-center mb-6">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-xl mr-4">
+                      <span className="text-2xl text-white">😔</span>
+                    </div>
+                    <div>
+                      <h4 className="text-2xl font-bold text-red-400">VORHER</h4>
+                      <p className="text-red-300 text-sm">Traditionelle Musikindustrie</p>
+                    </div>
+                  </div>
+
+                  {/* Probleme */}
+                  <div className="space-y-4">
+                    <div className="bg-red-900/30 rounded-xl p-4 border border-red-500/30">
+                      <div className="flex items-center mb-2">
+                        <FaUsers className="text-red-400 mr-3" />
+                        <span className="text-red-300 font-semibold">Fans</span>
+                      </div>
+                      <p className="text-gray-300 text-sm">• Konsumieren nur passiv</p>
+                      <p className="text-gray-300 text-sm">• Bekommen nichts zurück</p>
+                      <p className="text-gray-300 text-sm">• Keine echte Verbindung</p>
+                    </div>
+
+                    <div className="bg-red-900/30 rounded-xl p-4 border border-red-500/30">
+                      <div className="flex items-center mb-2">
+                        <FaMusic className="text-red-400 mr-3" />
+                        <span className="text-red-300 font-semibold">Künstler (Dawid)</span>
+                      </div>
+                      <p className="text-gray-300 text-sm">• Wenig Reichweite</p>
+                      <p className="text-gray-300 text-sm">• Teure Werbung nötig</p>
+                      <p className="text-gray-300 text-sm">• Kein Kapital für Produktion</p>
+                    </div>
+
+                    <div className="bg-red-900/30 rounded-xl p-4 border border-red-500/30">
+                      <div className="flex items-center mb-2">
+                        <FaDollarSign className="text-red-400 mr-3" />
+                        <span className="text-red-300 font-semibold">Investoren</span>
+                      </div>
+                      <p className="text-gray-300 text-sm">• Schwer in Musik zu investieren</p>
+                      <p className="text-gray-300 text-sm">• Keine direkten Beteiligungen</p>
+                      <p className="text-gray-300 text-sm">• Komplizierte Verträge</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 text-center bg-red-800/20 rounded-lg p-3">
+                    <span className="text-red-300 font-bold">❌ Alle verlieren</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* NACHHER - Mit D.FAITH */}
+              <div className="relative group">
+                <div className="bg-gradient-to-br from-green-900/50 to-blue-900/50 rounded-3xl p-8 border-2 border-green-500/40 hover:border-green-400/60 transition-all duration-500 hover:scale-102">
+                  {/* Glow Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-blue-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  <div className="relative z-10">
+                    {/* Header */}
+                    <div className="flex items-center justify-center mb-6">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center shadow-xl mr-4 animate-pulse">
+                        <span className="text-2xl text-white">🚀</span>
+                      </div>
+                      <div>
+                        <h4 className="text-2xl font-bold text-green-400">NACHHER</h4>
+                        <p className="text-green-300 text-sm">Mit D.FAITH Ökosystem</p>
+                      </div>
+                    </div>
+
+                    {/* Lösungen */}
+                    <div className="space-y-4">
+                      <div className="bg-green-900/30 rounded-xl p-4 border border-green-500/30 hover:border-green-400/50 transition-colors duration-300">
+                        <div className="flex items-center mb-2">
+                          <FaCoins className="text-green-400 mr-3 animate-bounce" />
+                          <span className="text-green-300 font-semibold">Fans</span>
+                        </div>
+                        <p className="text-gray-300 text-sm">• Bekommen D.FAITH Token für Likes</p>
+                        <p className="text-gray-300 text-sm">• Können Token verkaufen (ETH)</p>
+                        <p className="text-gray-300 text-sm">• Exklusive Musik & Shop</p>
+                      </div>
+
+                      <div className="bg-blue-900/30 rounded-xl p-4 border border-blue-500/30 hover:border-blue-400/50 transition-colors duration-300">
+                        <div className="flex items-center mb-2">
+                          <FaChartLine className="text-blue-400 mr-3" />
+                          <span className="text-blue-300 font-semibold">Künstler (Dawid)</span>
+                        </div>
+                        <p className="text-gray-300 text-sm">• Automatisch mehr Engagement</p>
+                        <p className="text-gray-300 text-sm">• Kapital durch D.INVEST (5€/Token)</p>
+                        <p className="text-gray-300 text-sm">• Loyale Fan-Community</p>
+                      </div>
+
+                      <div className="bg-purple-900/30 rounded-xl p-4 border border-purple-500/30 hover:border-purple-400/50 transition-colors duration-300">
+                        <div className="flex items-center mb-2">
+                          <FaTrophy className="text-purple-400 mr-3" />
+                          <span className="text-purple-300 font-semibold">Investoren</span>
+                        </div>
+                        <p className="text-gray-300 text-sm">• Einfach D.INVEST kaufen</p>
+                        <p className="text-gray-300 text-sm">• Token-Wertsteigerung durch Burns</p>
+                        <p className="text-gray-300 text-sm">• Staking-Rewards (D.FAITH)</p>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 text-center bg-green-800/20 rounded-lg p-3 border border-green-500/30">
+                      <span className="text-green-300 font-bold">✅ Alle gewinnen!</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Der Zauber: Wie funktioniert's? */}
+            <div className="bg-gradient-to-br from-slate-900/80 to-slate-800/80 rounded-3xl p-8 border border-slate-700/50 backdrop-blur-xl">
+              <div className="text-center mb-8">
+                <h4 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-4">
+                  ✨ Der Zauber dahinter
+                </h4>
+                <p className="text-gray-400">Wie ein einfacher Kommentar eine ganze Ökonomie antreibt</p>
+              </div>
+
+              {/* Magic Flow */}
+              <div className="relative overflow-hidden">
+                <div className="flex flex-col lg:flex-row items-center justify-between space-y-8 lg:space-y-0 lg:space-x-6">
+                  
+                  {/* Schritt 1: Fan Engagement */}
+                  <div className="flex-1 group relative">
+                    <div className="bg-gradient-to-br from-pink-900/40 to-purple-900/40 rounded-2xl p-6 border border-pink-500/30 hover:border-pink-400/60 transition-all duration-300 hover:scale-105 text-center">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse">
+                        <FaHeart className="text-2xl text-white" />
+                      </div>
+                      <h5 className="text-pink-400 font-bold mb-2">1. Fan liked Post</h5>
+                      <p className="text-gray-300 text-sm">Mit Keyword "D.FAITH"</p>
+                      <div className="mt-3 bg-slate-800/50 rounded-lg p-2">
+                        <span className="text-pink-300 text-xs font-mono">"D.FAITH 🔥❤️"</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Pfeil */}
+                  <div className="hidden lg:block">
+                    <FaArrowRight className="text-2xl text-yellow-400 animate-pulse" />
+                  </div>
+
+                  {/* Schritt 2: Auto-System */}
+                  <div className="flex-1 group relative">
+                    <div className="bg-gradient-to-br from-yellow-900/40 to-orange-900/40 rounded-2xl p-6 border border-yellow-500/30 hover:border-yellow-400/60 transition-all duration-300 hover:scale-105 text-center">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center mx-auto mb-4">
+                        <FaRobot className="text-2xl text-white animate-bounce" />
+                      </div>
+                      <h5 className="text-yellow-400 font-bold mb-2">2. System aktiviert</h5>
+                      <p className="text-gray-300 text-sm">Marketing-Budget kauft Token</p>
+                      <div className="mt-3 bg-slate-800/50 rounded-lg p-2">
+                        <span className="text-yellow-300 text-xs">0.50€ × Level 3 = 1.50€</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Pfeil */}
+                  <div className="hidden lg:block">
+                    <FaArrowRight className="text-2xl text-green-400 animate-pulse" style={{animationDelay: '0.5s'}} />
+                  </div>
+
+                  {/* Schritt 3: Token Magic */}
+                  <div className="flex-1 group relative">
+                    <div className="bg-gradient-to-br from-green-900/40 to-emerald-900/40 rounded-2xl p-6 border border-green-500/30 hover:border-green-400/60 transition-all duration-300 hover:scale-105 text-center">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center mx-auto mb-4">
+                        <FaCoins className="text-2xl text-white animate-spin" style={{animationDuration: '2s'}} />
+                      </div>
+                      <h5 className="text-green-400 font-bold mb-2">3. Token Magie</h5>
+                      <p className="text-gray-300 text-sm">50% für Fan, 50% geburnt</p>
+                      <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                        <div className="bg-green-800/30 rounded p-2">
+                          <span className="text-green-300">Fan: 0.75€</span>
+                        </div>
+                        <div className="bg-red-800/30 rounded p-2">
+                          <span className="text-red-300">🔥 Burn: 0.75€</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Magic Result */}
+                <div className="mt-8 text-center">
+                  <div className="inline-flex items-center bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-2xl p-6 border border-purple-500/30">
+                    <FaRocket className="text-3xl text-purple-400 mr-4 animate-bounce" />
+                    <div className="text-left">
+                      <h6 className="text-purple-300 font-bold text-lg">Resultat: Alle gewinnen sofort!</h6>
+                      <p className="text-gray-400">Fan bekommt Token, Dawid bekommt Engagement, Token wird seltener → Preis steigt</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed mb-6">
             Navigieren Sie durch den gesamten Prozess und lernen Sie, wie jede Interaktion automatisch Token-Wert schafft
           </p>
