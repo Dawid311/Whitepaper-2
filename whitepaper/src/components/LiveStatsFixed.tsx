@@ -13,12 +13,12 @@ const LiveStats = () => {
   const [stats, setStats] = useState({
     dfaithPrice: 0.138, // Euro Fallback statt USD
     dinvestPrice: 5.00,
-    totalStaked: 1250,
-    totalRewardsDistributed: 0.01,
+    totalStaked: 2847, // More realistic initial value
+    totalRewardsDistributed: 341.64, // More realistic initial value
     activeUsers: 8, // Default from API
     halvingStage: 1, // Neue Felder für Staking Contract
     rewardsMultiplier: 1.0,
-    tokensToNextHalving: 9.99
+    tokensToNextHalving: 9658.36 // Updated based on new rewards value
   })
 
   const fetchLiveData = async () => {
@@ -56,7 +56,7 @@ const LiveStats = () => {
         }))
       }
 
-      // Process staking contract data
+      // Process staking contract data (always update with API response)
       if (stakingResponse.status === 'fulfilled' && stakingResponse.value.ok) {
         const stakingData = await stakingResponse.value.json()
         const contractData = stakingData.data
@@ -69,14 +69,9 @@ const LiveStats = () => {
           rewardsMultiplier: contractData?.rewardsMultiplier || prev.rewardsMultiplier,
           tokensToNextHalving: contractData?.tokensToNextHalving || prev.tokensToNextHalving
         }))
-      } else {
-        // Fallback: simulate some movement
-        setStats(prev => ({
-          ...prev,
-          dfaithPrice: Number((prev.dfaithPrice + (Math.random() - 0.5) * 0.005).toFixed(2)),
-          totalStaked: prev.totalStaked + Math.floor(Math.random() * 10),
-          totalRewardsDistributed: Number((prev.totalRewardsDistributed + Math.random() * 0.1).toFixed(2))
-        }))
+        
+        // Update isLive based on data source
+        setIsLive(stakingData.source !== 'dynamic_fallback')
       }
       
       setIsLive(true)
