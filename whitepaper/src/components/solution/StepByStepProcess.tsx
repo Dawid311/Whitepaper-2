@@ -221,35 +221,11 @@ const StepByStepProcess = () => {
         className="text-center mb-12"
       >
         <h3 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent mb-6">
-          🔄 Der D.FAITH Kreislauf
+          Der D.FAITH Kreislauf
         </h3>
         <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
           So funktioniert das System Schritt für Schritt - von Fan-Interaktion bis zur Wertsteigerung
         </p>
-        
-        {/* Animation Control */}
-        <div className="flex justify-center gap-4 mb-8">
-          <button
-            onClick={startAnimation}
-            disabled={isPlaying}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-              isPlaying 
-                ? 'bg-gray-600 cursor-not-allowed' 
-                : 'bg-gradient-to-r from-green-500 to-emerald-500 hover:scale-105'
-            }`}
-          >
-            <FaPlay className="text-sm" />
-            {isPlaying ? 'Animation läuft...' : 'Animation starten'}
-          </button>
-          
-          <button
-            onClick={stopAnimation}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl font-semibold hover:scale-105 transition-all duration-300"
-          >
-            <FaPause className="text-sm" />
-            Stoppen
-          </button>
-        </div>
       </motion.div>
 
       {/* Steps Grid */}

@@ -36,31 +36,31 @@ const ValueCreationMechanism = () => {
 
   const mechanisms = [
     {
-      title: "Automatische Token-Käufe",
-      description: "50% des Marketing Budgets kauft D.FAITH Token",
-      icon: <FaCoins className="text-2xl text-green-400" />,
-      effect: "Direkter Preisdruck nach oben",
+      title: "Geringe Reichweite → Token-Käufe",
+      description: "Marketing Budget kauft D.FAITH statt Werbung",
+      icon: <FaCoins className="text-2xl text-white" />,
+      effect: "Sofortiger Preisanstieg statt verlorenes Geld",
       color: "from-green-500 to-emerald-500"
     },
     {
-      title: "Smart Contract Verknappung",
-      description: "50% aller Käufe werden dauerhaft gesperrt",
-      icon: <FaLock className="text-2xl text-orange-400" />,
-      effect: "Reduziert verfügbare Token permanent",
+      title: "Teure Werbung → Smart Verknappung",
+      description: "50% aller Token permanent gesperrt",
+      icon: <FaLock className="text-2xl text-white" />,
+      effect: "Fans verdienen, statt Werbung zu ignorieren",
       color: "from-orange-500 to-red-500"
     },
     {
-      title: "Halving-Mechanismus",
-      description: "6 Stufen reduzieren Ausgaberate automatisch",
-      icon: <FaChartLine className="text-2xl text-blue-400" />,
-      effect: "Noch stärkere Verknappung bei hoher Nachfrage",
+      title: "Fehlendes Kapital → Halving-System",
+      description: "Exponentiell steigende Token-Preise",
+      icon: <FaChartLine className="text-2xl text-white" />,
+      effect: "D.INVEST wird für Investoren attraktiv",
       color: "from-blue-500 to-purple-500"
     },
     {
-      title: "D.INVEST Attraktivität",
-      description: "Steigende D.FAITH Preise machen Staking profitabel",
-      icon: <FaDollarSign className="text-2xl text-purple-400" />,
-      effect: "Investoren bringen neues Kapital",
+      title: "Schwaches Engagement → Fan-Belohnungen",
+      description: "Fans erhalten echte D.FAITH Token",
+      icon: <FaDollarSign className="text-2xl text-white" />,
+      effect: "Fans werden zu aktiven Promotern",
       color: "from-purple-500 to-pink-500"
     }
   ]

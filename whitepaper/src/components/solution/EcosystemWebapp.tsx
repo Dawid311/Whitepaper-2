@@ -295,7 +295,7 @@ const EcosystemWebapp = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: index * 0.1 }}
             viewport={{ once: true }}
-            className={`bg-gradient-to-br ${feature.color} bg-opacity-20 rounded-2xl p-6 border border-opacity-30 hover:scale-105 transition-all duration-300 cursor-pointer`}
+            className={`bg-gradient-to-br ${feature.color}/50 rounded-2xl p-6 border border-white/20 hover:scale-105 transition-all duration-300 cursor-pointer`}
             onClick={() => setActiveFeature(feature.id)}
           >
             <div className="flex items-center gap-4 mb-4">
