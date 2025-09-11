@@ -36,6 +36,40 @@ const TokenomicsChart = () => {
   const [currentStage, setCurrentStage] = useState(0)
   const [isAnimationPlaying, setIsAnimationPlaying] = useState(true)
 
+  // Live Price States
+  const [tokenPrices, setTokenPrices] = useState({
+    dfaith: 0.138, // Euro statt USD
+    dinvest: 5,
+    eth: 2300 // Euro
+  })
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Fetch token prices
+  useEffect(() => {
+    const fetchTokenPrices = async () => {
+      try {
+        const response = await fetch('/api/token-prices')
+        const data = await response.json()
+        if (data.tokens?.dfaith) {
+          setTokenPrices({
+            dfaith: data.tokens.dfaith.price_eur, // Euro statt USD
+            dinvest: data.tokens.dinvest.price_eur,
+            eth: data.eth_price_eur || 2300
+          })
+        }
+      } catch (error) {
+        console.error('Error fetching token prices:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchTokenPrices()
+    const interval = setInterval(fetchTokenPrices, 5 * 60 * 1000) // Update every 5 minutes
+
+    return () => clearInterval(interval)
+  }, [])
+
   // Token Flow Animation Effect
   useEffect(() => {
     if (!isAnimationPlaying) return
@@ -58,14 +92,14 @@ const TokenomicsChart = () => {
       total: 100000,
       locked: 80000,
       liquidity: 20000,
-      currentPrice: 0.001,
+      currentPrice: isLoading ? 0.001 : tokenPrices.dfaith,
       targetPrice: 1.5
     },
     dinvest: {
       total: 10000,
       sold: 2500,
-      price: 5,
-      totalValue: 50000
+      price: isLoading ? 5 : tokenPrices.dinvest,
+      totalValue: isLoading ? 50000 : tokenPrices.dinvest * 10000
     }
   }
 
@@ -242,14 +276,21 @@ const TokenomicsChart = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-green-400 text-sm">Aktuell</div>
-                  <div className="text-xl font-bold text-white">${tokenData.dfaith.currentPrice}</div>
+                  <div className="text-xl font-bold text-white">
+                    €{isLoading ? '...' : tokenData.dfaith.currentPrice.toFixed(2)}
+                  </div>
                 </div>
                 <FaArrowRight className="text-green-400 text-xl" />
                 <div className="text-right">
                   <div className="text-green-400 text-sm">Ziel</div>
-                  <div className="text-xl font-bold text-green-400">${tokenData.dfaith.targetPrice}</div>
+                  <div className="text-xl font-bold text-green-400">€{tokenData.dfaith.targetPrice}</div>
                 </div>
               </div>
+              {!isLoading && (
+                <div className="mt-2 text-xs text-green-300 opacity-75">
+                  Live Preis von OpenOcean
+                </div>
+              )}
             </div>
           </div>
         </motion.div>
@@ -321,13 +362,22 @@ const TokenomicsChart = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center">
                   <div className="text-blue-400 text-sm">Preis/Token</div>
-                  <div className="text-xl font-bold text-white">{tokenData.dinvest.price}€</div>
+                  <div className="text-xl font-bold text-white">
+                    {isLoading ? '...' : tokenData.dinvest.price.toFixed(2)}€
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-purple-400 text-sm">Gesamtkapital</div>
-                  <div className="text-xl font-bold text-purple-400">{formatNumber(tokenData.dinvest.totalValue)}€</div>
+                  <div className="text-xl font-bold text-purple-400">
+                    {formatNumber(tokenData.dinvest.totalValue)}€
+                  </div>
                 </div>
               </div>
+              {!isLoading && (
+                <div className="mt-2 text-xs text-blue-300 opacity-75 text-center">
+                  Live Preise integriert
+                </div>
+              )}
             </div>
           </div>
         </motion.div>

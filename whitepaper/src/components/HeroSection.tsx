@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { FaChevronDown, FaRocket, FaPlay } from 'react-icons/fa'
@@ -10,6 +10,54 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext }) => {
+  const [activeUsers, setActiveUsers] = useState(8) // Default fallback value
+  const [isLoading, setIsLoading] = useState(true)
+  const [tokenPrices, setTokenPrices] = useState({
+    dfaith: 0.12,
+    dinvest: 5.00
+  })
+
+  useEffect(() => {
+    const fetchActiveUsers = async () => {
+      try {
+        // Fetch both leaderboard and token prices
+        const [leaderboardResponse, pricesResponse] = await Promise.allSettled([
+          fetch('/api/leaderboard').catch(() => fetch('https://leaderboard-pi-liard.vercel.app/api/leaderboard')),
+          fetch('/api/token-prices')
+        ])
+        
+        // Process leaderboard data
+        if (leaderboardResponse.status === 'fulfilled' && leaderboardResponse.value.ok) {
+          const data = await leaderboardResponse.value.json()
+          const usersCount = data.stats?.activeUsers || data.entries?.length || 8
+          setActiveUsers(usersCount)
+        }
+        
+        // Process token prices
+        if (pricesResponse.status === 'fulfilled' && pricesResponse.value.ok) {
+          const pricesData = await pricesResponse.value.json()
+          const dfaithToken = pricesData.tokens?.dfaith
+          const dinvestToken = pricesData.tokens?.dinvest
+          
+          setTokenPrices({
+            dfaith: dfaithToken?.price_eur || 0.138, // Euro statt USD
+            dinvest: dinvestToken?.price_eur || 5.00
+          })
+        }
+      } catch (error) {
+        console.error('Failed to fetch data:', error)
+        // Keep default values
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchActiveUsers()
+    // Refresh every 5 minutes
+    const interval = setInterval(fetchActiveUsers, 5 * 60 * 1000)
+    
+    return () => clearInterval(interval)
+  }, [])
   return (
     <div className="relative w-full">
       {/* Background Animation */}
@@ -71,20 +119,26 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext }) => {
               className="grid grid-cols-2 gap-4"
             >
               <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700">
-                <div className="text-2xl font-bold text-amber-400">100K</div>
-                <div className="text-sm text-zinc-400">D.FAITH Token</div>
+                <div className="text-2xl font-bold text-amber-400">
+                  €{isLoading ? '...' : tokenPrices.dfaith.toFixed(2)}
+                </div>
+                <div className="text-sm text-zinc-400">D.FAITH Preis</div>
               </div>
               <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700">
-                <div className="text-2xl font-bold text-blue-400">10K</div>
-                <div className="text-sm text-zinc-400">D.INVEST Token</div>
+                <div className="text-2xl font-bold text-blue-400">
+                  {isLoading ? '...' : tokenPrices.dinvest.toFixed(2)}€
+                </div>
+                <div className="text-sm text-zinc-400">D.INVEST Preis</div>
               </div>
               <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700">
-                <div className="text-2xl font-bold text-green-400">5€</div>
-                <div className="text-sm text-zinc-400">Pro D.INVEST</div>
+                <div className="text-2xl font-bold text-green-400">100K</div>
+                <div className="text-sm text-zinc-400">D.FAITH Supply</div>
               </div>
               <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700">
-                <div className="text-2xl font-bold text-purple-400">774</div>
-                <div className="text-sm text-zinc-400">Instagram Follower</div>
+                <div className="text-2xl font-bold text-purple-400">
+                  {isLoading ? '...' : activeUsers}
+                </div>
+                <div className="text-sm text-zinc-400">Active Users</div>
               </div>
             </motion.div>
 
