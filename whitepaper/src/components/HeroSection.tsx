@@ -164,7 +164,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext }) => {
                   alt="D.FAITH Logo"
                   width={60}
                   height={60}
-                  className="rounded-full"
                 />
               </motion.div>
 
@@ -186,7 +185,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext }) => {
                   alt="D.INVEST Logo"
                   width={60}
                   height={60}
-                  className="rounded-full"
                 />
               </motion.div>
 
