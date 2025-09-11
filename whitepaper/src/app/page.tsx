@@ -36,7 +36,7 @@ const WhitepaperPage = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'problem', 'solution', 'tokenomics', 'tech', 'roadmap', 'team']
+      const sections = ['hero', 'solution', 'tokenomics', 'tech', 'roadmap', 'team']
       const currentSection = sections.find(section => {
         const element = document.getElementById(section)
         if (element) {
@@ -72,79 +72,13 @@ const WhitepaperPage = () => {
 
       {/* Hero Section */}
       <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <HeroSection onScrollToNext={() => scrollToSection('problem')} />
+        <HeroSection onScrollToNext={() => scrollToSection('solution')} />
       </section>
 
       {/* Fixed Live Stats - rechts oben */}
       <div className="fixed top-20 right-4 z-40 hidden lg:block">
         <LiveStatsFixed />
       </div>
-
-      {/* Problem Section */}
-      <section id="problem" className="py-20 bg-gradient-to-br from-slate-900 via-red-900/20 to-slate-900">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent mb-6">
-              Das Problem
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Dawid Faith identifizierte diese Kernprobleme in der Musikindustrie
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {[
-              {
-                icon: <FaInstagram className="text-3xl text-purple-500" />,
-                title: "Geringe Reichweite",
-                description: "Trotz qualitativem Content ist es schwer, organisch neue Follower zu gewinnen"
-              },
-              {
-                icon: <FaChartLine className="text-3xl text-red-500" />,
-                title: "Teure Werbung",
-                description: "Paid Ads für Reichweite sind kostspielig und nicht immer nachhaltig"
-              },
-              {
-                icon: <FaMusic className="text-3xl text-blue-500" />,
-                title: "Fehlendes Kapital",
-                description: "Keine Mittel für Musikproduktion, Videos und professionelle Vermarktung"
-              },
-              {
-                icon: <FaUsers className="text-3xl text-green-500" />,
-                title: "Schwaches Engagement",
-                description: "Fan-Interaktionen bringen keinen direkten Mehrwert für beide Seiten"
-              }
-            ].map((problem, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-red-500/50 transition-all duration-300"
-              >
-                <div className="flex flex-col items-center text-center">
-                  <div className="mb-4 p-3 bg-slate-700/50 rounded-full">
-                    {problem.icon}
-                  </div>
-                  <h4 className="text-xl font-semibold text-white mb-3">
-                    {problem.title}
-                  </h4>
-                  <p className="text-gray-400">
-                    {problem.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Solution Section */}
       <SolutionSection />
