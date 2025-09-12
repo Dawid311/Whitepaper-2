@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { FaUsers, FaWallet, FaShoppingCart, FaMusic, FaInstagram, FaTiktok, FaFacebook, FaSpotify, FaCalendarAlt, FaCoins, FaDollarSign, FaChartLine } from 'react-icons/fa'
+import { FaUsers, FaWallet, FaShoppingCart, FaMusic, FaInstagram, FaTiktok, FaFacebook, FaSpotify, FaCoins, FaChartLine } from 'react-icons/fa'
 import Image from 'next/image'
 
 const EcosystemWebapp = () => {

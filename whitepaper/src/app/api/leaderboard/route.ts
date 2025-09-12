@@ -21,7 +21,7 @@ export async function GET() {
       ...data,
       stats: {
         activeUsers: activeUsersCount,
-        totalExp: data.entries?.reduce((total: number, entry: any) => total + entry.expTotal, 0) || 0,
+        totalExp: data.entries?.reduce((total: number, entry: { expTotal: number }) => total + entry.expTotal, 0) || 0,
         lastUpdated: data.lastUpdated
       }
     })

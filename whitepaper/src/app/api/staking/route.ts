@@ -16,7 +16,6 @@ export async function GET() {
     // Parse Staking Contract Daten (verwende echte Werte)
     const totalStaked = parseFloat(stakingData.data?.availableRewards || '0') // D.FAITH im Contract
     const totalRewardsDistributed = parseFloat(stakingData.data?.totalRewardsDistributed || '0')
-    const currentStage = stakingData.data?.currentStage || 1
     const userCount = stakingData.data?.userCount || 0
     const currentRewardRate = stakingData.data?.currentRewardRate || 1000
     

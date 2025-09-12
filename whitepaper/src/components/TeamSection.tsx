@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { FaInstagram, FaGithub, FaLinkedin, FaMusic, FaCode, FaRocket } from 'react-icons/fa'
+import { FaInstagram, FaMusic, FaCode, FaRocket } from 'react-icons/fa'
 
 const TeamSection = () => {
   const skills = [

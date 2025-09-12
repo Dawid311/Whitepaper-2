@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaInstagram, FaTiktok, FaFacebook, FaCoins, FaLock, FaUsers, FaChartLine, FaArrowRight, FaTimes, FaInfoCircle, FaChartArea, FaRocket } from 'react-icons/fa'
+import { FaInstagram, FaCoins, FaLock, FaUsers, FaChartLine, FaArrowRight, FaTimes, FaInfoCircle, FaChartArea, FaRocket } from 'react-icons/fa'
 
 const StepByStepProcess = () => {
   const [openModal, setOpenModal] = useState<number | string | null>(null)

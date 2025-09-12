@@ -40,7 +40,7 @@ const LiveStats = () => {
       if (leaderboardResponse.status === 'fulfilled' && leaderboardResponse.value.ok) {
         const leaderboardData = await leaderboardResponse.value.json()
         const activeUsersCount = leaderboardData.stats?.activeUsers || leaderboardData.entries?.length || 8
-        const totalExp = leaderboardData.stats?.totalExp || leaderboardData.entries?.reduce((total: number, entry: any) => total + entry.expTotal, 0) || 5500
+        const totalExp = leaderboardData.stats?.totalExp || leaderboardData.entries?.reduce((total: number, entry: { expTotal: number }) => total + entry.expTotal, 0) || 5500
         
         setStats(prev => ({
           ...prev,
@@ -53,10 +53,8 @@ const LiveStats = () => {
       if (pricesResponse.status === 'fulfilled' && pricesResponse.value.ok) {
         const pricesData = await pricesResponse.value.json()
         const dfaithToken = pricesData.tokens?.dfaith
-        const dinvestToken = pricesData.tokens?.dinvest
         
         const newDfaithPrice = dfaithToken?.price_eur || 0
-        const newDinvestPrice = dinvestToken?.price_eur || 0
         
         // Update Preis-Trends
         setPriceHistory(prev => {

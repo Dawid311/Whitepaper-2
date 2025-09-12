@@ -2,21 +2,10 @@
 
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { 
-  FaChevronDown, 
   FaRocket, 
-  FaUsers, 
-  FaCoins, 
-  FaChartLine, 
-  FaGlobe, 
   FaInstagram,
-  FaSpotify,
-  FaMusic,
-  FaArrowRight,
-  FaPlay,
-  FaPause,
-  FaCalculator,
   FaExternalLinkAlt
 } from 'react-icons/fa'
 

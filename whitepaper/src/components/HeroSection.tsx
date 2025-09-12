@@ -37,7 +37,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext }) => {
         if (pricesResponse.status === 'fulfilled' && pricesResponse.value.ok) {
           const pricesData = await pricesResponse.value.json()
           const dfaithToken = pricesData.tokens?.dfaith
-          const dinvestToken = pricesData.tokens?.dinvest
           
           setTokenPrices({
             dfaith: dfaithToken?.price_eur || 0, // Echte Live-Daten ohne Fallback

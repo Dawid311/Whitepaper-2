@@ -1,26 +1,18 @@
 'use client'
 
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { 
   FaInfoCircle, 
   FaCalculator, 
   FaFire, 
-  FaCoins, 
   FaClock, 
   FaArrowRight,
   FaRocket,
   FaDollarSign,
   FaUsers,
-  FaExchangeAlt,
-  FaChartLine,
-  FaHandHoldingUsd,
-  FaGift,
-  FaLock,
-  FaPause,
-  FaPlay,
-  FaGem
+  FaChartLine
 } from 'react-icons/fa'
 import Image from 'next/image'
 
@@ -228,7 +220,7 @@ const TokenomicsChart = () => {
   ]
 
   // Custom Tooltip Component
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ name: string; value: number; color: string }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0]
       const isDfaith = data.name.includes('Rewards') || data.name.includes('DEX') || data.name.includes('Community')
@@ -250,10 +242,9 @@ const TokenomicsChart = () => {
   }
 
   // Tab Button Component
-  const TabButton = ({ tab, label, icon: Icon, isActive, onClick }: {
-    tab: string
+  const TabButton = ({ label, icon: Icon, isActive, onClick }: {
     label: string
-    icon: React.ComponentType<any>
+    icon: React.ComponentType<{ className?: string }>
     isActive: boolean
     onClick: () => void
   }) => (
@@ -852,21 +843,18 @@ const TokenomicsChart = () => {
       {/* Tab Navigation */}
       <div className="flex flex-wrap justify-center gap-4 mb-8">
         <TabButton
-          tab="overview"
           label="Überblick"
           icon={FaInfoCircle}
           isActive={activeTab === 'overview'}
           onClick={() => setActiveTab('overview')}
         />
         <TabButton
-          tab="calculator"
           label="Rentabilitäts-Rechner"
           icon={FaCalculator}
           isActive={activeTab === 'calculator'}
           onClick={() => setActiveTab('calculator')}
         />
         <TabButton
-          tab="halving"
           label="Halving"
           icon={FaFire}
           isActive={activeTab === 'halving'}

@@ -25,7 +25,7 @@ export async function GET() {
         // Berechne die aktuelle USD zu EUR Rate basierend auf ETH
         usdToEur = ethEur / ethUsd
       }
-    } catch (error) {
+    } catch {
       console.log('Failed to fetch ETH price for conversion')
     }
 
@@ -66,7 +66,7 @@ export async function GET() {
           console.log(`OpenOcean: 1 D.FAITH = ${wethPerDfaith} WETH = $${dfaithPriceUsd.toFixed(4)} (€${dfaithPriceEur.toFixed(4)})`)
         }
       }
-    } catch (error) {
+    } catch {
       console.log('OpenOcean API failed, trying DEXScreener...')
       
       try {
@@ -76,7 +76,7 @@ export async function GET() {
         
         if (dexResponse.ok) {
           const dexData = await dexResponse.json()
-          const validPair = dexData.pairs?.find((pair: any) => 
+          const validPair = dexData.pairs?.find((pair: { chainId: string; priceUsd: string }) => 
             pair.chainId === 'base' && 
             parseFloat(pair.priceUsd) > 0 &&
             pair.priceUsd !== '0'
@@ -88,7 +88,7 @@ export async function GET() {
             priceSource = 'dexscreener'
           }
         }
-      } catch (dexError) {
+      } catch {
         console.log('DEXScreener also failed, using fallback prices')
       }
     }
