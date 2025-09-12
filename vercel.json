@@ -1,5 +1,12 @@
 {
   "buildCommand": "cd whitepaper && npm ci && npm run build",
-  "outputDirectory": "whitepaper/.next",
-  "installCommand": "cd whitepaper && npm ci"
+  "outputDirectory": "whitepaper/.next", 
+  "installCommand": "cd whitepaper && npm ci",
+  "devCommand": "cd whitepaper && npm run dev",
+  "framework": "nextjs",
+  "functions": {
+    "whitepaper/src/app/api/**/*.ts": {
+      "runtime": "nodejs20.x"
+    }
+  }
 }
