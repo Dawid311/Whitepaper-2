@@ -14,7 +14,10 @@ const EcosystemWebapp = () => {
       title: 'Social Media Profile',
       description: 'Automatische Erkennung von Fan-Engagement',
       icon: <FaUsers className="text-2xl" />,
-      color: 'from-purple-500 to-pink-500',
+      color: 'from-slate-600 to-slate-500',
+      bgColor: 'bg-slate-800/80',
+      borderColor: 'border-slate-600',
+      textColor: 'text-slate-300',
       details: {
         platforms: ['Instagram', 'TikTok', 'Facebook'],
         rewards: [
@@ -32,7 +35,10 @@ const EcosystemWebapp = () => {
       title: 'Dawid Faith Wallet',
       description: 'Vollständige Token-Verwaltung und Trading',
       icon: <FaWallet className="text-2xl" />,
-      color: 'from-blue-500 to-cyan-500',
+      color: 'from-indigo-600 to-indigo-500',
+      bgColor: 'bg-indigo-900/80',
+      borderColor: 'border-indigo-600',
+      textColor: 'text-indigo-300',
       details: {
         functions: [
           'D.FAITH Token kaufen/verkaufen gegen ETH',
@@ -49,7 +55,10 @@ const EcosystemWebapp = () => {
       title: 'D.FAITH Exklusiv Shop',
       description: 'Limitierte Musik-Produkte vor offiziellem Release',
       icon: <FaShoppingCart className="text-2xl" />,
-      color: 'from-green-500 to-emerald-500',
+      color: 'from-emerald-600 to-emerald-500',
+      bgColor: 'bg-emerald-900/80',
+      borderColor: 'border-emerald-600',
+      textColor: 'text-emerald-300',
       details: {
         products: [
           'Neue Songs 48h vor Spotify Release',
@@ -67,7 +76,10 @@ const EcosystemWebapp = () => {
       title: 'Live Konzerte',
       description: 'Konzert-Integration mit Live Codes',
       icon: <FaMusic className="text-2xl" />,
-      color: 'from-orange-500 to-red-500',
+      color: 'from-amber-600 to-amber-500',
+      bgColor: 'bg-amber-900/80',
+      borderColor: 'border-amber-600',
+      textColor: 'text-amber-300',
       details: {
         features: [
           'Liste aller kommenden Dawid Faith Konzerte',
@@ -84,7 +96,10 @@ const EcosystemWebapp = () => {
       title: 'Spotify Streaming',
       description: 'EXP sammeln durch Musik hören (in Entwicklung)',
       icon: <FaSpotify className="text-2xl" />,
-      color: 'from-green-400 to-lime-500',
+      color: 'from-green-600 to-green-500',
+      bgColor: 'bg-green-900/80',
+      borderColor: 'border-green-600',
+      textColor: 'text-green-300',
       details: {
         concept: [
           'Spotify API Integration',
@@ -295,21 +310,21 @@ const EcosystemWebapp = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: index * 0.1 }}
             viewport={{ once: true }}
-            className={`bg-gradient-to-br ${feature.color} bg-opacity-20 rounded-2xl p-6 border border-opacity-30 hover:scale-105 transition-all duration-300 cursor-pointer`}
+            className={`${feature.bgColor || 'bg-slate-800/50'} backdrop-blur-sm rounded-2xl p-6 border ${feature.borderColor || 'border-slate-700'} hover:scale-105 hover:shadow-lg hover:shadow-${feature.color.split('-')[1]}-500/20 transition-all duration-300 cursor-pointer`}
             onClick={() => setActiveFeature(feature.id)}
           >
             <div className="flex items-center gap-4 mb-4">
-              <div className={`p-3 bg-gradient-to-r ${feature.color} rounded-full text-white`}>
+              <div className={`p-3 bg-gradient-to-r ${feature.color} rounded-full text-white shadow-lg`}>
                 {feature.icon}
               </div>
-              <div>
-                <h4 className="text-lg font-bold text-white">{feature.title}</h4>
-                <p className="text-sm text-gray-400">{feature.description}</p>
+              <div className="flex-1">
+                <h4 className="text-lg font-bold text-white mb-1">{feature.title}</h4>
+                <p className={`text-sm ${feature.textColor || 'text-gray-400'}`}>{feature.description}</p>
               </div>
             </div>
             
-            <div className="text-center">
-              <button className="text-sm font-semibold text-white bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-all duration-300">
+            <div className="text-center mt-6">
+              <button className={`text-sm font-semibold text-white bg-gradient-to-r ${feature.color} hover:scale-105 px-6 py-2 rounded-lg transition-all duration-300 shadow-md`}>
                 Details anzeigen →
               </button>
             </div>

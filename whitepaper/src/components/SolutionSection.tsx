@@ -6,7 +6,7 @@ import ProblemOverview from './solution/ProblemOverview'
 import SolutionConcept from './solution/SolutionConcept'
 import StepByStepProcess from './solution/StepByStepProcess'
 import EcosystemWebapp from './solution/EcosystemWebapp'
-import ValueCreationMechanism from './solution/ValueCreationMechanism'
+
 
 const SolutionSection = () => {
   return (
@@ -72,19 +72,6 @@ const SolutionSection = () => {
           </div>
         </motion.div>
 
-        {/* 5. Wertschöpfungsmechanismus */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <div className="bg-slate-800/30 backdrop-blur-xl rounded-3xl border border-slate-700/30 shadow-2xl shadow-black/20">
-            <ValueCreationMechanism />
-          </div>
-        </motion.div>
-
         {/* Innovative Results Section */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
@@ -106,10 +93,10 @@ const SolutionSection = () => {
               >
                 <div className="text-8xl mb-6">🎯</div>
                 <h3 className="text-6xl font-black bg-gradient-to-r from-cyan-300 via-violet-400 to-pink-400 bg-clip-text text-transparent mb-6">
-                  TRIPLE WIN
+                  DAS ERGEBNIS
                 </h3>
                 <p className="text-2xl text-slate-300 max-w-3xl mx-auto">
-                  Ein Ökosystem, in dem <span className="text-cyan-400 font-bold">jeder profitiert</span>
+                  Alle gewinnen im <span className="text-cyan-400 font-bold">D.FAITH Ökosystem</span>
                 </p>
               </motion.div>
             </div>
@@ -122,39 +109,19 @@ const SolutionSection = () => {
                   initial={{ opacity: 0, y: 100 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.1 }}
-                  whileHover={{ scale: 1.05, rotateY: 5 }}
+                  whileHover={{ scale: 1.05 }}
                   className="group relative"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-emerald-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
                   <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl rounded-2xl p-8 border border-cyan-500/30 shadow-2xl">
-                    <div className="text-center mb-6">
+                    <div className="text-center">
                       <div className="w-20 h-20 bg-gradient-to-br from-cyan-400 to-emerald-400 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-cyan-500/25">
-                        <span className="text-3xl">🎵</span>
+                        <span className="text-3xl">❤️</span>
                       </div>
-                      <h4 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+                      <h4 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent mb-2">
                         Fans
                       </h4>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      {[
-                        'Verdienen durch Engagement',
-                        'Exklusive NFT-Zugang',
-                        'Direkte Künstler-Verbindung',
-                        'Community-Governance',
-                        'Staking-Rewards'
-                      ].map((benefit, index) => (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.1 * index }}
-                          className="flex items-center gap-3 text-slate-300"
-                        >
-                          <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                          <span className="font-medium">{benefit}</span>
-                        </motion.div>
-                      ))}
+                      <p className="text-slate-400 text-lg">Verdienen durch Engagement</p>
                     </div>
                   </div>
                 </motion.div>
@@ -164,39 +131,19 @@ const SolutionSection = () => {
                   initial={{ opacity: 0, y: 100 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  whileHover={{ scale: 1.05, rotateY: 5 }}
+                  whileHover={{ scale: 1.05 }}
                   className="group relative"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
                   <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl rounded-2xl p-8 border border-violet-500/30 shadow-2xl">
-                    <div className="text-center mb-6">
+                    <div className="text-center">
                       <div className="w-20 h-20 bg-gradient-to-br from-violet-400 to-purple-400 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-violet-500/25">
                         <span className="text-3xl">🎤</span>
                       </div>
-                      <h4 className="text-3xl font-bold bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
+                      <h4 className="text-3xl font-bold bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent mb-2">
                         Dawid Faith
                       </h4>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      {[
-                        'Kontinuierliche Finanzierung',
-                        'Organisches Fan-Wachstum',
-                        'Kreative Freiheit',
-                        'Datengesteuerte Insights',
-                        'Globale Reichweite'
-                      ].map((benefit, index) => (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.1 * index }}
-                          className="flex items-center gap-3 text-slate-300"
-                        >
-                          <div className="w-2 h-2 bg-violet-400 rounded-full"></div>
-                          <span className="font-medium">{benefit}</span>
-                        </motion.div>
-                      ))}
+                      <p className="text-slate-400 text-lg">Nachhaltige Finanzierung</p>
                     </div>
                   </div>
                 </motion.div>
@@ -206,39 +153,19 @@ const SolutionSection = () => {
                   initial={{ opacity: 0, y: 100 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
-                  whileHover={{ scale: 1.05, rotateY: 5 }}
+                  whileHover={{ scale: 1.05 }}
                   className="group relative"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-rose-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
                   <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl rounded-2xl p-8 border border-pink-500/30 shadow-2xl">
-                    <div className="text-center mb-6">
+                    <div className="text-center">
                       <div className="w-20 h-20 bg-gradient-to-br from-pink-400 to-rose-400 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-pink-500/25">
                         <span className="text-3xl">💎</span>
                       </div>
-                      <h4 className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
+                      <h4 className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent mb-2">
                         Investoren
                       </h4>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      {[
-                        'Hohe ROI-Potentiale',
-                        'Token-Deflation durch Burns',
-                        'Yield-Farming-Möglichkeiten',
-                        'Früher Markt-Zugang',
-                        'Transparente Blockchain'
-                      ].map((benefit, index) => (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.1 * index }}
-                          className="flex items-center gap-3 text-slate-300"
-                        >
-                          <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
-                          <span className="font-medium">{benefit}</span>
-                        </motion.div>
-                      ))}
+                      <p className="text-slate-400 text-lg">Exponentieller ROI</p>
                     </div>
                   </div>
                 </motion.div>
@@ -251,36 +178,30 @@ const SolutionSection = () => {
                 transition={{ duration: 0.8, delay: 0.6 }}
                 className="mt-16 text-center"
               >
-                <h4 className="text-4xl font-bold text-white mb-8">
-                  Bereit für die Zukunft? 🚀
+                <h4 className="text-4xl font-bold text-white mb-6">
+                  Bereit für die Revolution? 🚀
                 </h4>
-                <p className="text-xl text-slate-300 mb-12 max-w-4xl mx-auto">
-                  Treten Sie dem D.FAITH Ökosystem bei und erleben Sie eine völlig neue Art des 
-                  Fan-Engagements und der Wertschöpfung in der Musikindustrie.
-                </p>
                 
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                   <motion.button 
-                    whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(6, 182, 212, 0.4)" }}
+                    whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-emerald-500 text-white font-bold rounded-2xl shadow-lg shadow-cyan-500/25 overflow-hidden"
+                    className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-emerald-500 text-white font-bold rounded-2xl shadow-lg"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <span className="relative flex items-center gap-3">
-                      <span className="text-2xl">🎵</span>
-                      Fan werden & verdienen
+                      <span className="text-2xl">❤️</span>
+                      Fan werden
                     </span>
                   </motion.button>
                   
                   <motion.button 
-                    whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)" }}
+                    whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="group relative px-8 py-4 bg-gradient-to-r from-violet-500 to-pink-500 text-white font-bold rounded-2xl shadow-lg shadow-violet-500/25 overflow-hidden"
+                    className="group relative px-8 py-4 bg-gradient-to-r from-violet-500 to-pink-500 text-white font-bold rounded-2xl shadow-lg"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <span className="relative flex items-center gap-3">
                       <span className="text-2xl">💎</span>
-                      D.INVEST Token kaufen
+                      Investieren
                     </span>
                   </motion.button>
                 </div>

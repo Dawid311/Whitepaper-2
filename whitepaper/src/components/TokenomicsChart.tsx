@@ -27,11 +27,6 @@ import Image from 'next/image'
 const TokenomicsChart = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'calculator' | 'halving' | 'tokenflow'>('overview')
   
-  // Staking Calculator States
-  const [stakeAmount, setStakeAmount] = useState(100)
-  const [timeframe, setTimeframe] = useState(30)
-  const [selectedStage, setSelectedStage] = useState(1)
-  
   // Token Flow Animation States
   const [currentStage, setCurrentStage] = useState(0)
   const [isAnimationPlaying, setIsAnimationPlaying] = useState(true)
@@ -44,12 +39,52 @@ const TokenomicsChart = () => {
   })
   const [isLoading, setIsLoading] = useState(true)
 
+  // Live Token Data States
+  const [liveTokenData, setLiveTokenData] = useState({
+    dinvest: {
+      available: 0,
+      sold: 0
+    },
+    dfaith: {
+      contractBalance: 0, // Aus Staking API (totalStaked)
+      dexLiquidity: 0, // Aus DEX API
+      communityCirculation: 0 // Berechnet
+    }
+  })
+  const [isTokenDataLoading, setIsTokenDataLoading] = useState(true)
+
+  // Calculator States (müssen auf oberster Ebene sein)
+  const [investmentAmount, setInvestmentAmount] = useState(10)
+  const [dfaithPrice, setDfaithPrice] = useState(0.20)
+  const [selectedHalvingStage, setSelectedHalvingStage] = useState(1)
+
   // Fetch token prices
   useEffect(() => {
     const fetchTokenPrices = async () => {
       try {
         const response = await fetch('/api/token-prices')
-        const data = await response.json()
+        
+        // Prüfe, ob die Response OK ist
+        if (!response.ok) {
+          console.error('API response not OK:', response.status, response.statusText)
+          return
+        }
+
+        // Prüfe Content-Type
+        const contentType = response.headers.get('content-type')
+        if (!contentType || !contentType.includes('application/json')) {
+          console.error('Response is not JSON:', contentType)
+          return
+        }
+
+        const text = await response.text()
+        if (!text) {
+          console.error('Empty response body')
+          return
+        }
+
+        const data = JSON.parse(text)
+        
         if (data.tokens?.dfaith) {
           setTokenPrices({
             dfaith: data.tokens.dfaith.price_eur, // Euro statt USD
@@ -59,6 +94,12 @@ const TokenomicsChart = () => {
         }
       } catch (error) {
         console.error('Error fetching token prices:', error)
+        // Verwende Fallback-Werte bei Fehlern
+        setTokenPrices({
+          dfaith: 0.138,
+          dinvest: 5,
+          eth: 2300
+        })
       } finally {
         setIsLoading(false)
       }
@@ -66,6 +107,77 @@ const TokenomicsChart = () => {
 
     fetchTokenPrices()
     const interval = setInterval(fetchTokenPrices, 5 * 60 * 1000) // Update every 5 minutes
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // Fetch live token data
+  useEffect(() => {
+    const fetchLiveTokenData = async () => {
+      try {
+        // Fetch D.INVEST balance - API zeigt verfügbare (nicht verkaufte)
+        const dinvestResponse = await fetch('/api/dinvest-balance')
+        let dinvestData = { available: 0, sold: 0 }
+        
+        if (dinvestResponse.ok) {
+          const dinvestJson = await dinvestResponse.json()
+          if (dinvestJson.success && dinvestJson.data?.balance) {
+            const availableTokens = parseInt(dinvestJson.data.balance)
+            const totalDinvestSupply = 10000 // Annahme: 10.000 D.INVEST insgesamt
+            const soldTokens = totalDinvestSupply - availableTokens
+            
+            dinvestData = {
+              available: availableTokens,
+              sold: soldTokens
+            }
+          }
+        }
+
+        // Fetch DEX liquidity direkt von dex-liquidity API
+        const dexResponse = await fetch('/api/dex-liquidity')
+        let dfaithDexLiquidity = 0
+        
+        if (dexResponse.ok) {
+          const dexJson = await dexResponse.json()
+          if (dexJson.success && dexJson.data?.balances?.tokenInPool) {
+            dfaithDexLiquidity = parseFloat(dexJson.data.balances.tokenInPool)
+          }
+        }
+
+        // Fetch Staking Contract data für availableRewards (D.FAITH im Contract)
+        const stakingResponse = await fetch('/api/staking')
+        let contractBalance = 0
+        
+        if (stakingResponse.ok) {
+          const stakingJson = await stakingResponse.json()
+          if (stakingJson.data?.totalStaked) {
+            contractBalance = parseFloat(stakingJson.data.totalStaked)
+          }
+        }
+
+        // Berechne Community Circulation (Rest der verfügbaren D.FAITH)
+        const totalSupply = 100000
+        const communityCirculation = totalSupply - contractBalance - dfaithDexLiquidity
+
+        setLiveTokenData({
+          dinvest: dinvestData,
+          dfaith: {
+            contractBalance,
+            dexLiquidity: dfaithDexLiquidity,
+            communityCirculation: Math.max(0, communityCirculation)
+          }
+        })
+
+      } catch (error) {
+        console.error('Error fetching live token data:', error)
+        // Keine Fallback-Werte setzen - bleibe bei 0
+      } finally {
+        setIsTokenDataLoading(false)
+      }
+    }
+
+    fetchLiveTokenData()
+    const interval = setInterval(fetchLiveTokenData, 2 * 60 * 1000) // Update every 2 minutes
 
     return () => clearInterval(interval)
   }, [])
@@ -82,36 +194,31 @@ const TokenomicsChart = () => {
   }, [isAnimationPlaying])
 
   // Consistent number formatting
-  const formatNumber = (num: number) => {
+  const formatNumber = (num: number, decimals?: number) => {
+    if (decimals !== undefined) {
+      return num.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
   }
 
-  // Token Data
+  // Token Data (jetzt mit Live-Daten)
   const tokenData = {
     dfaith: {
       total: 100000,
-      locked: 80000,
-      liquidity: 20000,
+      contractBalance: isTokenDataLoading ? 0 : liveTokenData.dfaith.contractBalance,
+      dexLiquidity: isTokenDataLoading ? 0 : liveTokenData.dfaith.dexLiquidity,
+      communityCirculation: isTokenDataLoading ? 0 : liveTokenData.dfaith.communityCirculation,
       currentPrice: isLoading ? 0.001 : tokenPrices.dfaith,
       targetPrice: 1.5
     },
     dinvest: {
       total: 10000,
-      sold: 2500,
+      available: isTokenDataLoading ? 0 : liveTokenData.dinvest.available,
+      sold: isTokenDataLoading ? 0 : liveTokenData.dinvest.sold,
       price: isLoading ? 5 : tokenPrices.dinvest,
       totalValue: isLoading ? 50000 : tokenPrices.dinvest * 10000
     }
   }
-
-  // Halving rates
-  const rewardRates = [
-    { stage: 1, rate: 1000, range: '0-10k', description: 'Stufe 1: Maximale Rewards' },
-    { stage: 2, rate: 500, range: '10k-20k', description: 'Stufe 2: Halbe Rewards' },
-    { stage: 3, rate: 250, range: '20k-40k', description: 'Stufe 3: Viertel Rewards' },
-    { stage: 4, rate: 125, range: '40k-60k', description: 'Stufe 4: Achtel Rewards' },
-    { stage: 5, rate: 63, range: '60k-80k', description: 'Stufe 5: Reduzierte Rewards' },
-    { stage: 6, rate: 31, range: '80k+', description: 'Stufe 6: Minimale Rewards' }
-  ]
 
   // Halving stages for visualization
   const halvingStages = [
@@ -123,60 +230,34 @@ const TokenomicsChart = () => {
     { stage: 6, range: '80k+', rate: 0.31, color: '#991b1b', status: 'Final', multiplier: '1' }
   ]
 
-  // Calculate rewards
-  const calculateRewards = useMemo(() => {
-    const currentRate = rewardRates.find(r => r.stage === selectedStage)?.rate || 1000
-    const weeklyReward = (stakeAmount * currentRate) / 10000
-    const weeks = timeframe / 7
-    const totalReward = weeklyReward * weeks
-    const roi = (totalReward / stakeAmount) * 100
-
-    return {
-      weeklyReward: weeklyReward.toFixed(2),
-      totalReward: totalReward.toFixed(2),
-      roi: roi.toFixed(2),
-      currentRate: (currentRate / 100).toFixed(2)
-    }
-  }, [stakeAmount, timeframe, selectedStage, rewardRates])
-
-  // Calculate time to minimum claim
-  const timeToMinClaim = useMemo(() => {
-    const currentRate = rewardRates.find(r => r.stage === selectedStage)?.rate || 1000
-    const weeklyReward = (stakeAmount * currentRate) / 10000
-    
-    if (weeklyReward <= 0) return 'N/A'
-    
-    const weeksToMinClaim = 0.01 / weeklyReward
-    const daysToMinClaim = weeksToMinClaim * 7
-    
-    if (daysToMinClaim < 1) return '< 1 Tag'
-    if (daysToMinClaim < 7) return `${Math.ceil(daysToMinClaim)} Tage`
-    if (daysToMinClaim < 30) return `${Math.ceil(daysToMinClaim / 7)} Wochen`
-    return `${Math.ceil(daysToMinClaim / 30)} Monate`
-  }, [stakeAmount, selectedStage, rewardRates])
-
-  // Recharts Data
+  // Recharts Data (jetzt mit Live-Daten)
   const dfaithChartData = [
-    { name: 'Gesperrt (80%)', value: tokenData.dfaith.locked, fill: '#f59e0b' },
-    { name: 'Liquidität (20%)', value: tokenData.dfaith.liquidity, fill: '#3b82f6' }
+    { name: 'Smart Contract', value: tokenData.dfaith.contractBalance, fill: '#f59e0b' },
+    { name: 'DEX Liquidität', value: tokenData.dfaith.dexLiquidity, fill: '#3b82f6' },
+    { name: 'Community Umlauf', value: tokenData.dfaith.communityCirculation, fill: '#10b981' }
   ]
 
   const dinvestChartData = [
     { name: 'Verkauft', value: tokenData.dinvest.sold, fill: '#8b5cf6' },
-    { name: 'Verfügbar', value: tokenData.dinvest.total - tokenData.dinvest.sold, fill: '#374151' }
+    { name: 'Verfügbar', value: tokenData.dinvest.available, fill: '#374151' }
   ]
 
   // Custom Tooltip Component
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0]
+      const isDfaith = data.name.includes('Rewards') || data.name.includes('DEX') || data.name.includes('Community')
+      const total = isDfaith ? tokenData.dfaith.total : tokenData.dinvest.total
+      const percentage = ((data.value / total) * 100).toFixed(1)
+      
       return (
         <div className="bg-zinc-900/95 backdrop-blur-xl border border-zinc-700 rounded-lg p-3">
           <p className="text-white font-semibold">{data.name}</p>
           <p className="text-zinc-300">{formatNumber(data.value)} Token</p>
-          <p className="text-zinc-400 text-sm">
-            {((data.value / (data.name.includes('D.FAITH') ? tokenData.dfaith.total : tokenData.dinvest.total)) * 100).toFixed(1)}%
-          </p>
+          <p className="text-zinc-400 text-sm">{percentage}%</p>
+          {!isTokenDataLoading && isDfaith && (
+            <p className="text-green-400 text-xs mt-1">Live Daten</p>
+          )}
         </div>
       )
     }
@@ -259,16 +340,23 @@ const TokenomicsChart = () => {
               <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
-                  <span className="text-sm text-white">Gesperrt (80%)</span>
+                  <span className="text-sm text-white">Smart Contract</span>
                 </div>
-                <span className="font-bold text-amber-400">{formatNumber(tokenData.dfaith.locked)}</span>
+                <span className="font-bold text-amber-400">{formatNumber(tokenData.dfaith.contractBalance)}</span>
               </div>
               <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-white">Liquidität (20%)</span>
+                  <span className="text-sm text-white">DEX Liquidität</span>
                 </div>
-                <span className="font-bold text-blue-400">{formatNumber(tokenData.dfaith.liquidity)}</span>
+                <span className="font-bold text-blue-400">{formatNumber(tokenData.dfaith.dexLiquidity)}</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span className="text-sm text-white">Community Umlauf</span>
+                </div>
+                <span className="font-bold text-green-400">{formatNumber(tokenData.dfaith.communityCirculation, 2)}</span>
               </div>
             </div>
 
@@ -286,9 +374,9 @@ const TokenomicsChart = () => {
                   <div className="text-xl font-bold text-green-400">€{tokenData.dfaith.targetPrice}</div>
                 </div>
               </div>
-              {!isLoading && (
+              {!isLoading && !isTokenDataLoading && (
                 <div className="mt-2 text-xs text-green-300 opacity-75">
-                  Live Preis von OpenOcean
+                  Live Daten von Blockchain & DEX
                 </div>
               )}
             </div>
@@ -347,14 +435,14 @@ const TokenomicsChart = () => {
                   <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
                   <span className="text-sm text-white">Verkauft</span>
                 </div>
-                <span className="font-bold text-purple-400">{formatNumber(tokenData.dinvest.sold)}</span>
+                <span className="font-bold text-purple-400">{formatNumber(tokenData.dinvest.sold, 0)}</span>
               </div>
               <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
                   <span className="text-sm text-white">Verfügbar</span>
                 </div>
-                <span className="font-bold text-gray-400">{formatNumber(tokenData.dinvest.total - tokenData.dinvest.sold)}</span>
+                <span className="font-bold text-gray-400">{formatNumber(tokenData.dinvest.available, 0)}</span>
               </div>
             </div>
 
@@ -373,9 +461,9 @@ const TokenomicsChart = () => {
                   </div>
                 </div>
               </div>
-              {!isLoading && (
+              {!isLoading && !isTokenDataLoading && (
                 <div className="mt-2 text-xs text-blue-300 opacity-75 text-center">
-                  Live Preise integriert
+                  Live Token-Balances integriert
                 </div>
               )}
             </div>
@@ -540,201 +628,278 @@ const TokenomicsChart = () => {
     </div>
   )
 
-  // Staking Calculator Tab
-  const renderCalculator = () => (
-    <div className="space-y-8">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-xl rounded-3xl p-8 border border-zinc-700/50"
-      >
-        <div className="flex items-center gap-3 mb-8">
-          <div className="p-3 bg-purple-500/20 rounded-full">
-            <FaCalculator className="text-2xl text-purple-400" />
-          </div>
-          <div>
-            <h3 className="text-3xl font-bold text-white">Staking Calculator</h3>
-            <p className="text-zinc-400">Berechnen Sie Ihre D.FAITH Rewards</p>
-          </div>
-        </div>
+  // D.INVEST Rentabilitäts-Rechner Tab
+  const renderCalculator = () => {
+    // D.INVEST Details
+    const dinvestPrice = 5 // Euro
+    
+    // Halving-abhängige Reward-Rate
+    const currentHalvingStage = halvingStages.find(stage => stage.stage === selectedHalvingStage) || halvingStages[0]
+    const weeklyDfaithRewards = currentHalvingStage.rate / 100 // Prozent zu Dezimal
+    const yearlyDfaithRewards = weeklyDfaithRewards * 52 // pro Jahr
+    
+    // Berechnungen
+    const totalInvestment = investmentAmount * dinvestPrice
+    const yearlyDfaithValue = yearlyDfaithRewards * dfaithPrice * investmentAmount
+    const yearlyRoi = (yearlyDfaithValue / totalInvestment) * 100
+    
+    // Verschiedene Preis-Szenarien
+    const priceScenarios = [
+      { price: 0.05, label: "0,05€ (Start)", priceIncrease: "+0%", color: "text-red-400" },
+      { price: 0.20, label: "0,20€", priceIncrease: "+300%", color: "text-yellow-400" },
+      { price: 0.50, label: "0,50€", priceIncrease: "+900%", color: "text-green-400" },
+      { price: 1.00, label: "1,00€", priceIncrease: "+1900%", color: "text-emerald-400" },
+    ]
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Input Section */}
-          <div className="space-y-6">
-            {/* Stake Amount */}
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-2">
-                D.INVEST Staking Betrag
-              </label>
-              <div className="relative">
-                <input
-                  type="number"
-                  value={stakeAmount}
-                  onChange={(e) => setStakeAmount(Number(e.target.value))}
-                  min="1"
-                  max="10000"
-                  className="w-full bg-zinc-900/80 border border-zinc-600 rounded-xl py-4 px-4 text-lg font-bold text-purple-400 focus:border-purple-500 focus:outline-none pr-20"
-                />
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-zinc-400 font-medium">
-                  Token
-                </div>
-              </div>
-              <div className="mt-2 flex gap-2 flex-wrap">
-                {[1, 10, 50, 100, 500, 1000].map((amount) => (
-                  <button
-                    key={amount}
-                    onClick={() => setStakeAmount(amount)}
-                    className="px-3 py-1 bg-zinc-700/50 text-zinc-300 rounded-lg text-sm hover:bg-zinc-600/50 transition-colors"
-                  >
-                    {amount}
-                  </button>
-                ))}
+    return (
+      <div className="space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-3xl p-8 border border-green-500/30"
+        >
+          <div className="text-center mb-8">
+            <div className="flex justify-center mb-4">
+              <div className="p-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full text-white">
+                <FaCalculator className="text-3xl" />
               </div>
             </div>
-
-            {/* Timeframe */}
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-2">
-                Zeitraum (Tage)
-              </label>
-              <div className="relative">
-                <input
-                  type="number"
-                  value={timeframe}
-                  onChange={(e) => setTimeframe(Number(e.target.value))}
-                  min="1"
-                  max="365"
-                  className="w-full bg-zinc-900/80 border border-zinc-600 rounded-xl py-4 px-4 text-lg font-bold text-blue-400 focus:border-blue-500 focus:outline-none pr-20"
-                />
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-zinc-400 font-medium">
-                  Tage
-                </div>
-              </div>
-              <div className="mt-2 flex gap-2 flex-wrap">
-                {[7, 14, 30, 90, 180, 365].map((days) => (
-                  <button
-                    key={days}
-                    onClick={() => setTimeframe(days)}
-                    className="px-3 py-1 bg-zinc-700/50 text-zinc-300 rounded-lg text-sm hover:bg-zinc-600/50 transition-colors"
-                  >
-                    {days}d
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Reward Stage */}
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-2">
-                Reward-Stufe
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                {rewardRates.map((stage) => (
-                  <button
-                    key={stage.stage}
-                    onClick={() => setSelectedStage(stage.stage)}
-                    className={`p-3 rounded-lg border transition-colors text-left ${
-                      selectedStage === stage.stage
-                        ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
-                        : 'bg-zinc-700/30 border-zinc-600 text-zinc-300 hover:bg-zinc-600/50'
-                    }`}
-                  >
-                    <div className="font-bold text-sm">Stufe {stage.stage}</div>
-                    <div className="text-xs opacity-75">{stage.range}</div>
-                    <div className="text-sm font-semibold">{(stage.rate / 100).toFixed(2)}%</div>
-                  </button>
-                ))}
-              </div>
-            </div>
+            <h3 className="text-3xl font-bold text-green-400 mb-4">
+              🎯 D.INVEST Rentabilitäts-Rechner
+            </h3>
+            <p className="text-lg text-gray-300 mb-6">
+              Berechnen Sie Ihre Rendite bei verschiedenen D.FAITH Preisen
+            </p>
           </div>
 
-          {/* Results Section */}
-          <div className="space-y-6">
-            {/* Weekly Rewards */}
-            <div className="bg-gradient-to-r from-amber-500/20 to-yellow-500/20 rounded-xl p-6 border border-amber-500/30">
-              <div className="flex items-center gap-3 mb-4">
-                <FaCoins className="text-2xl text-amber-400" />
-                <div>
-                  <h4 className="font-bold text-amber-400">Wöchentliche Rewards</h4>
-                  <p className="text-xs text-amber-200">Kontinuierliche Ausschüttung</p>
+          <div className="grid lg:grid-cols-2 gap-8 mb-8">
+            {/* Input Section */}
+            <div className="space-y-6">
+              {/* Investment Amount */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-300 mb-2">
+                  Anzahl D.INVEST Token
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={investmentAmount}
+                    onChange={(e) => setInvestmentAmount(Number(e.target.value))}
+                    min="1"
+                    max="1000"
+                    className="w-full bg-zinc-900/80 border border-zinc-600 rounded-xl py-4 px-4 text-lg font-bold text-green-400 focus:border-green-500 focus:outline-none pr-20"
+                  />
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-zinc-400 font-medium">
+                    Token
+                  </div>
+                </div>
+                <div className="mt-2 flex gap-2 flex-wrap">
+                  {[1, 5, 10, 20, 50, 100].map((amount) => (
+                    <button
+                      key={amount}
+                      onClick={() => setInvestmentAmount(amount)}
+                      className="px-3 py-1 bg-zinc-700/50 text-zinc-300 rounded-lg text-sm hover:bg-zinc-600/50 transition-colors"
+                    >
+                      {amount}
+                    </button>
+                  ))}
                 </div>
               </div>
-              <div className="text-3xl font-bold text-amber-400 mb-2">
-                {calculateRewards.weeklyReward} D.FAITH
-              </div>
-              <div className="text-sm text-amber-200">
-                Rate: {calculateRewards.currentRate}% pro Woche
-              </div>
-            </div>
 
-            {/* Total Rewards */}
-            <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl p-6 border border-green-500/30">
-              <div className="flex items-center gap-3 mb-4">
-                <FaArrowRight className="text-2xl text-green-400" />
-                <div>
-                  <h4 className="font-bold text-green-400">Gesamt-Rewards</h4>
-                  <p className="text-xs text-green-200">Nach {timeframe} Tagen</p>
+              {/* D.FAITH Price Selector */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-300 mb-2">
+                  Erwarteter D.FAITH Preis (€)
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={dfaithPrice}
+                    onChange={(e) => setDfaithPrice(Number(e.target.value))}
+                    min="0.01"
+                    max="5"
+                    step="0.01"
+                    className="w-full bg-zinc-900/80 border border-zinc-600 rounded-xl py-4 px-4 text-lg font-bold text-blue-400 focus:border-blue-500 focus:outline-none pr-8"
+                  />
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-zinc-400 font-medium">
+                    €
+                  </div>
+                </div>
+                <div className="mt-2 flex gap-2 flex-wrap">
+                  {priceScenarios.map((scenario) => (
+                    <button
+                      key={scenario.price}
+                      onClick={() => setDfaithPrice(scenario.price)}
+                      className={`px-3 py-1 bg-zinc-700/50 text-zinc-300 rounded-lg text-sm hover:bg-zinc-600/50 transition-colors ${
+                        dfaithPrice === scenario.price ? 'bg-blue-500/30 border border-blue-500/50' : ''
+                      }`}
+                    >
+                      {scenario.label}
+                    </button>
+                  ))}
                 </div>
               </div>
-              <div className="text-3xl font-bold text-green-400 mb-2">
-                {calculateRewards.totalReward} D.FAITH
-              </div>
-              <div className="text-sm text-green-200">
-                ROI: {calculateRewards.roi}%
-              </div>
-            </div>
 
-            {/* Time to Claim */}
-            <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl p-6 border border-blue-500/30">
-              <div className="flex items-center gap-3 mb-4">
-                <FaClock className="text-2xl text-blue-400" />
-                <div>
-                  <h4 className="font-bold text-blue-400">Zeit bis Min. Claim</h4>
-                  <p className="text-xs text-blue-200">0.01 D.FAITH Minimum</p>
+              {/* Halving Stage Selector */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-300 mb-2">
+                  Halving-Stufe auswählen
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  {halvingStages.map((stage) => (
+                    <button
+                      key={stage.stage}
+                      onClick={() => setSelectedHalvingStage(stage.stage)}
+                      className={`p-3 rounded-lg border transition-all duration-200 ${
+                        selectedHalvingStage === stage.stage
+                          ? 'border-green-500/50 bg-green-900/30 text-green-400'
+                          : 'border-zinc-700/50 bg-zinc-800/30 text-zinc-300 hover:bg-zinc-700/30'
+                      }`}
+                    >
+                      <div className="text-sm font-bold">Stufe {stage.stage}</div>
+                      <div className="text-xs opacity-75">{stage.range}</div>
+                      <div className="text-xs" style={{ color: stage.color }}>
+                        {stage.rate}% Rate
+                      </div>
+                      <div className="text-xs text-amber-400">
+                        {stage.status}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-2 p-3 bg-amber-900/20 border border-amber-500/30 rounded-lg">
+                  <div className="flex items-center gap-2 text-amber-400 text-sm">
+                    <FaInfoCircle />
+                    <span>Aktuelle Stufe: {currentHalvingStage.stage} ({currentHalvingStage.rate}% Wochenrate)</span>
+                  </div>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-blue-400">
-                {timeToMinClaim}
-              </div>
-            </div>
 
-            {/* Investment Summary */}
-            <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl p-6 border border-purple-500/30">
-              <h4 className="font-bold text-purple-400 mb-4">Investment Übersicht</h4>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-zinc-400">Investition:</span>
-                  <span className="font-bold text-white">{stakeAmount} D.INVEST</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-zinc-400">Wert:</span>
-                  <span className="font-bold text-green-400">{formatNumber(stakeAmount * 5)}€</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-zinc-400">Erwartete Rewards:</span>
-                  <span className="font-bold text-amber-400">{calculateRewards.totalReward} D.FAITH</span>
-                </div>
-                <div className="border-t border-purple-500/30 pt-3">
+              {/* Investment Details */}
+              <div className="bg-slate-800/40 rounded-lg p-6">
+                <h5 className="font-bold text-blue-400 mb-4 text-lg">📥 Investment Details</h5>
+                <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-zinc-400">ROI:</span>
-                    <span className="font-bold text-purple-400">{calculateRewards.roi}%</span>
+                    <span className="text-gray-300">D.INVEST Preis:</span>
+                    <span className="font-bold text-green-400">{dinvestPrice}€</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Staking Rate:</span>
+                    <span className="font-bold text-blue-400">{weeklyDfaithRewards.toFixed(3)} D.FAITH/Woche</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Halving-Stufe:</span>
+                    <span className="font-bold text-purple-400">Stufe {currentHalvingStage.stage} ({currentHalvingStage.rate}%)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">D.FAITH pro Jahr:</span>
+                    <span className="font-bold text-purple-400">{yearlyDfaithRewards.toFixed(1)} Token</span>
+                  </div>
+                  <div className="border-t border-slate-600 pt-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Gesamt-Investment:</span>
+                      <span className="font-bold text-white">{formatNumber(totalInvestment)}€</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Disclaimer */}
-        <div className="mt-8 p-4 bg-zinc-800/50 rounded-xl border border-zinc-700">
-          <p className="text-sm text-zinc-400">
-            <strong className="text-amber-400">Hinweis:</strong> Diese Berechnungen basieren auf aktuellen Reward-Raten und können sich durch das Halving-System ändern. 
-            Tatsächliche Rewards können durch Netzwerk-Bedingungen und Smart Contract Updates variieren.
-          </p>
-        </div>
-      </motion.div>
-    </div>
-  )
+            {/* Results Section */}
+            <div className="space-y-6">
+              {/* Yearly Earnings */}
+              <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl p-6 border border-green-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <FaDollarSign className="text-2xl text-green-400" />
+                  <div>
+                    <h4 className="font-bold text-green-400">Jährliche Einnahmen</h4>
+                    <p className="text-xs text-green-200">D.FAITH Rewards Wert</p>
+                  </div>
+                </div>
+                <div className="text-3xl font-bold text-green-400 mb-2">
+                  {yearlyDfaithValue.toFixed(2)}€
+                </div>
+                <div className="text-sm text-green-200">
+                  {(yearlyDfaithRewards * investmentAmount).toFixed(1)} D.FAITH × {dfaithPrice}€
+                </div>
+              </div>
+
+              {/* ROI */}
+              <div className="bg-gradient-to-r from-emerald-500/20 to-green-500/20 rounded-xl p-6 border border-emerald-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <FaChartLine className="text-2xl text-emerald-400" />
+                  <div>
+                    <h4 className="font-bold text-emerald-400">Jährliche Rendite (ROI)</h4>
+                    <p className="text-xs text-emerald-200">Return on Investment</p>
+                  </div>
+                </div>
+                <div className={`text-3xl font-bold mb-2 ${
+                  yearlyRoi >= 50 ? 'text-emerald-400' : 
+                  yearlyRoi >= 20 ? 'text-yellow-400' : 
+                  'text-red-400'
+                }`}>
+                  {yearlyRoi.toFixed(1)}%
+                </div>
+                <div className="text-sm text-emerald-200">
+                  Pro {investmentAmount} D.INVEST Token
+                </div>
+              </div>
+
+              {/* Break-even Time */}
+              <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl p-6 border border-blue-500/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <FaClock className="text-2xl text-blue-400" />
+                  <div>
+                    <h4 className="font-bold text-blue-400">Break-Even Zeit</h4>
+                    <p className="text-xs text-blue-200">Investment zurückverdient</p>
+                  </div>
+                </div>
+                <div className="text-2xl font-bold text-blue-400">
+                  {yearlyRoi > 0 ? `${(100 / yearlyRoi).toFixed(1)} Jahre` : 'N/A'}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ROI bei verschiedenen D.FAITH Preisen */}
+          <div className="bg-slate-800/40 rounded-lg p-6 mb-6">
+            <h5 className="font-bold text-green-400 mb-4 text-lg">💰 ROI-Szenarien bei verschiedenen D.FAITH Preisen</h5>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {priceScenarios.map((scenario, index) => {
+                const scenarioRoi = ((yearlyDfaithRewards * scenario.price * investmentAmount) / totalInvestment) * 100
+                return (
+                  <div key={index} className="bg-zinc-700/30 rounded-lg p-4 text-center">
+                    <div className="text-sm text-gray-300 mb-1">{scenario.label}</div>
+                    <div className="text-xs text-gray-400 mb-2">{scenario.priceIncrease}</div>
+                    <div className={`text-xl font-bold ${scenario.color}`}>
+                      {scenarioRoi.toFixed(1)}% ROI
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="p-4 bg-green-800/30 rounded-lg border border-green-500/30">
+            <p className="text-green-300 font-semibold text-center">
+              🚀 Bei nur 300% D.FAITH Preissteigerung wird D.INVEST bereits extrem profitabel!
+            </p>
+            <p className="text-gray-300 text-sm text-center mt-2">
+              Das System ist so konzipiert, dass diese Preissteigerung durch kontinuierliche Verknappung automatisch eintritt.
+            </p>
+          </div>
+
+          {/* Disclaimer */}
+          <div className="mt-6 p-4 bg-zinc-800/50 rounded-xl border border-zinc-700">
+            <p className="text-sm text-zinc-400">
+              <strong className="text-amber-400">Hinweis:</strong> Diese Berechnungen basieren auf aktuellen Parametern und sind Schätzungen. 
+              Tatsächliche Renditen können durch Marktbedingungen, Token-Preisentwicklung und Smart Contract Updates variieren.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    )
+  }
 
   // Halving Tab
   const renderHalving = () => (
@@ -858,7 +1023,7 @@ const TokenomicsChart = () => {
         />
         <TabButton
           tab="calculator"
-          label="Staking Calculator"
+          label="Rentabilitäts-Rechner"
           icon={FaCalculator}
           isActive={activeTab === 'calculator'}
           onClick={() => setActiveTab('calculator')}

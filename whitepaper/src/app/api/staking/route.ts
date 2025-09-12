@@ -14,7 +14,7 @@ export async function GET() {
     const stakingData = await stakingResponse.json()
     
     // Parse Staking Contract Daten (verwende echte Werte)
-    const totalStaked = parseFloat(stakingData.data?.totalStakedTokens || '0')
+    const totalStaked = parseFloat(stakingData.data?.availableRewards || '0') // D.FAITH im Contract
     const totalRewardsDistributed = parseFloat(stakingData.data?.totalRewardsDistributed || '0')
     const currentStage = stakingData.data?.currentStage || 1
     const userCount = stakingData.data?.userCount || 0

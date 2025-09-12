@@ -2,12 +2,10 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaPlay, FaPause, FaInstagram, FaTiktok, FaFacebook, FaCoins, FaLock, FaUsers, FaChartLine, FaArrowRight, FaTimes, FaInfoCircle, FaChartArea } from 'react-icons/fa'
+import { FaInstagram, FaTiktok, FaFacebook, FaCoins, FaLock, FaUsers, FaChartLine, FaArrowRight, FaTimes, FaInfoCircle, FaChartArea, FaRocket } from 'react-icons/fa'
 
 const StepByStepProcess = () => {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [activeStep, setActiveStep] = useState(0)
-  const [openModal, setOpenModal] = useState<number | null>(null)
+  const [openModal, setOpenModal] = useState<number | string | null>(null)
 
   const steps = [
     {
@@ -25,7 +23,7 @@ const StepByStepProcess = () => {
           },
           {
             title: "📊 Marketing Budget",
-            content: "1.500€ für den spezifischen Beitrag reserviert"
+            content: "1.500€ für die spezifische Kampagne reserviert"
           },
           {
             title: "🔒 Token Sperrung",
@@ -152,57 +150,157 @@ const StepByStepProcess = () => {
     },
     {
       id: 6,
-      title: "D.INVEST Investoren steigen ein",
-      subtitle: "Neues Kapital + Preis Reset für neuen Zyklus",
+      title: "Kreislauf wiederholt sich",
+      subtitle: "System verstärkt sich automatisch bei jedem neuen Post",
       icon: <FaArrowRight className="text-2xl text-white" />,
-      color: "from-purple-500 to-blue-500",
-      isPriceReset: true,
+      color: "from-cyan-500 to-blue-500",
+      isRepeat: true,
       modalContent: {
-        title: "💥 Investor Entry & Price Reset",
+        title: "🔄 Endloser Verstärkungszyklus",
         details: [
           {
-            title: "💰 Kapitalzufluss",
-            content: "Investoren kaufen D.INVEST für 5€ pro Token"
+            title: "📈 Exponentielles Wachstum",
+            content: "Jeder Post verstärkt das System mehr als der vorherige"
           },
           {
-            title: "🎵 Produktions-Boost",
-            content: "Neues Kapital fließt in hochwertige Musikproduktion"
+            title: "🎯 Automatische Optimierung",
+            content: "System lernt aus jedem Durchlauf und wird effizienter"
           },
           {
-            title: "📉 Unvermeidlicher Crash",
-            content: "Investoren führen zu temporärem Preis-Reset (wie Bitcoin Zyklen)"
+            title: "🚀 Momentum Building",
+            content: "Fans erwarten bereits Belohnungen → Mehr Engagement"
           },
           {
-            title: "🔄 Neuer Zyklus",
-            content: "Halving setzt ein → Zyklus beginnt mit höherer Basis"
+            title: "💰 Steigender Token-Wert",
+            content: "D.FAITH wird bei jedem Zyklus wertvoller"
           }
         ]
       }
     }
   ]
 
-  const startAnimation = () => {
-    setIsPlaying(true)
-    let currentStep = 0
-    
-    const interval = setInterval(() => {
-      setActiveStep(currentStep)
-      currentStep++
-      
-      if (currentStep >= steps.length) {
-        clearInterval(interval)
-        setIsPlaying(false)
-        setActiveStep(0)
+  const cycleSteps = [
+    {
+      id: 'profitable',
+      title: "D.INVEST wird rentabel",
+      subtitle: "Hohe D.FAITH Preise machen Staking extrem profitabel",
+      icon: <FaChartLine className="text-2xl text-white" />,
+      color: "from-green-500 to-emerald-500",
+      effect: "104% ROI möglich",
+      modalContent: {
+        title: "💰 D.INVEST Rentabilitätsschwelle",
+        details: [
+          {
+            title: "📊 ROI Explosion",
+            content: "Bei 1€ D.FAITH Preis: 104% jährlicher ROI auf D.INVEST"
+          },
+          {
+            title: "🎯 Investor Appeal",
+            content: "Traditionelle Investoren werden auf hohe Renditen aufmerksam"
+          },
+          {
+            title: "📈 Staking Rewards",
+            content: "0,1 D.FAITH pro D.INVEST pro Woche wird sehr wertvoll"
+          },
+          {
+            title: "🔥 FOMO Effekt",
+            content: "Limitierte D.INVEST Verfügbarkeit schürt Nachfrage"
+          }
+        ]
       }
-    }, 2000)
-  }
+    },
+    {
+      id: 'crash',
+      title: "Investoren fluten Markt",
+      subtitle: "Massive D.INVEST Käufe führen zu D.FAITH Crash",
+      icon: <FaChartArea className="text-2xl text-white" />,
+      color: "from-red-500 to-orange-500",
+      effect: "Temporärer 70% Crash",
+      isCrash: true,
+      modalContent: {
+        title: "💥 Der unvermeidliche Crash",
+        details: [
+          {
+            title: "🌊 Investor Flood",
+            content: "Große Investoren kaufen massiv D.INVEST für 5€/Token"
+          },
+          {
+            title: "📉 D.FAITH Crash",
+            content: "Massive Staking-Rewards fluten Markt → 70% Preisfall"
+          },
+          {
+            title: "💰 Dawid's Payday",
+            content: "Neues Kapital fließt in hochwertige Musikproduktion und Marketing"
+          },
+          {
+            title: "🔄 Bitcoin-Pattern",
+            content: "Wie Bitcoin: Crash ist Teil des Wachstumszyklus"
+          }
+        ]
+      }
+    },
+    {
+      id: 'halving',
+      title: "Halving aktiviert sich",
+      subtitle: "Smart Contract reduziert Ausgaberate automatisch",
+      icon: <FaLock className="text-2xl text-white" />,
+      color: "from-purple-500 to-pink-500",
+      effect: "50% weniger Rewards",
+      modalContent: {
+        title: "⚡ Halving-Mechanismus greift",
+        details: [
+          {
+            title: "✂️ Automatische Kürzung",
+            content: "Staking-Rate sinkt von 0,1 auf 0,05 D.FAITH pro Woche"
+          },
+          {
+            title: "🛡️ Crash-Schutz",
+            content: "Halving verhindert weitere Marktüberflutung"
+          },
+          {
+            title: "📈 Basis erhöht",
+            content: "Neuer Zyklus startet auf höherem Preisniveau"
+          },
+          {
+            title: "🎯 Bitcoin-Mechanik",
+            content: "Bewährtes Halving-Konzept aus der Krypto-Welt"
+          }
+        ]
+      }
+    },
+    {
+      id: 'restart',
+      title: "Zyklus beginnt erneut",
+      subtitle: "Höhere Basis, stärkeres System, exponentielles Wachstum",
+      icon: <FaRocket className="text-2xl text-white" />,
+      color: "from-cyan-500 to-purple-500",
+      effect: "Nächster Level",
+      isRestart: true,
+      modalContent: {
+        title: "🚀 Neuer Zyklus - höheres Level",
+        details: [
+          {
+            title: "📈 Höhere Startbasis",
+            content: "Neuer Zyklus beginnt bei 0,30€ statt 0,05€ D.FAITH"
+          },
+          {
+            title: "💎 Stärkeres System",
+            content: "Mehr Fans, bessere Musik, größere Reichweite"
+          },
+          {
+            title: "🎵 Professionellere Produktion",
+            content: "Millionen-Investment ermöglicht Hollywood-Level Content"
+          },
+          {
+            title: "🌍 Globaler Markt",
+            content: "System expandiert in neue Märkte und Plattformen"
+          }
+        ]
+      }
+    }
+  ]
 
-  const stopAnimation = () => {
-    setIsPlaying(false)
-    setActiveStep(0)
-  }
-
-  const openStepModal = (stepId: number) => {
+  const openStepModal = (stepId: number | string) => {
     setOpenModal(stepId)
   }
 
@@ -226,30 +324,6 @@ const StepByStepProcess = () => {
         <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
           So funktioniert das System Schritt für Schritt - von Fan-Interaktion bis zur Wertsteigerung
         </p>
-        
-        {/* Animation Control */}
-        <div className="flex justify-center gap-4 mb-8">
-          <button
-            onClick={startAnimation}
-            disabled={isPlaying}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-              isPlaying 
-                ? 'bg-gray-600 cursor-not-allowed' 
-                : 'bg-gradient-to-r from-green-500 to-emerald-500 hover:scale-105'
-            }`}
-          >
-            <FaPlay className="text-sm" />
-            {isPlaying ? 'Animation läuft...' : 'Animation starten'}
-          </button>
-          
-          <button
-            onClick={stopAnimation}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl font-semibold hover:scale-105 transition-all duration-300"
-          >
-            <FaPause className="text-sm" />
-            Stoppen
-          </button>
-        </div>
       </motion.div>
 
       {/* Steps Grid */}
@@ -261,11 +335,7 @@ const StepByStepProcess = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: index * 0.1 }}
             viewport={{ once: true }}
-            className={`relative bg-slate-800/50 backdrop-blur-sm border rounded-xl p-6 transition-all duration-500 cursor-pointer hover:scale-105 ${
-              activeStep === index 
-                ? 'border-blue-500 scale-105 shadow-2xl shadow-blue-500/20' 
-                : 'border-slate-700 hover:border-slate-600'
-            } ${step.isPriceReset ? 'bg-gradient-to-br from-red-900/20 to-orange-900/20' : ''}`}
+            className={`relative bg-slate-800/50 backdrop-blur-sm border rounded-xl p-6 transition-all duration-500 cursor-pointer hover:scale-105 border-slate-700 hover:border-slate-600 ${step.isRepeat ? 'bg-gradient-to-br from-cyan-900/20 to-blue-900/20' : ''}`}
             onClick={() => openStepModal(step.id)}
           >
             {/* Step Number */}
@@ -273,10 +343,10 @@ const StepByStepProcess = () => {
               {step.id}
             </div>
 
-            {/* Price Reset Indicator */}
-            {step.isPriceReset && (
-              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
-                CRASH!
+            {/* Repeat Indicator */}
+            {step.isRepeat && (
+              <div className="absolute -top-2 -right-2 bg-cyan-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
+                LOOP
               </div>
             )}
 
@@ -297,32 +367,112 @@ const StepByStepProcess = () => {
                 <FaInfoCircle />
                 <span>Details anzeigen</span>
               </div>
-              {step.isPriceReset && (
-                <div className="flex items-center gap-1 text-red-400 text-xs">
-                  <FaChartArea />
-                  <span>Reset Cycle</span>
+              {step.isRepeat && (
+                <div className="flex items-center gap-1 text-cyan-400 text-xs">
+                  <FaArrowRight />
+                  <span>Zyklus</span>
                 </div>
               )}
             </div>
-
-            {/* Active Indicator */}
-            <AnimatePresence>
-              {activeStep === index && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  exit={{ scale: 0 }}
-                  className="absolute inset-0 border-2 border-blue-500 rounded-xl pointer-events-none"
-                >
-                  <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
-                    AKTIV
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
         ))}
       </div>
+
+      {/* Cycle Arrow Down */}
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        viewport={{ once: true }}
+        className="flex flex-col items-center my-12"
+      >
+        <div className="text-6xl animate-bounce mb-4">⬇️</div>
+        <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-full font-bold text-lg">
+          💰 D.INVEST wird interessant
+        </div>
+      </motion.div>
+
+      {/* Cycle Steps Grid */}
+      <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+        {cycleSteps.map((step, index) => (
+          <motion.div
+            key={step.id}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            className={`relative bg-slate-800/50 backdrop-blur-sm border rounded-xl p-6 transition-all duration-500 cursor-pointer hover:scale-105 border-slate-700 hover:border-slate-600 ${
+              step.isCrash ? 'bg-gradient-to-br from-red-900/20 to-orange-900/20' : ''
+            } ${step.isRestart ? 'bg-gradient-to-br from-cyan-900/20 to-purple-900/20' : ''}`}
+            onClick={() => openStepModal(step.id)}
+          >
+            {/* Step Label */}
+            <div className={`absolute -top-3 -left-3 px-3 py-1 rounded-full bg-gradient-to-r ${step.color} text-white font-bold text-xs`}>
+              {step.id === 'profitable' && 'PROFIT'}
+              {step.id === 'crash' && 'CRASH'}
+              {step.id === 'halving' && 'HALVING'}
+              {step.id === 'restart' && 'RESTART'}
+            </div>
+
+            {/* Special Indicators */}
+            {step.isCrash && (
+              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
+                📉 -70%
+              </div>
+            )}
+            {step.isRestart && (
+              <div className="absolute -top-2 -right-2 bg-cyan-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
+                🔄 LOOP
+              </div>
+            )}
+
+            {/* Icon */}
+            <div className="flex items-center gap-4 mb-4">
+              <div className={`p-3 bg-gradient-to-r ${step.color} rounded-full`}>
+                {step.icon}
+              </div>
+              <div className="flex-1">
+                <h4 className="text-lg font-bold text-white">{step.title}</h4>
+                <p className="text-sm text-gray-400">{step.subtitle}</p>
+              </div>
+            </div>
+
+            {/* Effect */}
+            <div className="bg-slate-700/30 rounded-lg p-3 mb-4">
+              <p className="text-xs font-semibold text-center">
+                <span className="text-yellow-400">⚡</span> {step.effect}
+              </p>
+            </div>
+
+            {/* Click for Details */}
+            <div className="flex items-center justify-center">
+              <div className="flex items-center gap-2 text-blue-400 text-sm">
+                <FaInfoCircle />
+                <span>Details anzeigen</span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Cycle Arrow Up */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.8 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.8 }}
+        viewport={{ once: true }}
+        className="flex flex-col items-center my-12"
+      >
+        <div className="text-6xl animate-bounce mb-4">⬆️</div>
+        <div className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-8 py-4 rounded-full font-bold text-xl flex items-center gap-3">
+          <span className="text-2xl">🔄</span>
+          Zyklus beginnt wieder - auf höherem Level!
+        </div>
+        <p className="text-gray-400 text-center mt-4 max-w-md">
+          Jeder Zyklus verstärkt das System. Aus 0,05€ werden 0,30€ Startpreis. 
+          Exponentielles Wachstum garantiert!
+        </p>
+      </motion.div>
 
       {/* Modal */}
       <AnimatePresence>
@@ -343,19 +493,21 @@ const StepByStepProcess = () => {
             >
               {(() => {
                 const step = steps.find(s => s.id === openModal)
-                if (!step) return null
+                const cycleStep = cycleSteps.find(s => s.id === openModal)
+                const currentStep = step || cycleStep
+                if (!currentStep) return null
 
                 return (
                   <div className="p-6">
                     {/* Header */}
                     <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center gap-4">
-                        <div className={`p-3 bg-gradient-to-r ${step.color} bg-opacity-20 rounded-full`}>
-                          {step.icon}
+                        <div className={`p-3 bg-gradient-to-r ${currentStep.color} bg-opacity-20 rounded-full`}>
+                          {currentStep.icon}
                         </div>
                         <div>
-                          <h3 className="text-2xl font-bold text-white">{step.modalContent.title}</h3>
-                          <p className="text-gray-400">{step.subtitle}</p>
+                          <h3 className="text-2xl font-bold text-white">{currentStep.modalContent.title}</h3>
+                          <p className="text-gray-400">{currentStep.subtitle}</p>
                         </div>
                       </div>
                       <button
@@ -368,7 +520,7 @@ const StepByStepProcess = () => {
 
                     {/* Content */}
                     <div className="space-y-6">
-                      {step.modalContent.details.map((detail, index) => (
+                      {currentStep.modalContent.details.map((detail, index) => (
                         <motion.div
                           key={index}
                           initial={{ opacity: 0, y: 20 }}
@@ -380,55 +532,6 @@ const StepByStepProcess = () => {
                           <p className="text-gray-300">{detail.content}</p>
                         </motion.div>
                       ))}
-
-                      {/* Special Price Reset Visualization */}
-                      {step.isPriceReset && (
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.5 }}
-                          className="bg-gradient-to-r from-red-900/40 to-orange-900/40 rounded-lg p-6 border border-red-500/30 mt-6"
-                        >
-                          <h4 className="text-xl font-bold text-red-400 mb-4 flex items-center gap-2">
-                            <FaChartArea />
-                            📉 Preis-Reset Visualisierung
-                          </h4>
-                          
-                          <div className="space-y-4">
-                            <div className="bg-slate-800/50 rounded-lg p-4">
-                              <div className="flex justify-between items-center mb-2">
-                                <span className="text-gray-300">D.FAITH Preis vor Investoren:</span>
-                                <span className="text-green-400 font-bold">+300% 🚀</span>
-                              </div>
-                              <div className="w-full bg-slate-700 rounded-full h-3">
-                                <div className="bg-gradient-to-r from-green-500 to-emerald-500 h-3 rounded-full w-full"></div>
-                              </div>
-                            </div>
-
-                            <div className="flex justify-center">
-                              <div className="text-red-500 text-3xl animate-bounce">⬇️ CRASH ⬇️</div>
-                            </div>
-
-                            <div className="bg-slate-800/50 rounded-lg p-4">
-                              <div className="flex justify-between items-center mb-2">
-                                <span className="text-gray-300">D.FAITH Preis nach Reset:</span>
-                                <span className="text-yellow-400 font-bold">+50% 📈</span>
-                              </div>
-                              <div className="w-full bg-slate-700 rounded-full h-3">
-                                <div className="bg-gradient-to-r from-yellow-500 to-orange-500 h-3 rounded-full w-1/3"></div>
-                              </div>
-                            </div>
-
-                            <div className="bg-blue-900/30 rounded-lg p-4 border border-blue-500/30">
-                              <p className="text-blue-300 text-sm text-center">
-                                🔄 <strong>Wichtig:</strong> Wie bei Bitcoin führt jeder Investoren-Einstieg zu einem temporären Crash, 
-                                aber die neue Basis ist höher als der vorherige Zyklus. Das Halving-System sorgt für 
-                                exponentielles Wachstum über mehrere Zyklen.
-                              </p>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
                     </div>
 
                     {/* Footer */}
