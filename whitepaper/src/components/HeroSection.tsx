@@ -10,11 +10,11 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext }) => {
-  const [activeUsers, setActiveUsers] = useState(8) // Default fallback value
+  const [activeUsers, setActiveUsers] = useState(0) // Live-Daten ohne Fallback
   const [isLoading, setIsLoading] = useState(true)
   const [tokenPrices, setTokenPrices] = useState({
-    dfaith: 0.12,
-    dinvest: 5.00
+    dfaith: 0, // Live-Daten ohne Fallback
+    dinvest: 5.00 // Fester Preis von 5€
   })
 
   useEffect(() => {
@@ -40,8 +40,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext }) => {
           const dinvestToken = pricesData.tokens?.dinvest
           
           setTokenPrices({
-            dfaith: dfaithToken?.price_eur || 0.138, // Euro statt USD
-            dinvest: dinvestToken?.price_eur || 5.00
+            dfaith: dfaithToken?.price_eur || 0, // Echte Live-Daten ohne Fallback
+            dinvest: 5.00 // Fester Preis von 5€
           })
         }
       } catch (error) {
