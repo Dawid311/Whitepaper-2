@@ -19,7 +19,7 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
 }) => {
   const navItems = [
     { id: 'hero', label: 'Start' },
-    { id: 'solution', label: 'Lösung' },
+    { id: 'solution', label: 'Problem & Lösung' },
     { id: 'tokenomics', label: 'Tokenomics' },
     { id: 'tech', label: 'Technik' },
     { id: 'roadmap', label: 'Roadmap' },

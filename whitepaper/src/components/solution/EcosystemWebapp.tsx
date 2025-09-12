@@ -368,7 +368,7 @@ const EcosystemWebapp = () => {
         ))}
       </div>
 
-      {/* Integration Highlights */}
+      {/* Webapp Zusammenfassung */}
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -376,36 +376,33 @@ const EcosystemWebapp = () => {
         viewport={{ once: true }}
         className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 rounded-2xl p-8 border border-blue-500/30"
       >
-        <div className="text-center mb-8">
+        <div className="text-center">
           <h4 className="text-3xl font-bold text-blue-400 mb-4">
-            🔗 Nahtlose Integration
+            ⚡ Alles in einer App
           </h4>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            Alle Features arbeiten zusammen für maximalen Nutzen
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-6">
+            Eine komplette Fan-Engagement Plattform mit automatischer Belohnung, 
+            integrierter Wallet und exklusivem Shop
           </p>
-        </div>
-        
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-slate-800/40 rounded-lg p-6">
-            <h5 className="font-bold text-green-400 mb-4 text-lg">🎯 Für Fans</h5>
-            <ul className="space-y-2 text-gray-300">
-              <li>• Automatische Profilerstellung beim ersten Kommentar</li>
-              <li>• Cross-Platform EXP sammeln (Instagram, TikTok, Facebook)</li>
-              <li>• Direkte Token-Claims in der integrierten Wallet</li>
-              <li>• Exklusive Shop-Zugang mit gesammelten Token</li>
-              <li>• Live-Konzert Integration mit Bonus EXP</li>
-            </ul>
-          </div>
           
-          <div className="bg-slate-800/40 rounded-lg p-6">
-            <h5 className="font-bold text-blue-400 mb-4 text-lg">🚀 Für Dawid Faith</h5>
-            <ul className="space-y-2 text-gray-300">
-              <li>• Automatisierte Fan-Belohnung ohne manuellen Aufwand</li>
-              <li>• Realtime Analytics über Fan-Engagement</li>
-              <li>• Direkter Produktverkauf über integrierten Shop</li>
-              <li>• Kapitalbeschaffung durch D.INVEST Sales</li>
-              <li>• Konzert-Promotion mit digitalem Ticketing</li>
-            </ul>
+          <div className="grid md:grid-cols-3 gap-6 mt-8">
+            <div className="bg-slate-800/40 rounded-lg p-4">
+              <div className="text-3xl mb-2">🎯</div>
+              <h5 className="font-bold text-green-400 mb-2">Für Fans</h5>
+              <p className="text-sm text-gray-300">Verdiene Token durch Engagement & kaufe exklusive Inhalte</p>
+            </div>
+            
+            <div className="bg-slate-800/40 rounded-lg p-4">
+              <div className="text-3xl mb-2">🚀</div>
+              <h5 className="font-bold text-blue-400 mb-2">Für Dawid</h5>
+              <p className="text-sm text-gray-300">Automatisierte Fan-Belohnung & Kapitalbeschaffung</p>
+            </div>
+
+            <div className="bg-slate-800/40 rounded-lg p-4">
+              <div className="text-3xl mb-2">💎</div>
+              <h5 className="font-bold text-purple-400 mb-2">Für Investoren</h5>
+              <p className="text-sm text-gray-300">Staking-Rewards durch D.INVEST Token</p>
+            </div>
           </div>
         </div>
       </motion.div>
