@@ -68,15 +68,6 @@ const TechnicalArchitecture = () => {
     }
   ]
 
-  const securityFeatures = [
-    'Smart Contract Audits durchgeführt',
-    'Multi-signature Wallet Protection',
-    'Real-time Transaction Monitoring',
-    'Proprietary API Rate Limiting',
-    'Fail-safe Mechanisms implementiert',
-    'Regular Security Updates'
-  ]
-
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       <motion.div
@@ -185,114 +176,6 @@ const TechnicalArchitecture = () => {
               </div>
             </div>
           ))}
-        </div>
-      </motion.div>
-
-      {/* Security Features */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        viewport={{ once: true }}
-        className="bg-gradient-to-r from-red-500/20 to-orange-500/20 rounded-2xl p-6 border border-red-500/30"
-      >
-        <div className="flex items-center gap-3 mb-6">
-          <FaShieldAlt className="text-3xl text-red-400" />
-          <div>
-            <h3 className="text-2xl font-bold text-white">Security & Compliance</h3>
-            <p className="text-zinc-400">Enterprise-grade Sicherheitsmaßnahmen</p>
-          </div>
-        </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {securityFeatures.map((feature, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-3 bg-zinc-800/30 rounded-xl p-4"
-            >
-              <FaCheckCircle className="text-green-400 text-lg flex-shrink-0" />
-              <span className="text-zinc-300 text-sm">{feature}</span>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Proprietary Technology */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.8 }}
-        viewport={{ once: true }}
-        className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-6 border border-purple-500/30"
-      >
-        <h3 className="text-2xl font-bold text-white mb-6">Proprietäre Technologie</h3>
-        
-        <div className="grid md:grid-cols-2 gap-8">
-          <div>
-            <h4 className="text-lg font-bold text-purple-400 mb-4">Social Media Integration</h4>
-            <div className="space-y-3 text-zinc-300">
-              <div className="bg-zinc-800/50 rounded-lg p-3">
-                <div className="font-semibold text-white mb-1">Automatische Erkennung</div>
-                <div className="text-sm">Erkennt Likes, Kommentare, Shares in Echtzeit</div>
-              </div>
-              <div className="bg-zinc-800/50 rounded-lg p-3">
-                <div className="font-semibold text-white mb-1">Keyword Monitoring</div>
-                <div className="text-sm">Überwacht "D.FAITH" Kommentare automatisch</div>
-              </div>
-              <div className="bg-zinc-800/50 rounded-lg p-3">
-                <div className="font-semibold text-white mb-1">Cross-Platform</div>
-                <div className="text-sm">Einheitliches EXP-System über alle Plattformen</div>
-              </div>
-            </div>
-          </div>
-          
-          <div>
-            <h4 className="text-lg font-bold text-pink-400 mb-4">Geheimhaltung & Schutz</h4>
-            <div className="space-y-3 text-zinc-300">
-              <div className="bg-zinc-800/50 rounded-lg p-3">
-                <div className="font-semibold text-white mb-1">API-Schutz</div>
-                <div className="text-sm">Proprietäre APIs nicht öffentlich dokumentiert</div>
-              </div>
-              <div className="bg-zinc-800/50 rounded-lg p-3">
-                <div className="font-semibold text-white mb-1">Algorithmus-Schutz</div>
-                <div className="text-sm">Engagement-Detection-Logik bleibt geheim</div>
-              </div>
-              <div className="bg-zinc-800/50 rounded-lg p-3">
-                <div className="font-semibold text-white mb-1">Wettbewerbsvorteil</div>
-                <div className="text-sm">Schutz vor Copycats durch proprietäre Technologie</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Performance Metrics */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1 }}
-        viewport={{ once: true }}
-        className="bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 rounded-2xl p-6 border border-zinc-700"
-      >
-        <h3 className="text-2xl font-bold text-white mb-6">System Performance</h3>
-        
-        <div className="grid md:grid-cols-4 gap-6">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-green-400 mb-2">99.9%</div>
-            <div className="text-sm text-zinc-400">Uptime</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-blue-400 mb-2">5s</div>
-            <div className="text-sm text-zinc-400">Update Interval</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-purple-400 mb-2">&lt;1s</div>
-            <div className="text-sm text-zinc-400">Response Time</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-amber-400 mb-2">24/7</div>
-            <div className="text-sm text-zinc-400">Monitoring</div>
-          </div>
         </div>
       </motion.div>
     </div>

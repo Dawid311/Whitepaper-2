@@ -25,11 +25,7 @@ import {
 import Image from 'next/image'
 
 const TokenomicsChart = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'calculator' | 'halving' | 'tokenflow'>('overview')
-  
-  // Token Flow Animation States
-  const [currentStage, setCurrentStage] = useState(0)
-  const [isAnimationPlaying, setIsAnimationPlaying] = useState(true)
+  const [activeTab, setActiveTab] = useState<'overview' | 'calculator' | 'halving'>('overview')
 
   // Live Price States
   const [tokenPrices, setTokenPrices] = useState({
@@ -181,17 +177,6 @@ const TokenomicsChart = () => {
 
     return () => clearInterval(interval)
   }, [])
-
-  // Token Flow Animation Effect
-  useEffect(() => {
-    if (!isAnimationPlaying) return
-    
-    const interval = setInterval(() => {
-      setCurrentStage((prev) => (prev + 1) % 4)
-    }, 2000)
-
-    return () => clearInterval(interval)
-  }, [isAnimationPlaying])
 
   // Consistent number formatting
   const formatNumber = (num: number, decimals?: number) => {
@@ -444,6 +429,15 @@ const TokenomicsChart = () => {
                 </div>
                 <span className="font-bold text-gray-400">{formatNumber(tokenData.dinvest.available, 0)}</span>
               </div>
+              <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
+                  <span className="text-sm text-white">Verkaufsrate</span>
+                </div>
+                <span className="font-bold text-amber-400">
+                  {tokenData.dinvest.total > 0 ? ((tokenData.dinvest.sold / tokenData.dinvest.total) * 100).toFixed(1) : '0'}%
+                </span>
+              </div>
             </div>
 
             <div className="mt-6 bg-gradient-to-r from-blue-900/40 to-purple-900/40 rounded-2xl p-4 border border-blue-500/30">
@@ -514,120 +508,6 @@ const TokenomicsChart = () => {
     </div>
   )
 
-  // Token Flow Tab
-  const renderTokenFlow = () => (
-    <div className="space-y-8">
-      {/* Animated Flow Visualization */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="relative bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-xl rounded-3xl p-8 border border-zinc-700/50 overflow-hidden"
-      >
-        {/* Background Animation */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute w-96 h-96 bg-blue-500 rounded-full -top-48 -left-48 animate-pulse"></div>
-          <div className="absolute w-96 h-96 bg-purple-500 rounded-full -bottom-48 -right-48 animate-pulse" style={{ animationDelay: '1s' }}></div>
-        </div>
-
-        <div className="relative z-10">
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <h3 className="text-3xl font-bold text-white">💫 Token Flow Visualisierung</h3>
-              <button
-                onClick={() => setIsAnimationPlaying(!isAnimationPlaying)}
-                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition-colors"
-              >
-                {isAnimationPlaying ? <FaPause /> : <FaPlay />}
-              </button>
-            </div>
-            <p className="text-zinc-400">Automatischer Kreislauf der Token-Interaktionen</p>
-          </div>
-
-          {/* Flow Steps */}
-          <div className="grid md:grid-cols-4 gap-6">
-            {[
-              { icon: FaDollarSign, title: 'D.INVEST Kauf', desc: 'Investor kauft D.INVEST à 5€', color: 'from-blue-500 to-cyan-500' },
-              { icon: FaRocket, title: 'Marketing Budget', desc: 'Kapital für Fan-Belohnungen', color: 'from-purple-500 to-pink-500' },
-              { icon: FaCoins, title: 'D.FAITH Kauf', desc: 'Automatische Token-Käufe', color: 'from-amber-500 to-orange-500' },
-              { icon: FaLock, title: 'Contract Fütterung', desc: '50% zurück in Smart Contract', color: 'from-green-500 to-emerald-500' }
-            ].map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0.5, scale: 0.95 }}
-                animate={{ 
-                  opacity: currentStage === index ? 1 : 0.5,
-                  scale: currentStage === index ? 1.05 : 0.95,
-                }}
-                transition={{ duration: 0.3 }}
-                className={`relative group ${currentStage === index ? 'z-20' : 'z-10'}`}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-r ${step.color} rounded-2xl blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-300`}></div>
-                <div className={`relative bg-zinc-800/80 backdrop-blur-xl rounded-2xl p-6 border transition-all duration-300 ${
-                  currentStage === index ? 'border-white/50 shadow-2xl' : 'border-zinc-700/50'
-                }`}>
-                  <div className="text-center">
-                    <div className={`w-16 h-16 bg-gradient-to-r ${step.color} rounded-2xl flex items-center justify-center mx-auto mb-4 ${
-                      currentStage === index ? 'animate-pulse' : ''
-                    }`}>
-                      <step.icon className="text-2xl text-white" />
-                    </div>
-                    <h4 className="font-bold text-white mb-2">{step.title}</h4>
-                    <p className="text-sm text-zinc-400">{step.desc}</p>
-                  </div>
-                </div>
-
-                {/* Arrow */}
-                {index < 3 && (
-                  <div className="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-30">
-                    <FaArrowRight className={`text-2xl transition-colors duration-300 ${
-                      currentStage === index ? 'text-white animate-bounce' : 'text-zinc-600'
-                    }`} />
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Cycle Indicator */}
-          <div className="mt-8 text-center">
-            <div className="inline-flex items-center gap-2 bg-zinc-800/50 rounded-full px-6 py-3 border border-zinc-700/50">
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-zinc-300 text-sm">Kontinuierlicher Kreislauf aktiv</span>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Impact Metrics */}
-      <div className="grid md:grid-cols-3 gap-6">
-        {[
-          { icon: FaFire, title: 'Token Burn Rate', value: '50%', desc: 'Gekaufte Token permanent gesperrt', color: 'text-red-400' },
-          { icon: FaChartLine, title: 'Wertsteigerung', value: '1.500x', desc: 'Langfristiges Preispotenzial', color: 'text-green-400' },
-          { icon: FaGem, title: 'Verknappung', value: '6 Stufen', desc: 'Halving-System Mechanismus', color: 'text-purple-400' }
-        ].map((metric, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-xl rounded-2xl p-6 border border-zinc-700/50 hover:border-zinc-600/50 transition-all duration-300"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 bg-zinc-700/50 rounded-xl flex items-center justify-center">
-                <metric.icon className={`text-xl ${metric.color}`} />
-              </div>
-              <div>
-                <h4 className="font-bold text-white">{metric.title}</h4>
-                <p className="text-xs text-zinc-400">{metric.desc}</p>
-              </div>
-            </div>
-            <div className={`text-3xl font-bold ${metric.color}`}>{metric.value}</div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  )
-
   // D.INVEST Rentabilitäts-Rechner Tab
   const renderCalculator = () => {
     // D.INVEST Details
@@ -652,33 +532,38 @@ const TokenomicsChart = () => {
     ]
 
     return (
-      <div className="space-y-8">
+      <div className="space-y-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-3xl p-8 border border-green-500/30"
+          className="bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-2xl p-6 border border-green-500/30"
         >
-          <div className="text-center mb-8">
-            <div className="flex justify-center mb-4">
-              <div className="p-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full text-white">
-                <FaCalculator className="text-3xl" />
+          <div className="text-center mb-6">
+            <div className="flex justify-center mb-3">
+              <div className="p-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full text-white">
+                <FaCalculator className="text-2xl" />
               </div>
             </div>
-            <h3 className="text-3xl font-bold text-green-400 mb-4">
+            <h3 className="text-2xl font-bold text-green-400 mb-2">
               🎯 D.INVEST Rentabilitäts-Rechner
             </h3>
-            <p className="text-lg text-gray-300 mb-6">
+            <p className="text-gray-300 mb-3">
               Berechnen Sie Ihre Rendite bei verschiedenen D.FAITH Preisen
             </p>
+            <div className="bg-blue-900/30 rounded-lg p-3 border border-blue-500/30">
+              <p className="text-blue-300 text-sm">
+                💡 Wählen Sie Investment-Anzahl, D.FAITH Preis und Halving-Stufe für Ihre Rendite-Berechnung
+              </p>
+            </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 mb-8">
-            {/* Input Section */}
-            <div className="space-y-6">
+          <div className="grid lg:grid-cols-4 gap-4 mb-6">
+            {/* Left Column - Input Controls */}
+            <div className="lg:col-span-2 space-y-3">
               {/* Investment Amount */}
               <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-2">
-                  Anzahl D.INVEST Token
+                <label className="block text-sm font-medium text-zinc-300 mb-1">
+                  💰 D.INVEST Token
                 </label>
                 <div className="relative">
                   <input
@@ -687,18 +572,26 @@ const TokenomicsChart = () => {
                     onChange={(e) => setInvestmentAmount(Number(e.target.value))}
                     min="1"
                     max="1000"
-                    className="w-full bg-zinc-900/80 border border-zinc-600 rounded-xl py-4 px-4 text-lg font-bold text-green-400 focus:border-green-500 focus:outline-none pr-20"
+                    className="w-full bg-zinc-900/80 border border-zinc-600 rounded-lg py-2 px-3 text-lg font-bold text-green-400 focus:border-green-500 focus:outline-none pr-16"
+                    placeholder="10"
                   />
-                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-zinc-400 font-medium">
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 text-sm">
                     Token
                   </div>
                 </div>
-                <div className="mt-2 flex gap-2 flex-wrap">
-                  {[1, 5, 10, 20, 50, 100].map((amount) => (
+                <p className="text-xs text-zinc-500 mt-1 mb-1">
+                  á 5€ • Gesamt: {formatNumber(investmentAmount * 5)}€
+                </p>
+                <div className="flex gap-1 flex-wrap">
+                  {[1, 5, 10, 20, 50].map((amount) => (
                     <button
                       key={amount}
                       onClick={() => setInvestmentAmount(amount)}
-                      className="px-3 py-1 bg-zinc-700/50 text-zinc-300 rounded-lg text-sm hover:bg-zinc-600/50 transition-colors"
+                      className={`px-2 py-1 rounded text-xs transition-colors ${
+                        investmentAmount === amount
+                          ? 'bg-green-500/30 text-green-400 border border-green-500/50'
+                          : 'bg-zinc-700/50 text-zinc-300 hover:bg-zinc-600/50'
+                      }`}
                     >
                       {amount}
                     </button>
@@ -706,187 +599,138 @@ const TokenomicsChart = () => {
                 </div>
               </div>
 
-              {/* D.FAITH Price Selector */}
-              <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-2">
-                  Erwarteter D.FAITH Preis (€)
-                </label>
-                <div className="relative">
-                  <input
-                    type="number"
-                    value={dfaithPrice}
-                    onChange={(e) => setDfaithPrice(Number(e.target.value))}
-                    min="0.01"
-                    max="5"
-                    step="0.01"
-                    className="w-full bg-zinc-900/80 border border-zinc-600 rounded-xl py-4 px-4 text-lg font-bold text-blue-400 focus:border-blue-500 focus:outline-none pr-8"
-                  />
-                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-zinc-400 font-medium">
-                    €
-                  </div>
-                </div>
-                <div className="mt-2 flex gap-2 flex-wrap">
-                  {priceScenarios.map((scenario) => (
-                    <button
-                      key={scenario.price}
-                      onClick={() => setDfaithPrice(scenario.price)}
-                      className={`px-3 py-1 bg-zinc-700/50 text-zinc-300 rounded-lg text-sm hover:bg-zinc-600/50 transition-colors ${
-                        dfaithPrice === scenario.price ? 'bg-blue-500/30 border border-blue-500/50' : ''
-                      }`}
-                    >
-                      {scenario.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Halving Stage Selector */}
-              <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-2">
-                  Halving-Stufe auswählen
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {halvingStages.map((stage) => (
-                    <button
-                      key={stage.stage}
-                      onClick={() => setSelectedHalvingStage(stage.stage)}
-                      className={`p-3 rounded-lg border transition-all duration-200 ${
-                        selectedHalvingStage === stage.stage
-                          ? 'border-green-500/50 bg-green-900/30 text-green-400'
-                          : 'border-zinc-700/50 bg-zinc-800/30 text-zinc-300 hover:bg-zinc-700/30'
-                      }`}
-                    >
-                      <div className="text-sm font-bold">Stufe {stage.stage}</div>
-                      <div className="text-xs opacity-75">{stage.range}</div>
-                      <div className="text-xs" style={{ color: stage.color }}>
-                        {stage.rate}% Rate
-                      </div>
-                      <div className="text-xs text-amber-400">
-                        {stage.status}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-2 p-3 bg-amber-900/20 border border-amber-500/30 rounded-lg">
-                  <div className="flex items-center gap-2 text-amber-400 text-sm">
-                    <FaInfoCircle />
-                    <span>Aktuelle Stufe: {currentHalvingStage.stage} ({currentHalvingStage.rate}% Wochenrate)</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Investment Details */}
-              <div className="bg-slate-800/40 rounded-lg p-6">
-                <h5 className="font-bold text-blue-400 mb-4 text-lg">📥 Investment Details</h5>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">D.INVEST Preis:</span>
-                    <span className="font-bold text-green-400">{dinvestPrice}€</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Staking Rate:</span>
-                    <span className="font-bold text-blue-400">{weeklyDfaithRewards.toFixed(3)} D.FAITH/Woche</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Halving-Stufe:</span>
-                    <span className="font-bold text-purple-400">Stufe {currentHalvingStage.stage} ({currentHalvingStage.rate}%)</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">D.FAITH pro Jahr:</span>
-                    <span className="font-bold text-purple-400">{yearlyDfaithRewards.toFixed(1)} Token</span>
-                  </div>
-                  <div className="border-t border-slate-600 pt-3">
-                    <div className="flex justify-between">
-                      <span className="text-gray-300">Gesamt-Investment:</span>
-                      <span className="font-bold text-white">{formatNumber(totalInvestment)}€</span>
+              {/* D.FAITH Price and Halving in same row */}
+              <div className="grid grid-cols-2 gap-3">
+                {/* D.FAITH Price Selector */}
+                <div>
+                  <label className="block text-sm font-medium text-zinc-300 mb-1">
+                    📈 D.FAITH Preis (€)
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      value={dfaithPrice}
+                      onChange={(e) => setDfaithPrice(Number(e.target.value))}
+                      min="0.01"
+                      max="5"
+                      step="0.01"
+                      className="w-full bg-zinc-900/80 border border-zinc-600 rounded-lg py-2 px-3 text-lg font-bold text-blue-400 focus:border-blue-500 focus:outline-none pr-8"
+                      placeholder="0.20"
+                    />
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 text-sm">
+                      €
                     </div>
                   </div>
+                  <div className="flex gap-1 flex-wrap mt-1">
+                    {priceScenarios.map((scenario) => (
+                      <button
+                        key={scenario.price}
+                        onClick={() => setDfaithPrice(scenario.price)}
+                        className={`px-1 py-0.5 rounded text-xs transition-colors ${
+                          dfaithPrice === scenario.price 
+                            ? 'bg-blue-500/30 text-blue-400 border border-blue-500/50' 
+                            : 'bg-zinc-700/50 text-zinc-300 hover:bg-zinc-600/50'
+                        }`}
+                      >
+                        {scenario.price}€
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Halving Stage Selector */}
+                <div>
+                  <label className="block text-sm font-medium text-zinc-300 mb-1">
+                    ⚡ Halving-Stufe
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={selectedHalvingStage}
+                      onChange={(e) => setSelectedHalvingStage(Number(e.target.value))}
+                      className="w-full bg-zinc-900/80 border border-zinc-600 rounded-lg py-2 px-3 text-sm font-bold text-purple-400 focus:border-purple-500 focus:outline-none appearance-none cursor-pointer pr-8"
+                    >
+                      {halvingStages.map((stage) => (
+                        <option 
+                          key={stage.stage} 
+                          value={stage.stage}
+                          className="bg-zinc-900 text-white"
+                        >
+                          Stufe {stage.stage} ({stage.rate}%)
+                        </option>
+                      ))}
+                    </select>
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                      <svg className="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <p className="text-xs text-zinc-500 mt-1">
+                    {currentHalvingStage.rate}% wöchentlich
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Results Section */}
-            <div className="space-y-6">
+            {/* Right Column - Results */}
+            <div className="lg:col-span-2 grid grid-cols-2 gap-3">
               {/* Yearly Earnings */}
-              <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl p-6 border border-green-500/30">
-                <div className="flex items-center gap-3 mb-4">
-                  <FaDollarSign className="text-2xl text-green-400" />
-                  <div>
-                    <h4 className="font-bold text-green-400">Jährliche Einnahmen</h4>
-                    <p className="text-xs text-green-200">D.FAITH Rewards Wert</p>
-                  </div>
+              <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-lg p-3 border border-green-500/30">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaDollarSign className="text-lg text-green-400" />
+                  <h4 className="font-bold text-green-400 text-sm">Jährliche Einnahmen</h4>
                 </div>
-                <div className="text-3xl font-bold text-green-400 mb-2">
+                <div className="text-xl font-bold text-green-400 mb-1">
                   {yearlyDfaithValue.toFixed(2)}€
                 </div>
-                <div className="text-sm text-green-200">
+                <div className="text-xs text-green-200">
                   {(yearlyDfaithRewards * investmentAmount).toFixed(1)} D.FAITH × {dfaithPrice}€
                 </div>
               </div>
 
               {/* ROI */}
-              <div className="bg-gradient-to-r from-emerald-500/20 to-green-500/20 rounded-xl p-6 border border-emerald-500/30">
-                <div className="flex items-center gap-3 mb-4">
-                  <FaChartLine className="text-2xl text-emerald-400" />
-                  <div>
-                    <h4 className="font-bold text-emerald-400">Jährliche Rendite (ROI)</h4>
-                    <p className="text-xs text-emerald-200">Return on Investment</p>
-                  </div>
+              <div className="bg-gradient-to-r from-emerald-500/20 to-green-500/20 rounded-lg p-3 border border-emerald-500/30">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaChartLine className="text-lg text-emerald-400" />
+                  <h4 className="font-bold text-emerald-400 text-sm">ROI pro Jahr</h4>
                 </div>
-                <div className={`text-3xl font-bold mb-2 ${
+                <div className={`text-xl font-bold mb-1 ${
                   yearlyRoi >= 50 ? 'text-emerald-400' : 
                   yearlyRoi >= 20 ? 'text-yellow-400' : 
                   'text-red-400'
                 }`}>
                   {yearlyRoi.toFixed(1)}%
                 </div>
-                <div className="text-sm text-emerald-200">
-                  Pro {investmentAmount} D.INVEST Token
+                <div className="text-xs text-emerald-200">
+                  Bei {investmentAmount} Token
                 </div>
               </div>
 
               {/* Break-even Time */}
-              <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl p-6 border border-blue-500/30">
-                <div className="flex items-center gap-3 mb-4">
-                  <FaClock className="text-2xl text-blue-400" />
-                  <div>
-                    <h4 className="font-bold text-blue-400">Break-Even Zeit</h4>
-                    <p className="text-xs text-blue-200">Investment zurückverdient</p>
-                  </div>
+              <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-lg p-3 border border-blue-500/30">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaClock className="text-lg text-blue-400" />
+                  <h4 className="font-bold text-blue-400 text-sm">Break-Even</h4>
                 </div>
-                <div className="text-2xl font-bold text-blue-400">
+                <div className="text-lg font-bold text-blue-400">
                   {yearlyRoi > 0 ? `${(100 / yearlyRoi).toFixed(1)} Jahre` : 'N/A'}
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* ROI bei verschiedenen D.FAITH Preisen */}
-          <div className="bg-slate-800/40 rounded-lg p-6 mb-6">
-            <h5 className="font-bold text-green-400 mb-4 text-lg">💰 ROI-Szenarien bei verschiedenen D.FAITH Preisen</h5>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {priceScenarios.map((scenario, index) => {
-                const scenarioRoi = ((yearlyDfaithRewards * scenario.price * investmentAmount) / totalInvestment) * 100
-                return (
-                  <div key={index} className="bg-zinc-700/30 rounded-lg p-4 text-center">
-                    <div className="text-sm text-gray-300 mb-1">{scenario.label}</div>
-                    <div className="text-xs text-gray-400 mb-2">{scenario.priceIncrease}</div>
-                    <div className={`text-xl font-bold ${scenario.color}`}>
-                      {scenarioRoi.toFixed(1)}% ROI
-                    </div>
-                  </div>
-                )
-              })}
+              {/* Investment Summary */}
+              <div className="bg-gradient-to-r from-zinc-700/20 to-zinc-600/20 rounded-lg p-3 border border-zinc-600/30">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaRocket className="text-lg text-zinc-400" />
+                  <h4 className="font-bold text-zinc-400 text-sm">Investment</h4>
+                </div>
+                <div className="text-lg font-bold text-white">
+                  {formatNumber(totalInvestment)}€
+                </div>
+                <div className="text-xs text-zinc-300">
+                  {investmentAmount} × 5€
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div className="p-4 bg-green-800/30 rounded-lg border border-green-500/30">
-            <p className="text-green-300 font-semibold text-center">
-              🚀 Bei nur 300% D.FAITH Preissteigerung wird D.INVEST bereits extrem profitabel!
-            </p>
-            <p className="text-gray-300 text-sm text-center mt-2">
-              Das System ist so konzipiert, dass diese Preissteigerung durch kontinuierliche Verknappung automatisch eintritt.
-            </p>
           </div>
 
           {/* Disclaimer */}
@@ -1015,13 +859,6 @@ const TokenomicsChart = () => {
           onClick={() => setActiveTab('overview')}
         />
         <TabButton
-          tab="tokenflow"
-          label="Token-Flow"
-          icon={FaExchangeAlt}
-          isActive={activeTab === 'tokenflow'}
-          onClick={() => setActiveTab('tokenflow')}
-        />
-        <TabButton
           tab="calculator"
           label="Rentabilitäts-Rechner"
           icon={FaCalculator}
@@ -1047,7 +884,6 @@ const TokenomicsChart = () => {
           transition={{ duration: 0.3 }}
         >
           {activeTab === 'overview' && renderOverview()}
-          {activeTab === 'tokenflow' && renderTokenFlow()}
           {activeTab === 'calculator' && renderCalculator()}
           {activeTab === 'halving' && renderHalving()}
         </motion.div>

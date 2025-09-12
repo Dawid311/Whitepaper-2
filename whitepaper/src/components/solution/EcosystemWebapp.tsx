@@ -1,12 +1,28 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { FaUsers, FaWallet, FaShoppingCart, FaMusic, FaInstagram, FaTiktok, FaFacebook, FaSpotify, FaCalendarAlt, FaCoins, FaDollarSign, FaChartLine } from 'react-icons/fa'
 import Image from 'next/image'
 
 const EcosystemWebapp = () => {
   const [activeFeature, setActiveFeature] = useState<string | null>(null)
+
+  // Auto-scroll to modal when it opens
+  useEffect(() => {
+    if (activeFeature) {
+      setTimeout(() => {
+        const modalElement = document.querySelector('[data-modal="true"]')
+        if (modalElement) {
+          modalElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center',
+            inline: 'center'
+          })
+        }
+      }, 150)
+    }
+  }, [activeFeature])
 
   const features = [
     {
@@ -61,7 +77,7 @@ const EcosystemWebapp = () => {
       textColor: 'text-emerald-300',
       details: {
         products: [
-          'Neue Songs 48h vor Spotify Release',
+          'Neue Songs sind früher erhältlich',
           'Limitierte Merchandise (T-Shirts, Hoodies)',
           'Signierte CD/Vinyl Editionen',
           'Exklusive Konzert-Tickets',
@@ -85,8 +101,7 @@ const EcosystemWebapp = () => {
           'Liste aller kommenden Dawid Faith Konzerte',
           'Live Code Eingabe während Konzerten',
           '+150 EXP pro gültigem Live Code',
-          'Exklusive Konzert-NFTs (zukünftig)',
-          'Meet & Greet Verlosungen'
+          'Exklusive Konzert-NFTs (zukünftig)'
         ],
         impact: 'Höchste EXP-Belohnung im System'
       }
@@ -102,11 +117,8 @@ const EcosystemWebapp = () => {
       textColor: 'text-green-300',
       details: {
         concept: [
-          'Spotify API Integration',
-          'Automatische Erkennung von Dawid Faith Streams',
-          '+5 EXP pro komplettem Song',
-          '+20 EXP für Playlist-Add',
-          'Monatliche Streaming-Challenges'
+          'Feature ist noch in Entwicklung',
+          'EXP sammeln durch Musik hören geplant'
         ],
         future: 'Grundlage für eigene Streaming-Plattform'
       }
@@ -118,50 +130,57 @@ const EcosystemWebapp = () => {
     if (!feature) return null
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-        <div className="relative bg-slate-900/95 backdrop-blur-xl rounded-3xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto border border-slate-700/50">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm overflow-y-auto">
+        <div 
+          className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 backdrop-blur-xl rounded-3xl p-8 max-w-4xl w-full mx-4 my-8 border border-slate-600/50 shadow-2xl"
+          data-modal="true"
+        >
           <button
             onClick={() => setActiveFeature(null)}
-            className="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl"
+            className="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl hover:bg-slate-700/50 rounded-full p-2 transition-all duration-300"
           >
             ✕
           </button>
 
-          <div className="text-center mb-6">
-            <div className={`inline-flex p-4 bg-gradient-to-r ${feature.color} rounded-full mb-4`}>
+          <div className="text-center mb-8">
+            <div className={`inline-flex p-4 bg-gradient-to-r ${feature.color} rounded-full mb-4 shadow-lg`}>
               {feature.icon}
             </div>
-            <h3 className="text-3xl font-bold text-white mb-2">{feature.title}</h3>
-            <p className="text-gray-300">{feature.description}</p>
+            <h3 className="text-3xl font-bold text-white mb-3">{feature.title}</h3>
+            <p className="text-gray-300 text-lg">{feature.description}</p>
           </div>
 
-          <div className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {feature.id === 'social-profiles' && (
               <>
-                <div className="bg-slate-800/40 rounded-lg p-4">
-                  <h4 className="font-bold text-purple-400 mb-3">Unterstützte Plattformen</h4>
-                  <div className="flex gap-4">
-                    <div className="flex items-center gap-2">
-                      <FaInstagram className="text-purple-500" />
-                      <span className="text-sm">Instagram</span>
+                <div className="bg-gradient-to-r from-purple-900/30 to-slate-800/50 rounded-xl p-6 border border-purple-500/30">
+                  <h4 className="font-bold text-purple-400 mb-4 text-lg flex items-center gap-2">
+                    🌐 Unterstützte Plattformen
+                  </h4>
+                  <div className="flex gap-6 justify-center">
+                    <div className="flex flex-col items-center gap-2 p-3 bg-purple-500/20 rounded-lg">
+                      <FaInstagram className="text-purple-500 text-2xl" />
+                      <span className="text-sm font-medium">Instagram</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FaTiktok className="text-white" />
-                      <span className="text-sm">TikTok</span>
+                    <div className="flex flex-col items-center gap-2 p-3 bg-slate-600/20 rounded-lg">
+                      <FaTiktok className="text-white text-2xl" />
+                      <span className="text-sm font-medium">TikTok</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FaFacebook className="text-blue-500" />
-                      <span className="text-sm">Facebook</span>
+                    <div className="flex flex-col items-center gap-2 p-3 bg-blue-500/20 rounded-lg">
+                      <FaFacebook className="text-blue-500 text-2xl" />
+                      <span className="text-sm font-medium">Facebook</span>
                     </div>
                   </div>
                 </div>
-                <div className="bg-slate-800/40 rounded-lg p-4">
-                  <h4 className="font-bold text-green-400 mb-3">EXP Rewards</h4>
-                  <div className="space-y-2">
+                <div className="bg-gradient-to-r from-green-900/30 to-slate-800/50 rounded-xl p-6 border border-green-500/30">
+                  <h4 className="font-bold text-green-400 mb-4 text-lg flex items-center gap-2">
+                    ⭐ EXP Rewards
+                  </h4>
+                  <div className="space-y-3">
                     {feature.details.rewards?.map((reward, index) => (
-                      <div key={index} className="flex justify-between items-center">
-                        <span className="text-gray-300">{reward.action}</span>
-                        <span className="font-bold text-green-400">+{reward.exp} EXP</span>
+                      <div key={index} className="flex justify-between items-center p-3 bg-green-500/10 rounded-lg">
+                        <span className="text-gray-300 font-medium">{reward.action}</span>
+                        <span className="font-bold text-green-400 text-lg">+{reward.exp} EXP</span>
                       </div>
                     ))}
                   </div>
@@ -170,63 +189,80 @@ const EcosystemWebapp = () => {
             )}
 
             {feature.id === 'dawid-wallet' && (
-              <div className="bg-slate-800/40 rounded-lg p-4">
-                <h4 className="font-bold text-blue-400 mb-3">Wallet Funktionen</h4>
-                <div className="space-y-2">
-                  {feature.details.functions?.map((func, index) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full mt-2"></div>
-                      <span className="text-gray-300 text-sm">{func}</span>
-                    </div>
-                  ))}
+              <div className="md:col-span-2">
+                <div className="bg-gradient-to-r from-indigo-900/30 to-slate-800/50 rounded-xl p-6 border border-indigo-500/30">
+                  <h4 className="font-bold text-blue-400 mb-4 text-lg flex items-center gap-2">
+                    💼 Wallet Funktionen
+                  </h4>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {feature.details.functions?.map((func, index) => (
+                      <div key={index} className="flex items-start gap-3 p-3 bg-indigo-500/10 rounded-lg">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-gray-300">{func}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
 
             {feature.id === 'dfaith-shop' && (
               <>
-                <div className="bg-slate-800/40 rounded-lg p-4">
-                  <h4 className="font-bold text-green-400 mb-3">Exklusive Produkte</h4>
-                  <div className="space-y-2">
+                <div className="bg-gradient-to-r from-emerald-900/30 to-slate-800/50 rounded-xl p-6 border border-emerald-500/30">
+                  <h4 className="font-bold text-green-400 mb-4 text-lg flex items-center gap-2">
+                    🛒 Exklusive Produkte
+                  </h4>
+                  <div className="space-y-3">
                     {feature.details.products?.map((product, index) => (
-                      <div key={index} className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-green-400 rounded-full mt-2"></div>
-                        <span className="text-gray-300 text-sm">{product}</span>
+                      <div key={index} className="flex items-start gap-3 p-3 bg-green-500/10 rounded-lg">
+                        <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-gray-300">{product}</span>
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/30">
-                  <p className="text-green-300 font-semibold">💰 Nur mit D.FAITH Token bezahlbar</p>
-                  <p className="text-gray-300 text-sm mt-2">{feature.details.benefits}</p>
+                <div className="bg-gradient-to-r from-green-800/20 to-emerald-800/20 rounded-xl p-6 border border-green-500/40">
+                  <div className="text-center">
+                    <div className="text-3xl mb-3">💰</div>
+                    <p className="text-green-300 font-bold text-lg mb-2">Nur mit D.FAITH Token bezahlbar</p>
+                    <p className="text-gray-300">{feature.details.benefits}</p>
+                  </div>
                 </div>
               </>
             )}
 
             {feature.id === 'live-concerts' && (
-              <div className="bg-slate-800/40 rounded-lg p-4">
-                <h4 className="font-bold text-orange-400 mb-3">Konzert Features</h4>
-                <div className="space-y-2">
-                  {feature.details.features?.map((feature, index) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <div className="w-2 h-2 bg-orange-400 rounded-full mt-2"></div>
-                      <span className="text-gray-300 text-sm">{feature}</span>
-                    </div>
-                  ))}
+              <div className="md:col-span-2">
+                <div className="bg-gradient-to-r from-amber-900/30 to-slate-800/50 rounded-xl p-6 border border-amber-500/30">
+                  <h4 className="font-bold text-orange-400 mb-4 text-lg flex items-center gap-2">
+                    🎵 Konzert Features
+                  </h4>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {feature.details.features?.map((concertFeature, index) => (
+                      <div key={index} className="flex items-start gap-3 p-3 bg-amber-500/10 rounded-lg">
+                        <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-gray-300">{concertFeature}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
 
             {feature.id === 'streaming' && (
-              <div className="bg-slate-800/40 rounded-lg p-4">
-                <h4 className="font-bold text-green-400 mb-3">Streaming Integration (Entwicklung)</h4>
-                <div className="space-y-2">
-                  {feature.details.concept?.map((concept, index) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full mt-2"></div>
-                      <span className="text-gray-300 text-sm">{concept}</span>
+              <div className="md:col-span-2">
+                <div className="bg-gradient-to-r from-green-900/30 to-slate-800/50 rounded-xl p-6 border border-green-500/30">
+                  <h4 className="font-bold text-green-400 mb-4 text-lg flex items-center gap-2">
+                    🎧 Streaming Integration
+                  </h4>
+                  <div className="text-center py-8">
+                    <div className="text-6xl mb-4">🚧</div>
+                    <h5 className="text-xl font-bold text-green-400 mb-3">Feature in Entwicklung</h5>
+                    <p className="text-gray-300 mb-4">EXP sammeln durch Musik hören wird implementiert</p>
+                    <div className="bg-green-500/10 rounded-lg p-4 inline-block">
+                      <p className="text-green-300 font-medium">{feature.details.future}</p>
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
             )}

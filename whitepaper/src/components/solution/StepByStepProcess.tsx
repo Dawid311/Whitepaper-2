@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaInstagram, FaTiktok, FaFacebook, FaCoins, FaLock, FaUsers, FaChartLine, FaArrowRight, FaTimes, FaInfoCircle, FaChartArea, FaRocket } from 'react-icons/fa'
 
@@ -127,23 +127,23 @@ const StepByStepProcess = () => {
       icon: <FaChartLine className="text-2xl text-white" />,
       color: "from-yellow-500 to-orange-500",
       modalContent: {
-        title: "📈 Exponentielles Preiswachstum",
+        title: "📈 Kontinuierliches Preiswachstum",
         details: [
           {
             title: "🔥 Verknappungseffekt",
-            content: "Kontinuierliche Käufe reduzieren verfügbare Token drastisch"
+            content: "Kontinuierliche Käufe reduzieren verfügbare Token"
           },
           {
-            title: "🚀 Preisexplosion",
-            content: "Preis steigt exponentiell bei zunehmender Verknappung"
+            title: "🚀 Preisanstieg",
+            content: "Preis steigt bei zunehmender Verknappung"
           },
           {
             title: "💎 D.INVEST Attraktivität",
-            content: "D.INVEST Staking wird exponentiell profitabler"
+            content: "D.INVEST Staking wird profitabler"
           },
           {
             title: "👑 Investor Appeal",
-            content: "Hohe ROI lockt erste strategische Investoren an"
+            content: "Attraktive ROI lockt neue Investoren an"
           }
         ]
       }
@@ -156,11 +156,11 @@ const StepByStepProcess = () => {
       color: "from-cyan-500 to-blue-500",
       isRepeat: true,
       modalContent: {
-        title: "🔄 Endloser Verstärkungszyklus",
+        title: "🔄 Kontinuierlicher Verstärkungszyklus",
         details: [
           {
-            title: "📈 Exponentielles Wachstum",
-            content: "Jeder Post verstärkt das System mehr als der vorherige"
+            title: "📈 Organisches Wachstum",
+            content: "Jeder Post kann das System weiter verbessern"
           },
           {
             title: "🎯 Automatische Optimierung",
@@ -171,8 +171,8 @@ const StepByStepProcess = () => {
             content: "Fans erwarten bereits Belohnungen → Mehr Engagement"
           },
           {
-            title: "💰 Steigender Token-Wert",
-            content: "D.FAITH wird bei jedem Zyklus wertvoller"
+            title: "💰 Wachsender Token-Wert",
+            content: "D.FAITH kann bei jedem Zyklus wertvoller werden"
           }
         ]
       }
@@ -191,50 +191,50 @@ const StepByStepProcess = () => {
         title: "💰 D.INVEST Rentabilitätsschwelle",
         details: [
           {
-            title: "📊 ROI Explosion",
-            content: "Bei 1€ D.FAITH Preis: 104% jährlicher ROI auf D.INVEST"
+            title: "📊 ROI Möglichkeiten",
+            content: "Bei höheren D.FAITH Preisen kann attraktiver ROI auf D.INVEST entstehen"
           },
           {
             title: "🎯 Investor Appeal",
-            content: "Traditionelle Investoren werden auf hohe Renditen aufmerksam"
+            content: "Investoren werden auf potentielle Renditen aufmerksam"
           },
           {
             title: "📈 Staking Rewards",
-            content: "0,1 D.FAITH pro D.INVEST pro Woche wird sehr wertvoll"
+            content: "0,1 D.FAITH pro D.INVEST pro Woche wird wertvoller"
           },
           {
-            title: "🔥 FOMO Effekt",
-            content: "Limitierte D.INVEST Verfügbarkeit schürt Nachfrage"
+            title: "🔥 Nachfrage Effekt",
+            content: "Begrenzte D.INVEST Verfügbarkeit kann Nachfrage steigern"
           }
         ]
       }
     },
     {
       id: 'crash',
-      title: "Investoren fluten Markt",
-      subtitle: "Massive D.INVEST Käufe führen zu D.FAITH Crash",
+      title: "Investoren kaufen D.INVEST",
+      subtitle: "Neue D.INVEST Käufe führen zu erhöhten D.FAITH Rewards",
       icon: <FaChartArea className="text-2xl text-white" />,
       color: "from-red-500 to-orange-500",
-      effect: "Temporärer 70% Crash",
+      effect: "Temporärer Preisrückgang",
       isCrash: true,
       modalContent: {
-        title: "💥 Der unvermeidliche Crash",
+        title: "� Erhöhte Staking-Aktivität",
         details: [
           {
-            title: "🌊 Investor Flood",
-            content: "Große Investoren kaufen massiv D.INVEST für 5€/Token"
+            title: "💰 Neue Investoren",
+            content: "Weitere Investoren kaufen D.INVEST für 5€/Token"
           },
           {
-            title: "📉 D.FAITH Crash",
-            content: "Massive Staking-Rewards fluten Markt → 70% Preisfall"
+            title: "📉 Erhöhte Token-Ausgabe",
+            content: "Mehr Staking-Rewards werden ausgegeben → temporärer Preisrückgang"
           },
           {
-            title: "💰 Dawid's Payday",
-            content: "Neues Kapital fließt in hochwertige Musikproduktion und Marketing"
+            title: "� Kapitalzufluss",
+            content: "Neues Kapital fließt in bessere Musikproduktion und Marketing"
           },
           {
-            title: "🔄 Bitcoin-Pattern",
-            content: "Wie Bitcoin: Crash ist Teil des Wachstumszyklus"
+            title: "🔄 Natürlicher Zyklus",
+            content: "Preiskorrektur ist Teil des natürlichen Wachstumszyklus"
           }
         ]
       }
@@ -281,19 +281,19 @@ const StepByStepProcess = () => {
         details: [
           {
             title: "📈 Höhere Startbasis",
-            content: "Neuer Zyklus beginnt bei 0,30€ statt 0,05€ D.FAITH"
+            content: "Neuer Zyklus kann bei höherem Preisniveau beginnen"
           },
           {
-            title: "💎 Stärkeres System",
-            content: "Mehr Fans, bessere Musik, größere Reichweite"
+            title: "💎 Verbesserte Basis",
+            content: "Mehr Fans, bessere Reichweite, stärkere Community"
           },
           {
-            title: "🎵 Professionellere Produktion",
-            content: "Millionen-Investment ermöglicht Hollywood-Level Content"
+            title: "🎵 Bessere Produktion",
+            content: "Zusätzliches Kapital ermöglicht professionellere Musikproduktion"
           },
           {
-            title: "🌍 Globaler Markt",
-            content: "System expandiert in neue Märkte und Plattformen"
+            title: "🌍 Wachstumspotential",
+            content: "System kann in neue Märkte und Plattformen expandieren"
           }
         ]
       }
@@ -303,6 +303,23 @@ const StepByStepProcess = () => {
   const openStepModal = (stepId: number | string) => {
     setOpenModal(stepId)
   }
+
+  // Auto-scroll to modal when it opens
+  useEffect(() => {
+    if (openModal) {
+      // Small delay to ensure modal is rendered
+      setTimeout(() => {
+        const modalElement = document.querySelector('[data-modal="true"]')
+        if (modalElement) {
+          modalElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center',
+            inline: 'center'
+          })
+        }
+      }, 150)
+    }
+  }, [openModal])
 
   const closeModal = () => {
     setOpenModal(null)
@@ -318,8 +335,9 @@ const StepByStepProcess = () => {
         viewport={{ once: true }}
         className="text-center mb-12"
       >
-        <h3 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent mb-6">
-          🔄 Der D.FAITH Kreislauf
+        <h3 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent mb-6 flex items-center justify-center gap-3">
+          <FaArrowRight className="text-cyan-400 transform rotate-90" />
+          Der D.FAITH Kreislauf
         </h3>
         <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
           So funktioniert das System Schritt für Schritt - von Fan-Interaktion bis zur Wertsteigerung
@@ -417,7 +435,7 @@ const StepByStepProcess = () => {
             {/* Special Indicators */}
             {step.isCrash && (
               <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
-                📉 -70%
+                📉 Korrektur
               </div>
             )}
             {step.isRestart && (
@@ -469,8 +487,8 @@ const StepByStepProcess = () => {
           Zyklus beginnt wieder - auf höherem Level!
         </div>
         <p className="text-gray-400 text-center mt-4 max-w-md">
-          Jeder Zyklus verstärkt das System. Aus 0,05€ werden 0,30€ Startpreis. 
-          Exponentielles Wachstum garantiert!
+          Jeder Zyklus kann das System verstärken. Organisches Wachstum durch 
+          nachhaltiges Fan-Engagement!
         </p>
       </motion.div>
 
@@ -481,15 +499,16 @@ const StepByStepProcess = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
             onClick={closeModal}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-slate-800 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-slate-700"
+              className="bg-slate-800 rounded-2xl max-w-4xl w-full my-8 border border-slate-700"
               onClick={(e) => e.stopPropagation()}
+              data-modal="true"
             >
               {(() => {
                 const step = steps.find(s => s.id === openModal)
@@ -498,16 +517,16 @@ const StepByStepProcess = () => {
                 if (!currentStep) return null
 
                 return (
-                  <div className="p-6">
+                  <div className="p-4">
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-4">
-                        <div className={`p-3 bg-gradient-to-r ${currentStep.color} bg-opacity-20 rounded-full`}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 bg-gradient-to-r ${currentStep.color} bg-opacity-20 rounded-full`}>
                           {currentStep.icon}
                         </div>
                         <div>
-                          <h3 className="text-2xl font-bold text-white">{currentStep.modalContent.title}</h3>
-                          <p className="text-gray-400">{currentStep.subtitle}</p>
+                          <h3 className="text-xl font-bold text-white">{currentStep.modalContent.title}</h3>
+                          <p className="text-gray-400 text-sm">{currentStep.subtitle}</p>
                         </div>
                       </div>
                       <button
@@ -519,26 +538,26 @@ const StepByStepProcess = () => {
                     </div>
 
                     {/* Content */}
-                    <div className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-4">
                       {currentStep.modalContent.details.map((detail, index) => (
                         <motion.div
                           key={index}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.1 }}
-                          className="bg-slate-700/30 rounded-lg p-4 border border-slate-600"
+                          className="bg-slate-700/30 rounded-lg p-3 border border-slate-600"
                         >
-                          <h4 className="font-bold text-blue-400 mb-2">{detail.title}</h4>
-                          <p className="text-gray-300">{detail.content}</p>
+                          <h4 className="font-bold text-blue-400 mb-1 text-sm">{detail.title}</h4>
+                          <p className="text-gray-300 text-sm">{detail.content}</p>
                         </motion.div>
                       ))}
                     </div>
 
                     {/* Footer */}
-                    <div className="mt-6 pt-4 border-t border-slate-700">
+                    <div className="mt-4 pt-3 border-t border-slate-700">
                       <button
                         onClick={closeModal}
-                        className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300"
+                        className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-2 px-6 rounded-xl transition-all duration-300"
                       >
                         Verstanden ✓
                       </button>

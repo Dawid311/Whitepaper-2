@@ -165,7 +165,7 @@ const SolutionSection = () => {
                       <h4 className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent mb-2">
                         Investoren
                       </h4>
-                      <p className="text-slate-400 text-lg">Exponentieller ROI</p>
+                      <p className="text-slate-400 text-lg">Hohe Renditen</p>
                     </div>
                   </div>
                 </motion.div>
