@@ -403,7 +403,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                       <span className="text-gray-300 text-sm">Community</span>
                     </div>
                     <p className="text-2xl font-bold text-purple-400">
-                      {formatNumber(tokenData.dfaith.communityCirculation)}
+                      {formatNumber(tokenData.dfaith.communityCirculation, 2)}
                     </p>
                   </div>
                 </div>
@@ -473,54 +473,6 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                 </div>
               </motion.div>
             </div>
-
-            {/* Ecosystem Synergie */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="backdrop-blur-xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl p-6 border border-blue-500/20"
-            >
-              <h4 className="text-lg font-bold text-center mb-4">
-                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
-                  <FaStar /> Dual-Token Synergie <FaStar />
-                </span>
-              </h4>
-              
-              <div className="grid grid-cols-1 gap-4">
-                {[
-                  { 
-                    title: "Fan Engagement", 
-                    icon: <FaStar className="text-yellow-400" />,
-                    desc: "D.FAITH für Social Media Interaktionen"
-                  },
-                  { 
-                    title: "Kapitalbildung", 
-                    icon: <FaDollarSign className="text-green-400" />,
-                    desc: "D.INVEST für Projekt-Finanzierung"
-                  },
-                  { 
-                    title: "Wertsteigerung", 
-                    icon: <FaArrowUp className="text-blue-400" />,
-                    desc: "Halving-System führt zu Verknappung"
-                  }
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={inView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
-                    className="flex items-center gap-3 backdrop-blur-sm bg-white/5 rounded-xl p-3 border border-white/10"
-                  >
-                    {item.icon}
-                    <div>
-                      <p className="font-semibold text-white">{item.title}</p>
-                      <p className="text-gray-400 text-sm">{item.desc}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
           </motion.div>
         )}
 
@@ -689,47 +641,6 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* ROI Scenarios */}
-            <div className="space-y-4">
-              <h4 className="text-lg font-bold text-center text-white">Preis-Szenarien</h4>
-              {roiScenarios.map((scenario, index) => {
-                const scenarioRoi = calculateROI(investmentAmount, scenario.price)
-                return (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="backdrop-blur-xl rounded-2xl p-4 border"
-                    style={{ 
-                      backgroundColor: `${scenario.color}10`, 
-                      borderColor: `${scenario.color}20` 
-                    }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div 
-                          className="w-12 h-12 rounded-xl flex items-center justify-center"
-                          style={{ backgroundColor: scenario.color }}
-                        >
-                          <FaDollarSign className="text-white" />
-                        </div>
-                        <div>
-                          <p className="font-semibold text-white">{scenario.label}</p>
-                          <p className="text-gray-400 text-sm">{scenario.priceIncrease}</p>
-                        </div>
-                      </div>
-                      
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-white">{scenarioRoi.toFixed(1)}%</p>
-                        <p className="text-gray-400 text-sm">ROI</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )
-              })}
             </div>
           </motion.div>
         )}
