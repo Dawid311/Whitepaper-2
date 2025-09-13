@@ -227,10 +227,13 @@ const InteractiveTimeline: React.FC = () => {
         </div>
 
         {/* Circle Steps */}
-        <div className="relative w-80 h-80 mx-auto">
+        <div className="relative w-80 h-80 mx-auto flex items-center justify-center">
+          {/* Center Circle for Reference */}
+          <div className="absolute w-4 h-4 bg-white/20 rounded-full"></div>
+          
           {currentSteps.map((step, index) => {
-            const angle = (index * 360) / currentSteps.length - 90 // Start at top
-            const radius = 140
+            const angle = (index * 360) / currentSteps.length - 90 // Start at top (-90 degrees)
+            const radius = 120 // Distance from center
             const x = Math.cos((angle * Math.PI) / 180) * radius
             const y = Math.sin((angle * Math.PI) / 180) * radius
 
@@ -245,9 +248,7 @@ const InteractiveTimeline: React.FC = () => {
                   index === activeStep ? 'z-20' : 'z-10'
                 }`}
                 style={{
-                  left: `calc(50% + ${x}px)`,
-                  top: `calc(50% + ${y}px)`,
-                  transform: `translate(-50%, -50%)`
+                  transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`
                 }}
               >
                 {/* Step Card */}
@@ -255,14 +256,14 @@ const InteractiveTimeline: React.FC = () => {
                   index === activeStep
                     ? 'bg-white/20 border-white/40 scale-110 shadow-2xl'
                     : 'bg-white/10 border-white/20 hover:bg-white/15 hover:scale-105'
-                } w-16 h-16 flex flex-col items-center justify-center`}>
+                } w-20 h-20 flex flex-col items-center justify-center`}>
                   {/* Step Icon */}
-                  <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white text-sm mb-1`}>
+                  <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white text-sm`}>
                     {step.icon}
                   </div>
                   
                   {/* Step Number */}
-                  <div className="text-white text-xs font-bold">
+                  <div className="text-white text-xs font-bold mt-1">
                     {step.id}
                   </div>
                 </div>
@@ -272,33 +273,33 @@ const InteractiveTimeline: React.FC = () => {
         </div>
 
         {/* Flow Arrows */}
-        {currentSteps.map((_, index) => {
-          if (index === currentSteps.length - 1) return null // No arrow for last step
-          
-          const startAngle = (index * 360) / currentSteps.length - 90
-          const endAngle = ((index + 1) * 360) / currentSteps.length - 90
-          const midAngle = (startAngle + endAngle) / 2
-          const radius = 160
-          const x = Math.cos((midAngle * Math.PI) / 180) * radius
-          const y = Math.sin((midAngle * Math.PI) / 180) * radius
+        <div className="relative w-80 h-80 mx-auto flex items-center justify-center">
+          {currentSteps.map((_, index) => {
+            if (index === currentSteps.length - 1) return null // No arrow for last step
+            
+            const startAngle = (index * 360) / currentSteps.length - 90
+            const endAngle = ((index + 1) * 360) / currentSteps.length - 90
+            const midAngle = (startAngle + endAngle) / 2
+            const radius = 140 // Slightly outside the circles
+            const x = Math.cos((midAngle * Math.PI) / 180) * radius
+            const y = Math.sin((midAngle * Math.PI) / 180) * radius
 
-          return (
-            <motion.div
-              key={`arrow-${index}`}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-              className="absolute text-blue-400"
-              style={{
-                left: `calc(50% + ${x}px)`,
-                top: `calc(50% + ${y}px)`,
-                transform: `translate(-50%, -50%) rotate(${midAngle + 90}deg)`
-              }}
-            >
-              <FaArrowRight className="text-sm" />
-            </motion.div>
-          )
-        })}
+            return (
+              <motion.div
+                key={`arrow-${index}`}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
+                className="absolute text-blue-400"
+                style={{
+                  transform: `translate(${x}px, ${y}px) translate(-50%, -50%) rotate(${midAngle + 90}deg)`
+                }}
+              >
+                <FaArrowRight className="text-sm" />
+              </motion.div>
+            )
+          })}
+        </div>
 
         {/* Cycle Arrow (connects last to first) */}
         <motion.div
