@@ -31,67 +31,76 @@ const InteractiveTimeline: React.FC = () => {
       details: [
         "1.000€ für 20.000 D.FAITH Token bereitgestellt",
         "1.500€ für spezifische Kampagne reserviert", 
-        "80.000 D.FAITH bleiben im Smart Contract gesperrt"
+        "80.000 D.FAITH bleiben im Smart Contract gesperrt",
+        "Gleichzeitiges Posting auf allen Plattformen"
       ],
       icon: <FaMusic />,
-      color: "from-blue-500 to-cyan-500"
+      color: "from-purple-500 to-pink-500"
     },
     {
       id: 2,
       title: "Fan Interaktion wird erkannt",
-      description: "Automatisches Tracking von Likes, Kommentaren, Shares",
+      description: "Fans liken, kommentieren, teilen - automatisch erfasst",
       details: [
+        "10 EXP pro Like → Level-basierte D.FAITH Rewards",
         "Kommentar mit 'D.FAITH' → Automatischer Link zur Webapp",
-        "Profilerstellung und Cross-Platform Tracking"
+        "10-20 EXP für Shares & Stories → Höhere Rewards",
+        "Automatische Profilerstellung und Cross-Platform Tracking"
       ],
       icon: <FaHeart />,
-      color: "from-red-500 to-pink-500"
+      color: "from-blue-500 to-cyan-500"
     },
     {
       id: 3,
       title: "Automatische Token-Käufe",
-      description: "Marketing Budget wird für Token-Käufe verwendet",
+      description: "System kauft D.FAITH Token basierend auf Engagement",
       details: [
+        "Marketing Budget wird für Token-Käufe verwendet",
         "Level-System bestimmt Token-Anzahl pro Fan",
         "50% der gekauften Token gehen direkt an Fans",
         "50% werden im Smart Contract für Staking gesperrt"
       ],
       icon: <FaCoins />,
-      color: "from-yellow-500 to-amber-500"
+      color: "from-green-500 to-emerald-500"
     },
     {
       id: 4,
       title: "Smart Contract sammelt Token",
-      description: "6 Reward-Stufen mit Halving-Effekt implementiert",
+      description: "Halving-Mechanismus sorgt für kontinuierliche Verknappung",
       details: [
+        "6 Reward-Stufen mit Halving-Effekt implementiert",
         "Startrate: 0,1 D.FAITH pro D.INVEST pro Woche (Initial)",
         "Jede Stufe halbiert die Ausgaberate automatisch",
         "Token nur durch D.INVEST Staking entsperrbar"
       ],
       icon: <FaLock />,
-      color: "from-purple-500 to-indigo-500"
+      color: "from-orange-500 to-red-500"
     },
     {
       id: 5,
       title: "Preissteigerung durch Verknappung",
-      description: "Kontinuierliche Käufe reduzieren verfügbare Token",
+      description: "D.FAITH wird wertvoller, D.INVEST wird attraktiver",
       details: [
+        "Kontinuierliche Käufe reduzieren verfügbare Token",
+        "Preis steigt bei zunehmender Verknappung",
         "D.INVEST Staking wird profitabler",
         "Attraktive ROI lockt neue Investoren an"
       ],
       icon: <FaArrowUp />,
-      color: "from-green-500 to-emerald-500"
+      color: "from-yellow-500 to-orange-500"
     },
     {
       id: 6,
       title: "Kreislauf wiederholt sich",
       description: "System verstärkt sich automatisch bei jedem neuen Post",
       details: [
+        "Jeder Post kann das System weiter verbessern",
+        "System lernt aus jedem Durchlauf und wird effizienter",
         "Fans erwarten bereits Belohnungen → Mehr Engagement",
         "D.FAITH kann bei jedem Zyklus wertvoller werden"
       ],
       icon: <FaRedo />,
-      color: "from-indigo-500 to-purple-500"
+      color: "from-cyan-500 to-blue-500"
     }
   ]
 
@@ -99,43 +108,54 @@ const InteractiveTimeline: React.FC = () => {
     {
       id: 1,
       title: "D.INVEST wird rentabel",
-      description: "Bei höheren D.FAITH Preisen entstehen attraktive ROI-Möglichkeiten",
-      details: ["104% ROI möglich bei optimalen Bedingungen"],
+      description: "Hohe D.FAITH Preise machen Staking extrem profitabel",
+      details: [
+        "Bei höheren D.FAITH Preisen kann attraktiver ROI auf D.INVEST entstehen",
+        "Investoren werden auf potentielle Renditen aufmerksam",
+        "0,1 D.FAITH pro D.INVEST pro Woche wird wertvoller",
+        "104% ROI möglich bei optimalen Bedingungen"
+      ],
       icon: <FaDollarSign />,
       color: "from-green-600 to-emerald-600"
     },
     {
       id: 2,
       title: "Investoren kaufen D.INVEST",
-      description: "Neue Investoren kaufen D.INVEST für 5€/Token",
+      description: "Neue D.INVEST Käufe führen zu erhöhten D.FAITH Rewards",
       details: [
+        "Weitere Investoren kaufen D.INVEST für 5€/Token",
         "Mehr Staking-Rewards werden ausgegeben → temporärer Preisrückgang",
-        "Neues Kapital fließt in bessere Musikproduktion"
+        "Neues Kapital fließt in bessere Musikproduktion und Marketing",
+        "Preiskorrektur ist Teil des natürlichen Wachstumszyklus"
       ],
       icon: <FaUsers />,
-      color: "from-blue-600 to-cyan-600"
+      color: "from-red-500 to-orange-500"
     },
     {
       id: 3,
       title: "Halving aktiviert sich",
-      description: "Staking-Rate sinkt automatisch von 0,1 auf 0,05 D.FAITH pro Woche",
+      description: "Smart Contract reduziert Ausgaberate automatisch",
       details: [
+        "Staking-Rate sinkt von 0,1 auf 0,05 D.FAITH pro Woche",
         "Halving verhindert weitere Marktüberflutung",
-        "Bewährtes Bitcoin-Halving-Konzept implementiert"
+        "Neuer Zyklus startet auf höherem Preisniveau",
+        "Bewährtes Halving-Konzept aus der Krypto-Welt"
       ],
       icon: <FaCog />,
-      color: "from-orange-600 to-red-600"
+      color: "from-purple-500 to-pink-500"
     },
     {
       id: 4,
       title: "Zyklus beginnt erneut",
-      description: "Neuer Zyklus startet auf höherem Preisniveau",
+      description: "Höhere Basis, stärkeres System, exponentielles Wachstum",
       details: [
+        "Neuer Zyklus kann bei höherem Preisniveau beginnen",
         "Mehr Fans, bessere Reichweite, stärkere Community",
+        "Zusätzliches Kapital ermöglicht professionellere Musikproduktion",
         "System kann in neue Märkte und Plattformen expandieren"
       ],
       icon: <FaChartLine />,
-      color: "from-purple-600 to-pink-600"
+      color: "from-cyan-500 to-purple-500"
     }
   ]
 
@@ -285,31 +305,31 @@ const InteractiveTimeline: React.FC = () => {
         className="mt-10 backdrop-blur-xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-2xl p-6 border border-purple-500/30"
       >
         <h3 className="font-bold text-lg mb-4 text-center text-white">
-          Selbstverstärkender Kreislauf
+          💰 Was passiert wenn D.INVEST profitabel wird?
         </h3>
         
         <div className="text-center space-y-4">
           <div className="grid grid-cols-1 gap-3 text-sm">
             <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-              <span className="text-blue-300 font-medium">Mehr Fans</span>
+              <span className="text-green-300 font-medium">📈 Hohe ROI möglich</span>
               <FaArrowRight className="text-gray-400" />
-              <span className="text-green-300 font-medium">Höhere Nachfrage</span>
+              <span className="text-blue-300 font-medium">💰 Neue Investoren</span>
             </div>
             <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-              <span className="text-green-300 font-medium">Preissteigerung</span>
+              <span className="text-red-300 font-medium">📉 Mehr Rewards</span>
               <FaArrowRight className="text-gray-400" />
-              <span className="text-yellow-300 font-medium">Mehr Investoren</span>
+              <span className="text-orange-300 font-medium">⚡ Halving greift</span>
             </div>
             <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-              <span className="text-yellow-300 font-medium">Mehr Kapital</span>
+              <span className="text-purple-300 font-medium">🔄 Neuer Zyklus</span>
               <FaArrowRight className="text-gray-400" />
-              <span className="text-purple-300 font-medium">Bessere Musik</span>
+              <span className="text-cyan-300 font-medium">🚀 Höheres Level</span>
             </div>
           </div>
           
           <div className="flex items-center justify-center gap-3 mt-4 p-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl">
             <FaRedo className="text-blue-400" />
-            <span className="text-white font-medium">Kreislauf verstärkt sich kontinuierlich</span>
+            <span className="text-white font-medium">Jeder Zyklus verstärkt das System</span>
             <FaRedo className="text-purple-400" />
           </div>
         </div>
