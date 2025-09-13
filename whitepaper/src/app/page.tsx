@@ -18,7 +18,7 @@ import TeamSection from '../components/TeamSection'
 import TechnicalArchitecture from '../components/TechnicalArchitecture'
 import RoadmapTimeline from '../components/RoadmapTimeline'
 import LiveStatsFixed from '../components/LiveStatsFixed'
-import MobileWhitepaper from '../components/MobileWhitepaper'
+import MobileWhitepaperV2 from '../components/MobileWhitepaperV2'
 import useDeviceDetection from '../hooks/useDeviceDetection'
 
 const WhitepaperPage = () => {
@@ -26,10 +26,46 @@ const WhitepaperPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { isMobile } = useDeviceDetection()
   const [mounted, setMounted] = useState(false)
+  
+  // State für die Live-Daten
+  const [tokenPrices, setTokenPrices] = useState({
+    dfaith: 0.05,
+    dinvest: 5.00
+  })
+  const [activeUsers, setActiveUsers] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   // Prevent hydration mismatch
   useEffect(() => {
     setMounted(true)
+    
+    // Lade die Live-Daten
+    const fetchData = async () => {
+      try {
+        // Token Preise laden
+        const pricesResponse = await fetch('/api/token-prices')
+        if (pricesResponse.ok) {
+          const pricesData = await pricesResponse.json()
+          setTokenPrices({
+            dfaith: pricesData.dfaith || 0.05,
+            dinvest: pricesData.dinvest || 5.00
+          })
+        }
+
+        // Aktive User laden
+        const leaderboardResponse = await fetch('/api/leaderboard')
+        if (leaderboardResponse.ok) {
+          const leaderboardData = await leaderboardResponse.json()
+          setActiveUsers(leaderboardData.totalUsers || 0)
+        }
+      } catch (error) {
+        console.error('Fehler beim Laden der Daten:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
   }, [])
 
   useEffect(() => {
@@ -72,7 +108,13 @@ const WhitepaperPage = () => {
 
   // Render mobile version for mobile devices
   if (isMobile) {
-    return <MobileWhitepaper />
+    return (
+      <MobileWhitepaperV2 
+        tokenPrices={tokenPrices}
+        activeUsers={activeUsers}
+        isLoading={isLoading}
+      />
+    )
   }
 
   return (
