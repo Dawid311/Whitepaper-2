@@ -7,10 +7,8 @@ import {
   FaChevronUp, 
   FaRocket, 
   FaCoins, 
-  FaUsers, 
   FaRoad,
   FaLightbulb,
-  FaChartLine,
   FaShieldAlt
 } from 'react-icons/fa'
 import Image from 'next/image'
@@ -114,8 +112,8 @@ const MobileWhitepaper = () => {
           <div className="bg-red-900/20 rounded-lg p-4 border border-red-500/30">
             <h4 className="font-bold text-red-400 mb-2">Dawid Faith:</h4>
             <p className="text-sm text-gray-300">
-              "Als unabhängiger Künstler bekommt mein Content nicht die Reichweite, die er verdient. 
-              Bezahlte Werbung ist teuer und das Kapital für Musikproduktion fehlt."
+              &quot;Als unabhängiger Künstler bekommt mein Content nicht die Reichweite, die er verdient. 
+              Bezahlte Werbung ist teuer und das Kapital für Musikproduktion fehlt.&quot;
             </p>
           </div>
 

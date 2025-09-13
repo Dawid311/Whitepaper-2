@@ -24,7 +24,7 @@ import useDeviceDetection from '../hooks/useDeviceDetection'
 const WhitepaperPage = () => {
   const [activeSection, setActiveSection] = useState('hero')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { isMobile, isTablet } = useDeviceDetection()
+  const { isMobile } = useDeviceDetection()
   const [mounted, setMounted] = useState(false)
 
   // Prevent hydration mismatch

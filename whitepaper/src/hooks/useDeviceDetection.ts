@@ -52,7 +52,6 @@ export const useDeviceDetection = (): DeviceInfo => {
       // Screen size based detection
       const isMobileScreen = screenWidth <= 768
       const isTabletScreen = screenWidth > 768 && screenWidth <= 1024
-      const isDesktopScreen = screenWidth > 1024
 
       // Combine user agent and screen size for accurate detection
       const isMobile = isMobileUserAgent || (isMobileScreen && !isTabletUserAgent)
