@@ -380,55 +380,82 @@ const SolutionSectionV2: React.FC = () => {
   
   return (
     <div ref={ref} className="min-h-screen flex flex-col justify-center p-6">
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
         className="text-center mb-8"
       >
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent mb-4">
+        <div className="flex justify-center mb-4">
+          <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full">
+            <FaLightbulb className="text-2xl text-white" />
+          </div>
+        </div>
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent mb-4">
           Die D.FAITH Revolution
         </h2>
         <p className="text-gray-300 text-lg">
-          Intelligentes Dual-Token-System durchbricht den Teufelskreis
+          Ein intelligentes Dual-Token-System, das den Teufelskreis durchbricht und eine Win-Win-Situation für Künstler und Fans schafft
         </p>
       </motion.div>
 
       {/* Token Cards */}
-      <div className="space-y-6">
+      <div className="space-y-6 mb-8">
         {/* D.FAITH Token */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="backdrop-blur-xl bg-gradient-to-r from-amber-500/10 to-yellow-500/10 rounded-3xl p-6 border border-amber-500/30"
+          transition={{ duration: 0.8 }}
+          className="backdrop-blur-xl bg-gradient-to-r from-amber-500/20 to-yellow-500/20 rounded-3xl p-6 border border-amber-500/30"
         >
-          <div className="flex items-center gap-4 mb-4">
-            <Image src="/d-faith-logo.png" alt="D.FAITH" width={50} height={50} className="rounded-xl" />
+          <div className="flex items-center gap-4 mb-6">
+            <Image src="/d-faith-logo.png" alt="D.FAITH Logo" width={60} height={60} className="rounded-xl" />
             <div>
-              <h3 className="text-xl font-bold text-amber-400">D.FAITH Token</h3>
-              <p className="text-amber-300/70">Fan-Belohnungstoken</p>
+              <h3 className="text-2xl font-bold text-amber-400">D.FAITH</h3>
+              <p className="text-amber-300">Fan-Belohnungstoken</p>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            {[
-              { action: "Like", exp: "10 EXP", icon: <FaHeart className="text-red-400" /> },
-              { action: "Kommentar", exp: "10 EXP", icon: <FaMusic className="text-blue-400" /> },
-              { action: "Share", exp: "10 EXP", icon: <FaRocket className="text-green-400" /> },
-              { action: "Live-Konzert", exp: "150 EXP", icon: <FaStar className="text-purple-400" /> }
-            ].map((reward, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="backdrop-blur-sm bg-white/5 rounded-xl p-3 text-center border border-white/10"
-              >
-                <div className="flex justify-center mb-2">{reward.icon}</div>
-                <p className="text-white font-semibold text-sm">{reward.action}</p>
-                <p className="text-amber-300 text-xs">{reward.exp}</p>
-              </motion.div>
-            ))}
+          <div className="space-y-3 mb-6">
+            <div className="flex items-center gap-3">
+              <FaUsers className="text-amber-400" />
+              <span className="text-gray-300 text-sm">Belohnt treue Fans für ihr Engagement</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <FaCoins className="text-amber-400" />
+              <span className="text-gray-300 text-sm">Kann in ETH getauscht oder im Shop verwendet werden</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <FaChartLine className="text-amber-400" />
+              <span className="text-gray-300 text-sm">Wertsteigerung durch Verknappung</span>
+            </div>
+          </div>
+
+          <div className="backdrop-blur-sm bg-amber-900/30 rounded-xl p-4 border border-amber-500/20">
+            <h4 className="font-bold text-amber-300 mb-3 text-sm">Wie Fans D.FAITH bekommen:</h4>
+            <div className="grid grid-cols-1 gap-2">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 text-xs">• Like (10 EXP)</span>
+                <span className="text-amber-400 text-xs font-semibold">→ Token-Reward</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 text-xs">• Kommentar (10 EXP)</span>
+                <span className="text-amber-400 text-xs font-semibold">→ Token-Reward</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 text-xs">• Share (10 EXP)</span>
+                <span className="text-amber-400 text-xs font-semibold">→ Token-Reward</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 text-xs">• Story (20 EXP)</span>
+                <span className="text-amber-400 text-xs font-semibold">→ Token-Reward</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 text-xs">• Live-Konzert Besuch (150 EXP)</span>
+                <span className="text-amber-400 text-xs font-semibold">→ Hohe Token-Reward</span>
+              </div>
+            </div>
           </div>
         </motion.div>
 
@@ -436,50 +463,91 @@ const SolutionSectionV2: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="backdrop-blur-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-3xl p-6 border border-purple-500/30"
+          transition={{ duration: 0.8 }}
+          className="backdrop-blur-xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl p-6 border border-blue-500/30"
         >
-          <div className="flex items-center gap-4 mb-4">
-            <Image src="/d-invest-logo.png" alt="D.INVEST" width={50} height={50} className="rounded-xl" />
+          <div className="flex items-center gap-4 mb-6">
+            <Image src="/d-invest-logo.png" alt="D.INVEST Logo" width={60} height={60} className="rounded-xl" />
             <div>
-              <h3 className="text-xl font-bold text-purple-400">D.INVEST Token</h3>
-              <p className="text-purple-300/70">Investment-Token</p>
+              <h3 className="text-2xl font-bold text-blue-400">D.INVEST</h3>
+              <p className="text-blue-300">Investitions-Token</p>
             </div>
           </div>
           
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <span className="text-gray-300">Preis:</span>
-              <span className="font-bold text-purple-400">5,00€</span>
+          <div className="space-y-3 mb-6">
+            <div className="flex items-center gap-3">
+              <FaCoins className="text-blue-400" />
+              <span className="text-gray-300 text-sm">Ermöglicht Kapitalbeschaffung für Musikproduktion</span>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-gray-300">Supply:</span>
-              <span className="font-bold text-purple-400">10.000 Token</span>
+            <div className="flex items-center gap-3">
+              <FaChartLine className="text-blue-400" />
+              <span className="text-gray-300 text-sm">Entsperrt gesperrte D.FAITH Token durch Staking</span>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-gray-300">Staking Rate:</span>
-              <span className="font-bold text-purple-400">0,1 D.FAITH/Woche</span>
+            <div className="flex items-center gap-3">
+              <FaUsers className="text-blue-400" />
+              <span className="text-gray-300 text-sm">Investoren profitieren von steigenden D.FAITH Preisen</span>
+            </div>
+          </div>
+
+          <div className="backdrop-blur-sm bg-blue-900/30 rounded-xl p-4 border border-blue-500/20">
+            <h4 className="font-bold text-blue-300 mb-3 text-sm">Investment Details:</h4>
+            <div className="grid grid-cols-1 gap-2">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 text-xs">• Preis:</span>
+                <span className="text-green-400 text-xs font-bold">5€ pro D.INVEST</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 text-xs">• Total Supply:</span>
+                <span className="text-blue-400 text-xs font-bold">10.000 Token</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 text-xs">• Staking Rate:</span>
+                <span className="text-blue-400 text-xs font-bold">0.1 D.FAITH pro Woche</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 text-xs">• Entsperrt:</span>
+                <span className="text-purple-400 text-xs font-bold">80.000 gesperrte D.FAITH</span>
+              </div>
             </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Core Idea */}
+      {/* Kernidee */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className="mt-8 backdrop-blur-xl bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-2xl p-6 border border-green-500/20"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={inView ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="backdrop-blur-xl bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-2xl p-6 border border-green-500/30"
       >
-        <h4 className="text-lg font-bold text-green-400 mb-3 text-center flex items-center justify-center gap-2">
-          <FaStar /> Die Kernidee <FaStar />
-        </h4>
-        <p className="text-center text-gray-300 leading-relaxed">
-          <span className="text-red-300 font-semibold">Statt Geld für Werbung auszugeben</span>, 
-          investiert Dawid Faith direkt in <span className="text-green-300 font-semibold">Fan-Belohnungen</span>. 
-          Fans werden für ihr Engagement bezahlt, wodurch sie <span className="text-blue-300 font-semibold">motivierter</span> sind zu interagieren. 
-          Mehr Engagement = bessere Reichweite = mehr neue Fans = <span className="text-purple-300 font-semibold">selbstverstärkender Kreislauf</span>.
-        </p>
+        <div className="text-center">
+          <h3 className="text-2xl font-bold text-green-400 mb-4">
+            💡 Die Kernidee
+          </h3>
+          <p className="text-gray-300 leading-relaxed mb-4">
+            <span className="font-bold text-red-300">Statt Geld für Werbung auszugeben</span>, investiert Dawid Faith direkt in 
+            <span className="font-bold text-green-300"> Fan-Belohnungen</span>. Fans werden für ihr Engagement bezahlt, wodurch sie 
+            <span className="font-bold text-blue-300"> motivierter</span> sind zu interagieren. Mehr Engagement = bessere Reichweite = 
+            mehr neue Fans = <span className="font-bold text-purple-300">selbstverstärkender Kreislauf</span>. 
+            Gleichzeitig generiert das System Kapital für Musikproduktion durch D.INVEST.
+          </p>
+          
+          <div className="flex justify-center items-center space-x-3">
+            <div className="text-center">
+              <div className="bg-red-500/20 rounded-lg p-2 mb-1">
+                <span className="text-xs font-bold text-red-400">VORHER</span>
+              </div>
+              <p className="text-xs text-gray-400">Geld für Werbung ohne Garantie</p>
+            </div>
+            <FaArrowRight className="text-green-400 text-lg" />
+            <div className="text-center">
+              <div className="bg-green-500/20 rounded-lg p-2 mb-1">
+                <span className="text-xs font-bold text-green-400">NACHHER</span>
+              </div>
+              <p className="text-xs text-gray-400">Direkter Fan-Nutzen + Kapital</p>
+            </div>
+          </div>
+        </div>
       </motion.div>
     </div>
   )
