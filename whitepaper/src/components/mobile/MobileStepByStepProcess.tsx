@@ -9,7 +9,7 @@ import {
   FaCoins,
   FaLock,
   FaArrowUp,
-  FaRefresh,
+  FaRedo,
   FaDollarSign,
   FaUsers,
   FaCog,
@@ -87,7 +87,7 @@ const MobileStepByStepProcess = () => {
         "Fans erwarten bereits Belohnungen → Mehr Engagement",
         "D.FAITH kann bei jedem Zyklus wertvoller werden"
       ],
-      icon: <FaRefresh className="text-indigo-500" />
+      icon: <FaRedo className="text-indigo-500" />
     }
   ]
 
@@ -166,7 +166,7 @@ const MobileStepByStepProcess = () => {
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-4 text-left flex items-center justify-between shadow-lg hover:shadow-xl transition-shadow"
           >
             <div className="flex items-center">
-              <FaRefresh className="mr-3 text-lg" />
+              <FaRedo className="mr-3 text-lg" />
               <div>
                 <h3 className="font-semibold text-lg">Haupt-Zyklus</h3>
                 <p className="text-blue-200 text-sm">6 Kern-Schritte des Systems</p>
@@ -339,7 +339,7 @@ const MobileStepByStepProcess = () => {
             </div>
             <div className="flex items-center justify-center">
               <span className="text-purple-300">Mehr Fans</span>
-              <FaRefresh className="mx-2 text-blue-400" />
+              <FaRedo className="mx-2 text-blue-400" />
               <span className="text-blue-300">Kreislauf</span>
             </div>
           </div>
