@@ -1,21 +1,17 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
-import { motion, useAnimation, useScroll, useTransform } from 'framer-motion'
+import React, { useState, useEffect } from 'react'
+import { motion, useAnimation } from 'framer-motion'
 import { useSpring, animated, config } from '@react-spring/web'
 import { useInView } from 'react-intersection-observer'
 import { 
   FaRocket, 
   FaCoins, 
   FaUsers,
-  FaChartLine,
-  FaBolt,
   FaStar,
-  FaFire,
-  FaDiamond,
-  FaSparkles,
   FaPlay,
-  FaEthereum
+  FaMusic,
+  FaFire
 } from 'react-icons/fa'
 import Image from 'next/image'
 
@@ -34,7 +30,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
   isLoading 
 }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
-  const [particleCount, setParticleCount] = useState(20)
+  const [particleCount] = useState(20)
   const controls = useAnimation()
   
   // Floating particles animation

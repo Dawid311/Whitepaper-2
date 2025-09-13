@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useSpring, animated, config } from '@react-spring/web'
 import { useInView } from 'react-intersection-observer'
 import Confetti from 'react-confetti'
@@ -18,15 +18,9 @@ import {
   FaTiktok,
   FaFacebook,
   FaEthereum,
-  FaTrophy,
-  FaGift,
   FaBolt,
   FaArrowRight,
-  FaPlay,
-  FaPause,
-  FaExpand,
-  FaStar,
-  FaFire
+  FaStar
 } from 'react-icons/fa'
 import Image from 'next/image'
 
@@ -53,7 +47,6 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
 }) => {
   const [currentSection, setCurrentSection] = useState('hero')
   const [showConfetti, setShowConfetti] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
   
   const { scrollYProgress } = useScroll({

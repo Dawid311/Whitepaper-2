@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaRocket, FaCog, FaShareAlt, FaHeart, FaDownload, FaWallet, FaChartLine, FaTimes, FaCopy } from 'react-icons/fa'
+import { FaRocket, FaShareAlt, FaDownload, FaWallet, FaChartLine, FaTimes, FaCopy } from 'react-icons/fa'
 
 interface FloatingActionButtonProps {
   isInvestmentOpen?: boolean

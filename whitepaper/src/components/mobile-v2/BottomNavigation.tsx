@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { FaRocket, FaUsers, FaCoins, FaLightbulb, FaCog, FaBolt } from 'react-icons/fa'
 
 interface Section {
   id: string
@@ -48,7 +47,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           />
           
-          {sections.map((section, index) => (
+          {sections.map((section) => (
             <motion.button
               key={section.id}
               whileTap={{ scale: 0.9 }}

@@ -9,16 +9,10 @@ import {
   FaDollarSign,
   FaChartLine,
   FaTrophy,
-  FaFire,
-  FaSparkles,
   FaBolt,
-  FaDiamond,
   FaRocket,
   FaStar,
-  FaArrowUp,
-  FaArrowDown,
-  FaEquals,
-  FaPercentage
+  FaArrowUp
 } from 'react-icons/fa'
 import Image from 'next/image'
 
@@ -127,7 +121,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
         className="backdrop-blur-xl bg-white/10 rounded-2xl p-2 border border-white/20 mb-8"
       >
         <div className="flex relative">
-          <motion.div
+          <animated.div
             style={tabSpring}
             className="absolute inset-y-1 w-1/3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl"
           />
@@ -140,7 +134,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
             <motion.button
               key={tab.id}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as 'overview' | 'halving' | 'roi')}
               className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-300 relative z-10 ${
                 activeTab === tab.id ? 'text-white' : 'text-gray-400 hover:text-white'
               }`}
@@ -261,7 +255,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
             >
               <h4 className="text-lg font-bold text-center mb-4">
                 <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
-                  <FaSparkles /> Dual-Token Synergie <FaSparkles />
+                  <FaStar /> Dual-Token Synergie <FaStar />
                 </span>
               </h4>
               
