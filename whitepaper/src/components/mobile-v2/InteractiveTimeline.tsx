@@ -212,90 +212,171 @@ const InteractiveTimeline: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* Timeline Steps */}
-      <div className="space-y-6">
-        {currentSteps.map((step, index) => (
-          <motion.div
-            key={`${currentCycle}-${step.id}`}
-            initial={{ opacity: 0, x: -30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            onClick={() => setActiveStep(index === activeStep ? -1 : index)}
-            className="relative cursor-pointer"
-          >
-            {/* Connection Line */}
-            {index < currentSteps.length - 1 && (
-              <div className="absolute left-8 top-20 w-0.5 h-12 bg-gradient-to-b from-white/30 to-white/10" />
-            )}
+      {/* Timeline Circle */}
+      <div className="relative w-full max-w-md mx-auto mb-10">
+        {/* Center Info */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="backdrop-blur-xl bg-white/10 rounded-full w-32 h-32 flex flex-col items-center justify-center border border-white/20">
+            <span className="text-white font-bold text-lg">
+              {currentCycle === 'main' ? '6' : '4'} Schritte
+            </span>
+            <span className="text-gray-300 text-xs text-center">
+              {currentCycle === 'main' ? 'Haupt-Zyklus' : 'Markt-Zyklus'}
+            </span>
+          </div>
+        </div>
 
-            {/* Step Card */}
-            <div className={`backdrop-blur-xl rounded-2xl border transition-all duration-300 ${
-              index === activeStep
-                ? 'bg-white/15 border-white/30 shadow-2xl scale-[1.02]'
-                : 'bg-white/8 border-white/15 hover:bg-white/12'
-            }`}>
-              <div className="p-6">
-                {/* Header */}
-                <div className="flex items-center gap-4 mb-4">
-                  {/* Step Number & Icon */}
-                  <div className={`flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-r ${step.color} flex items-center justify-center text-white text-xl relative`}>
+        {/* Circle Steps */}
+        <div className="relative w-80 h-80 mx-auto">
+          {currentSteps.map((step, index) => {
+            const angle = (index * 360) / currentSteps.length - 90 // Start at top
+            const radius = 140
+            const x = Math.cos((angle * Math.PI) / 180) * radius
+            const y = Math.sin((angle * Math.PI) / 180) * radius
+
+            return (
+              <motion.div
+                key={`${currentCycle}-${step.id}`}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() => setActiveStep(index === activeStep ? -1 : index)}
+                className={`absolute cursor-pointer transform -translate-x-1/2 -translate-y-1/2 ${
+                  index === activeStep ? 'z-20' : 'z-10'
+                }`}
+                style={{
+                  left: `50%`,
+                  top: `50%`,
+                  transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`
+                }}
+              >
+                {/* Step Card */}
+                <div className={`backdrop-blur-xl rounded-2xl border transition-all duration-300 ${
+                  index === activeStep
+                    ? 'bg-white/20 border-white/40 scale-110 shadow-2xl'
+                    : 'bg-white/10 border-white/20 hover:bg-white/15 hover:scale-105'
+                } w-16 h-16 flex flex-col items-center justify-center`}>
+                  {/* Step Icon */}
+                  <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white text-sm mb-1`}>
                     {step.icon}
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center text-black text-sm font-bold">
-                      {step.id}
-                    </div>
                   </div>
-
-                  {/* Title & Description */}
-                  <div className="flex-1">
-                    <h3 className="font-bold text-white text-lg mb-2 leading-tight">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      {step.description}
-                    </p>
+                  
+                  {/* Step Number */}
+                  <div className="text-white text-xs font-bold">
+                    {step.id}
                   </div>
-
-                  {/* Expand Arrow */}
-                  <motion.div
-                    animate={{ rotate: index === activeStep ? 90 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex-shrink-0"
-                  >
-                    <FaArrowRight className="text-gray-400" />
-                  </motion.div>
                 </div>
 
-                {/* Expanded Details */}
-                {index === activeStep && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="mt-6 pt-6 border-t border-white/10"
-                  >
-                    <div className="space-y-3">
-                      {step.details.map((detail, detailIndex) => (
-                        <div
-                          key={detailIndex}
-                          className="flex items-start gap-3 p-3 rounded-xl bg-white/5"
-                        >
-                          <div className={`flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center mt-0.5`}>
-                            <FaCheck className="text-white text-xs" />
-                          </div>
-                          <span className="text-gray-300 text-sm leading-relaxed">
-                            {detail}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        ))}
+                {/* Connection Line to Center */}
+                <div 
+                  className="absolute w-0.5 bg-gradient-to-r from-white/20 to-transparent"
+                  style={{
+                    height: `${radius - 32}px`,
+                    left: '50%',
+                    top: '50%',
+                    transformOrigin: 'top',
+                    transform: `translateX(-50%) rotate(${angle + 90}deg)`
+                  }}
+                />
+              </motion.div>
+            )
+          })}
+        </div>
+
+        {/* Flow Arrows */}
+        {currentSteps.map((_, index) => {
+          if (index === currentSteps.length - 1) return null // No arrow for last step
+          
+          const startAngle = (index * 360) / currentSteps.length - 90
+          const endAngle = ((index + 1) * 360) / currentSteps.length - 90
+          const midAngle = (startAngle + endAngle) / 2
+          const radius = 160
+          const x = Math.cos((midAngle * Math.PI) / 180) * radius
+          const y = Math.sin((midAngle * Math.PI) / 180) * radius
+
+          return (
+            <motion.div
+              key={`arrow-${index}`}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
+              className="absolute transform -translate-x-1/2 -translate-y-1/2 text-blue-400"
+              style={{
+                left: `50%`,
+                top: `50%`,
+                transform: `translate(${x}px, ${y}px) translate(-50%, -50%) rotate(${midAngle + 90}deg)`
+              }}
+            >
+              <FaArrowRight className="text-sm" />
+            </motion.div>
+          )
+        })}
+
+        {/* Cycle Arrow (connects last to first) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5, delay: 1 }}
+          className="absolute top-4 left-1/2 transform -translate-x-1/2 text-purple-400"
+        >
+          <div className="flex flex-col items-center">
+            <FaRedo className="text-lg animate-pulse" />
+            <span className="text-xs text-white mt-1 font-semibold">Loop</span>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Active Step Details */}
+      {activeStep !== -1 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, height: 0 }}
+          animate={{ opacity: 1, y: 0, height: 'auto' }}
+          exit={{ opacity: 0, y: -20, height: 0 }}
+          transition={{ duration: 0.3 }}
+          className="backdrop-blur-xl bg-white/10 rounded-2xl p-6 border border-white/20 mb-8"
+        >
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-4">
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${currentSteps[activeStep].color} flex items-center justify-center text-white text-lg`}>
+              {currentSteps[activeStep].icon}
+            </div>
+            <div className="flex-1">
+              <h3 className="font-bold text-white text-lg leading-tight">
+                {currentSteps[activeStep].title}
+              </h3>
+              <p className="text-gray-300 text-sm">
+                {currentSteps[activeStep].description}
+              </p>
+            </div>
+            <button
+              onClick={() => setActiveStep(-1)}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              <FaArrowRight className="transform rotate-90" />
+            </button>
+          </div>
+
+          {/* Details */}
+          <div className="space-y-3">
+            {currentSteps[activeStep].details.map((detail, detailIndex) => (
+              <motion.div
+                key={detailIndex}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: detailIndex * 0.1 }}
+                className="flex items-start gap-3 p-3 rounded-xl bg-white/5"
+              >
+                <div className={`flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r ${currentSteps[activeStep].color} flex items-center justify-center mt-0.5`}>
+                  <FaCheck className="text-white text-xs" />
+                </div>
+                <span className="text-gray-300 text-sm leading-relaxed">
+                  {detail}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      )}
 
       {/* Cycle Summary */}
       <motion.div
