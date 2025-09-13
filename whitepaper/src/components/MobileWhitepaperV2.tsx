@@ -431,32 +431,6 @@ const SolutionSectionV2: React.FC = () => {
               <span className="text-gray-300 text-sm">Wertsteigerung durch Verknappung</span>
             </div>
           </div>
-
-          <div className="backdrop-blur-sm bg-amber-900/30 rounded-xl p-4 border border-amber-500/20">
-            <h4 className="font-bold text-amber-300 mb-3 text-sm">Wie Fans D.FAITH bekommen:</h4>
-            <div className="grid grid-cols-1 gap-2">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300 text-xs">• Like (10 EXP)</span>
-                <span className="text-amber-400 text-xs font-semibold">→ Token-Reward</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300 text-xs">• Kommentar (10 EXP)</span>
-                <span className="text-amber-400 text-xs font-semibold">→ Token-Reward</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300 text-xs">• Share (10 EXP)</span>
-                <span className="text-amber-400 text-xs font-semibold">→ Token-Reward</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300 text-xs">• Story (20 EXP)</span>
-                <span className="text-amber-400 text-xs font-semibold">→ Token-Reward</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300 text-xs">• Live-Konzert Besuch (150 EXP)</span>
-                <span className="text-amber-400 text-xs font-semibold">→ Hohe Token-Reward</span>
-              </div>
-            </div>
-          </div>
         </motion.div>
 
         {/* D.INVEST Token */}
@@ -488,28 +462,6 @@ const SolutionSectionV2: React.FC = () => {
               <span className="text-gray-300 text-sm">Investoren profitieren von steigenden D.FAITH Preisen</span>
             </div>
           </div>
-
-          <div className="backdrop-blur-sm bg-blue-900/30 rounded-xl p-4 border border-blue-500/20">
-            <h4 className="font-bold text-blue-300 mb-3 text-sm">Investment Details:</h4>
-            <div className="grid grid-cols-1 gap-2">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300 text-xs">• Preis:</span>
-                <span className="text-green-400 text-xs font-bold">5€ pro D.INVEST</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300 text-xs">• Total Supply:</span>
-                <span className="text-blue-400 text-xs font-bold">10.000 Token</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300 text-xs">• Staking Rate:</span>
-                <span className="text-blue-400 text-xs font-bold">0.1 D.FAITH pro Woche</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-300 text-xs">• Entsperrt:</span>
-                <span className="text-purple-400 text-xs font-bold">80.000 gesperrte D.FAITH</span>
-              </div>
-            </div>
-          </div>
         </motion.div>
       </div>
 
@@ -526,10 +478,8 @@ const SolutionSectionV2: React.FC = () => {
           </h3>
           <p className="text-gray-300 leading-relaxed mb-4">
             <span className="font-bold text-red-300">Statt Geld für Werbung auszugeben</span>, investiert Dawid Faith direkt in 
-            <span className="font-bold text-green-300"> Fan-Belohnungen</span>. Fans werden für ihr Engagement bezahlt, wodurch sie 
-            <span className="font-bold text-blue-300"> motivierter</span> sind zu interagieren. Mehr Engagement = bessere Reichweite = 
-            mehr neue Fans = <span className="font-bold text-purple-300">selbstverstärkender Kreislauf</span>. 
-            Gleichzeitig generiert das System Kapital für Musikproduktion durch D.INVEST.
+            <span className="font-bold text-green-300"> Fan-Belohnungen</span>. Das motiviert Fans zu mehr Engagement, 
+            was zu besserer Reichweite und einem <span className="font-bold text-purple-300">selbstverstärkenden Kreislauf</span> führt.
           </p>
           
           <div className="flex justify-center items-center space-x-3">
