@@ -227,9 +227,9 @@ const InteractiveTimeline: React.FC = () => {
         </div>
 
         {/* Circle Steps */}
-        <div className="relative w-80 h-80 mx-auto flex items-center justify-center">
+        <div className="relative w-80 h-80 mx-auto">
           {/* Center Circle for Reference */}
-          <div className="absolute w-4 h-4 bg-white/20 rounded-full"></div>
+          <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-white/20 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
           
           {currentSteps.map((step, index) => {
             const angle = (index * 360) / currentSteps.length - 90 // Start at top (-90 degrees)
@@ -248,7 +248,9 @@ const InteractiveTimeline: React.FC = () => {
                   index === activeStep ? 'z-20' : 'z-10'
                 }`}
                 style={{
-                  transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`
+                  top: `50%`,
+                  left: `50%`,
+                  transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`
                 }}
               >
                 {/* Step Card */}
@@ -273,7 +275,7 @@ const InteractiveTimeline: React.FC = () => {
         </div>
 
         {/* Flow Arrows */}
-        <div className="relative w-80 h-80 mx-auto flex items-center justify-center">
+        <div className="relative w-80 h-80 mx-auto">
           {currentSteps.map((_, index) => {
             if (index === currentSteps.length - 1) return null // No arrow for last step
             
@@ -292,7 +294,9 @@ const InteractiveTimeline: React.FC = () => {
                 transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                 className="absolute text-blue-400"
                 style={{
-                  transform: `translate(${x}px, ${y}px) translate(-50%, -50%) rotate(${midAngle + 90}deg)`
+                  top: `50%`,
+                  left: `50%`,
+                  transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${midAngle + 90}deg)`
                 }}
               >
                 <FaArrowRight className="text-sm" />
