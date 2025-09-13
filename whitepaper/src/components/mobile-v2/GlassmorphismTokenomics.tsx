@@ -17,17 +17,41 @@ import {
 import Image from 'next/image'
 
 interface GlassmorphismTokenomicsProps {
-  tokenPrices: {
+  tokenPrices?: {
     dfaith: number
     dinvest: number
   }
 }
 
-const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ tokenPrices }) => {
+const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ tokenPrices: propTokenPrices }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
   const [activeTab, setActiveTab] = useState<'overview' | 'halving' | 'roi'>('overview')
   const [selectedStage, setSelectedStage] = useState(1)
   const [investmentAmount, setInvestmentAmount] = useState(10)
+  const [dfaithPrice, setDfaithPrice] = useState(0.20)
+  const [selectedHalvingStage, setSelectedHalvingStage] = useState(1)
+
+  // Live Price States
+  const [tokenPrices, setTokenPrices] = useState({
+    dfaith: 0.138, // Euro statt USD
+    dinvest: 5,
+    eth: 2300 // Euro
+  })
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Live Token Data States
+  const [liveTokenData, setLiveTokenData] = useState({
+    dinvest: {
+      available: 0,
+      sold: 0
+    },
+    dfaith: {
+      contractBalance: 0, // Aus Staking API (totalStaked)
+      dexLiquidity: 0, // Aus DEX API
+      communityCirculation: 0 // Berechnet
+    }
+  })
+  const [isTokenDataLoading, setIsTokenDataLoading] = useState(true)
 
   // Animation values
   const [animatedValues, setAnimatedValues] = useState({
@@ -36,6 +60,157 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
     totalSupply: 0,
     roi: 0
   })
+
+  // Fetch token prices
+  useEffect(() => {
+    const fetchTokenPrices = async () => {
+      try {
+        const response = await fetch('/api/token-prices')
+        
+        // Prüfe, ob die Response OK ist
+        if (!response.ok) {
+          console.error('API response not OK:', response.status, response.statusText)
+          return
+        }
+
+        // Prüfe Content-Type
+        const contentType = response.headers.get('content-type')
+        if (!contentType || !contentType.includes('application/json')) {
+          console.error('Response is not JSON:', contentType)
+          return
+        }
+
+        const text = await response.text()
+        if (!text) {
+          console.error('Empty response body')
+          return
+        }
+
+        const data = JSON.parse(text)
+        
+        if (data.tokens?.dfaith) {
+          setTokenPrices({
+            dfaith: data.tokens.dfaith.price_eur, // Euro statt USD
+            dinvest: data.tokens.dinvest.price_eur,
+            eth: data.eth_price_eur || 2300
+          })
+        }
+      } catch (error) {
+        console.error('Error fetching token prices:', error)
+        // Verwende Fallback-Werte bei Fehlern
+        setTokenPrices({
+          dfaith: 0.138,
+          dinvest: 5,
+          eth: 2300
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchTokenPrices()
+    const interval = setInterval(fetchTokenPrices, 5 * 60 * 1000) // Update every 5 minutes
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // Fetch live token data
+  useEffect(() => {
+    const fetchLiveTokenData = async () => {
+      try {
+        // Fetch D.INVEST balance - API zeigt verfügbare (nicht verkaufte)
+        const dinvestResponse = await fetch('/api/dinvest-balance')
+        let dinvestData = { available: 0, sold: 0 }
+        
+        if (dinvestResponse.ok) {
+          const dinvestJson = await dinvestResponse.json()
+          if (dinvestJson.success && dinvestJson.data?.balance) {
+            const availableTokens = parseInt(dinvestJson.data.balance)
+            const totalDinvestSupply = 10000 // Annahme: 10.000 D.INVEST insgesamt
+            const soldTokens = totalDinvestSupply - availableTokens
+            
+            dinvestData = {
+              available: availableTokens,
+              sold: soldTokens
+            }
+          }
+        }
+
+        // Fetch DEX liquidity direkt von dex-liquidity API
+        const dexResponse = await fetch('/api/dex-liquidity')
+        let dfaithDexLiquidity = 0
+        
+        if (dexResponse.ok) {
+          const dexJson = await dexResponse.json()
+          if (dexJson.success && dexJson.data?.balances?.tokenInPool) {
+            dfaithDexLiquidity = parseFloat(dexJson.data.balances.tokenInPool)
+          }
+        }
+
+        // Fetch Staking Contract data für availableRewards (D.FAITH im Contract)
+        const stakingResponse = await fetch('/api/staking')
+        let contractBalance = 0
+        
+        if (stakingResponse.ok) {
+          const stakingJson = await stakingResponse.json()
+          if (stakingJson.data?.totalStaked) {
+            contractBalance = parseFloat(stakingJson.data.totalStaked)
+          }
+        }
+
+        // Berechne Community Circulation (Rest der verfügbaren D.FAITH)
+        const totalSupply = 100000
+        const communityCirculation = totalSupply - contractBalance - dfaithDexLiquidity
+
+        setLiveTokenData({
+          dinvest: dinvestData,
+          dfaith: {
+            contractBalance,
+            dexLiquidity: dfaithDexLiquidity,
+            communityCirculation: Math.max(0, communityCirculation)
+          }
+        })
+
+      } catch (error) {
+        console.error('Error fetching live token data:', error)
+        // Keine Fallback-Werte setzen - bleibe bei 0
+      } finally {
+        setIsTokenDataLoading(false)
+      }
+    }
+
+    fetchLiveTokenData()
+    const interval = setInterval(fetchLiveTokenData, 2 * 60 * 1000) // Update every 2 minutes
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // Consistent number formatting
+  const formatNumber = (num: number, decimals?: number) => {
+    if (decimals !== undefined) {
+      return num.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+  }
+
+  // Token Data (jetzt mit Live-Daten)
+  const tokenData = {
+    dfaith: {
+      total: 100000,
+      contractBalance: isTokenDataLoading ? 0 : liveTokenData.dfaith.contractBalance,
+      dexLiquidity: isTokenDataLoading ? 0 : liveTokenData.dfaith.dexLiquidity,
+      communityCirculation: isTokenDataLoading ? 0 : liveTokenData.dfaith.communityCirculation,
+      currentPrice: isLoading ? 0.001 : tokenPrices.dfaith,
+      targetPrice: 1.5
+    },
+    dinvest: {
+      total: 10000,
+      available: isTokenDataLoading ? 0 : liveTokenData.dinvest.available,
+      sold: isTokenDataLoading ? 0 : liveTokenData.dinvest.sold,
+      price: isLoading ? 5 : tokenPrices.dinvest,
+      totalValue: isLoading ? 50000 : tokenPrices.dinvest * 10000
+    }
+  }
 
   useEffect(() => {
     if (inView) {
@@ -48,39 +223,46 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
         for (let i = 0; i <= steps; i++) {
           const progress = i / steps
           setAnimatedValues({
-            dfaithPrice: tokenPrices.dfaith * progress,
-            dinvestPrice: tokenPrices.dinvest * progress,
-            totalSupply: 100000 * progress,
-            roi: calculateROI(investmentAmount, tokenPrices.dfaith) * progress
+            dfaithPrice: tokenData.dfaith.currentPrice * progress,
+            dinvestPrice: tokenData.dinvest.price * progress,
+            totalSupply: tokenData.dfaith.total * progress,
+            roi: calculateROI(investmentAmount, tokenData.dfaith.currentPrice) * progress
           })
           await new Promise(resolve => setTimeout(resolve, stepDuration))
         }
       }
       animate()
     }
-  }, [inView, tokenPrices, investmentAmount])
+  }, [inView, tokenData, investmentAmount])
 
   const calculateROI = (investment: number, dfaithPrice: number) => {
-    const annualDFaith = investment * 0.1 * 52 // Weekly rewards
-    const annualValue = annualDFaith * dfaithPrice
-    const initialInvestment = investment * 5 // D.INVEST price
-    return initialInvestment > 0 ? (annualValue / initialInvestment) * 100 : 0
+    // Halving-abhängige Reward-Rate
+    const currentHalvingStage = halvingStages.find(stage => stage.stage === selectedHalvingStage) || halvingStages[0]
+    const weeklyDfaithRewards = (currentHalvingStage.rate / 100) // Prozent zu Dezimal
+    const yearlyDfaithRewards = weeklyDfaithRewards * 52 // pro Jahr
+    
+    // Berechnungen
+    const totalInvestment = investment * 5 // D.INVEST price
+    const yearlyDfaithValue = yearlyDfaithRewards * dfaithPrice * investment
+    const yearlyRoi = totalInvestment > 0 ? (yearlyDfaithValue / totalInvestment) * 100 : 0
+    
+    return yearlyRoi
   }
 
   const halvingStages = [
-    { stage: 1, range: "0 - 10K", rate: "10.00%", status: "Aktiv", multiplier: "32x", color: "green" },
-    { stage: 2, range: "10K - 20K", rate: "5.00%", status: "Bald", multiplier: "16x", color: "blue" },
-    { stage: 3, range: "20K - 40K", rate: "2.50%", status: "Zukunft", multiplier: "8x", color: "purple" },
-    { stage: 4, range: "40K - 60K", rate: "1.25%", status: "Zukunft", multiplier: "4x", color: "orange" },
-    { stage: 5, range: "60K - 80K", rate: "0.63%", status: "Zukunft", multiplier: "2x", color: "red" },
-    { stage: 6, range: "80K+", rate: "0.31%", status: "Final", multiplier: "1x", color: "gray" }
+    { stage: 1, range: "0-10k", rate: 10.0, color: "#10b981", status: "Aktiv", multiplier: "32" },
+    { stage: 2, range: "10k-20k", rate: 5.0, color: "#3b82f6", status: "Bald", multiplier: "16" },
+    { stage: 3, range: "20k-40k", rate: 2.5, color: "#8b5cf6", status: "Zukunft", multiplier: "8" },
+    { stage: 4, range: "40k-60k", rate: 1.25, color: "#f59e0b", status: "Zukunft", multiplier: "4" },
+    { stage: 5, range: "60k-80k", rate: 0.63, color: "#ef4444", status: "Zukunft", multiplier: "2" },
+    { stage: 6, range: "80k+", rate: 0.31, color: "#991b1b", status: "Final", multiplier: "1" }
   ]
 
   const roiScenarios = [
-    { price: 0.05, label: "Start", roi: 5.2, color: "gray" },
-    { price: 0.20, label: "+300%", roi: 20.8, color: "blue" },
-    { price: 0.50, label: "+900%", roi: 52.0, color: "green" },
-    { price: 1.00, label: "+1900%", roi: 104.0, color: "purple" }
+    { price: 0.05, label: "0,05€ (Start)", priceIncrease: "+0%", color: "#ef4444" },
+    { price: 0.20, label: "0,20€", priceIncrease: "+300%", color: "#f59e0b" },
+    { price: 0.50, label: "0,50€", priceIncrease: "+900%", color: "#10b981" },
+    { price: 1.00, label: "1,00€", priceIncrease: "+1900%", color: "#8b5cf6" }
   ]
 
   // Spring animations
@@ -185,11 +367,14 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <div className="flex items-center gap-2 mb-2">
                       <FaCoins className="text-amber-400" />
-                      <span className="text-gray-300 text-sm">Total Supply</span>
+                      <span className="text-gray-300 text-sm">Smart Contract</span>
                     </div>
                     <p className="text-2xl font-bold text-amber-400">
-                      {animatedValues.totalSupply.toLocaleString('de-DE', { maximumFractionDigits: 0 })}
+                      {formatNumber(tokenData.dfaith.contractBalance)}
                     </p>
+                    {!isTokenDataLoading && (
+                      <p className="text-green-400 text-xs mt-1">Live Daten</p>
+                    )}
                   </div>
 
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
@@ -198,7 +383,27 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                       <span className="text-gray-300 text-sm">Aktueller Preis</span>
                     </div>
                     <p className="text-2xl font-bold text-green-400">
-                      €{animatedValues.dfaithPrice.toFixed(3)}
+                      €{tokenData.dfaith.currentPrice.toFixed(3)}
+                    </p>
+                  </div>
+
+                  <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaChartLine className="text-blue-400" />
+                      <span className="text-gray-300 text-sm">DEX Liquidität</span>
+                    </div>
+                    <p className="text-2xl font-bold text-blue-400">
+                      {formatNumber(tokenData.dfaith.dexLiquidity)}
+                    </p>
+                  </div>
+
+                  <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaRocket className="text-purple-400" />
+                      <span className="text-gray-300 text-sm">Community</span>
+                    </div>
+                    <p className="text-2xl font-bold text-purple-400">
+                      {formatNumber(tokenData.dfaith.communityCirculation)}
                     </p>
                   </div>
                 </div>
@@ -231,16 +436,39 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                       <span className="text-gray-300 text-sm">Fester Preis</span>
                     </div>
                     <p className="text-2xl font-bold text-purple-400">
-                      €{animatedValues.dinvestPrice.toFixed(2)}
+                      €{tokenData.dinvest.price.toFixed(2)}
                     </p>
                   </div>
 
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <div className="flex items-center gap-2 mb-2">
+                      <FaCoins className="text-green-400" />
+                      <span className="text-gray-300 text-sm">Verkauft</span>
+                    </div>
+                    <p className="text-2xl font-bold text-green-400">
+                      {formatNumber(tokenData.dinvest.sold)}
+                    </p>
+                    {!isTokenDataLoading && (
+                      <p className="text-green-400 text-xs mt-1">Live Daten</p>
+                    )}
+                  </div>
+
+                  <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="flex items-center gap-2 mb-2">
                       <FaRocket className="text-blue-400" />
+                      <span className="text-gray-300 text-sm">Verfügbar</span>
+                    </div>
+                    <p className="text-2xl font-bold text-blue-400">
+                      {formatNumber(tokenData.dinvest.available)}
+                    </p>
+                  </div>
+
+                  <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaChartLine className="text-orange-400" />
                       <span className="text-gray-300 text-sm">Staking Rate</span>
                     </div>
-                    <p className="text-2xl font-bold text-blue-400">0,1/Woche</p>
+                    <p className="text-2xl font-bold text-orange-400">0,1/Woche</p>
                   </div>
                 </div>
               </motion.div>
@@ -327,14 +555,10 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${
-                      stage.color === 'green' ? 'from-green-500 to-emerald-500' :
-                      stage.color === 'blue' ? 'from-blue-500 to-cyan-500' :
-                      stage.color === 'purple' ? 'from-purple-500 to-indigo-500' :
-                      stage.color === 'orange' ? 'from-orange-500 to-red-500' :
-                      stage.color === 'red' ? 'from-red-500 to-pink-500' :
-                      'from-gray-500 to-gray-600'
-                    } flex items-center justify-center`}>
+                    <div 
+                      className="w-12 h-12 rounded-xl flex items-center justify-center"
+                      style={{ backgroundColor: stage.color }}
+                    >
                       <span className="text-white font-bold">{stage.stage}</span>
                     </div>
                     <div>
@@ -344,8 +568,8 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   </div>
                   
                   <div className="text-right">
-                    <p className="font-bold text-white">{stage.rate}</p>
-                    <p className="text-gray-400 text-xs">{stage.multiplier}</p>
+                    <p className="font-bold text-white">{stage.rate.toFixed(2)}%</p>
+                    <p className="text-gray-400 text-xs">{stage.multiplier}x</p>
                   </div>
                 </div>
 
@@ -364,11 +588,11 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                       </div>
                       <div>
                         <p className="text-gray-400 text-xs">Wöchentliche Rate</p>
-                        <p className="font-semibold text-white">{stage.rate}</p>
+                        <p className="font-semibold text-white">{stage.rate.toFixed(2)}%</p>
                       </div>
                       <div>
                         <p className="text-gray-400 text-xs">vs. Final</p>
-                        <p className="font-semibold text-purple-400">{stage.multiplier}</p>
+                        <p className="font-semibold text-purple-400">{stage.multiplier}x</p>
                       </div>
                     </div>
                   </motion.div>
@@ -413,6 +637,47 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   </div>
                 </div>
 
+                <div>
+                  <label className="block text-gray-300 text-sm mb-2">D.FAITH Preis (€)</label>
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="range"
+                      min="0.05"
+                      max="2.00"
+                      step="0.05"
+                      value={dfaithPrice}
+                      onChange={(e) => setDfaithPrice(Number(e.target.value))}
+                      className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                    />
+                    <div className="backdrop-blur-sm bg-white/10 rounded-lg px-3 py-2 border border-white/20">
+                      <span className="text-white font-bold">€{dfaithPrice.toFixed(2)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-gray-300 text-sm mb-2">Halving-Stufe</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {halvingStages.slice(0, 6).map((stage) => (
+                      <button
+                        key={stage.stage}
+                        onClick={() => setSelectedHalvingStage(stage.stage)}
+                        className={`py-2 px-3 rounded-lg text-sm font-semibold transition-all ${
+                          selectedHalvingStage === stage.stage
+                            ? 'text-white border-2'
+                            : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                        }`}
+                        style={{
+                          backgroundColor: selectedHalvingStage === stage.stage ? stage.color : undefined,
+                          borderColor: selectedHalvingStage === stage.stage ? stage.color : 'transparent'
+                        }}
+                      >
+                        {stage.stage}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <p className="text-gray-400 text-sm mb-1">Investment</p>
@@ -420,7 +685,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   </div>
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <p className="text-gray-400 text-sm mb-1">Jährlicher ROI</p>
-                    <p className="text-2xl font-bold text-blue-400">{animatedValues.roi.toFixed(1)}%</p>
+                    <p className="text-2xl font-bold text-blue-400">{calculateROI(investmentAmount, dfaithPrice).toFixed(1)}%</p>
                   </div>
                 </div>
               </div>
@@ -429,42 +694,42 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
             {/* ROI Scenarios */}
             <div className="space-y-4">
               <h4 className="text-lg font-bold text-center text-white">Preis-Szenarien</h4>
-              {roiScenarios.map((scenario, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className={`backdrop-blur-xl rounded-2xl p-4 border ${
-                    scenario.color === 'gray' ? 'bg-gray-500/10 border-gray-500/20' :
-                    scenario.color === 'blue' ? 'bg-blue-500/10 border-blue-500/20' :
-                    scenario.color === 'green' ? 'bg-green-500/10 border-green-500/20' :
-                    'bg-purple-500/10 border-purple-500/20'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${
-                        scenario.color === 'gray' ? 'from-gray-500 to-gray-600' :
-                        scenario.color === 'blue' ? 'from-blue-500 to-cyan-500' :
-                        scenario.color === 'green' ? 'from-green-500 to-emerald-500' :
-                        'from-purple-500 to-pink-500'
-                      } flex items-center justify-center`}>
-                        <FaDollarSign className="text-white" />
+              {roiScenarios.map((scenario, index) => {
+                const scenarioRoi = calculateROI(investmentAmount, scenario.price)
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    className="backdrop-blur-xl rounded-2xl p-4 border"
+                    style={{ 
+                      backgroundColor: `${scenario.color}10`, 
+                      borderColor: `${scenario.color}20` 
+                    }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div 
+                          className="w-12 h-12 rounded-xl flex items-center justify-center"
+                          style={{ backgroundColor: scenario.color }}
+                        >
+                          <FaDollarSign className="text-white" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-white">{scenario.label}</p>
+                          <p className="text-gray-400 text-sm">{scenario.priceIncrease}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-semibold text-white">€{scenario.price.toFixed(2)} D.FAITH</p>
-                        <p className="text-gray-400 text-sm">{scenario.label}</p>
+                      
+                      <div className="text-right">
+                        <p className="text-2xl font-bold text-white">{scenarioRoi.toFixed(1)}%</p>
+                        <p className="text-gray-400 text-sm">ROI</p>
                       </div>
                     </div>
-                    
-                    <div className="text-right">
-                      <p className="text-2xl font-bold text-white">{scenario.roi}%</p>
-                      <p className="text-gray-400 text-sm">ROI</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                )
+              })}
             </div>
           </motion.div>
         )}
