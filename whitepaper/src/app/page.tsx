@@ -18,10 +18,19 @@ import TeamSection from '../components/TeamSection'
 import TechnicalArchitecture from '../components/TechnicalArchitecture'
 import RoadmapTimeline from '../components/RoadmapTimeline'
 import LiveStatsFixed from '../components/LiveStatsFixed'
+import MobileWhitepaper from '../components/MobileWhitepaper'
+import useDeviceDetection from '../hooks/useDeviceDetection'
 
 const WhitepaperPage = () => {
   const [activeSection, setActiveSection] = useState('hero')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { isMobile, isTablet } = useDeviceDetection()
+  const [mounted, setMounted] = useState(false)
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,6 +56,23 @@ const WhitepaperPage = () => {
       element.scrollIntoView({ behavior: 'smooth' })
     }
     setIsMenuOpen(false)
+  }
+
+  // Show loading state until mounted to prevent hydration issues
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-slate-900 to-zinc-950 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-amber-500/30 border-t-amber-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-zinc-400">Loading D.FAITH Whitepaper...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Render mobile version for mobile devices
+  if (isMobile) {
+    return <MobileWhitepaper />
   }
 
   return (
