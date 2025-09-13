@@ -24,7 +24,8 @@ import {
   FaExclamationTriangle,
   FaGift,
   FaBolt,
-  FaStore
+  FaStore,
+  FaCog
 } from 'react-icons/fa'
 import Image from 'next/image'
 
@@ -33,6 +34,7 @@ import MobileHeroSection from './mobile/MobileHeroSection'
 import MobileTeamSection from './mobile/MobileTeamSection'
 import MobileTokenomicsChart from './mobile/MobileTokenomicsChart'
 import MobileTechSection from './mobile/MobileTechSection'
+import MobileStepByStepProcess from './mobile/MobileStepByStepProcess'
 
 const MobileWhitepaper = () => {
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
@@ -462,6 +464,12 @@ const MobileWhitepaper = () => {
           </motion.div>
         </div>
       )
+    },
+    {
+      id: 'process',
+      title: 'Schritt-für-Schritt Prozess',
+      icon: <FaCog className="text-blue-400" />,
+      component: <MobileStepByStepProcess />
     },
     {
       id: 'tokenomics',
