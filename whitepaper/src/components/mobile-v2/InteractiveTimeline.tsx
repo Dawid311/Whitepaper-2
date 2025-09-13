@@ -20,7 +20,6 @@ import {
   FaPlay,
   FaPause,
   FaFire,
-  FaSparkles,
   FaBolt
 } from 'react-icons/fa'
 
@@ -331,7 +330,7 @@ const InteractiveTimeline: React.FC = () => {
                             className="flex items-center gap-1"
                           >
                             <FaFire className="text-orange-400 animate-pulse" />
-                            <FaSparkles className="text-yellow-400 animate-pulse" />
+                            <FaFire className="text-yellow-400 animate-pulse" />
                           </motion.div>
                         )}
                       </div>

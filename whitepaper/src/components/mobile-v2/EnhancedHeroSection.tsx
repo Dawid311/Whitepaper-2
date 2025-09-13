@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { motion, useAnimation } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useSpring, animated, config } from '@react-spring/web'
 import { useInView } from 'react-intersection-observer'
 import { 
@@ -31,7 +31,6 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
 }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
   const [particleCount] = useState(20)
-  const controls = useAnimation()
   
   // Floating particles animation
   const particles = Array.from({ length: particleCount }, (_, i) => i)
