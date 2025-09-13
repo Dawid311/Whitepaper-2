@@ -229,13 +229,20 @@ const InteractiveTimeline: React.FC = () => {
         {/* Circle Steps */}
         <div className="relative w-80 h-80 mx-auto">
           {/* Center Circle for Reference */}
-          <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-white/20 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-white/20 rounded-full" style={{
+            transform: 'translate(-50%, -50%)'
+          }}></div>
           
           {currentSteps.map((step, index) => {
-            const angle = (index * 360) / currentSteps.length - 90 // Start at top (-90 degrees)
-            const radius = 120 // Distance from center
-            const x = Math.cos((angle * Math.PI) / 180) * radius
-            const y = Math.sin((angle * Math.PI) / 180) * radius
+            // Calculate angle for each step
+            const angle = (index * 360) / currentSteps.length - 90 // Start at top
+            const radius = 110 // Distance from center
+            
+            // Calculate positions
+            const centerX = 160 // Half of container width (320px / 2)
+            const centerY = 160 // Half of container height (320px / 2)
+            const x = centerX + Math.cos((angle * Math.PI) / 180) * radius
+            const y = centerY + Math.sin((angle * Math.PI) / 180) * radius
 
             return (
               <motion.div
@@ -248,9 +255,9 @@ const InteractiveTimeline: React.FC = () => {
                   index === activeStep ? 'z-20' : 'z-10'
                 }`}
                 style={{
-                  top: `50%`,
-                  left: `50%`,
-                  transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`
+                  left: `${x}px`,
+                  top: `${y}px`,
+                  transform: 'translate(-50%, -50%)'
                 }}
               >
                 {/* Step Card */}
@@ -282,9 +289,12 @@ const InteractiveTimeline: React.FC = () => {
             const startAngle = (index * 360) / currentSteps.length - 90
             const endAngle = ((index + 1) * 360) / currentSteps.length - 90
             const midAngle = (startAngle + endAngle) / 2
-            const radius = 140 // Slightly outside the circles
-            const x = Math.cos((midAngle * Math.PI) / 180) * radius
-            const y = Math.sin((midAngle * Math.PI) / 180) * radius
+            const radius = 130 // Between circles and edge
+            
+            const centerX = 160
+            const centerY = 160
+            const x = centerX + Math.cos((midAngle * Math.PI) / 180) * radius
+            const y = centerY + Math.sin((midAngle * Math.PI) / 180) * radius
 
             return (
               <motion.div
@@ -294,9 +304,9 @@ const InteractiveTimeline: React.FC = () => {
                 transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                 className="absolute text-blue-400"
                 style={{
-                  top: `50%`,
-                  left: `50%`,
-                  transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${midAngle + 90}deg)`
+                  left: `${x}px`,
+                  top: `${y}px`,
+                  transform: `translate(-50%, -50%) rotate(${midAngle + 90}deg)`
                 }}
               >
                 <FaArrowRight className="text-sm" />
