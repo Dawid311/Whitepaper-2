@@ -4,14 +4,12 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   FaChevronDown, 
-  FaChevronUp, 
   FaRocket, 
   FaCoins, 
   FaRoad,
   FaLightbulb,
   FaShieldAlt,
   FaUser,
-  FaPlay,
   FaHeart,
   FaInstagram,
   FaMusic,
@@ -20,13 +18,7 @@ import {
   FaArrowUp,
   FaTrophy,
   FaChartLine,
-  FaLock,
-  FaFireAlt,
   FaDollarSign,
-  FaPercent,
-  FaCalendarAlt,
-  FaLayerGroup,
-  FaCode,
   FaCheck,
   FaSpinner,
   FaExclamationTriangle,
@@ -128,7 +120,7 @@ const MobileWhitepaper = () => {
               </div>
               
               <div className="relative">
-                <div className="text-6xl text-red-400/30 absolute -top-4 -left-2">"</div>
+                <div className="text-6xl text-red-400/30 absolute -top-4 -left-2">&quot;</div>
                 <p className="text-gray-300 text-sm leading-relaxed pl-6">
                   Als unabhängiger Künstler stehe ich vor den gleichen Problemen wie viele andere: 
                   Mein Content bekommt nicht die Reichweite, die er verdient. Bezahlte Werbung ist 
@@ -136,7 +128,7 @@ const MobileWhitepaper = () => {
                   Kapital für Musikproduktion. Deshalb entwickelte ich D.FAITH: um Fans direkt 
                   für ihr Engagement zu belohnen und gleichzeitig Kapital für meine Musik zu generieren.
                 </p>
-                <div className="text-6xl text-red-400/30 absolute -bottom-6 -right-2 rotate-180">"</div>
+                <div className="text-6xl text-red-400/30 absolute -bottom-6 -right-2 rotate-180">&quot;</div>
               </div>
             </div>
           </motion.div>
@@ -178,12 +170,12 @@ const MobileWhitepaper = () => {
                 description: "Fan-Interaktionen bringen keinen direkten Mehrwert",
                 impact: "Oberflächliche Fan-Beziehungen"
               }
-            ].map((problem, index) => (
+            ].map((problem) => (
               <motion.div
                 key={problem.title}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
                 className={`bg-gradient-to-r from-${problem.color}-900/30 to-${problem.color}-800/20 rounded-2xl p-4 border border-${problem.color}-500/30`}
               >
                 <div className="flex items-center justify-between mb-3">
@@ -221,19 +213,19 @@ const MobileWhitepaper = () => {
                 "Ohne Fans kein Einkommen",
                 "Ohne Einkommen keine Investition in besseren Content",
                 "Ohne besseren Content keine Reichweite"
-              ].map((step, index) => (
+              ].map((step, stepIndex) => (
                 <motion.div
-                  key={index}
+                  key={step}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
+                  transition={{ duration: 0.4, delay: 0.8 + stepIndex * 0.1 }}
                   className="flex items-center gap-3"
                 >
                   <div className="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center">
-                    <span className="text-red-400 font-bold text-sm">{index + 1}</span>
+                    <span className="text-red-400 font-bold text-sm">{stepIndex + 1}</span>
                   </div>
                   <span className="text-gray-300 text-sm">{step}</span>
-                  {index < 4 && <FaArrowUp className="text-red-400/50 text-xs rotate-90" />}
+                  {stepIndex < 4 && <FaArrowUp className="text-red-400/50 text-xs rotate-90" />}
                 </motion.div>
               ))}
             </div>
@@ -402,12 +394,12 @@ const MobileWhitepaper = () => {
                   icon: FaWallet,
                   color: "blue"
                 }
-              ].map((feature, index) => (
+              ].map((feature) => (
                 <motion.div
                   key={feature.title}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 1.0 + index * 0.1 }}
+                  transition={{ duration: 0.4, delay: 1.0 }}
                   className={`bg-gradient-to-r from-${feature.color}-900/30 to-${feature.color}-800/20 rounded-xl p-4 border border-${feature.color}-500/30`}
                 >
                   <div className="flex items-center gap-3">
@@ -450,7 +442,7 @@ const MobileWhitepaper = () => {
                   benefits: ["Hohe Renditen möglich", "Partizipation am Erfolg", "Transparente Investments"],
                   color: "blue"
                 }
-              ].map((group, index) => (
+              ].map((group) => (
                 <div key={group.group} className={`bg-${group.color}-900/20 rounded-xl p-4 border border-${group.color}-500/30`}>
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-2xl">{group.emoji}</span>

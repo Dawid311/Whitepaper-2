@@ -76,7 +76,7 @@ const MobileTeamSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="bg-gradient-to-r from-amber-900/30 to-purple-900/30 rounded-2xl p-4 border border-amber-500/20 mb-6"
           >
-            <div className="text-4xl text-amber-400/50 mb-2">"</div>
+            <div className="text-4xl text-amber-400/50 mb-2">&quot;</div>
             <p className="text-sm text-gray-300 italic leading-relaxed">
               Als unabhängiger Künstler stehe ich vor den gleichen Problemen wie viele andere: 
               Mein Content bekommt nicht die Reichweite, die er verdient. Deshalb entwickelte ich 

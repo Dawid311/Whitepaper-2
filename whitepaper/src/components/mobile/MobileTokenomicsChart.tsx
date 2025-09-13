@@ -2,7 +2,14 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaCoins, FaFireAlt, FaLock, FaPercent, FaArrowUp, FaTrophy, FaCalculator } from 'react-icons/fa'
+import { 
+  FaCoins, 
+  FaFireAlt, 
+  FaLock, 
+  FaPercent, 
+  FaTrophy, 
+  FaCalculator 
+} from 'react-icons/fa'
 
 interface MobileTokenomicsChartProps {
   tokenPrices: {
@@ -59,7 +66,7 @@ const MobileTokenomicsChart: React.FC<MobileTokenomicsChartProps> = ({ tokenPric
             key={tab.id}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as 'overview' | 'halving' | 'roi')}
             className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-medium text-sm transition-all ${
               activeTab === tab.id
                 ? 'bg-gradient-to-r from-amber-500 to-purple-500 text-white'
