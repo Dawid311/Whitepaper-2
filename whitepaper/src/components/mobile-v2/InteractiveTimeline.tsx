@@ -241,13 +241,13 @@ const InteractiveTimeline: React.FC = () => {
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 onClick={() => setActiveStep(index === activeStep ? -1 : index)}
-                className={`absolute cursor-pointer transform -translate-x-1/2 -translate-y-1/2 ${
+                className={`absolute cursor-pointer ${
                   index === activeStep ? 'z-20' : 'z-10'
                 }`}
                 style={{
-                  left: `50%`,
-                  top: `50%`,
-                  transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`
+                  left: `calc(50% + ${x}px)`,
+                  top: `calc(50% + ${y}px)`,
+                  transform: `translate(-50%, -50%)`
                 }}
               >
                 {/* Step Card */}
@@ -266,18 +266,6 @@ const InteractiveTimeline: React.FC = () => {
                     {step.id}
                   </div>
                 </div>
-
-                {/* Connection Line to Center */}
-                <div 
-                  className="absolute w-0.5 bg-gradient-to-r from-white/20 to-transparent"
-                  style={{
-                    height: `${radius - 32}px`,
-                    left: '50%',
-                    top: '50%',
-                    transformOrigin: 'top',
-                    transform: `translateX(-50%) rotate(${angle + 90}deg)`
-                  }}
-                />
               </motion.div>
             )
           })}
@@ -300,11 +288,11 @@ const InteractiveTimeline: React.FC = () => {
               initial={{ opacity: 0, scale: 0 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-              className="absolute transform -translate-x-1/2 -translate-y-1/2 text-blue-400"
+              className="absolute text-blue-400"
               style={{
-                left: `50%`,
-                top: `50%`,
-                transform: `translate(${x}px, ${y}px) translate(-50%, -50%) rotate(${midAngle + 90}deg)`
+                left: `calc(50% + ${x}px)`,
+                top: `calc(50% + ${y}px)`,
+                transform: `translate(-50%, -50%) rotate(${midAngle + 90}deg)`
               }}
             >
               <FaArrowRight className="text-sm" />
