@@ -8,8 +8,7 @@ import {
   FaRocket, 
   FaCoins, 
   FaUsers, 
-  FaCog,
-  FaRoadmap,
+  FaRoad,
   FaLightbulb,
   FaChartLine,
   FaShieldAlt
@@ -329,7 +328,7 @@ const MobileWhitepaper = () => {
     {
       id: 'roadmap',
       title: 'Roadmap',
-      icon: <FaRoadmap className="text-cyan-400" />,
+      icon: <FaRoad className="text-cyan-400" />,
       content: (
         <div className="space-y-4">
           <div className="space-y-3">
