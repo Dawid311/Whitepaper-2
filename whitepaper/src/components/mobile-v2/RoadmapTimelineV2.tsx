@@ -339,8 +339,8 @@ const RoadmapTimelineV2: React.FC = () => {
             <FaLightbulb /> Langfristige Vision
           </h3>
           <p className="text-gray-300 leading-relaxed italic">
-            "Eine revolutionäre Creator Economy Platform, die das Verhältnis zwischen Künstlern, 
-            Fans und Investoren fundamental verändert und nachhaltiges Wachstum für alle Beteiligten ermöglicht."
+            &ldquo;Eine revolutionäre Creator Economy Platform, die das Verhältnis zwischen Künstlern, 
+            Fans und Investoren fundamental verändert und nachhaltiges Wachstum für alle Beteiligten ermöglicht.&rdquo;
           </p>
           <div className="flex items-center justify-center gap-2 mt-4">
             <div className="w-8 h-0.5 bg-gradient-to-r from-amber-500 to-orange-500" />

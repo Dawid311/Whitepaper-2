@@ -6,11 +6,8 @@ import { useSpring, animated, config } from '@react-spring/web'
 import { useInView } from 'react-intersection-observer'
 import { 
   FaRocket, 
-  FaCoins, 
   FaUsers,
-  FaStar,
   FaPlay,
-  FaMusic,
   FaFire
 } from 'react-icons/fa'
 import Image from 'next/image'

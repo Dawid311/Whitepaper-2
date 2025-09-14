@@ -20,7 +20,6 @@ import {
   FaEthereum,
   FaBolt,
   FaArrowRight,
-  FaStar,
   FaMobileAlt
 } from 'react-icons/fa'
 import Image from 'next/image'
@@ -619,104 +618,6 @@ const SolutionSectionV2: React.FC = () => {
               <p className="text-xs text-gray-400">Direkter Fan-Nutzen + Kapital</p>
             </div>
           </div>
-        </div>
-      </motion.div>
-    </div>
-  )
-}
-
-// Enhanced Team Section Component
-const TeamSectionV2: React.FC = () => {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
-  
-  return (
-    <div ref={ref} className="min-h-screen flex flex-col justify-center p-6">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8 }}
-        className="text-center mb-8"
-      >
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent mb-4">
-          Team
-        </h2>
-        <p className="text-gray-300 text-lg">
-          Die Visionäre hinter D.FAITH
-        </p>
-      </motion.div>
-
-      {/* Dawid Faith Profile */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={inView ? { opacity: 1, scale: 1 } : {}}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="backdrop-blur-xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-3xl p-8 border border-amber-500/30"
-      >
-        <div className="text-center mb-6">
-          <div className="relative inline-block">
-            <Image
-              src="/dawid-faith-photo.jpg"
-              alt="Dawid Faith"
-              width={120}
-              height={120}
-              className="rounded-full border-4 border-amber-500/50 mx-auto"
-            />
-            <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
-              <FaMusic className="text-white" />
-            </div>
-          </div>
-          <h3 className="text-2xl font-bold text-amber-400 mt-4">Dawid Faith</h3>
-          <p className="text-amber-300/70 mb-4">Gründer, Entwickler & Künstler</p>
-        </div>
-
-        {/* Skills */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          {[
-            { skill: "Blockchain", level: 95, icon: <FaEthereum /> },
-            { skill: "Musik", level: 90, icon: <FaMusic /> },
-            { skill: "Business", level: 85, icon: <FaChartLine /> },
-            { skill: "Marketing", level: 80, icon: <FaRocket /> }
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-              className="backdrop-blur-sm bg-white/5 rounded-xl p-3 border border-white/10"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-amber-400">{item.icon}</span>
-                <span className="text-white font-semibold text-sm">{item.skill}</span>
-              </div>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={inView ? { width: `${item.level}%` } : {}}
-                  transition={{ duration: 1, delay: 0.6 + index * 0.1 }}
-                  className="h-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full"
-                />
-              </div>
-              <p className="text-amber-300 text-xs mt-1 text-right">{item.level}%</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Social Links */}
-        <div className="flex justify-center gap-4">
-          {[
-            { icon: <FaInstagram />, label: "Instagram", color: "text-pink-400" },
-            { icon: <FaTiktok />, label: "TikTok", color: "text-gray-300" },
-            { icon: <FaFacebook />, label: "Facebook", color: "text-blue-400" }
-          ].map((social, index) => (
-            <motion.button
-              key={index}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className={`p-3 backdrop-blur-sm bg-white/5 rounded-xl border border-white/10 ${social.color} hover:bg-white/10 transition-all duration-300`}
-            >
-              {social.icon}
-            </motion.button>
-          ))}
         </div>
       </motion.div>
     </div>

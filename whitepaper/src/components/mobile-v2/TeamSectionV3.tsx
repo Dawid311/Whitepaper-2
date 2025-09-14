@@ -11,11 +11,10 @@ import {
   FaInstagram,
   FaTiktok,
   FaFacebook,
-  FaLinkedin,
   FaCode,
   FaMicrophone,
   FaLightbulb,
-  FaCog
+  FaEnvelope
 } from 'react-icons/fa'
 import Image from 'next/image'
 
@@ -40,9 +39,34 @@ const TeamSectionV3: React.FC = () => {
       "6-Stufen Halving-System implementiert"
     ],
     socialLinks: [
-      { platform: "Instagram", icon: <FaInstagram />, color: "text-pink-400", handle: "@dawidfaith" },
-      { platform: "TikTok", icon: <FaTiktok />, color: "text-gray-300", handle: "@dawidfaith" },
-      { platform: "Facebook", icon: <FaFacebook />, color: "text-blue-400", handle: "@dawidfaithmusic" }
+      { 
+        platform: "Instagram", 
+        icon: <FaInstagram />, 
+        color: "text-pink-400", 
+        handle: "@dawidfaith",
+        url: "https://www.instagram.com/dawidfaith/"
+      },
+      { 
+        platform: "TikTok", 
+        icon: <FaTiktok />, 
+        color: "text-gray-300", 
+        handle: "@dawidfaith",
+        url: "https://www.tiktok.com/@dawidfaith"
+      },
+      { 
+        platform: "Facebook", 
+        icon: <FaFacebook />, 
+        color: "text-blue-400", 
+        handle: "Dawid Faith",
+        url: "https://www.facebook.com/profile.php?id=61572473614500"
+      },
+      { 
+        platform: "Email", 
+        icon: <FaEnvelope />, 
+        color: "text-green-400", 
+        handle: "dawid.faith@gmail.com",
+        url: "mailto:dawid.faith@gmail.com"
+      }
     ]
   }
 
@@ -185,13 +209,16 @@ const TeamSectionV3: React.FC = () => {
               transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
               className="text-center"
             >
-              <motion.button
+              <motion.a
+                href={social.url}
+                target={social.platform === "Email" ? "_self" : "_blank"}
+                rel={social.platform === "Email" ? "" : "noopener noreferrer"}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className={`p-3 backdrop-blur-sm bg-white/5 rounded-xl border border-white/10 ${social.color} hover:bg-white/10 transition-all duration-300 mb-2`}
+                className={`block p-3 backdrop-blur-sm bg-white/5 rounded-xl border border-white/10 ${social.color} hover:bg-white/10 transition-all duration-300 mb-2`}
               >
                 {social.icon}
-              </motion.button>
+              </motion.a>
               <p className="text-xs text-gray-400">{social.handle}</p>
             </motion.div>
           ))}
@@ -274,10 +301,10 @@ const TeamSectionV3: React.FC = () => {
             💡 Vision & Mission
           </h4>
           <p className="text-gray-300 leading-relaxed italic">
-            "Ich glaube daran, dass Technologie die Creator Economy revolutionieren kann. 
+            &ldquo;Ich glaube daran, dass Technologie die Creator Economy revolutionieren kann. 
             Durch D.FAITH schaffen wir eine Welt, in der Fans direkt von ihrem Engagement profitieren 
             und Künstler nachhaltig finanziert werden können. Das ist erst der Anfang einer 
-            größeren Bewegung."
+            größeren Bewegung.&rdquo;
           </p>
           <div className="flex items-center justify-center gap-2 mt-4">
             <div className="w-8 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500" />
