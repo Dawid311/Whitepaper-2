@@ -215,40 +215,35 @@ const InteractiveTimeline: React.FC = () => {
       {/* Timeline Circle */}
       <div className="relative w-full max-w-md mx-auto mb-10 flex items-center justify-center min-h-96">
         {/* Center Info */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="backdrop-blur-xl bg-white/10 rounded-full w-32 h-32 flex flex-col items-center justify-center border border-white/20">
-            <span className="text-white font-bold text-lg">
-              {currentCycle === 'main' ? '6' : '4'} Schritte
-            </span>
-            <span className="text-gray-300 text-xs text-center">
-              {currentCycle === 'main' ? 'Haupt-Zyklus' : 'Markt-Zyklus'}
-            </span>
-          </div>
+        <div className="absolute z-30 backdrop-blur-xl bg-white/10 rounded-full w-32 h-32 flex flex-col items-center justify-center border border-white/20">
+          <span className="text-white font-bold text-lg">
+            {currentCycle === 'main' ? '6' : '4'} Schritte
+          </span>
+          <span className="text-gray-300 text-xs text-center">
+            {currentCycle === 'main' ? 'Haupt-Zyklus' : 'Markt-Zyklus'}
+          </span>
         </div>
 
-        {/* Circle Steps */}
-        <div className="relative w-80 h-80">
-          {/* Center Circle for Reference */}
-          <div className="absolute w-4 h-4 bg-white/20 rounded-full" style={{
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)'
-          }}></div>
-          
+        {/* Circle Steps using CSS Grid */}
+        <div className={`grid place-items-center w-80 h-80 relative ${
+          currentSteps.length === 6 
+            ? 'grid-cols-5 grid-rows-5' 
+            : 'grid-cols-3 grid-rows-3'
+        }`}>
           {currentSteps.map((step, index) => {
-            // Fixed positions for perfect circle distribution
-            const positions = currentSteps.length === 6 ? [
-              { left: '50%', top: '10%' },   // Top (12 o'clock)
-              { left: '85%', top: '25%' },   // Top Right (2 o'clock)
-              { left: '85%', top: '75%' },   // Bottom Right (4 o'clock)
-              { left: '50%', top: '90%' },   // Bottom (6 o'clock)
-              { left: '15%', top: '75%' },   // Bottom Left (8 o'clock)
-              { left: '15%', top: '25%' }    // Top Left (10 o'clock)
+            // Grid positions for perfect circle distribution
+            const gridPositions = currentSteps.length === 6 ? [
+              { gridColumn: '3', gridRow: '1' },    // Top
+              { gridColumn: '5', gridRow: '2' },    // Top Right
+              { gridColumn: '5', gridRow: '4' },    // Bottom Right
+              { gridColumn: '3', gridRow: '5' },    // Bottom
+              { gridColumn: '1', gridRow: '4' },    // Bottom Left
+              { gridColumn: '1', gridRow: '2' }     // Top Left
             ] : [
-              { left: '50%', top: '15%' },   // Top
-              { left: '85%', top: '50%' },   // Right
-              { left: '50%', top: '85%' },   // Bottom
-              { left: '15%', top: '50%' }    // Left
+              { gridColumn: '2', gridRow: '1' },    // Top
+              { gridColumn: '3', gridRow: '2' },    // Right
+              { gridColumn: '2', gridRow: '3' },    // Bottom
+              { gridColumn: '1', gridRow: '2' }     // Left
             ]
 
             return (
@@ -258,13 +253,12 @@ const InteractiveTimeline: React.FC = () => {
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 onClick={() => setActiveStep(index === activeStep ? -1 : index)}
-                className={`absolute cursor-pointer ${
+                className={`cursor-pointer ${
                   index === activeStep ? 'z-20' : 'z-10'
                 }`}
                 style={{
-                  left: positions[index].left,
-                  top: positions[index].top,
-                  transform: 'translate(-50%, -50%)'
+                  gridColumn: gridPositions[index].gridColumn,
+                  gridRow: gridPositions[index].gridRow
                 }}
               >
                 {/* Step Card */}
@@ -286,29 +280,26 @@ const InteractiveTimeline: React.FC = () => {
               </motion.div>
             )
           })}
-        </div>
 
-        {/* Flow Arrows */}
-        <div className="absolute relative w-80 h-80">
+          {/* Flow Arrows using grid positions */}
           {currentSteps.map((_, index) => {
-            if (index === currentSteps.length - 1) return null // No arrow for last step
+            if (index === currentSteps.length - 1) return null
             
-            // Fixed arrow positions between the steps
-            const arrowPositions = currentSteps.length === 6 ? [
-              { left: '67%', top: '17%', rotation: 30 },   // Between 1-2
-              { left: '83%', top: '50%', rotation: 90 },   // Between 2-3
-              { left: '67%', top: '83%', rotation: 150 },  // Between 3-4
-              { left: '33%', top: '83%', rotation: 210 },  // Between 4-5
-              { left: '17%', top: '50%', rotation: 270 },  // Between 5-6
-              { left: '33%', top: '17%', rotation: 330 }   // Between 6-1 (handled separately)
+            const arrowGridPositions = currentSteps.length === 6 ? [
+              { gridColumn: '4', gridRow: '1' },    // Between 1-2
+              { gridColumn: '5', gridRow: '3' },    // Between 2-3
+              { gridColumn: '4', gridRow: '5' },    // Between 3-4
+              { gridColumn: '2', gridRow: '5' },    // Between 4-5
+              { gridColumn: '1', gridRow: '3' },    // Between 5-6
             ] : [
-              { left: '67%', top: '32%', rotation: 45 },   // Between 1-2
-              { left: '67%', top: '68%', rotation: 135 },  // Between 2-3
-              { left: '33%', top: '68%', rotation: 225 },  // Between 3-4
-              { left: '33%', top: '32%', rotation: 315 }   // Between 4-1 (handled separately)
+              { gridColumn: '3', gridRow: '1' },    // Between 1-2
+              { gridColumn: '3', gridRow: '3' },    // Between 2-3
+              { gridColumn: '1', gridRow: '3' },    // Between 3-4
             ]
 
-            if (index >= arrowPositions.length) return null
+            const rotations = currentSteps.length === 6 ? [60, 120, 240, 300, 0] : [90, 180, 270]
+
+            if (index >= arrowGridPositions.length) return null
 
             return (
               <motion.div
@@ -316,11 +307,11 @@ const InteractiveTimeline: React.FC = () => {
                 initial={{ opacity: 0, scale: 0 }}
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-                className="absolute text-blue-400"
+                className="text-blue-400 flex items-center justify-center"
                 style={{
-                  left: arrowPositions[index].left,
-                  top: arrowPositions[index].top,
-                  transform: `translate(-50%, -50%) rotate(${arrowPositions[index].rotation}deg)`
+                  gridColumn: arrowGridPositions[index].gridColumn,
+                  gridRow: arrowGridPositions[index].gridRow,
+                  transform: `rotate(${rotations[index]}deg)`
                 }}
               >
                 <FaArrowRight className="text-sm" />
