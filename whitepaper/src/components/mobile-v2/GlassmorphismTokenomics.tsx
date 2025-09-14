@@ -302,9 +302,24 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
         <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
           Tokenomics
         </h2>
-        <p className="text-gray-300 text-lg">
+        <p className="text-gray-300 text-lg mb-4">
           Dual-Token Ökonomie mit intelligenter Verknappung
         </p>
+        
+        {/* Live Data Indicator */}
+        <motion.div
+          animate={{ 
+            scale: [1, 1.05, 1],
+            opacity: [0.8, 1, 0.8]
+          }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="inline-flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-4 py-2 border border-green-500/30"
+        >
+          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <span className="text-green-400 font-semibold text-sm">
+            Live Blockchain Daten
+          </span>
+        </motion.div>
       </motion.div>
 
       {/* Tab Navigation */}
@@ -385,9 +400,6 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                     <p className="text-2xl font-bold text-amber-400">
                       {formatNumber(tokenData.dfaith.contractBalance)}
                     </p>
-                    {!isTokenDataLoading && (
-                      <p className="text-green-400 text-xs mt-1">Live Daten</p>
-                    )}
                   </div>
 
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
@@ -461,9 +473,6 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                     <p className="text-2xl font-bold text-green-400">
                       {formatNumber(tokenData.dinvest.sold)}
                     </p>
-                    {!isTokenDataLoading && (
-                      <p className="text-green-400 text-xs mt-1">Live Daten</p>
-                    )}
                   </div>
 
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
@@ -484,9 +493,6 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                     <p className="text-2xl font-bold text-orange-400">
                       Stufe {liveHalvingStage}
                     </p>
-                    {!isTokenDataLoading && (
-                      <p className="text-green-400 text-xs mt-1">Live Daten</p>
-                    )}
                   </div>
                 </div>
               </motion.div>

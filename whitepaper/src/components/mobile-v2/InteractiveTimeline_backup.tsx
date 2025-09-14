@@ -405,7 +405,79 @@ const InteractiveTimeline: React.FC = () => {
               </marker>
             </defs>
             
-            {currentSteps.length === 6 ? (
+            {currentSteps.length === 7 ? (
+              <>
+                {/* 1 → 2: Top to Top-Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  x1="160" y1="32" x2="256" y2="64"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 2 → 3: Top-Right to Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  x1="256" y1="96" x2="256" y2="160"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 3 → 3.1: Right to Bottom-Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  x1="240" y1="180" x2="224" y2="224"
+                  stroke="#10b981" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 3.1 → 4: Bottom-Right to Bottom */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.8 }}
+                  x1="192" y1="256" x2="160" y2="288"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 4 → 5: Bottom to Bottom-Left */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.9 }}
+                  x1="128" y1="288" x2="64" y2="256"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 5 → 6: Bottom-Left to Top-Left */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 1.0 }}
+                  x1="64" y1="224" x2="64" y2="96"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 6 → 1: Top-Left to Top (completing circle) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 1.1 }}
+                  x1="96" y1="64" x2="128" y2="32"
+                  stroke="#a855f7" strokeWidth="2"
+                  markerEnd="url(#arrowhead-purple)"
+                />
+              </>
+            ) : currentSteps.length === 6 ? (
               <>
                 {/* 1 → 2: Top to Top-Right */}
                 <motion.line
@@ -607,6 +679,31 @@ const InteractiveTimeline: React.FC = () => {
                   Dieser Zyklus wiederholt sich solange, bis das automatische Halving eintritt und 
                   die Ausgaberate halbiert wird, um den Markt zu stabilisieren.
                 </p>
+              </div>
+                
+                <div className="grid grid-cols-1 gap-3 text-sm">
+                  <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
+                    <span className="text-green-300 font-medium">� D.INVEST wird profitabel</span>
+                    <FaArrowRight className="text-gray-400" />
+                    <span className="text-blue-300 font-medium">� Mehr Investoren kaufen</span>
+                  </div>
+                  <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
+                    <span className="text-red-300 font-medium">📉 Mehr D.FAITH Rewards</span>
+                    <FaArrowRight className="text-gray-400" />
+                    <span className="text-orange-300 font-medium">💥 Fallende Preise</span>
+                  </div>
+                  <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
+                    <span className="text-purple-300 font-medium">🔄 Zyklus wiederholt sich</span>
+                    <FaArrowRight className="text-gray-400" />
+                    <span className="text-yellow-300 font-medium">⚡ Halving greift ein</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-center gap-3 mt-4 p-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl">
+                  <FaRedo className="text-blue-400" />
+                  <span className="text-white font-medium">Halving stabilisiert den Markt und startet neuen Zyklus</span>
+                  <FaRedo className="text-purple-400" />
+                </div>
               </div>
             </motion.div>
           )}
