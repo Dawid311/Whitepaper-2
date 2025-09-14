@@ -167,7 +167,7 @@ const TeamSectionV3: React.FC = () => {
           </p>
         </div>
 
-        {/* Skills Grid */}
+        {/* Skills as Simple List */}
         <div className="grid grid-cols-2 gap-4 mb-8">
           {teamMember.skills.map((skill, index) => (
             <motion.div
@@ -177,7 +177,7 @@ const TeamSectionV3: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
               className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10"
             >
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-3">
                 <div className={`p-2 bg-gradient-to-r ${skill.color} rounded-lg`}>
                   <span className="text-white text-sm">{skill.icon}</span>
                 </div>
@@ -185,16 +185,6 @@ const TeamSectionV3: React.FC = () => {
                   <span className="text-white font-semibold text-sm">{skill.skill}</span>
                 </div>
               </div>
-              
-              <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={inView ? { width: `${skill.level}%` } : {}}
-                  transition={{ duration: 1.2, delay: 0.6 + index * 0.1 }}
-                  className={`h-2 bg-gradient-to-r ${skill.color} rounded-full`}
-                />
-              </div>
-              <p className="text-amber-300 text-xs text-right font-medium">{skill.level}%</p>
             </motion.div>
           ))}
         </div>

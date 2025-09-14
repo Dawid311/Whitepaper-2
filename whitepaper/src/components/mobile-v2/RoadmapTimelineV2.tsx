@@ -309,7 +309,7 @@ const RoadmapTimelineV2: React.FC = () => {
         className="backdrop-blur-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-6 border border-purple-500/30 mb-8"
       >
         <h3 className="text-xl font-bold text-purple-400 mb-4 flex items-center gap-2">
-          <FaCog /> Agile Entwicklung
+          <FaCog /> Entwicklungsprinzipien
         </h3>
         <div className="space-y-3">
           {flexibility.map((item, index) => (

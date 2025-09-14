@@ -30,7 +30,7 @@ import InteractiveTimeline from './mobile-v2/InteractiveTimeline'
 import GlassmorphismTokenomics from './mobile-v2/GlassmorphismTokenomics'
 import WebappShowcase from './mobile-v2/WebappShowcase'
 import BottomNavigation from './mobile-v2/BottomNavigation'
-import TeamSectionV3Simple from './mobile-v2/TeamSectionV3Simple'
+import TeamSectionV3 from './mobile-v2/TeamSectionV3'
 import RoadmapTimelineV2 from './mobile-v2/RoadmapTimelineV2'
 
 interface MobileWhitepaperV2Props {
@@ -121,7 +121,7 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
       title: 'Team',
       icon: <FaUsers className="text-amber-400" />,
       gradient: 'from-amber-500 to-orange-500',
-      component: <TeamSectionV3Simple />
+      component: <TeamSectionV3 />
     },
     {
       id: 'roadmap',
