@@ -418,13 +418,15 @@ const ProblemSectionV2: React.FC = () => {
               { x: 56, y: 104, text: 'Schlechter\nContent', color: '#8b5cf6', angle: 360 }
             ].map((node, index) => (
               <g key={index}>
-                <motion.circle
-                  cx={node.x}
-                  cy={node.y}
-                  r="20"
+                <motion.rect
+                  x={node.x - 30}
+                  y={node.y - 15}
+                  width="60"
+                  height="30"
+                  rx="8"
                   fill={node.color}
                   initial={{ scale: 0, opacity: 0 }}
-                  animate={inView ? { scale: 1, opacity: 0.8 } : {}}
+                  animate={inView ? { scale: 1, opacity: 0.9 } : {}}
                   transition={{ duration: 0.6, delay: 1.5 + index * 0.2 }}
                 />
                 <motion.text

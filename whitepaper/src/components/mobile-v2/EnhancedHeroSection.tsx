@@ -242,31 +242,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
               />
             </motion.div>
             
-            {/* Floating Icons around image */}
-            {[
-              { icon: <FaMusic className="text-blue-400" />, position: 'top-0 left-0', delay: 0 },
-              { icon: <FaCoins className="text-yellow-400" />, position: 'top-0 right-0', delay: 0.5 },
-              { icon: <FaRocket className="text-green-400" />, position: 'bottom-0 left-0', delay: 1 },
-              { icon: <FaStar className="text-purple-400" />, position: 'bottom-0 right-0', delay: 1.5 }
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                className={`absolute ${item.position} w-8 h-8 backdrop-blur-sm bg-white/10 rounded-full flex items-center justify-center border border-white/20`}
-                animate={{ 
-                  y: [0, -5, 0],
-                  scale: [1, 1.1, 1],
-                  rotate: [0, 180, 360]
-                }}
-                transition={{ 
-                  duration: 3, 
-                  repeat: Infinity, 
-                  delay: item.delay,
-                  ease: "easeInOut" 
-                }}
-              >
-                {item.icon}
-              </motion.div>
-            ))}
+
           </div>
         </animated.div>
 
