@@ -192,7 +192,6 @@ const InteractiveTimeline: React.FC = () => {
   ]
 
   const currentSteps = currentCycle === 'main' ? mainCycleSteps : marketCycleSteps
-  const showExtraStep = currentCycle === 'main'
 
   return (
     <div ref={ref} className="min-h-screen p-6 py-12">
