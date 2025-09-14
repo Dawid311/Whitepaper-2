@@ -66,8 +66,9 @@ const InteractiveTimeline: React.FC = () => {
     {
       id: 4,
       title: "Smart Contract sammelt Token",
-      description: "Halving-Mechanismus sorgt für kontinuierliche Verknappung",
+      description: "50% der gekauften Token gehen an Smart Contract, Halving-Mechanismus sorgt für Verknappung",
       details: [
+        "50% der gekauften Token gehen automatisch an Smart Contract",
         "6 Reward-Stufen mit Halving-Effekt implementiert",
         "Startrate: 0,1 D.FAITH pro D.INVEST pro Woche (Initial)",
         "Jede Stufe halbiert die Ausgaberate automatisch",
@@ -211,6 +212,38 @@ const InteractiveTimeline: React.FC = () => {
           </div>
         </div>
       </motion.div>
+
+      {/* Active Step Details - moved above circle */}
+      {activeStep !== -1 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, height: 0 }}
+          animate={{ opacity: 1, y: 0, height: 'auto' }}
+          exit={{ opacity: 0, y: -20, height: 0 }}
+          transition={{ duration: 0.3 }}
+          className="backdrop-blur-xl bg-white/10 rounded-2xl p-6 border border-white/20 mb-8"
+        >
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-4">
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${currentSteps[activeStep].color} flex items-center justify-center text-white text-lg`}>
+              {currentSteps[activeStep].icon}
+            </div>
+            <div className="flex-1">
+              <h3 className="font-bold text-white text-lg leading-tight">
+                {currentSteps[activeStep].title}
+              </h3>
+              <p className="text-gray-300 text-sm">
+                {currentSteps[activeStep].description}
+              </p>
+            </div>
+            <button
+              onClick={() => setActiveStep(-1)}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              <FaArrowRight className="transform rotate-90" />
+            </button>
+          </div>
+        </motion.div>
+      )}
 
       {/* Timeline Circle */}
       <div className="relative w-full max-w-md mx-auto mb-10 flex items-center justify-center min-h-96">
@@ -432,38 +465,6 @@ const InteractiveTimeline: React.FC = () => {
           </svg>
         </div>
       </div>
-
-      {/* Active Step Details */}
-      {activeStep !== -1 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20, height: 0 }}
-          animate={{ opacity: 1, y: 0, height: 'auto' }}
-          exit={{ opacity: 0, y: -20, height: 0 }}
-          transition={{ duration: 0.3 }}
-          className="backdrop-blur-xl bg-white/10 rounded-2xl p-6 border border-white/20 mb-8"
-        >
-          {/* Header */}
-          <div className="flex items-center gap-4 mb-4">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${currentSteps[activeStep].color} flex items-center justify-center text-white text-lg`}>
-              {currentSteps[activeStep].icon}
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-white text-lg leading-tight">
-                {currentSteps[activeStep].title}
-              </h3>
-              <p className="text-gray-300 text-sm">
-                {currentSteps[activeStep].description}
-              </p>
-            </div>
-            <button
-              onClick={() => setActiveStep(-1)}
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <FaArrowRight className="transform rotate-90" />
-            </button>
-          </div>
-        </motion.div>
-      )}
 
       {/* Cycle Summary */}
       <motion.div
