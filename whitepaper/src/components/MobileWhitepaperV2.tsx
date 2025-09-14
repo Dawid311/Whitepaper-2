@@ -20,7 +20,8 @@ import {
   FaEthereum,
   FaBolt,
   FaArrowRight,
-  FaStar
+  FaStar,
+  FaMobileAlt
 } from 'react-icons/fa'
 import Image from 'next/image'
 
@@ -28,6 +29,7 @@ import Image from 'next/image'
 import EnhancedHeroSection from './mobile-v2/EnhancedHeroSection'
 import InteractiveTimeline from './mobile-v2/InteractiveTimeline'
 import GlassmorphismTokenomics from './mobile-v2/GlassmorphismTokenomics'
+import WebappShowcase from './mobile-v2/WebappShowcase'
 import BottomNavigation from './mobile-v2/BottomNavigation'
 import FloatingActionButton from './mobile-v2/FloatingActionButton'
 
@@ -108,6 +110,13 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
       component: <GlassmorphismTokenomics tokenPrices={tokenPrices} />
     },
     {
+      id: 'webapp',
+      title: 'Webapp',
+      icon: <FaMobileAlt className="text-cyan-400" />,
+      gradient: 'from-cyan-500 to-blue-500',
+      component: <WebappShowcase tokenPrices={tokenPrices} activeUsers={activeUsers} />
+    },
+    {
       id: 'team',
       title: 'Team',
       icon: <FaUsers className="text-amber-400" />,
@@ -122,6 +131,7 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
   const [solutionRef, solutionInView] = useInView({ threshold: 0.5 })
   const [processRef, processInView] = useInView({ threshold: 0.5 })
   const [tokenomicsRef, tokenomicsInView] = useInView({ threshold: 0.5 })
+  const [webappRef, webappInView] = useInView({ threshold: 0.5 })
   const [teamRef, teamInView] = useInView({ threshold: 0.5 })
 
   useEffect(() => {
@@ -130,8 +140,9 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
     else if (solutionInView) setCurrentSection('solution')
     else if (processInView) setCurrentSection('process')
     else if (tokenomicsInView) setCurrentSection('tokenomics')
+    else if (webappInView) setCurrentSection('webapp')
     else if (teamInView) setCurrentSection('team')
-  }, [heroInView, problemInView, solutionInView, processInView, tokenomicsInView, teamInView])
+  }, [heroInView, problemInView, solutionInView, processInView, tokenomicsInView, webappInView, teamInView])
 
   // Confetti Trigger
   useEffect(() => {
@@ -207,9 +218,14 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
           {sections[4].component}
         </section>
 
+        {/* Webapp Section */}
+        <section ref={webappRef} data-section="webapp" className="min-h-screen">
+          {sections[5].component}
+        </section>
+
         {/* Team Section */}
         <section ref={teamRef} data-section="team" className="min-h-screen">
-          {sections[5].component}
+          {sections[6].component}
         </section>
       </div>
 
