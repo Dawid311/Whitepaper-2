@@ -215,20 +215,28 @@ const InteractiveTimeline: React.FC = () => {
       {/* Timeline Circle */}
       <div className="relative w-full max-w-md mx-auto mb-10 flex items-center justify-center min-h-96">
         {/* Center Info */}
-        <div className="absolute z-30 backdrop-blur-xl bg-white/10 rounded-full w-32 h-32 flex flex-col items-center justify-center border border-white/20">
-          <span className="text-white font-bold text-lg">
-            {currentCycle === 'main' ? '6' : '4'} Schritte
-          </span>
-          <span className="text-gray-300 text-xs text-center">
-            {currentCycle === 'main' ? 'Haupt-Zyklus' : 'Markt-Zyklus'}
-          </span>
+        <div className="absolute z-30 backdrop-blur-xl bg-white/10 rounded-full border border-white/20 flex flex-col items-center justify-center">
+          <div className={`${
+            currentSteps.length === 6 ? 'w-32 h-32' : 'w-24 h-24'
+          } flex flex-col items-center justify-center`}>
+            <span className={`text-white font-bold ${
+              currentSteps.length === 6 ? 'text-lg' : 'text-base'
+            }`}>
+              {currentCycle === 'main' ? '6' : '4'} Schritte
+            </span>
+            <span className={`text-gray-300 text-center ${
+              currentSteps.length === 6 ? 'text-xs' : 'text-xs'
+            }`}>
+              {currentCycle === 'main' ? 'Haupt-Zyklus' : 'Markt-Zyklus'}
+            </span>
+          </div>
         </div>
 
         {/* Circle Steps using CSS Grid */}
         <div className={`grid place-items-center w-80 h-80 relative ${
           currentSteps.length === 6 
             ? 'grid-cols-5 grid-rows-5' 
-            : 'grid-cols-3 grid-rows-3'
+            : 'grid-cols-4 grid-rows-4'
         }`}>
           {currentSteps.map((step, index) => {
             // Grid positions for perfect circle distribution
@@ -240,10 +248,10 @@ const InteractiveTimeline: React.FC = () => {
               { gridColumn: '1', gridRow: '4' },    // Bottom Left
               { gridColumn: '1', gridRow: '2' }     // Top Left
             ] : [
-              { gridColumn: '2', gridRow: '1' },    // Top
-              { gridColumn: '3', gridRow: '2' },    // Right
-              { gridColumn: '2', gridRow: '3' },    // Bottom
-              { gridColumn: '1', gridRow: '2' }     // Left
+              { gridColumn: '2', gridRow: '1' },    // Top - weiter weg
+              { gridColumn: '4', gridRow: '2' },    // Right - weiter weg
+              { gridColumn: '2', gridRow: '4' },    // Bottom - weiter weg
+              { gridColumn: '1', gridRow: '2' }     // Left - weiter weg
             ]
 
             return (
@@ -380,42 +388,42 @@ const InteractiveTimeline: React.FC = () => {
               </>
             ) : (
               <>
-                {/* 1 → 2: Top to Right */}
+                {/* 1 → 2: Top to Right - angepasste Koordinaten für größeren Abstand */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  x1="192" y1="53" x2="240" y2="107"
+                  x1="160" y1="40" x2="280" y2="80"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
                 
-                {/* 2 → 3: Right to Bottom */}
+                {/* 2 → 3: Right to Bottom - angepasste Koordinaten */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  x1="240" y1="160" x2="192" y2="213"
+                  x1="280" y1="120" x2="160" y2="280"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
                 
-                {/* 3 → 4: Bottom to Left */}
+                {/* 3 → 4: Bottom to Left - angepasste Koordinaten */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.7 }}
-                  x1="128" y1="213" x2="80" y2="160"
+                  x1="120" y1="280" x2="40" y2="120"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
                 
-                {/* 4 → 1: Left to Top (completing circle) */}
+                {/* 4 → 1: Left to Top - angepasste Koordinaten (completing circle) */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.8 }}
-                  x1="80" y1="107" x2="128" y2="53"
+                  x1="40" y1="80" x2="120" y2="40"
                   stroke="#a855f7" strokeWidth="2"
                   markerEnd="url(#arrowhead-purple)"
                 />
@@ -453,26 +461,6 @@ const InteractiveTimeline: React.FC = () => {
             >
               <FaArrowRight className="transform rotate-90" />
             </button>
-          </div>
-
-          {/* Details */}
-          <div className="space-y-3">
-            {currentSteps[activeStep].details.map((detail, detailIndex) => (
-              <motion.div
-                key={detailIndex}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: detailIndex * 0.1 }}
-                className="flex items-start gap-3 p-3 rounded-xl bg-white/5"
-              >
-                <div className={`flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r ${currentSteps[activeStep].color} flex items-center justify-center mt-0.5`}>
-                  <FaCheck className="text-white text-xs" />
-                </div>
-                <span className="text-gray-300 text-sm leading-relaxed">
-                  {detail}
-                </span>
-              </motion.div>
-            ))}
           </div>
         </motion.div>
       )}
