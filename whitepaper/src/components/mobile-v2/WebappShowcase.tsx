@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
@@ -28,6 +28,7 @@ import {
 } from 'react-icons/fa'
 
 interface WebappShowcaseProps {
+  // Props sind jetzt optional, da wir Live-Daten fetchen
   tokenPrices?: {
     dfaith: number
     dinvest: number
@@ -36,11 +37,56 @@ interface WebappShowcaseProps {
 }
 
 const WebappShowcase: React.FC<WebappShowcaseProps> = ({ 
-  tokenPrices = { dfaith: 0.12, dinvest: 5.00 },
-  activeUsers = 774
+  tokenPrices: propTokenPrices,
+  activeUsers: propActiveUsers
 }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
   const [selectedFeature, setSelectedFeature] = useState('wallet')
+  
+  // Live data states
+  const [activeUsers, setActiveUsers] = useState(propActiveUsers || 774)
+  const [isLoading, setIsLoading] = useState(true)
+  const [tokenPrices, setTokenPrices] = useState(propTokenPrices || {
+    dfaith: 0.12,
+    dinvest: 5.00
+  })
+
+  // Live data fetching
+  useEffect(() => {
+    const fetchLiveData = async () => {
+      try {
+        const [leaderboardResponse, pricesResponse] = await Promise.allSettled([
+          fetch('/api/leaderboard').catch(() => fetch('https://leaderboard-pi-liard.vercel.app/api/leaderboard')),
+          fetch('/api/token-prices')
+        ])
+        
+        if (leaderboardResponse.status === 'fulfilled' && leaderboardResponse.value.ok) {
+          const data = await leaderboardResponse.value.json()
+          const usersCount = data.stats?.activeUsers || data.entries?.length || propActiveUsers || 774
+          setActiveUsers(usersCount)
+        }
+        
+        if (pricesResponse.status === 'fulfilled' && pricesResponse.value.ok) {
+          const pricesData = await pricesResponse.value.json()
+          const dfaithToken = pricesData.tokens?.dfaith
+          
+          setTokenPrices({
+            dfaith: dfaithToken?.price_eur || propTokenPrices?.dfaith || 0.12,
+            dinvest: 5.00
+          })
+        }
+      } catch (error) {
+        console.error('Failed to fetch live data:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchLiveData()
+    const interval = setInterval(fetchLiveData, 5 * 60 * 1000)
+    
+    return () => clearInterval(interval)
+  }, [propActiveUsers, propTokenPrices])
 
   const features = [
     {

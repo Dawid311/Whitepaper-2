@@ -16,24 +16,81 @@ import {
 import Image from 'next/image'
 
 interface EnhancedHeroSectionProps {
-  tokenPrices: {
+  // Optional props for fallback values
+  tokenPrices?: {
     dfaith: number
     dinvest: number
   }
-  activeUsers: number
-  isLoading: boolean
+  activeUsers?: number
+  isLoading?: boolean
 }
 
 const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({ 
-  tokenPrices, 
-  activeUsers, 
-  isLoading 
+  tokenPrices: propTokenPrices, 
+  activeUsers: propActiveUsers, 
+  isLoading: propIsLoading 
 }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
   const [particleCount] = useState(20)
   
+  // Live data states
+  const [activeUsers, setActiveUsers] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+  const [tokenPrices, setTokenPrices] = useState({
+    dfaith: 0,
+    dinvest: 5.00
+  })
+  
   // Floating particles animation
   const particles = Array.from({ length: particleCount }, (_, i) => i)
+
+  // Live data fetching (copied from Desktop HeroSection)
+  useEffect(() => {
+    const fetchActiveUsers = async () => {
+      try {
+        // Fetch both leaderboard and token prices
+        const [leaderboardResponse, pricesResponse] = await Promise.allSettled([
+          fetch('/api/leaderboard').catch(() => fetch('https://leaderboard-pi-liard.vercel.app/api/leaderboard')),
+          fetch('/api/token-prices')
+        ])
+        
+        // Process leaderboard data
+        if (leaderboardResponse.status === 'fulfilled' && leaderboardResponse.value.ok) {
+          const data = await leaderboardResponse.value.json()
+          const usersCount = data.stats?.activeUsers || data.entries?.length || propActiveUsers || 8
+          setActiveUsers(usersCount)
+        } else if (propActiveUsers) {
+          setActiveUsers(propActiveUsers)
+        }
+        
+        // Process token prices
+        if (pricesResponse.status === 'fulfilled' && pricesResponse.value.ok) {
+          const pricesData = await pricesResponse.value.json()
+          const dfaithToken = pricesData.tokens?.dfaith
+          
+          setTokenPrices({
+            dfaith: dfaithToken?.price_eur || propTokenPrices?.dfaith || 0,
+            dinvest: 5.00 // Fester Preis von 5€
+          })
+        } else if (propTokenPrices) {
+          setTokenPrices(propTokenPrices)
+        }
+      } catch (error) {
+        console.error('Failed to fetch data:', error)
+        // Use fallback props if available
+        if (propActiveUsers) setActiveUsers(propActiveUsers)
+        if (propTokenPrices) setTokenPrices(propTokenPrices)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchActiveUsers()
+    // Refresh every 5 minutes
+    const interval = setInterval(fetchActiveUsers, 5 * 60 * 1000)
+    
+    return () => clearInterval(interval)
+  }, [propActiveUsers, propTokenPrices])
 
   // Stats counter animation
   const [stats, setStats] = useState({
@@ -296,7 +353,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
           >
             <div className="flex items-center justify-center gap-2">
               <FaRocket />
-              <span>Jetzt investieren</span>
+              <span>Jetzt mitmachen</span>
             </div>
           </motion.button>
 

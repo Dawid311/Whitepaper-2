@@ -31,7 +31,6 @@ import InteractiveTimeline from './mobile-v2/InteractiveTimeline'
 import GlassmorphismTokenomics from './mobile-v2/GlassmorphismTokenomics'
 import WebappShowcase from './mobile-v2/WebappShowcase'
 import BottomNavigation from './mobile-v2/BottomNavigation'
-import FloatingActionButton from './mobile-v2/FloatingActionButton'
 
 interface MobileWhitepaperV2Props {
   tokenPrices: {
@@ -79,7 +78,7 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
       title: 'D.FAITH Ökosystem',
       icon: <FaRocket className="text-blue-400" />,
       gradient: 'from-blue-500 to-purple-600',
-      component: <EnhancedHeroSection tokenPrices={tokenPrices} activeUsers={activeUsers} isLoading={isLoading} />
+      component: <EnhancedHeroSection />
     },
     {
       id: 'problem',
@@ -114,7 +113,7 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
       title: 'Webapp',
       icon: <FaMobileAlt className="text-cyan-400" />,
       gradient: 'from-cyan-500 to-blue-500',
-      component: <WebappShowcase tokenPrices={tokenPrices} activeUsers={activeUsers} />
+      component: <WebappShowcase />
     },
     {
       id: 'team',
@@ -234,11 +233,6 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
         sections={sections}
         currentSection={currentSection}
         onSectionChange={setCurrentSection}
-      />
-
-      {/* Floating Action Button */}
-      <FloatingActionButton 
-        onToggleInvestment={() => setShowConfetti(true)}
       />
     </animated.div>
   )
@@ -373,18 +367,133 @@ const ProblemSectionV2: React.FC = () => {
         transition={{ duration: 0.8, delay: 0.8 }}
         className="mt-8 backdrop-blur-xl bg-gradient-to-r from-red-500/10 to-orange-500/10 rounded-2xl p-6 border border-red-500/20"
       >
-        <h4 className="text-lg font-bold text-red-400 mb-3 text-center">Der Teufelskreis</h4>
-        <div className="text-center text-sm text-gray-300 leading-relaxed">
-          <span className="text-red-300">Ohne Reichweite kein Engagement</span>
-          <FaArrowRight className="inline mx-2 text-red-400" />
-          <span className="text-orange-300">Ohne Engagement keine neuen Fans</span>
-          <FaArrowRight className="inline mx-2 text-orange-400" />
-          <span className="text-yellow-300">Ohne Fans kein Einkommen</span>
-          <FaArrowRight className="inline mx-2 text-yellow-400" />
-          <span className="text-green-300">Ohne Einkommen keine Investition</span>
-          <FaArrowRight className="inline mx-2 text-green-400" />
-          <span className="text-blue-300">Ohne besseren Content keine Reichweite</span>
+        <h4 className="text-lg font-bold text-red-400 mb-6 text-center">Der Teufelskreis</h4>
+        
+        {/* Circular Visualization */}
+        <div className="relative w-80 h-80 mx-auto mb-4">
+          <svg viewBox="0 0 320 320" className="w-full h-full">
+            {/* Background Circle */}
+            <circle
+              cx="160"
+              cy="160"
+              r="120"
+              fill="none"
+              stroke="rgba(239, 68, 68, 0.2)"
+              strokeWidth="2"
+              strokeDasharray="5,5"
+            />
+            
+            {/* Animated Circle Path */}
+            <motion.circle
+              cx="160"
+              cy="160"
+              r="120"
+              fill="none"
+              stroke="url(#gradient)"
+              strokeWidth="3"
+              strokeDasharray="4,4"
+              initial={{ pathLength: 0 }}
+              animate={inView ? { pathLength: 1 } : {}}
+              transition={{ duration: 3, delay: 1.2 }}
+            />
+            
+            {/* Gradient Definition */}
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ef4444" />
+                <stop offset="25%" stopColor="#f97316" />
+                <stop offset="50%" stopColor="#eab308" />
+                <stop offset="75%" stopColor="#22c55e" />
+                <stop offset="100%" stopColor="#3b82f6" />
+              </linearGradient>
+            </defs>
+            
+            {/* Problem Nodes */}
+            {[
+              { x: 160, y: 40, text: 'Geringe\nReichweite', color: '#ef4444', angle: 0 },
+              { x: 264, y: 104, text: 'Schwaches\nEngagement', color: '#f97316', angle: 72 },
+              { x: 264, y: 216, text: 'Keine\nneuen Fans', color: '#eab308', angle: 144 },
+              { x: 160, y: 280, text: 'Kein\nEinkommen', color: '#22c55e', angle: 216 },
+              { x: 56, y: 216, text: 'Keine\nInvestition', color: '#3b82f6', angle: 288 },
+              { x: 56, y: 104, text: 'Schlechter\nContent', color: '#8b5cf6', angle: 360 }
+            ].map((node, index) => (
+              <g key={index}>
+                <motion.circle
+                  cx={node.x}
+                  cy={node.y}
+                  r="20"
+                  fill={node.color}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={inView ? { scale: 1, opacity: 0.8 } : {}}
+                  transition={{ duration: 0.6, delay: 1.5 + index * 0.2 }}
+                />
+                <motion.text
+                  x={node.x}
+                  y={node.y}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-white text-xs font-bold"
+                  initial={{ opacity: 0 }}
+                  animate={inView ? { opacity: 1 } : {}}
+                  transition={{ duration: 0.6, delay: 2 + index * 0.2 }}
+                >
+                  {node.text.split('\n').map((line, lineIndex) => (
+                    <tspan key={lineIndex} x={node.x} dy={lineIndex === 0 ? -4 : 10}>
+                      {line}
+                    </tspan>
+                  ))}
+                </motion.text>
+              </g>
+            ))}
+            
+            {/* Arrow Indicators */}
+            {[0, 72, 144, 216, 288].map((angle, index) => {
+              const radian = (angle * Math.PI) / 180;
+              const x1 = 160 + Math.cos(radian) * 95;
+              const y1 = 160 + Math.sin(radian) * 95;
+              const x2 = 160 + Math.cos(radian + 0.3) * 105;
+              const y2 = 160 + Math.sin(radian + 0.3) * 105;
+              
+              return (
+                <motion.path
+                  key={index}
+                  d={`M ${x1} ${y1} L ${x2} ${y2} L ${x2-8} ${y2-3} M ${x2} ${y2} L ${x2-3} ${y2-8}`}
+                  stroke="#ef4444"
+                  strokeWidth="2"
+                  fill="none"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 0.7 } : {}}
+                  transition={{ duration: 0.8, delay: 2.5 + index * 0.1 }}
+                />
+              );
+            })}
+          </svg>
+          
+          {/* Center Text */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.8, delay: 2.8 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <div className="text-center bg-black/40 backdrop-blur-sm rounded-full p-4 border border-red-500/30">
+              <div className="text-red-400 font-bold text-sm">TEUFELSKREIS</div>
+              <div className="text-gray-300 text-xs">Endlose Schleife</div>
+            </div>
+          </motion.div>
         </div>
+        
+        {/* Bottom explanation */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 3.2 }}
+          className="text-center text-sm text-gray-400 leading-relaxed"
+        >
+          Jeder Punkt verstärkt den nächsten in einem endlosen Kreislauf der Stagnation.
+          <br />
+          <span className="text-red-300 font-semibold">D.FAITH durchbricht diesen Kreislauf!</span>
+        </motion.p>
       </motion.div>
     </div>
   )

@@ -154,7 +154,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext }) => {
                 className="bg-gradient-to-r from-amber-400 to-yellow-500 text-black font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity"
               >
                 <FaPlay className="text-sm" />
-                Jetzt investieren
+                Jetzt mitmachen
               </motion.button>
               
               <motion.button
