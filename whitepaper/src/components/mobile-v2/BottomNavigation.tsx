@@ -40,9 +40,13 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
         <div className="flex justify-between items-center relative">
           {/* Active section indicator */}
           <motion.div
-            className="absolute top-1 bottom-1 w-14 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl"
+            className="absolute top-1 bottom-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl"
+            style={{
+              width: `calc(100% / ${sections.length} - 16px)`,
+              left: `calc(${sections.findIndex(s => s.id === currentSection)} * (100% / ${sections.length}) + 8px)`
+            }}
             animate={{
-              x: sections.findIndex(s => s.id === currentSection) * 56 + 8
+              x: 0
             }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           />
@@ -52,7 +56,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
               key={section.id}
               whileTap={{ scale: 0.9 }}
               onClick={() => scrollToSection(section.id)}
-              className={`relative z-10 w-14 h-14 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 ${
+              className={`relative z-10 flex-1 h-14 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 ${
                 currentSection === section.id 
                   ? 'text-white' 
                   : 'text-gray-400 hover:text-white'

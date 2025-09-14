@@ -615,7 +615,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                     <input
                       type="range"
                       min="0.05"
-                      max="10.00"
+                      max="2.00"
                       step="0.05"
                       value={dfaithPrice}
                       onChange={(e) => setDfaithPrice(Number(e.target.value))}

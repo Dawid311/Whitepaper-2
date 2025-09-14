@@ -163,8 +163,8 @@ const InteractiveTimeline: React.FC = () => {
     },
     {
       id: 5,
-      title: "D.FAITH Preis steigt und Halving macht D.INVEST wieder rentabel",
-      description: "Halving macht D.INVEST wieder rentabel bei höheren Preisen",
+      title: "D.FAITH Preis steigt",
+      description: "D.FAITH Preis steigt durch Halving auf neue Hochs",
       details: [
         "Reduzierte Token-Ausgabe führt zu natürlicher Verknappung",
         "D.FAITH Preis steigt durch verringerte Staking-Rewards",
