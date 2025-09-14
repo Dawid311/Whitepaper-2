@@ -19,7 +19,28 @@ import {
   FaEthereum
 } from 'react-icons/fa'
 import Image from 'next/image'
-
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-cyan-400">D.INVEST Token</h3>
+                      <p className="text-cyan-300/70">Investment Token</p>
+                    </div>
+                    
+                    {/* Live Data Indicator for D.INVEST */}
+                    <motion.div
+                      animate={{ 
+                        scale: [1, 1.05, 1],
+                        opacity: [0.8, 1, 0.8]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-3 py-1 border border-green-500/30"
+                    >
+                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-green-400 font-semibold text-xs">
+                        Live Daten
+                      </span>
+                    </motion.div>
+                  </div>
+                  
 interface GlassmorphismTokenomicsProps {
   tokenPrices?: {
     dfaith: number
@@ -302,24 +323,9 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
         <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
           Tokenomics
         </h2>
-        <p className="text-gray-300 text-lg mb-4">
+        <p className="text-gray-300 text-lg">
           Dual-Token Ökonomie mit intelligenter Verknappung
         </p>
-        
-        {/* Live Data Indicator */}
-        <motion.div
-          animate={{ 
-            scale: [1, 1.05, 1],
-            opacity: [0.8, 1, 0.8]
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="inline-flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-4 py-2 border border-green-500/30"
-        >
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          <span className="text-green-400 font-semibold text-sm">
-            Live Blockchain Daten
-          </span>
-        </motion.div>
       </motion.div>
 
       {/* Tab Navigation */}
@@ -385,9 +391,26 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                       className="absolute inset-0 bg-gradient-to-r from-amber-500/30 to-yellow-500/30 rounded-2xl blur-lg"
                     />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-amber-400">D.FAITH Token</h3>
-                    <p className="text-amber-300/70">Fan-Reward Token</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-amber-400">D.FAITH Token</h3>
+                      <p className="text-amber-300/70">Fan-Reward Token</p>
+                    </div>
+                    
+                    {/* Live Data Indicator for D.FAITH */}
+                    <motion.div
+                      animate={{ 
+                        scale: [1, 1.05, 1],
+                        opacity: [0.8, 1, 0.8]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-3 py-1 border border-green-500/30"
+                    >
+                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-green-400 font-semibold text-xs">
+                        Live Daten
+                      </span>
+                    </motion.div>
                   </div>
                 </div>
 
