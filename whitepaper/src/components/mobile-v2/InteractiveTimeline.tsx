@@ -281,60 +281,148 @@ const InteractiveTimeline: React.FC = () => {
             )
           })}
 
-          {/* Flow Arrows using grid positions */}
-          {currentSteps.map((_, index) => {
-            if (index === currentSteps.length - 1) return null
-            
-            const arrowGridPositions = currentSteps.length === 6 ? [
-              { gridColumn: '4', gridRow: '1' },    // Between 1-2
-              { gridColumn: '5', gridRow: '3' },    // Between 2-3
-              { gridColumn: '4', gridRow: '5' },    // Between 3-4
-              { gridColumn: '2', gridRow: '5' },    // Between 4-5
-              { gridColumn: '1', gridRow: '3' },    // Between 5-6
-            ] : [
-              { gridColumn: '3', gridRow: '1' },    // Between 1-2
-              { gridColumn: '3', gridRow: '3' },    // Between 2-3
-              { gridColumn: '1', gridRow: '3' },    // Between 3-4
-            ]
-
-            // Uhrzeigersinn Rotationen
-            const rotations = currentSteps.length === 6 ? [30, 90, 150, 210, 270] : [90, 180, 270]
-
-            if (index >= arrowGridPositions.length) return null
-
-            return (
-              <motion.div
-                key={`arrow-${index}`}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-                className="text-blue-400 flex items-center justify-center"
-                style={{
-                  gridColumn: arrowGridPositions[index].gridColumn,
-                  gridRow: arrowGridPositions[index].gridRow,
-                  transform: `rotate(${rotations[index]}deg)`
-                }}
+          {/* SVG Connection Lines with Arrows */}
+          <svg 
+            className="absolute inset-0 w-full h-full pointer-events-none" 
+            viewBox="0 0 320 320"
+            style={{ zIndex: 5 }}
+          >
+            <defs>
+              <marker
+                id="arrowhead"
+                markerWidth="10"
+                markerHeight="7"
+                refX="9"
+                refY="3.5"
+                orient="auto"
               >
-                <FaArrowRight className="text-sm" />
-              </motion.div>
-            )
-          })}
+                <polygon
+                  points="0 0, 10 3.5, 0 7"
+                  fill="#60a5fa"
+                />
+              </marker>
+              <marker
+                id="arrowhead-purple"
+                markerWidth="10"
+                markerHeight="7"
+                refX="9"
+                refY="3.5"
+                orient="auto"
+              >
+                <polygon
+                  points="0 0, 10 3.5, 0 7"
+                  fill="#a855f7"
+                />
+              </marker>
+            </defs>
+            
+            {currentSteps.length === 6 ? (
+              <>
+                {/* 1 → 2: Top to Top-Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  x1="160" y1="32" x2="256" y2="64"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 2 → 3: Top-Right to Bottom-Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  x1="256" y1="96" x2="256" y2="224"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 3 → 4: Bottom-Right to Bottom */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  x1="224" y1="256" x2="160" y2="288"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 4 → 5: Bottom to Bottom-Left */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.8 }}
+                  x1="128" y1="288" x2="64" y2="256"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 5 → 6: Bottom-Left to Top-Left */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.9 }}
+                  x1="64" y1="224" x2="64" y2="96"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 6 → 1: Top-Left to Top (completing circle) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 1.0 }}
+                  x1="96" y1="64" x2="128" y2="32"
+                  stroke="#a855f7" strokeWidth="2"
+                  markerEnd="url(#arrowhead-purple)"
+                />
+              </>
+            ) : (
+              <>
+                {/* 1 → 2: Top to Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  x1="192" y1="53" x2="240" y2="107"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 2 → 3: Right to Bottom */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  x1="240" y1="160" x2="192" y2="213"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 3 → 4: Bottom to Left */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  x1="128" y1="213" x2="80" y2="160"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 4 → 1: Left to Top (completing circle) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.8 }}
+                  x1="80" y1="107" x2="128" y2="53"
+                  stroke="#a855f7" strokeWidth="2"
+                  markerEnd="url(#arrowhead-purple)"
+                />
+              </>
+            )}
+          </svg>
         </div>
-
-        {/* Last to First Arrow (completing the circle) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.5, delay: 1 }}
-          className="absolute text-purple-400 flex items-center justify-center"
-          style={{
-            gridColumn: currentSteps.length === 6 ? '2' : '1',
-            gridRow: currentSteps.length === 6 ? '1' : '1',
-            transform: currentSteps.length === 6 ? 'rotate(330deg)' : 'rotate(315deg)'
-          }}
-        >
-          <FaArrowRight className="text-sm" />
-        </motion.div>
       </div>
 
       {/* Active Step Details */}
