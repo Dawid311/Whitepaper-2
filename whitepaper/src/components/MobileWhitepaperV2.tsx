@@ -31,6 +31,8 @@ import InteractiveTimeline from './mobile-v2/InteractiveTimeline'
 import GlassmorphismTokenomics from './mobile-v2/GlassmorphismTokenomics'
 import WebappShowcase from './mobile-v2/WebappShowcase'
 import BottomNavigation from './mobile-v2/BottomNavigation'
+import TeamSectionV3 from './mobile-v2/TeamSectionV3'
+import RoadmapTimelineV2 from './mobile-v2/RoadmapTimelineV2'
 
 interface MobileWhitepaperV2Props {
   tokenPrices: {
@@ -120,7 +122,14 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
       title: 'Team',
       icon: <FaUsers className="text-amber-400" />,
       gradient: 'from-amber-500 to-orange-500',
-      component: <TeamSectionV2 />
+      component: <TeamSectionV3 />
+    },
+    {
+      id: 'roadmap',
+      title: 'Roadmap',
+      icon: <FaChartLine className="text-cyan-400" />,
+      gradient: 'from-cyan-500 to-purple-500',
+      component: <RoadmapTimelineV2 />
     }
   ]
 
@@ -132,6 +141,7 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
   const [tokenomicsRef, tokenomicsInView] = useInView({ threshold: 0.5 })
   const [webappRef, webappInView] = useInView({ threshold: 0.5 })
   const [teamRef, teamInView] = useInView({ threshold: 0.5 })
+  const [roadmapRef, roadmapInView] = useInView({ threshold: 0.5 })
 
   useEffect(() => {
     if (heroInView) setCurrentSection('hero')
@@ -141,7 +151,8 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
     else if (tokenomicsInView) setCurrentSection('tokenomics')
     else if (webappInView) setCurrentSection('webapp')
     else if (teamInView) setCurrentSection('team')
-  }, [heroInView, problemInView, solutionInView, processInView, tokenomicsInView, webappInView, teamInView])
+    else if (roadmapInView) setCurrentSection('roadmap')
+  }, [heroInView, problemInView, solutionInView, processInView, tokenomicsInView, webappInView, teamInView, roadmapInView])
 
   // Confetti Trigger
   useEffect(() => {
@@ -225,6 +236,11 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
         {/* Team Section */}
         <section ref={teamRef} data-section="team" className="min-h-screen">
           {sections[6].component}
+        </section>
+
+        {/* Roadmap Section */}
+        <section ref={roadmapRef} data-section="roadmap" className="min-h-screen">
+          {sections[7].component}
         </section>
       </div>
 
