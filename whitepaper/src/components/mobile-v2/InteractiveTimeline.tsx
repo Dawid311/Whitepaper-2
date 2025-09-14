@@ -161,7 +161,7 @@ const InteractiveTimeline: React.FC = () => {
     },
     {
       id: 5,
-      title: "D.INVEST wird unattraktiv",
+      title: "D.FAITH Verkauf lohnt sich erst bei neuen Hochs",
       description: "D.FAITH Rewards durch Halving benötigen höhere D.FAITH Preise um sich zu lohnen",
       details: [
         "Halbierte Staking-Rewards machen D.INVEST bei aktuellen Preisen unrentabel",
