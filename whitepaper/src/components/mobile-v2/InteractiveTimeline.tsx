@@ -297,7 +297,8 @@ const InteractiveTimeline: React.FC = () => {
               { gridColumn: '1', gridRow: '3' },    // Between 3-4
             ]
 
-            const rotations = currentSteps.length === 6 ? [60, 120, 240, 300, 0] : [90, 180, 270]
+            // Uhrzeigersinn Rotationen
+            const rotations = currentSteps.length === 6 ? [30, 90, 150, 210, 270] : [90, 180, 270]
 
             if (index >= arrowGridPositions.length) return null
 
@@ -320,17 +321,19 @@ const InteractiveTimeline: React.FC = () => {
           })}
         </div>
 
-        {/* Cycle Arrow (connects last to first) */}
+        {/* Last to First Arrow (completing the circle) */}
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.5, delay: 1 }}
-          className="absolute top-4 left-1/2 transform -translate-x-1/2 text-purple-400"
+          className="absolute text-purple-400 flex items-center justify-center"
+          style={{
+            gridColumn: currentSteps.length === 6 ? '2' : '1',
+            gridRow: currentSteps.length === 6 ? '1' : '1',
+            transform: currentSteps.length === 6 ? 'rotate(330deg)' : 'rotate(315deg)'
+          }}
         >
-          <div className="flex flex-col items-center">
-            <FaRedo className="text-lg animate-pulse" />
-            <span className="text-xs text-white mt-1 font-semibold">Loop</span>
-          </div>
+          <FaArrowRight className="text-sm" />
         </motion.div>
       </div>
 
