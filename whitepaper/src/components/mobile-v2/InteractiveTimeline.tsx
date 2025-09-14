@@ -229,20 +229,27 @@ const InteractiveTimeline: React.FC = () => {
         {/* Circle Steps */}
         <div className="relative w-80 h-80 mx-auto">
           {/* Center Circle for Reference */}
-          <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-white/20 rounded-full" style={{
+          <div className="absolute w-4 h-4 bg-white/20 rounded-full" style={{
+            left: '50%',
+            top: '50%',
             transform: 'translate(-50%, -50%)'
           }}></div>
           
           {currentSteps.map((step, index) => {
-            // Calculate angle for each step
-            const angle = (index * 360) / currentSteps.length - 90 // Start at top
-            const radius = 110 // Distance from center
-            
-            // Calculate positions
-            const centerX = 160 // Half of container width (320px / 2)
-            const centerY = 160 // Half of container height (320px / 2)
-            const x = centerX + Math.cos((angle * Math.PI) / 180) * radius
-            const y = centerY + Math.sin((angle * Math.PI) / 180) * radius
+            // Fixed positions for perfect circle distribution
+            const positions = currentSteps.length === 6 ? [
+              { left: '50%', top: '10%' },   // Top (12 o'clock)
+              { left: '85%', top: '25%' },   // Top Right (2 o'clock)
+              { left: '85%', top: '75%' },   // Bottom Right (4 o'clock)
+              { left: '50%', top: '90%' },   // Bottom (6 o'clock)
+              { left: '15%', top: '75%' },   // Bottom Left (8 o'clock)
+              { left: '15%', top: '25%' }    // Top Left (10 o'clock)
+            ] : [
+              { left: '50%', top: '15%' },   // Top
+              { left: '85%', top: '50%' },   // Right
+              { left: '50%', top: '85%' },   // Bottom
+              { left: '15%', top: '50%' }    // Left
+            ]
 
             return (
               <motion.div
@@ -255,8 +262,8 @@ const InteractiveTimeline: React.FC = () => {
                   index === activeStep ? 'z-20' : 'z-10'
                 }`}
                 style={{
-                  left: `${x}px`,
-                  top: `${y}px`,
+                  left: positions[index].left,
+                  top: positions[index].top,
                   transform: 'translate(-50%, -50%)'
                 }}
               >
@@ -286,15 +293,22 @@ const InteractiveTimeline: React.FC = () => {
           {currentSteps.map((_, index) => {
             if (index === currentSteps.length - 1) return null // No arrow for last step
             
-            const startAngle = (index * 360) / currentSteps.length - 90
-            const endAngle = ((index + 1) * 360) / currentSteps.length - 90
-            const midAngle = (startAngle + endAngle) / 2
-            const radius = 130 // Between circles and edge
-            
-            const centerX = 160
-            const centerY = 160
-            const x = centerX + Math.cos((midAngle * Math.PI) / 180) * radius
-            const y = centerY + Math.sin((midAngle * Math.PI) / 180) * radius
+            // Fixed arrow positions between the steps
+            const arrowPositions = currentSteps.length === 6 ? [
+              { left: '67%', top: '17%', rotation: 30 },   // Between 1-2
+              { left: '83%', top: '50%', rotation: 90 },   // Between 2-3
+              { left: '67%', top: '83%', rotation: 150 },  // Between 3-4
+              { left: '33%', top: '83%', rotation: 210 },  // Between 4-5
+              { left: '17%', top: '50%', rotation: 270 },  // Between 5-6
+              { left: '33%', top: '17%', rotation: 330 }   // Between 6-1 (handled separately)
+            ] : [
+              { left: '67%', top: '32%', rotation: 45 },   // Between 1-2
+              { left: '67%', top: '68%', rotation: 135 },  // Between 2-3
+              { left: '33%', top: '68%', rotation: 225 },  // Between 3-4
+              { left: '33%', top: '32%', rotation: 315 }   // Between 4-1 (handled separately)
+            ]
+
+            if (index >= arrowPositions.length) return null
 
             return (
               <motion.div
@@ -304,9 +318,9 @@ const InteractiveTimeline: React.FC = () => {
                 transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                 className="absolute text-blue-400"
                 style={{
-                  left: `${x}px`,
-                  top: `${y}px`,
-                  transform: `translate(-50%, -50%) rotate(${midAngle + 90}deg)`
+                  left: arrowPositions[index].left,
+                  top: arrowPositions[index].top,
+                  transform: `translate(-50%, -50%) rotate(${arrowPositions[index].rotation}deg)`
                 }}
               >
                 <FaArrowRight className="text-sm" />
