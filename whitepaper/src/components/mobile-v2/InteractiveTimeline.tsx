@@ -67,9 +67,22 @@ const InteractiveTimeline: React.FC = () => {
       color: "from-green-500 to-emerald-500"
     },
     {
+      id: 3.1,
+      title: "Fans claimen Tokens basierend auf Level",
+      description: "Fans können ihre verdienten D.FAITH Tokens über die Webapp abholen",
+      details: [
+        "Level-basierte Token-Mengen automatisch zugewiesen",
+        "Einfacher Claim-Prozess über die D.FAITH Webapp",
+        "Transparente Anzeige aller verfügbaren Rewards",
+        "→ Mehr zur Webapp-Funktionalität im entsprechenden Abschnitt"
+      ],
+      icon: <FaCheck />,
+      color: "from-emerald-500 to-green-500"
+    },
+    {
       id: 4,
       title: "Smart Contract sammelt Token",
-      description: "50% der gekauften Token gehen an Smart Contract, Halving-Mechanismus sorgt für Verknappung",
+      description: "50% der gekauften Token gehen an Smart Contract",
       details: [
         "50% der gekauften Token gehen automatisch an Smart Contract",
         "6 Reward-Stufen mit Halving-Effekt implementiert",
@@ -209,7 +222,7 @@ const InteractiveTimeline: React.FC = () => {
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                Haupt-Zyklus (6 Schritte)
+                Haupt-Zyklus (7 Schritte)
               </button>
               <button
                 onClick={() => {
@@ -266,15 +279,15 @@ const InteractiveTimeline: React.FC = () => {
         {/* Center Info */}
         <div className="absolute z-30 backdrop-blur-xl bg-white/10 rounded-full border border-white/20 flex flex-col items-center justify-center">
           <div className={`${
-            currentSteps.length === 6 ? 'w-32 h-32' : 'w-24 h-24'
+            currentSteps.length === 7 ? 'w-32 h-32' : currentSteps.length === 6 ? 'w-32 h-32' : 'w-24 h-24'
           } flex flex-col items-center justify-center`}>
             <span className={`text-white font-bold ${
-              currentSteps.length === 6 ? 'text-lg' : 'text-base'
+              currentSteps.length === 7 ? 'text-lg' : currentSteps.length === 6 ? 'text-lg' : 'text-base'
             }`}>
-              {currentCycle === 'main' ? '6' : '5'} Schritte
+              {currentCycle === 'main' ? '7' : '5'} Schritte
             </span>
             <span className={`text-gray-300 text-center ${
-              currentSteps.length === 6 ? 'text-xs' : 'text-xs'
+              currentSteps.length === 7 ? 'text-xs' : currentSteps.length === 6 ? 'text-xs' : 'text-xs'
             }`}>
               {currentCycle === 'main' ? 'Haupt-Zyklus' : 'Markt-Zyklus'}
             </span>
@@ -283,13 +296,23 @@ const InteractiveTimeline: React.FC = () => {
 
         {/* Circle Steps using CSS Grid */}
         <div className={`grid place-items-center w-80 h-80 relative ${
-          currentSteps.length === 6 
+          currentSteps.length === 7 
+            ? 'grid-cols-5 grid-rows-5' 
+            : currentSteps.length === 6 
             ? 'grid-cols-5 grid-rows-5' 
             : 'grid-cols-5 grid-rows-5'
         }`}>
           {currentSteps.map((step, index) => {
             // Grid positions for perfect circle distribution
-            const gridPositions = currentSteps.length === 6 ? [
+            const gridPositions = currentSteps.length === 7 ? [
+              { gridColumn: '3', gridRow: '1' },    // Top (1)
+              { gridColumn: '5', gridRow: '2' },    // Top Right (2)
+              { gridColumn: '5', gridRow: '3' },    // Right (3)
+              { gridColumn: '4', gridRow: '4' },    // Bottom Right (3.1)
+              { gridColumn: '3', gridRow: '5' },    // Bottom (4)
+              { gridColumn: '1', gridRow: '4' },    // Bottom Left (5)
+              { gridColumn: '1', gridRow: '2' }     // Top Left (6)
+            ] : currentSteps.length === 6 ? [
               { gridColumn: '3', gridRow: '1' },    // Top
               { gridColumn: '5', gridRow: '2' },    // Top Right
               { gridColumn: '5', gridRow: '4' },    // Bottom Right
@@ -374,7 +397,79 @@ const InteractiveTimeline: React.FC = () => {
               </marker>
             </defs>
             
-            {currentSteps.length === 6 ? (
+            {currentSteps.length === 7 ? (
+              <>
+                {/* 1 → 2: Top to Top-Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  x1="160" y1="32" x2="256" y2="64"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 2 → 3: Top-Right to Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  x1="256" y1="96" x2="256" y2="160"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 3 → 3.1: Right to Bottom-Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  x1="240" y1="180" x2="224" y2="224"
+                  stroke="#10b981" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 3.1 → 4: Bottom-Right to Bottom */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.8 }}
+                  x1="192" y1="256" x2="160" y2="288"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 4 → 5: Bottom to Bottom-Left */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.9 }}
+                  x1="128" y1="288" x2="64" y2="256"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 5 → 6: Bottom-Left to Top-Left */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 1.0 }}
+                  x1="64" y1="224" x2="64" y2="96"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 6 → 1: Top-Left to Top (completing circle) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 1.1 }}
+                  x1="96" y1="64" x2="128" y2="32"
+                  stroke="#a855f7" strokeWidth="2"
+                  markerEnd="url(#arrowhead-purple)"
+                />
+              </>
+            ) : currentSteps.length === 6 ? (
               <>
                 {/* 1 → 2: Top to Top-Right */}
                 <motion.line
@@ -523,32 +618,36 @@ const InteractiveTimeline: React.FC = () => {
               className="px-6 pb-6"
             >
               <div className="text-center space-y-4">
+                <div className="bg-white/5 rounded-xl p-4">
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Wenn D.INVEST profitabel wird, kaufen Investoren verstärkt D.INVEST Token. 
+                    Dadurch werden mehr D.FAITH Rewards ausgegeben, was zu fallenden D.FAITH Preisen führt. 
+                    Dieser Zyklus wiederholt sich solange, bis das automatische Halving eintritt und 
+                    die Ausgaberate halbiert wird, um den Markt zu stabilisieren.
+                  </p>
+                </div>
+                
                 <div className="grid grid-cols-1 gap-3 text-sm">
                   <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-                    <span className="text-green-300 font-medium">📈 Hohe ROI möglich</span>
+                    <span className="text-green-300 font-medium">� D.INVEST wird profitabel</span>
                     <FaArrowRight className="text-gray-400" />
-                    <span className="text-blue-300 font-medium">💰 Neue Investoren</span>
+                    <span className="text-blue-300 font-medium">� Mehr Investoren kaufen</span>
                   </div>
                   <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-                    <span className="text-red-300 font-medium">📉 Mehr Rewards</span>
+                    <span className="text-red-300 font-medium">📉 Mehr D.FAITH Rewards</span>
                     <FaArrowRight className="text-gray-400" />
-                    <span className="text-orange-300 font-medium">💥 Preisrückgang/Crash</span>
+                    <span className="text-orange-300 font-medium">💥 Fallende Preise</span>
                   </div>
                   <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-                    <span className="text-purple-300 font-medium">� Crash</span>
+                    <span className="text-purple-300 font-medium">🔄 Zyklus wiederholt sich</span>
                     <FaArrowRight className="text-gray-400" />
-                    <span className="text-yellow-300 font-medium">⚡ Halving greift</span>
-                  </div>
-                  <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-                    <span className="text-purple-300 font-medium">�🔄 Neuer Zyklus</span>
-                    <FaArrowRight className="text-gray-400" />
-                    <span className="text-cyan-300 font-medium">🚀 Höheres Level</span>
+                    <span className="text-yellow-300 font-medium">⚡ Halving greift ein</span>
                   </div>
                 </div>
                 
                 <div className="flex items-center justify-center gap-3 mt-4 p-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl">
                   <FaRedo className="text-blue-400" />
-                  <span className="text-white font-medium">Jeder Zyklus verstärkt das System</span>
+                  <span className="text-white font-medium">Halving stabilisiert den Markt und startet neuen Zyklus</span>
                   <FaRedo className="text-purple-400" />
                 </div>
               </div>
@@ -556,14 +655,14 @@ const InteractiveTimeline: React.FC = () => {
           )}
         </div>
 
-        {/* Warum 6 Reward Stufen? */}
+        {/* Warum 6 Halving Stufen? */}
         <div className="backdrop-blur-xl bg-gradient-to-r from-orange-600/20 to-yellow-600/20 rounded-2xl border border-orange-500/30">
           <button
             onClick={() => setShowRewardLevelsInfo(!showRewardLevelsInfo)}
             className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
           >
             <h3 className="font-bold text-lg text-white">
-              🏆 Warum 6 Reward Stufen?
+              🏆 Warum 6 Halving Stufen?
             </h3>
             <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
               showRewardLevelsInfo ? 'rotate-90' : ''

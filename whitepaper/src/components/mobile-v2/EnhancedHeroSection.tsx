@@ -30,12 +30,15 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
   const [particleCount] = useState(20)
   
-  // Live data states
-  const [activeUsers, setActiveUsers] = useState(0)
+  // Live data states - only real live data, no fallbacks
+  const [activeUsers, setActiveUsers] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [tokenPrices, setTokenPrices] = useState({
-    dfaith: 0,
-    dinvest: 5.00
+  const [tokenPrices, setTokenPrices] = useState<{
+    dfaith: number | null
+    dinvest: number | null
+  }>({
+    dfaith: null,
+    dinvest: null
   })
   
   // Floating particles animation
@@ -51,32 +54,30 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
           fetch('/api/token-prices')
         ])
         
-        // Process leaderboard data
+        // Process leaderboard data - only set if we get real data
         if (leaderboardResponse.status === 'fulfilled' && leaderboardResponse.value.ok) {
           const data = await leaderboardResponse.value.json()
-          const usersCount = data.stats?.activeUsers || data.entries?.length || propActiveUsers || 8
-          setActiveUsers(usersCount)
-        } else if (propActiveUsers) {
-          setActiveUsers(propActiveUsers)
+          const usersCount = data.stats?.activeUsers || data.entries?.length
+          if (usersCount && usersCount > 0) {
+            setActiveUsers(usersCount)
+          }
         }
         
-        // Process token prices
+        // Process token prices - only set if we get real data
         if (pricesResponse.status === 'fulfilled' && pricesResponse.value.ok) {
           const pricesData = await pricesResponse.value.json()
           const dfaithToken = pricesData.tokens?.dfaith
           
-          setTokenPrices({
-            dfaith: dfaithToken?.price_eur || propTokenPrices?.dfaith || 0,
-            dinvest: 5.00 // Fester Preis von 5€
-          })
-        } else if (propTokenPrices) {
-          setTokenPrices(propTokenPrices)
+          if (dfaithToken?.price_eur) {
+            setTokenPrices({
+              dfaith: dfaithToken.price_eur,
+              dinvest: 5.00 // This is a fixed price, not from API
+            })
+          }
         }
       } catch (error) {
-        console.error('Failed to fetch data:', error)
-        // Use fallback props if available
-        if (propActiveUsers) setActiveUsers(propActiveUsers)
-        if (propTokenPrices) setTokenPrices(propTokenPrices)
+        console.error('Failed to fetch live data:', error)
+        // No fallbacks - keep null values to show loading state
       } finally {
         setIsLoading(false)
       }
@@ -89,11 +90,15 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
     return () => clearInterval(interval)
   }, [propActiveUsers, propTokenPrices])
 
-  // Stats counter animation - removed to show real live data
-  const [stats, setStats] = useState({
-    users: 0,
-    dfaithPrice: 0,
-    dinvestPrice: 0
+  // Stats counter animation - only show real live data
+  const [stats, setStats] = useState<{
+    users: number | null
+    dfaithPrice: number | null
+    dinvestPrice: number | null
+  }>({
+    users: null,
+    dfaithPrice: null,
+    dinvestPrice: null
   })
 
   useEffect(() => {
@@ -231,7 +236,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
                   <div>
                     <p className="text-gray-400 text-sm">Active Users</p>
                     <p className="text-white font-bold text-xl">
-                      {isLoading ? (
+                      {isLoading || stats.users === null ? (
                         <div className="w-16 h-6 bg-gray-600 rounded animate-pulse" />
                       ) : (
                         stats.users.toLocaleString()
@@ -254,7 +259,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
                   <Image src="/d-faith-logo.png" alt="D.FAITH" width={32} height={32} className="rounded-lg mx-auto mb-2" />
                   <p className="text-gray-400 text-xs">D.FAITH</p>
                   <p className="text-amber-400 font-bold">
-                    {isLoading ? (
+                    {isLoading || stats.dfaithPrice === null ? (
                       <div className="w-12 h-5 bg-gray-600 rounded animate-pulse mx-auto" />
                     ) : (
                       `€${stats.dfaithPrice.toFixed(3)}`
@@ -272,7 +277,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
                   <Image src="/d-invest-logo.png" alt="D.INVEST" width={32} height={32} className="rounded-lg mx-auto mb-2" />
                   <p className="text-gray-400 text-xs">D.INVEST</p>
                   <p className="text-purple-400 font-bold">
-                    {isLoading ? (
+                    {isLoading || stats.dinvestPrice === null ? (
                       <div className="w-12 h-5 bg-gray-600 rounded animate-pulse mx-auto" />
                     ) : (
                       `€${stats.dinvestPrice.toFixed(2)}`
