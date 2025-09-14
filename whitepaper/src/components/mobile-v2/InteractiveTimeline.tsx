@@ -213,7 +213,7 @@ const InteractiveTimeline: React.FC = () => {
       </motion.div>
 
       {/* Timeline Circle */}
-      <div className="relative w-full max-w-md mx-auto mb-10">
+      <div className="relative w-full max-w-md mx-auto mb-10 flex items-center justify-center min-h-96">
         {/* Center Info */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="backdrop-blur-xl bg-white/10 rounded-full w-32 h-32 flex flex-col items-center justify-center border border-white/20">
@@ -227,7 +227,7 @@ const InteractiveTimeline: React.FC = () => {
         </div>
 
         {/* Circle Steps */}
-        <div className="relative w-80 h-80 mx-auto">
+        <div className="relative w-80 h-80">
           {/* Center Circle for Reference */}
           <div className="absolute w-4 h-4 bg-white/20 rounded-full" style={{
             left: '50%',
@@ -289,7 +289,7 @@ const InteractiveTimeline: React.FC = () => {
         </div>
 
         {/* Flow Arrows */}
-        <div className="relative w-80 h-80 mx-auto">
+        <div className="absolute relative w-80 h-80">
           {currentSteps.map((_, index) => {
             if (index === currentSteps.length - 1) return null // No arrow for last step
             
