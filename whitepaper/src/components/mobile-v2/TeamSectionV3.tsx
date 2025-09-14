@@ -27,10 +27,10 @@ const TeamSectionV3: React.FC = () => {
     description: "Visionär und Vollzeit-Entwickler des D.FAITH Ökosystems",
     image: "/dawid-faith-photo.jpg",
     skills: [
-      { skill: "Blockchain Development", icon: <FaEthereum />, color: "from-blue-500 to-cyan-500" },
+      { skill: "Blockchain", icon: <FaEthereum />, color: "from-blue-500 to-cyan-500" },
       { skill: "Musik & Kreativität", icon: <FaMusic />, color: "from-purple-500 to-pink-500" },
       { skill: "Business Strategy", icon: <FaChartLine />, color: "from-green-500 to-emerald-500" },
-      { skill: "Full-Stack Development", icon: <FaCode />, color: "from-orange-500 to-red-500" }
+      { skill: "Full-Stack", icon: <FaCode />, color: "from-orange-500 to-red-500" }
     ],
     socialLinks: [
       { 
