@@ -67,19 +67,6 @@ const InteractiveTimeline: React.FC = () => {
       color: "from-green-500 to-emerald-500"
     },
     {
-      id: 3.1,
-      title: "Fans claimen Tokens basierend auf Level",
-      description: "Fans können ihre verdienten D.FAITH Tokens über die Webapp abholen",
-      details: [
-        "Level-basierte Token-Mengen automatisch zugewiesen",
-        "Einfacher Claim-Prozess über die D.FAITH Webapp",
-        "Transparente Anzeige aller verfügbaren Rewards",
-        "→ Mehr zur Webapp-Funktionalität im entsprechenden Abschnitt"
-      ],
-      icon: <FaCheck />,
-      color: "from-emerald-500 to-green-500"
-    },
-    {
       id: 4,
       title: "Smart Contract sammelt Token",
       description: "50% der gekauften Token gehen an Smart Contract",
@@ -120,6 +107,21 @@ const InteractiveTimeline: React.FC = () => {
       color: "from-cyan-500 to-blue-500"
     }
   ]
+
+  // Extra step outside the circle
+  const extraStep = {
+    id: 3.1,
+    title: "Fans claimen Tokens basierend auf Level",
+    description: "Fans können ihre verdienten D.FAITH Tokens über die Webapp abholen",
+    details: [
+      "Level-basierte Token-Mengen automatisch zugewiesen",
+      "Einfacher Claim-Prozess über die D.FAITH Webapp",
+      "Transparente Anzeige aller verfügbaren Rewards",
+      "→ Mehr zur Webapp-Funktionalität im entsprechenden Abschnitt"
+    ],
+    icon: <FaCheck />,
+    color: "from-emerald-500 to-green-500"
+  }
 
   const marketCycleSteps = [
     {
@@ -190,6 +192,7 @@ const InteractiveTimeline: React.FC = () => {
   ]
 
   const currentSteps = currentCycle === 'main' ? mainCycleSteps : marketCycleSteps
+  const showExtraStep = currentCycle === 'main'
 
   return (
     <div ref={ref} className="min-h-screen p-6 py-12">
@@ -222,7 +225,7 @@ const InteractiveTimeline: React.FC = () => {
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                Haupt-Zyklus (7 Schritte)
+                Haupt-Zyklus (6 Schritte)
               </button>
               <button
                 onClick={() => {
@@ -253,15 +256,17 @@ const InteractiveTimeline: React.FC = () => {
         >
           {/* Header */}
           <div className="flex items-center gap-4 mb-4">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${currentSteps[activeStep].color} flex items-center justify-center text-white text-lg`}>
-              {currentSteps[activeStep].icon}
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${
+              activeStep === 6 ? extraStep.color : currentSteps[activeStep].color
+            } flex items-center justify-center text-white text-lg`}>
+              {activeStep === 6 ? extraStep.icon : currentSteps[activeStep].icon}
             </div>
             <div className="flex-1">
               <h3 className="font-bold text-white text-lg leading-tight">
-                {currentSteps[activeStep].title}
+                {activeStep === 6 ? extraStep.title : currentSteps[activeStep].title}
               </h3>
               <p className="text-gray-300 text-sm">
-                {currentSteps[activeStep].description}
+                {activeStep === 6 ? extraStep.description : currentSteps[activeStep].description}
               </p>
             </div>
             <button
@@ -279,15 +284,15 @@ const InteractiveTimeline: React.FC = () => {
         {/* Center Info */}
         <div className="absolute z-30 backdrop-blur-xl bg-white/10 rounded-full border border-white/20 flex flex-col items-center justify-center">
           <div className={`${
-            currentSteps.length === 7 ? 'w-32 h-32' : currentSteps.length === 6 ? 'w-32 h-32' : 'w-24 h-24'
+            currentSteps.length === 6 ? 'w-32 h-32' : 'w-24 h-24'
           } flex flex-col items-center justify-center`}>
             <span className={`text-white font-bold ${
-              currentSteps.length === 7 ? 'text-lg' : currentSteps.length === 6 ? 'text-lg' : 'text-base'
+              currentSteps.length === 6 ? 'text-lg' : 'text-base'
             }`}>
-              {currentCycle === 'main' ? '7' : '5'} Schritte
+              {currentCycle === 'main' ? '6' : '5'} Schritte
             </span>
             <span className={`text-gray-300 text-center ${
-              currentSteps.length === 7 ? 'text-xs' : currentSteps.length === 6 ? 'text-xs' : 'text-xs'
+              currentSteps.length === 6 ? 'text-xs' : 'text-xs'
             }`}>
               {currentCycle === 'main' ? 'Haupt-Zyklus' : 'Markt-Zyklus'}
             </span>
@@ -296,23 +301,13 @@ const InteractiveTimeline: React.FC = () => {
 
         {/* Circle Steps using CSS Grid */}
         <div className={`grid place-items-center w-80 h-80 relative ${
-          currentSteps.length === 7 
-            ? 'grid-cols-5 grid-rows-5' 
-            : currentSteps.length === 6 
+          currentSteps.length === 6 
             ? 'grid-cols-5 grid-rows-5' 
             : 'grid-cols-5 grid-rows-5'
         }`}>
           {currentSteps.map((step, index) => {
             // Grid positions for perfect circle distribution
-            const gridPositions = currentSteps.length === 7 ? [
-              { gridColumn: '3', gridRow: '1' },    // Top (1)
-              { gridColumn: '5', gridRow: '2' },    // Top Right (2)
-              { gridColumn: '5', gridRow: '3' },    // Right (3)
-              { gridColumn: '4', gridRow: '4' },    // Bottom Right (3.1)
-              { gridColumn: '3', gridRow: '5' },    // Bottom (4)
-              { gridColumn: '1', gridRow: '4' },    // Bottom Left (5)
-              { gridColumn: '1', gridRow: '2' }     // Top Left (6)
-            ] : currentSteps.length === 6 ? [
+            const gridPositions = currentSteps.length === 6 ? [
               { gridColumn: '3', gridRow: '1' },    // Top
               { gridColumn: '5', gridRow: '2' },    // Top Right
               { gridColumn: '5', gridRow: '4' },    // Bottom Right
@@ -584,7 +579,54 @@ const InteractiveTimeline: React.FC = () => {
                 />
               </>
             )}
+            
+            {/* External Step 3.1 - Arrow from Step 3 to External Step */}
+            {currentSteps.length === 6 && (
+              <motion.line
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                transition={{ duration: 0.5, delay: 1.1 }}
+                x1="256" y1="160" x2="350" y2="160"
+                stroke="#10b981" strokeWidth="2"
+                markerEnd="url(#arrowhead)"
+              />
+            )}
           </svg>
+
+          {/* External Step 3.1 positioned parallel to Step 3 */}
+          {currentSteps.length === 6 && (
+            <motion.div
+              key="external-step-3-1"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: 1.2 }}
+              onClick={() => setActiveStep(activeStep === 6 ? -1 : 6)}
+              className={`cursor-pointer absolute ${
+                activeStep === 6 ? 'z-20' : 'z-10'
+              }`}
+              style={{
+                left: '380px',
+                top: '140px'
+              }}
+            >
+              {/* External Step Card */}
+              <div className={`backdrop-blur-xl rounded-2xl border transition-all duration-300 ${
+                activeStep === 6
+                  ? 'bg-white/20 border-white/40 scale-110 shadow-2xl'
+                  : 'bg-white/10 border-white/20 hover:bg-white/15 hover:scale-105'
+              } w-20 h-20 flex flex-col items-center justify-center`}>
+                {/* Step Icon */}
+                <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${extraStep.color} flex items-center justify-center text-white text-sm`}>
+                  {extraStep.icon}
+                </div>
+                
+                {/* Step Number */}
+                <div className="text-white text-xs font-bold mt-1">
+                  {extraStep.id}
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
 
