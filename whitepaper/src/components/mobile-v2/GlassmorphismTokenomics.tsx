@@ -471,9 +471,26 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                       className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-pink-500/30 rounded-2xl blur-lg"
                     />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-purple-400">D.INVEST Token</h3>
-                    <p className="text-purple-300/70">Investment Token</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-purple-400">D.INVEST Token</h3>
+                      <p className="text-purple-300/70">Investment Token</p>
+                    </div>
+                    
+                    {/* Live Data Indicator for D.INVEST */}
+                    <motion.div
+                      animate={{ 
+                        scale: [1, 1.05, 1],
+                        opacity: [0.8, 1, 0.8]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-3 py-1 border border-green-500/30"
+                    >
+                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-green-400 font-semibold text-xs">
+                        Live Daten
+                      </span>
+                    </motion.div>
                   </div>
                 </div>
 
