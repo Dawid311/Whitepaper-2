@@ -1,574 +1,617 @@
-"use client"
+'use client'
 
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { FaInstagram, FaCoins, FaLock, FaUsers, FaChartLine, FaArrowRight, FaTimes, FaInfoCircle, FaChartArea, FaRocket } from 'react-icons/fa'
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
+import { 
+  FaMusic,
+  FaHeart,
+  FaCoins,
+  FaLock,
+  FaArrowUp,
+  FaArrowDown,
+  FaRedo,
+  FaDollarSign,
+  FaUsers,
+  FaCog,
+  FaChartLine,
+  FaArrowRight
+} from 'react-icons/fa'
 
-const StepByStepProcess = () => {
-  const [openModal, setOpenModal] = useState<number | string | null>(null)
+const StepByStepProcess: React.FC = () => {
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 })
+  const [activeStep, setActiveStep] = useState(0)
+  const [currentCycle, setCurrentCycle] = useState<'main' | 'market'>('main')
+  const [showProfitableInfo, setShowProfitableInfo] = useState(false)
+  const [showRewardLevelsInfo, setShowRewardLevelsInfo] = useState(false)
 
-  const steps = [
+  const mainCycleSteps = [
     {
       id: 1,
       title: "Dawid postet neuen Content",
-      subtitle: "Song, Video oder Update auf Instagram, TikTok & Facebook",
-      icon: <FaInstagram className="text-2xl text-white" />,
-      color: "from-purple-500 to-pink-500",
-      modalContent: {
-        title: "📱 Content Posting & Initial Setup",
-        details: [
-          {
-            title: "💰 Initialliquidität",
-            content: "1.000€ für 20.000 D.FAITH Token bereitgestellt"
-          },
-          {
-            title: "📊 Marketing Budget",
-            content: "1.500€ für die spezifische Kampagne reserviert"
-          },
-          {
-            title: "🔒 Token Sperrung",
-            content: "80.000 D.FAITH bleiben im Smart Contract gesperrt"
-          },
-          {
-            title: "🎯 Plattformen",
-            content: "Gleichzeitiges Posting auf Instagram, TikTok & Facebook"
-          }
-        ]
-      }
+      description: "Song, Video oder Update auf Instagram, TikTok & Facebook",
+      details: [
+        "1.000€ für 20.000 D.FAITH Token bereitgestellt",
+        "1.500€ für spezifische Kampagne reserviert", 
+        "80.000 D.FAITH bleiben im Smart Contract gesperrt",
+        "Gleichzeitiges Posting auf allen Plattformen"
+      ],
+      icon: <FaMusic />,
+      color: "from-purple-500 to-pink-500"
     },
     {
       id: 2,
       title: "Fan Interaktion wird erkannt",
-      subtitle: "Fans liken, kommentieren, teilen - automatisch erfasst",
-      icon: <FaUsers className="text-2xl text-white" />,
-      color: "from-blue-500 to-cyan-500",
-      modalContent: {
-        title: "👥 Fan Engagement Tracking",
-        details: [
-          {
-            title: "❤️ Like Tracking",
-            content: "10 EXP pro Like → Level-basierte D.FAITH Rewards"
-          },
-          {
-            title: "💬 Kommentar System",
-            content: "Kommentar mit 'D.FAITH' → Automatischer Link zur Webapp"
-          },
-          {
-            title: "🔄 Share & Story",
-            content: "10-20 EXP → Höhere Rewards je nach Engagement-Type"
-          },
-          {
-            title: "📊 Profilerstellung",
-            content: "Automatische Profilerstellung und Cross-Platform Tracking"
-          }
-        ]
-      }
+      description: "Fans liken, kommentieren, teilen - automatisch erfasst",
+      details: [
+        "10 EXP pro Like → Level-basierte D.FAITH Rewards",
+        "Kommentar mit 'D.FAITH' → Automatischer Link zur Webapp",
+        "10-20 EXP für Shares & Stories → Höhere Rewards",
+        "Automatische Profilerstellung und Cross-Platform Tracking"
+      ],
+      icon: <FaHeart />,
+      color: "from-blue-500 to-cyan-500"
     },
     {
       id: 3,
       title: "Automatische Token-Käufe",
-      subtitle: "System kauft D.FAITH Token basierend auf Engagement",
-      icon: <FaCoins className="text-2xl text-white" />,
-      color: "from-green-500 to-emerald-500",
-      modalContent: {
-        title: "💰 Automatisierte Token-Käufe",
-        details: [
-          {
-            title: "💸 Budget Verwendung",
-            content: "Marketing Budget wird für Token-Käufe verwendet"
-          },
-          {
-            title: "📈 Level System",
-            content: "Level-System bestimmt Token-Anzahl pro Fan"
-          },
-          {
-            title: "🎁 Fan Distribution",
-            content: "50% der gekauften Token gehen direkt an Fans"
-          },
-          {
-            title: "🔒 Contract Feed",
-            content: "50% werden im Smart Contract für Staking gesperrt"
-          }
-        ]
-      }
+      description: "System kauft D.FAITH Token basierend auf Engagement",
+      details: [
+        "Marketing Budget wird für Token-Käufe verwendet",
+        "Level-System bestimmt Token-Anzahl pro Fan",
+        "50% der gekauften Token gehen direkt an Fans",
+        "50% werden im Smart Contract für Staking gesperrt"
+      ],
+      icon: <FaCoins />,
+      color: "from-green-500 to-emerald-500"
     },
     {
       id: 4,
       title: "Smart Contract sammelt Token",
-      subtitle: "Halving-Mechanismus sorgt für kontinuierliche Verknappung",
-      icon: <FaLock className="text-2xl text-white" />,
-      color: "from-orange-500 to-red-500",
-      modalContent: {
-        title: "🔐 Smart Contract Mechanismus",
-        details: [
-          {
-            title: "⚡ Reward Stufen",
-            content: "6 Reward-Stufen mit Halving-Effekt implementiert"
-          },
-          {
-            title: "📊 Startrate",
-            content: "0,1 D.FAITH pro D.INVEST pro Woche (Initial)"
-          },
-          {
-            title: "✂️ Halving Effekt",
-            content: "Jede Stufe halbiert die Ausgaberate automatisch"
-          },
-          {
-            title: "🔑 Unlock Bedingung",
-            content: "Token nur durch D.INVEST Staking entsperrbar"
-          }
-        ]
-      }
+      description: "50% der gekauften Token gehen an Smart Contract, Halving-Mechanismus sorgt für Verknappung",
+      details: [
+        "50% der gekauften Token gehen automatisch an Smart Contract",
+        "6 Reward-Stufen mit Halving-Effekt implementiert",
+        "Startrate: 0,1 D.FAITH pro D.INVEST pro Woche (Initial)",
+        "Jede Stufe halbiert die Ausgaberate automatisch",
+        "Token nur durch D.INVEST Staking entsperrbar"
+      ],
+      icon: <FaLock />,
+      color: "from-orange-500 to-red-500"
     },
     {
       id: 5,
       title: "Preissteigerung durch Verknappung",
-      subtitle: "D.FAITH wird wertvoller, D.INVEST wird attraktiver",
-      icon: <FaChartLine className="text-2xl text-white" />,
-      color: "from-yellow-500 to-orange-500",
-      modalContent: {
-        title: "📈 Kontinuierliches Preiswachstum",
-        details: [
-          {
-            title: "🔥 Verknappungseffekt",
-            content: "Kontinuierliche Käufe reduzieren verfügbare Token"
-          },
-          {
-            title: "🚀 Preisanstieg",
-            content: "Preis steigt bei zunehmender Verknappung"
-          },
-          {
-            title: "💎 D.INVEST Attraktivität",
-            content: "D.INVEST Staking wird profitabler"
-          },
-          {
-            title: "👑 Investor Appeal",
-            content: "Attraktive ROI lockt neue Investoren an"
-          }
-        ]
-      }
+      description: "D.FAITH wird wertvoller, D.INVEST wird attraktiver",
+      details: [
+        "Kontinuierliche Käufe reduzieren verfügbare Token",
+        "Preis steigt bei zunehmender Verknappung",
+        "D.INVEST Staking wird profitabler",
+        "Attraktive ROI lockt neue Investoren an"
+      ],
+      icon: <FaArrowUp />,
+      color: "from-yellow-500 to-orange-500"
     },
     {
       id: 6,
       title: "Kreislauf wiederholt sich",
-      subtitle: "System verstärkt sich automatisch bei jedem neuen Post",
-      icon: <FaArrowRight className="text-2xl text-white" />,
-      color: "from-cyan-500 to-blue-500",
-      isRepeat: true,
-      modalContent: {
-        title: "🔄 Kontinuierlicher Verstärkungszyklus",
-        details: [
-          {
-            title: "📈 Organisches Wachstum",
-            content: "Jeder Post kann das System weiter verbessern"
-          },
-          {
-            title: "🎯 Automatische Optimierung",
-            content: "System lernt aus jedem Durchlauf und wird effizienter"
-          },
-          {
-            title: "🚀 Momentum Building",
-            content: "Fans erwarten bereits Belohnungen → Mehr Engagement"
-          },
-          {
-            title: "💰 Wachsender Token-Wert",
-            content: "D.FAITH kann bei jedem Zyklus wertvoller werden"
-          }
-        ]
-      }
+      description: "System verstärkt sich automatisch bei jedem neuen Post",
+      details: [
+        "Jeder Post kann das System weiter verbessern",
+        "System lernt aus jedem Durchlauf und wird effizienter",
+        "Fans erwarten bereits Belohnungen → Mehr Engagement",
+        "D.FAITH kann bei jedem Zyklus wertvoller werden"
+      ],
+      icon: <FaRedo />,
+      color: "from-cyan-500 to-blue-500"
     }
   ]
 
-  const cycleSteps = [
+  const marketCycleSteps = [
     {
-      id: 'profitable',
+      id: 1,
       title: "D.INVEST wird rentabel",
-      subtitle: "Hohe D.FAITH Preise machen Staking extrem profitabel",
-      icon: <FaChartLine className="text-2xl text-white" />,
-      color: "from-green-500 to-emerald-500",
-      effect: "104% ROI möglich",
-      modalContent: {
-        title: "💰 D.INVEST Rentabilitätsschwelle",
-        details: [
-          {
-            title: "📊 ROI Möglichkeiten",
-            content: "Bei höheren D.FAITH Preisen kann attraktiver ROI auf D.INVEST entstehen"
-          },
-          {
-            title: "🎯 Investor Appeal",
-            content: "Investoren werden auf potentielle Renditen aufmerksam"
-          },
-          {
-            title: "📈 Staking Rewards",
-            content: "0,1 D.FAITH pro D.INVEST pro Woche wird wertvoller"
-          },
-          {
-            title: "🔥 Nachfrage Effekt",
-            content: "Begrenzte D.INVEST Verfügbarkeit kann Nachfrage steigern"
-          }
-        ]
-      }
+      description: "Hohe D.FAITH Preise machen Staking extrem profitabel",
+      details: [
+        "Bei höheren D.FAITH Preisen kann attraktiver ROI auf D.INVEST entstehen",
+        "Investoren werden auf potentielle Renditen aufmerksam",
+        "0,1 D.FAITH pro D.INVEST pro Woche wird wertvoller",
+        "104% ROI möglich bei optimalen Bedingungen"
+      ],
+      icon: <FaDollarSign />,
+      color: "from-green-600 to-emerald-600"
     },
     {
-      id: 'crash',
+      id: 2,
       title: "Investoren kaufen D.INVEST",
-      subtitle: "Neue D.INVEST Käufe führen zu erhöhten D.FAITH Rewards",
-      icon: <FaChartArea className="text-2xl text-white" />,
-      color: "from-red-500 to-orange-500",
-      effect: "Temporärer Preisrückgang",
-      isCrash: true,
-      modalContent: {
-        title: "� Erhöhte Staking-Aktivität",
-        details: [
-          {
-            title: "💰 Neue Investoren",
-            content: "Weitere Investoren kaufen D.INVEST für 5€/Token"
-          },
-          {
-            title: "📉 Erhöhte Token-Ausgabe",
-            content: "Mehr Staking-Rewards werden ausgegeben → temporärer Preisrückgang"
-          },
-          {
-            title: "� Kapitalzufluss",
-            content: "Neues Kapital fließt in bessere Musikproduktion und Marketing"
-          },
-          {
-            title: "🔄 Natürlicher Zyklus",
-            content: "Preiskorrektur ist Teil des natürlichen Wachstumszyklus"
-          }
-        ]
-      }
+      description: "Neue D.INVEST Käufe führen zu erhöhten D.FAITH Rewards",
+      details: [
+        "Weitere Investoren kaufen D.INVEST für 5€/Token",
+        "Mehr Staking-Rewards werden ausgegeben → temporärer Preisrückgang",
+        "Neues Kapital fließt in bessere Musikproduktion und Marketing",
+        "Preiskorrektur ist Teil des natürlichen Wachstumszyklus"
+      ],
+      icon: <FaUsers />,
+      color: "from-red-500 to-orange-500"
     },
     {
-      id: 'halving',
+      id: 3,
+      title: "Investoren verkaufen D.FAITH Rewards",
+      description: "Crash -80%: Massive Verkäufe führen zu drastischem Preisverfall",
+      details: [
+        "Investoren verkaufen ihre D.FAITH Rewards für sofortige Gewinne",
+        "Markt wird mit D.FAITH überflutet → Preiscrash -80%",
+        "Panikverkäufe verstärken den Abwärtstrend",
+        "D.INVEST Staking wird vorübergehend unattraktiv"
+      ],
+      icon: <FaArrowDown />,
+      color: "from-red-600 to-red-800"
+    },
+    {
+      id: 4,
       title: "Halving aktiviert sich",
-      subtitle: "Smart Contract reduziert Ausgaberate automatisch",
-      icon: <FaLock className="text-2xl text-white" />,
-      color: "from-purple-500 to-pink-500",
-      effect: "50% weniger Rewards",
-      modalContent: {
-        title: "⚡ Halving-Mechanismus greift",
-        details: [
-          {
-            title: "✂️ Automatische Kürzung",
-            content: "Staking-Rate sinkt von 0,1 auf 0,05 D.FAITH pro Woche"
-          },
-          {
-            title: "🛡️ Crash-Schutz",
-            content: "Halving verhindert weitere Marktüberflutung"
-          },
-          {
-            title: "📈 Basis erhöht",
-            content: "Neuer Zyklus startet auf höherem Preisniveau"
-          },
-          {
-            title: "🎯 Bitcoin-Mechanik",
-            content: "Bewährtes Halving-Konzept aus der Krypto-Welt"
-          }
-        ]
-      }
+      description: "Smart Contract reduziert Ausgaberate automatisch",
+      details: [
+        "Staking-Rate sinkt von 0,1 auf 0,05 D.FAITH pro Woche",
+        "Halving verhindert weitere Marktüberflutung",
+        "Neuer Zyklus startet auf höherem Preisniveau",
+        "Bewährtes Halving-Konzept aus der Krypto-Welt"
+      ],
+      icon: <FaCog />,
+      color: "from-purple-500 to-pink-500"
     },
     {
-      id: 'restart',
-      title: "Zyklus beginnt erneut",
-      subtitle: "Höhere Basis, stärkeres System, exponentielles Wachstum",
-      icon: <FaRocket className="text-2xl text-white" />,
-      color: "from-cyan-500 to-purple-500",
-      effect: "Nächster Level",
-      isRestart: true,
-      modalContent: {
-        title: "🚀 Neuer Zyklus - höheres Level",
-        details: [
-          {
-            title: "📈 Höhere Startbasis",
-            content: "Neuer Zyklus kann bei höherem Preisniveau beginnen"
-          },
-          {
-            title: "💎 Verbesserte Basis",
-            content: "Mehr Fans, bessere Reichweite, stärkere Community"
-          },
-          {
-            title: "🎵 Bessere Produktion",
-            content: "Zusätzliches Kapital ermöglicht professionellere Musikproduktion"
-          },
-          {
-            title: "🌍 Wachstumspotential",
-            content: "System kann in neue Märkte und Plattformen expandieren"
-          }
-        ]
-      }
+      id: 5,
+      title: "D.FAITH Preis steigt",
+      description: "D.FAITH Preis steigt durch Halving auf neue Hochs",
+      details: [
+        "Reduzierte Token-Ausgabe führt zu natürlicher Verknappung",
+        "D.FAITH Preis steigt durch verringerte Staking-Rewards",
+        "Höhere D.FAITH Preise machen D.INVEST trotz Halving wieder profitabel",
+        "System ist bereit für den nächsten profitablen Zyklus bei höherem Preisniveau"
+      ],
+      icon: <FaChartLine />,
+      color: "from-cyan-500 to-purple-500"
     }
   ]
 
-  const openStepModal = (stepId: number | string) => {
-    setOpenModal(stepId)
-  }
-
-  // Auto-scroll to modal when it opens
-  useEffect(() => {
-    if (openModal) {
-      // Small delay to ensure modal is rendered
-      setTimeout(() => {
-        const modalElement = document.querySelector('[data-modal="true"]')
-        if (modalElement) {
-          modalElement.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'center',
-            inline: 'center'
-          })
-        }
-      }, 150)
-    }
-  }, [openModal])
-
-  const closeModal = () => {
-    setOpenModal(null)
-  }
+  const currentSteps = currentCycle === 'main' ? mainCycleSteps : marketCycleSteps
 
   return (
-    <div className="mb-16">
+    <div ref={ref} className="py-20 max-w-7xl mx-auto px-6">
       {/* Header */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="text-center mb-12"
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6 }}
+        className="text-center mb-16"
       >
-        <h3 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent mb-6 flex items-center justify-center gap-3">
-          <FaArrowRight className="text-cyan-400 transform rotate-90" />
+        <h2 className="text-5xl font-bold text-white mb-6">
           Der D.FAITH Kreislauf
-        </h3>
-        <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
-          So funktioniert das System Schritt für Schritt - von Fan-Interaktion bis zur Wertsteigerung
+        </h2>
+        <p className="text-xl text-gray-300 mb-12">
+          Schritt-für-Schritt Prozesse - von Fan-Interaktion bis zur Wertsteigerung
         </p>
-      </motion.div>
 
-      {/* Steps Grid */}
-      <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {steps.map((step, index) => (
-          <motion.div
-            key={step.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: index * 0.1 }}
-            viewport={{ once: true }}
-            className={`relative bg-slate-800/50 backdrop-blur-sm border rounded-xl p-6 transition-all duration-500 cursor-pointer hover:scale-105 border-slate-700 hover:border-slate-600 ${step.isRepeat ? 'bg-gradient-to-br from-cyan-900/20 to-blue-900/20' : ''}`}
-            onClick={() => openStepModal(step.id)}
-          >
-            {/* Step Number */}
-            <div className={`absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white font-bold text-sm`}>
-              {step.id}
+        {/* Cycle Selector */}
+        <div className="flex justify-center mb-12">
+          <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-2 border border-white/20">
+            <div className="flex">
+              <button
+                onClick={() => {
+                  setCurrentCycle('main')
+                  setActiveStep(0)
+                }}
+                className={`px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 ${
+                  currentCycle === 'main'
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                Haupt-Zyklus (6 Schritte)
+              </button>
+              <button
+                onClick={() => {
+                  setCurrentCycle('market')
+                  setActiveStep(0)
+                }}
+                className={`px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 ${
+                  currentCycle === 'market'
+                    ? 'bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-lg'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                Markt-Zyklus (5 Schritte)
+              </button>
             </div>
-
-            {/* Repeat Indicator */}
-            {step.isRepeat && (
-              <div className="absolute -top-2 -right-2 bg-cyan-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
-                LOOP
-              </div>
-            )}
-
-            {/* Icon */}
-            <div className="flex items-center gap-4 mb-4">
-              <div className={`p-3 bg-gradient-to-r ${step.color} rounded-full`}>
-                {step.icon}
-              </div>
-              <div className="flex-1">
-                <h4 className="text-lg font-bold text-white">{step.title}</h4>
-                <p className="text-sm text-gray-400">{step.subtitle}</p>
-              </div>
-            </div>
-
-            {/* Click for Details */}
-            <div className="flex items-center justify-between mt-4">
-              <div className="flex items-center gap-2 text-blue-400 text-sm">
-                <FaInfoCircle />
-                <span>Details anzeigen</span>
-              </div>
-              {step.isRepeat && (
-                <div className="flex items-center gap-1 text-cyan-400 text-xs">
-                  <FaArrowRight />
-                  <span>Zyklus</span>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Cycle Arrow Down */}
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
-        viewport={{ once: true }}
-        className="flex flex-col items-center my-12"
-      >
-        <div className="text-6xl animate-bounce mb-4">⬇️</div>
-        <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-full font-bold text-lg">
-          💰 D.INVEST wird interessant
+          </div>
         </div>
       </motion.div>
 
-      {/* Cycle Steps Grid */}
-      <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
-        {cycleSteps.map((step, index) => (
-          <motion.div
-            key={step.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: index * 0.1 }}
-            viewport={{ once: true }}
-            className={`relative bg-slate-800/50 backdrop-blur-sm border rounded-xl p-6 transition-all duration-500 cursor-pointer hover:scale-105 border-slate-700 hover:border-slate-600 ${
-              step.isCrash ? 'bg-gradient-to-br from-red-900/20 to-orange-900/20' : ''
-            } ${step.isRestart ? 'bg-gradient-to-br from-cyan-900/20 to-purple-900/20' : ''}`}
-            onClick={() => openStepModal(step.id)}
-          >
-            {/* Step Label */}
-            <div className={`absolute -top-3 -left-3 px-3 py-1 rounded-full bg-gradient-to-r ${step.color} text-white font-bold text-xs`}>
-              {step.id === 'profitable' && 'PROFIT'}
-              {step.id === 'crash' && 'CRASH'}
-              {step.id === 'halving' && 'HALVING'}
-              {step.id === 'restart' && 'RESTART'}
+      {/* Active Step Details */}
+      {activeStep !== -1 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, height: 0 }}
+          animate={{ opacity: 1, y: 0, height: 'auto' }}
+          exit={{ opacity: 0, y: -20, height: 0 }}
+          transition={{ duration: 0.3 }}
+          className="backdrop-blur-xl bg-white/10 rounded-3xl p-8 border border-white/20 mb-12 max-w-4xl mx-auto"
+        >
+          {/* Header */}
+          <div className="flex items-center gap-6 mb-6">
+            <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${currentSteps[activeStep].color} flex items-center justify-center text-white text-2xl`}>
+              {currentSteps[activeStep].icon}
             </div>
-
-            {/* Special Indicators */}
-            {step.isCrash && (
-              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
-                📉 Korrektur
-              </div>
-            )}
-            {step.isRestart && (
-              <div className="absolute -top-2 -right-2 bg-cyan-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
-                🔄 LOOP
-              </div>
-            )}
-
-            {/* Icon */}
-            <div className="flex items-center gap-4 mb-4">
-              <div className={`p-3 bg-gradient-to-r ${step.color} rounded-full`}>
-                {step.icon}
-              </div>
-              <div className="flex-1">
-                <h4 className="text-lg font-bold text-white">{step.title}</h4>
-                <p className="text-sm text-gray-400">{step.subtitle}</p>
-              </div>
-            </div>
-
-            {/* Effect */}
-            <div className="bg-slate-700/30 rounded-lg p-3 mb-4">
-              <p className="text-xs font-semibold text-center">
-                <span className="text-yellow-400">⚡</span> {step.effect}
+            <div className="flex-1">
+              <h3 className="font-bold text-white text-2xl leading-tight mb-2">
+                {currentSteps[activeStep].title}
+              </h3>
+              <p className="text-gray-300 text-lg">
+                {currentSteps[activeStep].description}
               </p>
             </div>
+            <button
+              onClick={() => setActiveStep(-1)}
+              className="text-gray-400 hover:text-white transition-colors p-2"
+            >
+              <FaArrowRight className="transform rotate-90 text-xl" />
+            </button>
+          </div>
 
-            {/* Click for Details */}
-            <div className="flex items-center justify-center">
-              <div className="flex items-center gap-2 text-blue-400 text-sm">
-                <FaInfoCircle />
-                <span>Details anzeigen</span>
-              </div>
-            </div>
-          </motion.div>
-        ))}
+          {/* Details */}
+          <div className="grid md:grid-cols-2 gap-4">
+            {currentSteps[activeStep].details.map((detail, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white/5 rounded-xl p-4 border border-white/10"
+              >
+                <p className="text-gray-300 text-sm leading-relaxed">{detail}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Timeline Circle */}
+      <div className="relative w-full max-w-2xl mx-auto mb-16 flex items-center justify-center min-h-[600px]">
+        {/* Center Info */}
+        <div className="absolute z-30 backdrop-blur-xl bg-white/10 rounded-full border border-white/20 flex flex-col items-center justify-center">
+          <div className={`${
+            currentSteps.length === 6 ? 'w-40 h-40' : 'w-32 h-32'
+          } flex flex-col items-center justify-center`}>
+            <span className={`text-white font-bold ${
+              currentSteps.length === 6 ? 'text-2xl' : 'text-xl'
+            }`}>
+              {currentCycle === 'main' ? '6' : '5'} Schritte
+            </span>
+            <span className={`text-gray-300 text-center ${
+              currentSteps.length === 6 ? 'text-sm' : 'text-sm'
+            }`}>
+              {currentCycle === 'main' ? 'Haupt-Zyklus' : 'Markt-Zyklus'}
+            </span>
+          </div>
+        </div>
+
+        {/* Circle Steps using CSS Grid */}
+        <div className={`grid place-items-center w-96 h-96 relative ${
+          currentSteps.length === 6 
+            ? 'grid-cols-5 grid-rows-5' 
+            : 'grid-cols-5 grid-rows-5'
+        }`}>
+          {currentSteps.map((step, index) => {
+            // Grid positions for perfect circle distribution
+            const gridPositions = currentSteps.length === 6 ? [
+              { gridColumn: '3', gridRow: '1' },    // Top
+              { gridColumn: '5', gridRow: '2' },    // Top Right
+              { gridColumn: '5', gridRow: '4' },    // Bottom Right
+              { gridColumn: '3', gridRow: '5' },    // Bottom
+              { gridColumn: '1', gridRow: '4' },    // Bottom Left
+              { gridColumn: '1', gridRow: '2' }     // Top Left
+            ] : [
+              { gridColumn: '3', gridRow: '1' },    // Top (12 Uhr)
+              { gridColumn: '5', gridRow: '2' },    // Top Right (2 Uhr)
+              { gridColumn: '4', gridRow: '5' },    // Bottom Right (5 Uhr)
+              { gridColumn: '2', gridRow: '5' },    // Bottom Left (7 Uhr)
+              { gridColumn: '1', gridRow: '2' }     // Top Left (10 Uhr)
+            ]
+
+            return (
+              <motion.div
+                key={`${currentCycle}-${step.id}`}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() => setActiveStep(index === activeStep ? -1 : index)}
+                className={`cursor-pointer ${
+                  index === activeStep ? 'z-20' : 'z-10'
+                }`}
+                style={{
+                  gridColumn: gridPositions[index].gridColumn,
+                  gridRow: gridPositions[index].gridRow
+                }}
+              >
+                {/* Step Card */}
+                <div className={`backdrop-blur-xl rounded-3xl border transition-all duration-300 ${
+                  index === activeStep
+                    ? 'bg-white/20 border-white/40 scale-110 shadow-2xl'
+                    : 'bg-white/10 border-white/20 hover:bg-white/15 hover:scale-105'
+                } w-24 h-24 flex flex-col items-center justify-center`}>
+                  {/* Step Icon */}
+                  <div className={`w-10 h-10 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white text-lg`}>
+                    {step.icon}
+                  </div>
+                  
+                  {/* Step Number */}
+                  <div className="text-white text-sm font-bold mt-1">
+                    {step.id}
+                  </div>
+                </div>
+              </motion.div>
+            )
+          })}
+
+          {/* SVG Connection Lines with Arrows */}
+          <svg 
+            className="absolute inset-0 w-full h-full pointer-events-none" 
+            viewBox="0 0 384 384"
+            style={{ zIndex: 5 }}
+          >
+            <defs>
+              <marker
+                id="arrowhead"
+                markerWidth="10"
+                markerHeight="7"
+                refX="9"
+                refY="3.5"
+                orient="auto"
+              >
+                <polygon
+                  points="0 0, 10 3.5, 0 7"
+                  fill="#60a5fa"
+                />
+              </marker>
+              <marker
+                id="arrowhead-purple"
+                markerWidth="10"
+                markerHeight="7"
+                refX="9"
+                refY="3.5"
+                orient="auto"
+              >
+                <polygon
+                  points="0 0, 10 3.5, 0 7"
+                  fill="#a855f7"
+                />
+              </marker>
+            </defs>
+            
+            {currentSteps.length === 6 ? (
+              <>
+                {/* 1 → 2: Top to Top-Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  x1="192" y1="38" x2="307" y2="77"
+                  stroke="#60a5fa" strokeWidth="3"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 2 → 3: Top-Right to Bottom-Right */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  x1="307" y1="115" x2="307" y2="269"
+                  stroke="#60a5fa" strokeWidth="3"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 3 → 4: Bottom-Right to Bottom */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  x1="269" y1="307" x2="192" y2="346"
+                  stroke="#60a5fa" strokeWidth="3"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 4 → 5: Bottom to Bottom-Left */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.8 }}
+                  x1="154" y1="346" x2="77" y2="307"
+                  stroke="#60a5fa" strokeWidth="3"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 5 → 6: Bottom-Left to Top-Left */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.9 }}
+                  x1="77" y1="269" x2="77" y2="115"
+                  stroke="#60a5fa" strokeWidth="3"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 6 → 1: Top-Left to Top (completing circle) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 1.0 }}
+                  x1="115" y1="77" x2="154" y2="38"
+                  stroke="#a855f7" strokeWidth="3"
+                  markerEnd="url(#arrowhead-purple)"
+                />
+              </>
+            ) : (
+              <>
+                {/* 1 → 2: Top to Top-Right (12 Uhr → 2 Uhr) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  x1="192" y1="38" x2="307" y2="77"
+                  stroke="#60a5fa" strokeWidth="3"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 2 → 3: Top-Right to Bottom-Right (2 Uhr → 5 Uhr) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  x1="288" y1="115" x2="269" y2="346"
+                  stroke="#60a5fa" strokeWidth="3"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 3 → 4: Bottom-Right to Bottom-Left (5 Uhr → 7 Uhr) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  x1="230" y1="346" x2="154" y2="346"
+                  stroke="#60a5fa" strokeWidth="3"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 4 → 5: Bottom-Left to Top-Left (7 Uhr → 10 Uhr) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.8 }}
+                  x1="115" y1="307" x2="77" y2="115"
+                  stroke="#60a5fa" strokeWidth="3"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 5 → 1: Top-Left to Top (10 Uhr → 12 Uhr, completing circle) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.9 }}
+                  x1="115" y1="77" x2="154" y2="38"
+                  stroke="#a855f7" strokeWidth="3"
+                  markerEnd="url(#arrowhead-purple)"
+                />
+              </>
+            )}
+          </svg>
+        </div>
       </div>
 
-      {/* Cycle Arrow Up */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, delay: 0.8 }}
-        viewport={{ once: true }}
-        className="flex flex-col items-center my-12"
+      {/* Cycle Summary */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.8 }}
+        className="max-w-4xl mx-auto space-y-8"
       >
-        <div className="text-6xl animate-bounce mb-4">⬆️</div>
-        <div className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-8 py-4 rounded-full font-bold text-xl flex items-center gap-3">
-          <span className="text-2xl">🔄</span>
-          Zyklus beginnt wieder - auf höherem Level!
-        </div>
-        <p className="text-gray-400 text-center mt-4 max-w-md">
-          Jeder Zyklus kann das System verstärken. Organisches Wachstum durch 
-          nachhaltiges Fan-Engagement!
-        </p>
-      </motion.div>
-
-      {/* Modal */}
-      <AnimatePresence>
-        {openModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
-            onClick={closeModal}
+        {/* Was passiert wenn D.INVEST profitabel wird? */}
+        <div className="backdrop-blur-xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-3xl border border-purple-500/30">
+          <button
+            onClick={() => setShowProfitableInfo(!showProfitableInfo)}
+            className="w-full p-8 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-3xl"
           >
+            <h3 className="font-bold text-2xl text-white">
+              💰 Was passiert wenn D.INVEST profitabel wird?
+            </h3>
+            <FaArrowRight className={`text-gray-400 transition-transform duration-300 text-xl ${
+              showProfitableInfo ? 'rotate-90' : ''
+            }`} />
+          </button>
+          
+          {showProfitableInfo && (
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-slate-800 rounded-2xl max-w-4xl w-full my-8 border border-slate-700"
-              onClick={(e) => e.stopPropagation()}
-              data-modal="true"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="px-8 pb-8"
             >
-              {(() => {
-                const step = steps.find(s => s.id === openModal)
-                const cycleStep = cycleSteps.find(s => s.id === openModal)
-                const currentStep = step || cycleStep
-                if (!currentStep) return null
-
-                return (
-                  <div className="p-4">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`p-2 bg-gradient-to-r ${currentStep.color} bg-opacity-20 rounded-full`}>
-                          {currentStep.icon}
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-bold text-white">{currentStep.modalContent.title}</h3>
-                          <p className="text-gray-400 text-sm">{currentStep.subtitle}</p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={closeModal}
-                        className="p-2 hover:bg-slate-700 rounded-full transition-colors"
-                      >
-                        <FaTimes className="text-gray-400" />
-                      </button>
-                    </div>
-
-                    {/* Content */}
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {currentStep.modalContent.details.map((detail, index) => (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          className="bg-slate-700/30 rounded-lg p-3 border border-slate-600"
-                        >
-                          <h4 className="font-bold text-blue-400 mb-1 text-sm">{detail.title}</h4>
-                          <p className="text-gray-300 text-sm">{detail.content}</p>
-                        </motion.div>
-                      ))}
-                    </div>
-
-                    {/* Footer */}
-                    <div className="mt-4 pt-3 border-t border-slate-700">
-                      <button
-                        onClick={closeModal}
-                        className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-2 px-6 rounded-xl transition-all duration-300"
-                      >
-                        Verstanden ✓
-                      </button>
-                    </div>
+              <div className="text-center space-y-6">
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="flex items-center justify-between px-6 py-4 bg-white/5 rounded-2xl">
+                    <span className="text-green-300 font-medium text-lg">📈 Hohe ROI möglich</span>
+                    <FaArrowRight className="text-gray-400" />
+                    <span className="text-blue-300 font-medium text-lg">💰 Neue Investoren</span>
                   </div>
-                )
-              })()}
+                  <div className="flex items-center justify-between px-6 py-4 bg-white/5 rounded-2xl">
+                    <span className="text-red-300 font-medium text-lg">📉 Mehr Rewards</span>
+                    <FaArrowRight className="text-gray-400" />
+                    <span className="text-orange-300 font-medium text-lg">⚡ Halving greift</span>
+                  </div>
+                  <div className="flex items-center justify-between px-6 py-4 bg-white/5 rounded-2xl">
+                    <span className="text-purple-300 font-medium text-lg">🔄 Neuer Zyklus</span>
+                    <FaArrowRight className="text-gray-400" />
+                    <span className="text-cyan-300 font-medium text-lg">🚀 Höheres Level</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-center gap-4 mt-6 p-6 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl">
+                  <FaRedo className="text-blue-400 text-xl" />
+                  <span className="text-white font-medium text-xl">Jeder Zyklus verstärkt das System</span>
+                  <FaRedo className="text-purple-400 text-xl" />
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </div>
+
+        {/* Warum 6 Reward Stufen? */}
+        <div className="backdrop-blur-xl bg-gradient-to-r from-orange-600/20 to-yellow-600/20 rounded-3xl border border-orange-500/30">
+          <button
+            onClick={() => setShowRewardLevelsInfo(!showRewardLevelsInfo)}
+            className="w-full p-8 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-3xl"
+          >
+            <h3 className="font-bold text-2xl text-white">
+              🏆 Warum 6 Reward Stufen?
+            </h3>
+            <FaArrowRight className={`text-gray-400 transition-transform duration-300 text-xl ${
+              showRewardLevelsInfo ? 'rotate-90' : ''
+            }`} />
+          </button>
+          
+          {showRewardLevelsInfo && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="px-8 pb-8"
+            >
+              <div className="text-center space-y-6">
+                <div className="bg-white/5 rounded-2xl p-6">
+                  <p className="text-gray-300 text-lg leading-relaxed">
+                    Dieser Mechanismus soll dazu führen, dass Kapital an das Projekt in Zyklen fließt, 
+                    damit es sich weiterentwickelt und selbst Einnahmen erwirtschaften kann.
+                  </p>
+                </div>
+                
+                <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-2xl p-6">
+                  <p className="text-white text-lg leading-relaxed font-medium">
+                    Sobald alle D.INVEST verkauft sind und das Projekt erfolgreich ist, werden weiterhin 
+                    aus den Einnahmen D.FAITH Tokens beim Marketing gekauft.
+                  </p>
+                </div>
+                
+                <div className="flex items-center justify-center gap-4 p-6 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-2xl">
+                  <FaChartLine className="text-yellow-400 text-xl" />
+                  <span className="text-white font-medium text-xl">Langfristige Investoren profitieren dadurch am meisten</span>
+                  <FaChartLine className="text-orange-400 text-xl" />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </div>
+      </motion.div>
     </div>
   )
 }
