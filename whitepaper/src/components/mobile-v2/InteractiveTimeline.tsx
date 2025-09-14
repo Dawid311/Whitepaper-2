@@ -111,8 +111,8 @@ const InteractiveTimeline: React.FC = () => {
   const marketCycleSteps = [
     {
       id: 1,
-      title: "D.INVEST wird rentabel",
-      description: "Hohe D.FAITH Preise machen Staking extrem profitabel",
+      title: "D.INVEST wird profitabel",
+      description: "Hohe D.FAITH Preise machen Staking profitabel",
       details: [
         "Bei höheren D.FAITH Preisen kann attraktiver ROI auf D.INVEST entstehen",
         "Investoren werden auf potentielle Renditen aufmerksam",
@@ -532,10 +532,15 @@ const InteractiveTimeline: React.FC = () => {
                   <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
                     <span className="text-red-300 font-medium">📉 Mehr Rewards</span>
                     <FaArrowRight className="text-gray-400" />
-                    <span className="text-orange-300 font-medium">⚡ Halving greift</span>
+                    <span className="text-orange-300 font-medium">💥 Preisrückgang/Crash</span>
                   </div>
                   <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-                    <span className="text-purple-300 font-medium">🔄 Neuer Zyklus</span>
+                    <span className="text-purple-300 font-medium">� Crash</span>
+                    <FaArrowRight className="text-gray-400" />
+                    <span className="text-yellow-300 font-medium">⚡ Halving greift</span>
+                  </div>
+                  <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
+                    <span className="text-purple-300 font-medium">�🔄 Neuer Zyklus</span>
                     <FaArrowRight className="text-gray-400" />
                     <span className="text-cyan-300 font-medium">🚀 Höheres Level</span>
                   </div>

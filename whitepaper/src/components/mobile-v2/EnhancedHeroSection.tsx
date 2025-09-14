@@ -89,7 +89,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
     return () => clearInterval(interval)
   }, [propActiveUsers, propTokenPrices])
 
-  // Stats counter animation
+  // Stats counter animation - removed to show real live data
   const [stats, setStats] = useState({
     users: 0,
     dfaithPrice: 0,
@@ -97,26 +97,13 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
   })
 
   useEffect(() => {
-    if (inView && !isLoading) {
-      // Animate stats counting up
-      const animateStats = async () => {
-        const duration = 2000
-        const steps = 60
-        const stepDuration = duration / steps
-        
-        for (let i = 0; i <= steps; i++) {
-          const progress = i / steps
-          setStats({
-            users: Math.floor(activeUsers * progress),
-            dfaithPrice: tokenPrices.dfaith * progress,
-            dinvestPrice: tokenPrices.dinvest * progress
-          })
-          await new Promise(resolve => setTimeout(resolve, stepDuration))
-        }
-      }
-      animateStats()
-    }
-  }, [inView, isLoading, activeUsers, tokenPrices])
+    // Set stats directly from live data without animation
+    setStats({
+      users: activeUsers,
+      dfaithPrice: tokenPrices.dfaith,
+      dinvestPrice: tokenPrices.dinvest
+    })
+  }, [activeUsers, tokenPrices])
 
   // Spring animations for main elements
   const titleSpring = useSpring({
