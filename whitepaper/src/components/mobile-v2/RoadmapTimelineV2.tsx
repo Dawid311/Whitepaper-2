@@ -301,32 +301,6 @@ const RoadmapTimelineV2: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* Roadmap Flexibility */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 1.4 }}
-        className="backdrop-blur-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-6 border border-purple-500/30 mb-8"
-      >
-        <h3 className="text-xl font-bold text-purple-400 mb-4 flex items-center gap-2">
-          <FaCog /> Entwicklungsprinzipien
-        </h3>
-        <div className="space-y-3">
-          {flexibility.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 1.6 + index * 0.1 }}
-              className="flex items-center gap-3 bg-white/5 rounded-lg p-3"
-            >
-              <div className="text-purple-400">{item.icon}</div>
-              <span className="text-gray-300 text-sm">{item.text}</span>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
       {/* Long-term Vision */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
