@@ -419,10 +419,10 @@ const ProblemSectionV2: React.FC = () => {
             ].map((node, index) => (
               <g key={index}>
                 <motion.rect
-                  x={node.x - 30}
-                  y={node.y - 15}
-                  width="60"
-                  height="30"
+                  x={node.x - 35}
+                  y={node.y - 18}
+                  width="70"
+                  height="36"
                   rx="8"
                   fill={node.color}
                   initial={{ scale: 0, opacity: 0 }}
@@ -448,27 +448,6 @@ const ProblemSectionV2: React.FC = () => {
               </g>
             ))}
             
-            {/* Arrow Indicators */}
-            {[0, 72, 144, 216, 288].map((angle, index) => {
-              const radian = (angle * Math.PI) / 180;
-              const x1 = 160 + Math.cos(radian) * 95;
-              const y1 = 160 + Math.sin(radian) * 95;
-              const x2 = 160 + Math.cos(radian + 0.3) * 105;
-              const y2 = 160 + Math.sin(radian + 0.3) * 105;
-              
-              return (
-                <motion.path
-                  key={index}
-                  d={`M ${x1} ${y1} L ${x2} ${y2} L ${x2-8} ${y2-3} M ${x2} ${y2} L ${x2-3} ${y2-8}`}
-                  stroke="#ef4444"
-                  strokeWidth="2"
-                  fill="none"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={inView ? { pathLength: 1, opacity: 0.7 } : {}}
-                  transition={{ duration: 0.8, delay: 2.5 + index * 0.1 }}
-                />
-              );
-            })}
           </svg>
           
           {/* Center Text */}

@@ -163,12 +163,12 @@ const InteractiveTimeline: React.FC = () => {
     },
     {
       id: 5,
-      title: "D.FAITH Verkauf lohnt sich erst bei neuen Hochs",
-      description: "D.FAITH Rewards durch Halving benötigen höhere D.FAITH Preise um sich zu lohnen",
+      title: "D.FAITH Preis steigt und Halving macht D.INVEST wieder rentabel",
+      description: "Halving macht D.INVEST wieder rentabel bei höheren Preisen",
       details: [
-        "Halbierte Staking-Rewards machen D.INVEST bei aktuellen Preisen unrentabel",
-        "Investoren warten auf höhere D.FAITH Preise für profitables ROI",
         "Reduzierte Token-Ausgabe führt zu natürlicher Verknappung",
+        "D.FAITH Preis steigt durch verringerte Staking-Rewards",
+        "Höhere D.FAITH Preise machen D.INVEST trotz Halving wieder profitabel",
         "System ist bereit für den nächsten profitablen Zyklus bei höherem Preisniveau"
       ],
       icon: <FaChartLine />,

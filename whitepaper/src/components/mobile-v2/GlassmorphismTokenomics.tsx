@@ -53,6 +53,9 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
   })
   const [isTokenDataLoading, setIsTokenDataLoading] = useState(true)
 
+  // Live Halving Stage State
+  const [liveHalvingStage, setLiveHalvingStage] = useState(1)
+
   // Animation values
   const [animatedValues, setAnimatedValues] = useState({
     dfaithPrice: 0,
@@ -155,6 +158,10 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
           const stakingJson = await stakingResponse.json()
           if (stakingJson.data?.totalStaked) {
             contractBalance = parseFloat(stakingJson.data.totalStaked)
+          }
+          // Live Halving Stage aus Staking API
+          if (stakingJson.data?.halvingStage) {
+            setLiveHalvingStage(stakingJson.data.halvingStage)
           }
         }
 
@@ -466,9 +473,14 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <div className="flex items-center gap-2 mb-2">
                       <FaChartLine className="text-orange-400" />
-                      <span className="text-gray-300 text-sm">Staking Rate</span>
+                      <span className="text-gray-300 text-sm">Aktuelle Stufe</span>
                     </div>
-                    <p className="text-2xl font-bold text-orange-400">0,1/Woche</p>
+                    <p className="text-2xl font-bold text-orange-400">
+                      Stufe {liveHalvingStage}
+                    </p>
+                    {!isTokenDataLoading && (
+                      <p className="text-green-400 text-xs mt-1">Live Daten</p>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -490,6 +502,9 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                 <FaBolt /> 6-Stufen Halving System <FaBolt />
               </h3>
               <p className="text-gray-400">Systematische Verknappung für nachhaltiges Wachstum</p>
+              <p className="text-green-400 text-sm mt-2">
+                🔴 Live: Stufe {liveHalvingStage} aktiv
+              </p>
             </div>
 
             {halvingStages.map((stage, index) => (
@@ -502,6 +517,8 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                 className={`backdrop-blur-xl rounded-2xl p-4 border cursor-pointer transition-all duration-300 ${
                   selectedStage === stage.stage
                     ? 'bg-white/15 border-white/30 scale-105'
+                    : stage.stage === liveHalvingStage
+                    ? 'bg-green-500/20 border-green-500/40 hover:bg-green-500/30'
                     : 'bg-white/5 border-white/10 hover:bg-white/10'
                 }`}
               >
@@ -516,6 +533,9 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                     <div>
                       <p className="font-semibold text-white">Stufe {stage.stage}</p>
                       <p className="text-gray-400 text-sm">{stage.range}</p>
+                      {stage.stage === liveHalvingStage && (
+                        <p className="text-green-400 text-xs font-bold">🔴 AKTIV</p>
+                      )}
                     </div>
                   </div>
                   
@@ -578,7 +598,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                     <input
                       type="range"
                       min="1"
-                      max="100"
+                      max="10000"
                       value={investmentAmount}
                       onChange={(e) => setInvestmentAmount(Number(e.target.value))}
                       className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
@@ -595,7 +615,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                     <input
                       type="range"
                       min="0.05"
-                      max="2.00"
+                      max="10.00"
                       step="0.05"
                       value={dfaithPrice}
                       onChange={(e) => setDfaithPrice(Number(e.target.value))}
@@ -638,6 +658,12 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <p className="text-gray-400 text-sm mb-1">Jährlicher ROI</p>
                     <p className="text-2xl font-bold text-blue-400">{calculateROI(investmentAmount, dfaithPrice).toFixed(1)}%</p>
+                  </div>
+                  <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10 col-span-2">
+                    <p className="text-gray-400 text-sm mb-1">Jährlicher Gewinn</p>
+                    <p className="text-xl font-bold text-purple-400">
+                      €{((investmentAmount * 5 * calculateROI(investmentAmount, dfaithPrice)) / 100).toLocaleString()}
+                    </p>
                   </div>
                 </div>
               </div>
