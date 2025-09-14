@@ -111,7 +111,7 @@ const TeamSectionV3: React.FC = () => {
         </div>
 
         {/* Skills as Simple List */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+        <div className="grid grid-cols-2 gap-3 mb-6">
           {teamMember.skills.map((skill, index) => (
             <motion.div
               key={index}
@@ -120,7 +120,7 @@ const TeamSectionV3: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
               className="backdrop-blur-sm bg-white/5 rounded-xl p-3 border border-white/10"
             >
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-2">
                 <div className={`p-2 bg-gradient-to-r ${skill.color} rounded-lg flex-shrink-0`}>
                   <span className="text-white text-sm">{skill.icon}</span>
                 </div>
