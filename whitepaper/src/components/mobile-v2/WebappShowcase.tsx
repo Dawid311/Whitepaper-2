@@ -14,8 +14,6 @@ import {
   FaPlay,
   FaMobileAlt,
   FaExternalLinkAlt,
-  FaTrophy,
-  FaEthereum,
   FaExchangeAlt,
   FaGift,
   FaTicketAlt,
@@ -97,36 +95,8 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
         'Liste aller kommenden Dawid Faith Konzerte',
         'Live Code Eingabe während Konzerten',
         '+150 EXP pro gültigem Live Code (höchste Belohnung)',
-        'Exklusive Konzert-NFTs (zukünftig geplant)',
-        'VIP-Zugang für Top-Level Fans'
+        'Exklusive Konzert-NFTs (zukünftig geplant)'
       ]
-    }
-  ]
-
-  const liveStats = [
-    {
-      icon: <FaUsers className="text-blue-400" />,
-      label: 'Active Users',
-      value: activeUsers.toLocaleString(),
-      trend: '+12%'
-    },
-    {
-      icon: <FaCoins className="text-amber-400" />,
-      label: 'D.FAITH Preis',
-      value: `${tokenPrices.dfaith.toFixed(3)}€`,
-      trend: '+8.5%'
-    },
-    {
-      icon: <FaEthereum className="text-purple-400" />,
-      label: 'D.INVEST Preis',
-      value: `${tokenPrices.dinvest.toFixed(2)}€`,
-      trend: 'Fix'
-    },
-    {
-      icon: <FaTrophy className="text-yellow-400" />,
-      label: 'Rewards Ausgegeben',
-      value: '2.4k',
-      trend: '+15%'
     }
   ]
 
@@ -168,33 +138,6 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
           <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
           <span className="text-green-300 font-semibold">Komplett live und funktionsfähig!</span>
         </motion.div>
-      </motion.div>
-
-      {/* Live Statistics */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="grid grid-cols-2 gap-4 mb-8"
-      >
-        {liveStats.map((stat, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-            className="backdrop-blur-xl bg-white/5 rounded-2xl p-4 border border-white/10"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              {stat.icon}
-              <span className="text-xs text-gray-400 font-medium">{stat.label}</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-bold text-white">{stat.value}</span>
-              <span className="text-xs text-green-400">{stat.trend}</span>
-            </div>
-          </motion.div>
-        ))}
       </motion.div>
 
       {/* Platform Integration */}
