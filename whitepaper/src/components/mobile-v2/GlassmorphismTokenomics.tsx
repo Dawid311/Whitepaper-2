@@ -12,7 +12,11 @@ import {
   FaBolt,
   FaRocket,
   FaStar,
-  FaArrowUp
+  FaArrowUp,
+  FaCog,
+  FaShieldAlt,
+  FaCode,
+  FaEthereum
 } from 'react-icons/fa'
 import Image from 'next/image'
 
@@ -25,7 +29,7 @@ interface GlassmorphismTokenomicsProps {
 
 const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ tokenPrices: propTokenPrices }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
-  const [activeTab, setActiveTab] = useState<'overview' | 'halving' | 'roi'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'halving' | 'roi' | 'tech'>('overview')
   const [selectedStage, setSelectedStage] = useState(1)
   const [investmentAmount, setInvestmentAmount] = useState(10)
   const [dfaithPrice, setDfaithPrice] = useState(0.20)
@@ -281,7 +285,8 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
 
   const tabSpring = useSpring({
     transform: activeTab === 'overview' ? 'translateX(0%)' : 
-               activeTab === 'halving' ? 'translateX(100%)' : 'translateX(200%)',
+               activeTab === 'halving' ? 'translateX(100%)' : 
+               activeTab === 'roi' ? 'translateX(200%)' : 'translateX(300%)',
     config: config.wobbly
   })
 
@@ -312,25 +317,26 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
         <div className="flex relative">
           <animated.div
             style={tabSpring}
-            className="absolute inset-y-1 w-1/3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl"
+            className="absolute inset-y-1 w-1/4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl"
           />
           
           {[
             { id: 'overview', label: 'Übersicht', icon: <FaCoins /> },
             { id: 'halving', label: 'Halving', icon: <FaBolt /> },
-            { id: 'roi', label: 'ROI', icon: <FaChartLine /> }
+            { id: 'roi', label: 'ROI', icon: <FaChartLine /> },
+            { id: 'tech', label: 'Tech', icon: <FaCog /> }
           ].map((tab) => (
             <motion.button
               key={tab.id}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab(tab.id as 'overview' | 'halving' | 'roi')}
+              onClick={() => setActiveTab(tab.id as 'overview' | 'halving' | 'roi' | 'tech')}
               className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-300 relative z-10 ${
                 activeTab === tab.id ? 'text-white' : 'text-gray-400 hover:text-white'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
                 {tab.icon}
-                <span>{tab.label}</span>
+                <span className="hidden sm:inline">{tab.label}</span>
               </div>
             </motion.button>
           ))}
@@ -664,6 +670,143 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                     <p className="text-xl font-bold text-purple-400">
                       €{((investmentAmount * 5 * calculateROI(investmentAmount, dfaithPrice)) / 100).toLocaleString()}
                     </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {activeTab === 'tech' && (
+          <motion.div
+            key="tech"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 50 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-6"
+          >
+            {/* Blockchain Infrastructure */}
+            <div className="backdrop-blur-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl p-6 border border-blue-500/20">
+              <h3 className="text-xl font-bold text-center mb-4">
+                <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
+                  <FaEthereum /> Blockchain-Infrastruktur <FaEthereum />
+                </span>
+              </h3>
+
+              <div className="space-y-4">
+                <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                  <div className="flex items-center gap-3 mb-3">
+                    <FaShieldAlt className="text-blue-400" />
+                    <h4 className="font-bold text-blue-400">Base Chain (Layer 2)</h4>
+                  </div>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Niedrige Transaction-Fees, schnelle Verarbeitung und vollständig Ethereum-kompatibel. 
+                    Optimiert für DeFi-Anwendungen mit enterprise-level Security.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <FaCode className="text-green-400" />
+                        <span className="text-gray-300 text-sm">D.FAITH Contract</span>
+                      </div>
+                      <button 
+                        onClick={() => window.open('https://basescan.org/address/0x69eFD833288605f320d77eB2aB99DDE62919BbC1', '_blank')}
+                        className="text-green-400 hover:text-green-300 text-xs font-mono bg-white/10 px-2 py-1 rounded"
+                      >
+                        0x69eF...9BbC1 ↗
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <FaCode className="text-purple-400" />
+                        <span className="text-gray-300 text-sm">D.INVEST Contract</span>
+                      </div>
+                      <button 
+                        onClick={() => window.open('https://basescan.org/address/0x6F1fFd03106B27781E86b33Df5dBB734ac9DF4bb', '_blank')}
+                        className="text-purple-400 hover:text-purple-300 text-xs font-mono bg-white/10 px-2 py-1 rounded"
+                      >
+                        0x6F1f...F4bb ↗
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <FaCode className="text-orange-400" />
+                        <span className="text-gray-300 text-sm">Staking Contract</span>
+                      </div>
+                      <button 
+                        onClick={() => window.open('https://basescan.org/address/0xe85b32a44b9eD3ecf8bd331FED46fbdAcDBc9940', '_blank')}
+                        className="text-orange-400 hover:text-orange-300 text-xs font-mono bg-white/10 px-2 py-1 rounded"
+                      >
+                        0xe85b...9940 ↗
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Technical Specifications */}
+            <div className="backdrop-blur-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl p-6 border border-purple-500/20">
+              <h3 className="text-xl font-bold text-center mb-4">
+                <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
+                  <FaCog /> Token-Spezifikationen <FaCog />
+                </span>
+              </h3>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                    <h4 className="font-bold text-amber-400 mb-2">D.FAITH Token</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Standard:</span>
+                        <span className="text-white">ERC-20</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Decimals:</span>
+                        <span className="text-white">2</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Supply:</span>
+                        <span className="text-white">100.000</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Type:</span>
+                        <span className="text-white">Utility</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                    <h4 className="font-bold text-purple-400 mb-2">D.INVEST Token</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Standard:</span>
+                        <span className="text-white">ERC-20</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Decimals:</span>
+                        <span className="text-white">0</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Supply:</span>
+                        <span className="text-white">10.000</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Type:</span>
+                        <span className="text-white">Investment</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
