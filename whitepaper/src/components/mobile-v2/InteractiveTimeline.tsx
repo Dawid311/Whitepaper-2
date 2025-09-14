@@ -9,6 +9,7 @@ import {
   FaCoins,
   FaLock,
   FaArrowUp,
+  FaArrowDown,
   FaRedo,
   FaDollarSign,
   FaUsers,
@@ -134,6 +135,19 @@ const InteractiveTimeline: React.FC = () => {
     },
     {
       id: 3,
+      title: "Investoren verkaufen D.FAITH Rewards",
+      description: "Crash -80%: Massive Verkäufe führen zu drastischem Preisverfall",
+      details: [
+        "Investoren verkaufen ihre D.FAITH Rewards für sofortige Gewinne",
+        "Markt wird mit D.FAITH überflutet → Preiscrash -80%",
+        "Panikverkäufe verstärken den Abwärtstrend",
+        "D.INVEST Staking wird vorübergehend unattraktiv"
+      ],
+      icon: <FaArrowDown />,
+      color: "from-red-600 to-red-800"
+    },
+    {
+      id: 4,
       title: "Halving aktiviert sich",
       description: "Smart Contract reduziert Ausgaberate automatisch",
       details: [
@@ -146,14 +160,14 @@ const InteractiveTimeline: React.FC = () => {
       color: "from-purple-500 to-pink-500"
     },
     {
-      id: 4,
-      title: "Zyklus beginnt erneut",
-      description: "Höhere Basis, stärkeres System, exponentielles Wachstum",
+      id: 5,
+      title: "D.INVEST wird unattraktiv",
+      description: "D.FAITH Preis steigt auf neuen profitablen Wert",
       details: [
-        "Neuer Zyklus kann bei höherem Preisniveau beginnen",
-        "Mehr Fans, bessere Reichweite, stärkere Community",
-        "Zusätzliches Kapital ermöglicht professionellere Musikproduktion",
-        "System kann in neue Märkte und Plattformen expandieren"
+        "Reduzierte Token-Ausgabe führt zu Verknappung",
+        "D.FAITH Preis erholt sich und steigt über vorherige Höchststände",
+        "D.INVEST wird wieder attraktiv bei neuen Preisniveaus",
+        "System ist bereit für den nächsten profitablen Zyklus"
       ],
       icon: <FaChartLine />,
       color: "from-cyan-500 to-purple-500"
@@ -206,7 +220,7 @@ const InteractiveTimeline: React.FC = () => {
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                Markt-Zyklus (4 Schritte)
+                Markt-Zyklus (5 Schritte)
               </button>
             </div>
           </div>
@@ -255,7 +269,7 @@ const InteractiveTimeline: React.FC = () => {
             <span className={`text-white font-bold ${
               currentSteps.length === 6 ? 'text-lg' : 'text-base'
             }`}>
-              {currentCycle === 'main' ? '6' : '4'} Schritte
+              {currentCycle === 'main' ? '6' : '5'} Schritte
             </span>
             <span className={`text-gray-300 text-center ${
               currentSteps.length === 6 ? 'text-xs' : 'text-xs'
@@ -269,7 +283,7 @@ const InteractiveTimeline: React.FC = () => {
         <div className={`grid place-items-center w-80 h-80 relative ${
           currentSteps.length === 6 
             ? 'grid-cols-5 grid-rows-5' 
-            : 'grid-cols-4 grid-rows-4'
+            : 'grid-cols-5 grid-rows-5'
         }`}>
           {currentSteps.map((step, index) => {
             // Grid positions for perfect circle distribution
@@ -281,10 +295,11 @@ const InteractiveTimeline: React.FC = () => {
               { gridColumn: '1', gridRow: '4' },    // Bottom Left
               { gridColumn: '1', gridRow: '2' }     // Top Left
             ] : [
-              { gridColumn: '2', gridRow: '1' },    // Top - weiter weg
-              { gridColumn: '4', gridRow: '2' },    // Right - weiter weg
-              { gridColumn: '2', gridRow: '4' },    // Bottom - weiter weg
-              { gridColumn: '1', gridRow: '2' }     // Left - weiter weg
+              { gridColumn: '3', gridRow: '1' },    // Top
+              { gridColumn: '5', gridRow: '2' },    // Top Right
+              { gridColumn: '5', gridRow: '4' },    // Bottom Right
+              { gridColumn: '2', gridRow: '5' },    // Bottom Left
+              { gridColumn: '1', gridRow: '3' }     // Left
             ]
 
             return (
@@ -421,42 +436,52 @@ const InteractiveTimeline: React.FC = () => {
               </>
             ) : (
               <>
-                {/* 1 → 2: Top to Right - angepasste Koordinaten für größeren Abstand */}
+                {/* 1 → 2: Top to Top-Right */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  x1="160" y1="40" x2="280" y2="80"
+                  x1="160" y1="32" x2="256" y2="64"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
                 
-                {/* 2 → 3: Right to Bottom - angepasste Koordinaten */}
+                {/* 2 → 3: Top-Right to Bottom-Right */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  x1="280" y1="120" x2="160" y2="280"
+                  x1="256" y1="96" x2="256" y2="224"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
                 
-                {/* 3 → 4: Bottom to Left - angepasste Koordinaten */}
+                {/* 3 → 4: Bottom-Right to Bottom-Left */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.7 }}
-                  x1="120" y1="280" x2="40" y2="120"
+                  x1="224" y1="256" x2="96" y2="288"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
                 
-                {/* 4 → 1: Left to Top - angepasste Koordinaten (completing circle) */}
+                {/* 4 → 5: Bottom-Left to Left */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.8 }}
-                  x1="40" y1="80" x2="120" y2="40"
+                  x1="64" y1="256" x2="32" y2="160"
+                  stroke="#60a5fa" strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                
+                {/* 5 → 1: Left to Top (completing circle) */}
+                <motion.line
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.9 }}
+                  x1="64" y1="128" x2="128" y2="32"
                   stroke="#a855f7" strokeWidth="2"
                   markerEnd="url(#arrowhead-purple)"
                 />
