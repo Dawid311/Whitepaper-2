@@ -162,12 +162,12 @@ const InteractiveTimeline: React.FC = () => {
     {
       id: 5,
       title: "D.INVEST wird unattraktiv",
-      description: "D.FAITH Preis steigt auf neuen profitablen Wert",
+      description: "D.FAITH Rewards durch Halving benötigen höhere D.FAITH Preise um sich zu lohnen",
       details: [
-        "Reduzierte Token-Ausgabe führt zu Verknappung",
-        "D.FAITH Preis erholt sich und steigt über vorherige Höchststände",
-        "D.INVEST wird wieder attraktiv bei neuen Preisniveaus",
-        "System ist bereit für den nächsten profitablen Zyklus"
+        "Halbierte Staking-Rewards machen D.INVEST bei aktuellen Preisen unrentabel",
+        "Investoren warten auf höhere D.FAITH Preise für profitables ROI",
+        "Reduzierte Token-Ausgabe führt zu natürlicher Verknappung",
+        "System ist bereit für den nächsten profitablen Zyklus bei höherem Preisniveau"
       ],
       icon: <FaChartLine />,
       color: "from-cyan-500 to-purple-500"
@@ -295,11 +295,11 @@ const InteractiveTimeline: React.FC = () => {
               { gridColumn: '1', gridRow: '4' },    // Bottom Left
               { gridColumn: '1', gridRow: '2' }     // Top Left
             ] : [
-              { gridColumn: '3', gridRow: '1' },    // Top
-              { gridColumn: '5', gridRow: '2' },    // Top Right
-              { gridColumn: '5', gridRow: '4' },    // Bottom Right
-              { gridColumn: '2', gridRow: '5' },    // Bottom Left
-              { gridColumn: '1', gridRow: '3' }     // Left
+              { gridColumn: '3', gridRow: '1' },    // Top (12 Uhr)
+              { gridColumn: '5', gridRow: '2' },    // Top Right (2 Uhr)
+              { gridColumn: '4', gridRow: '5' },    // Bottom Right (5 Uhr)
+              { gridColumn: '2', gridRow: '5' },    // Bottom Left (7 Uhr)
+              { gridColumn: '1', gridRow: '2' }     // Top Left (10 Uhr)
             ]
 
             return (
@@ -436,7 +436,7 @@ const InteractiveTimeline: React.FC = () => {
               </>
             ) : (
               <>
-                {/* 1 → 2: Top to Top-Right */}
+                {/* 1 → 2: Top to Top-Right (12 Uhr → 2 Uhr) */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
@@ -446,42 +446,42 @@ const InteractiveTimeline: React.FC = () => {
                   markerEnd="url(#arrowhead)"
                 />
                 
-                {/* 2 → 3: Top-Right to Bottom-Right */}
+                {/* 2 → 3: Top-Right to Bottom-Right (2 Uhr → 5 Uhr) */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  x1="256" y1="96" x2="256" y2="224"
+                  x1="240" y1="96" x2="224" y2="288"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
                 
-                {/* 3 → 4: Bottom-Right to Bottom-Left */}
+                {/* 3 → 4: Bottom-Right to Bottom-Left (5 Uhr → 7 Uhr) */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.7 }}
-                  x1="224" y1="256" x2="96" y2="288"
+                  x1="192" y1="288" x2="128" y2="288"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
                 
-                {/* 4 → 5: Bottom-Left to Left */}
+                {/* 4 → 5: Bottom-Left to Top-Left (7 Uhr → 10 Uhr) */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.8 }}
-                  x1="64" y1="256" x2="32" y2="160"
+                  x1="96" y1="256" x2="64" y2="96"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
                 
-                {/* 5 → 1: Left to Top (completing circle) */}
+                {/* 5 → 1: Top-Left to Top (10 Uhr → 12 Uhr, completing circle) */}
                 <motion.line
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.9 }}
-                  x1="64" y1="128" x2="128" y2="32"
+                  x1="96" y1="64" x2="128" y2="32"
                   stroke="#a855f7" strokeWidth="2"
                   markerEnd="url(#arrowhead-purple)"
                 />
