@@ -23,6 +23,8 @@ const InteractiveTimeline: React.FC = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 })
   const [activeStep, setActiveStep] = useState(0)
   const [currentCycle, setCurrentCycle] = useState<'main' | 'market'>('main')
+  const [showProfitableInfo, setShowProfitableInfo] = useState(false)
+  const [showRewardLevelsInfo, setShowRewardLevelsInfo] = useState(false)
 
   const mainCycleSteps = [
     {
@@ -186,10 +188,10 @@ const InteractiveTimeline: React.FC = () => {
         className="text-center mb-10"
       >
         <h2 className="text-3xl font-bold text-white mb-3">
-          Schritt-für-Schritt Prozess
+          Wie das D.FAITH Ökosystem funktioniert
         </h2>
         <p className="text-gray-300 text-base mb-8">
-          Wie das D.FAITH Ökosystem funktioniert
+          Schritt-für-Schritt Prozesse
         </p>
 
         {/* Cycle Selector */}
@@ -496,36 +498,104 @@ const InteractiveTimeline: React.FC = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.8 }}
-        className="mt-10 backdrop-blur-xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-2xl p-6 border border-purple-500/30"
+        className="mt-10 space-y-6"
       >
-        <h3 className="font-bold text-lg mb-4 text-center text-white">
-          💰 Was passiert wenn D.INVEST profitabel wird?
-        </h3>
-        
-        <div className="text-center space-y-4">
-          <div className="grid grid-cols-1 gap-3 text-sm">
-            <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-              <span className="text-green-300 font-medium">📈 Hohe ROI möglich</span>
-              <FaArrowRight className="text-gray-400" />
-              <span className="text-blue-300 font-medium">💰 Neue Investoren</span>
-            </div>
-            <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-              <span className="text-red-300 font-medium">📉 Mehr Rewards</span>
-              <FaArrowRight className="text-gray-400" />
-              <span className="text-orange-300 font-medium">⚡ Halving greift</span>
-            </div>
-            <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
-              <span className="text-purple-300 font-medium">🔄 Neuer Zyklus</span>
-              <FaArrowRight className="text-gray-400" />
-              <span className="text-cyan-300 font-medium">🚀 Höheres Level</span>
-            </div>
-          </div>
+        {/* Was passiert wenn D.INVEST profitabel wird? */}
+        <div className="backdrop-blur-xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-2xl border border-purple-500/30">
+          <button
+            onClick={() => setShowProfitableInfo(!showProfitableInfo)}
+            className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
+          >
+            <h3 className="font-bold text-lg text-white">
+              💰 Was passiert wenn D.INVEST profitabel wird?
+            </h3>
+            <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
+              showProfitableInfo ? 'rotate-90' : ''
+            }`} />
+          </button>
           
-          <div className="flex items-center justify-center gap-3 mt-4 p-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl">
-            <FaRedo className="text-blue-400" />
-            <span className="text-white font-medium">Jeder Zyklus verstärkt das System</span>
-            <FaRedo className="text-purple-400" />
-          </div>
+          {showProfitableInfo && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="px-6 pb-6"
+            >
+              <div className="text-center space-y-4">
+                <div className="grid grid-cols-1 gap-3 text-sm">
+                  <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
+                    <span className="text-green-300 font-medium">📈 Hohe ROI möglich</span>
+                    <FaArrowRight className="text-gray-400" />
+                    <span className="text-blue-300 font-medium">💰 Neue Investoren</span>
+                  </div>
+                  <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
+                    <span className="text-red-300 font-medium">📉 Mehr Rewards</span>
+                    <FaArrowRight className="text-gray-400" />
+                    <span className="text-orange-300 font-medium">⚡ Halving greift</span>
+                  </div>
+                  <div className="flex items-center justify-between px-4 py-2 bg-white/5 rounded-xl">
+                    <span className="text-purple-300 font-medium">🔄 Neuer Zyklus</span>
+                    <FaArrowRight className="text-gray-400" />
+                    <span className="text-cyan-300 font-medium">🚀 Höheres Level</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-center gap-3 mt-4 p-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl">
+                  <FaRedo className="text-blue-400" />
+                  <span className="text-white font-medium">Jeder Zyklus verstärkt das System</span>
+                  <FaRedo className="text-purple-400" />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Warum 6 Reward Stufen? */}
+        <div className="backdrop-blur-xl bg-gradient-to-r from-orange-600/20 to-yellow-600/20 rounded-2xl border border-orange-500/30">
+          <button
+            onClick={() => setShowRewardLevelsInfo(!showRewardLevelsInfo)}
+            className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
+          >
+            <h3 className="font-bold text-lg text-white">
+              🏆 Warum 6 Reward Stufen?
+            </h3>
+            <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
+              showRewardLevelsInfo ? 'rotate-90' : ''
+            }`} />
+          </button>
+          
+          {showRewardLevelsInfo && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="px-6 pb-6"
+            >
+              <div className="text-center space-y-4">
+                <div className="bg-white/5 rounded-xl p-4">
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Dieser Mechanismus soll dazu führen, dass Kapital an das Projekt in Zyklen fließt, 
+                    damit es sich weiterentwickelt und selbst Einnahmen erwirtschaften kann.
+                  </p>
+                </div>
+                
+                <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-xl p-4">
+                  <p className="text-white text-sm leading-relaxed font-medium">
+                    Sobald alle D.INVEST verkauft sind und das Projekt erfolgreich ist, werden weiterhin 
+                    aus den Einnahmen D.FAITH Tokens beim Marketing gekauft.
+                  </p>
+                </div>
+                
+                <div className="flex items-center justify-center gap-3 p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl">
+                  <FaChartLine className="text-yellow-400" />
+                  <span className="text-white font-medium">Langfristige Investoren profitieren dadurch am meisten</span>
+                  <FaChartLine className="text-orange-400" />
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
       </motion.div>
     </div>
