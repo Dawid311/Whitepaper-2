@@ -225,6 +225,9 @@ const StepByStepProcess: React.FC = () => {
 
   const currentSteps = currentCycle === 'main' ? mainCycleSteps : marketCycleSteps
 
+  // the data object for the currently selected step (handles extra step)
+  const displayedData = (activeStep === 6 && currentCycle === 'main') ? extraStep : currentSteps[activeStep]
+
   return (
     <div ref={ref} className="py-20 max-w-7xl mx-auto px-6">
       {/* Header */}
@@ -278,8 +281,8 @@ const StepByStepProcess: React.FC = () => {
 
       {/* Active step details are rendered inside the right info panel (see below) */}
 
-  {/* Main Content Layout - Timeline with responsive right-side info panel on lg */}
-  <div className="flex flex-col lg:flex-row gap-12 items-start">
+  {/* Main Content Layout - Timeline with info panel on right side on lg */}
+  <div className="flex flex-col lg:flex-row gap-12 items-center">
         {/* Timeline Circle */}
         <div className="relative w-full max-w-2xl mx-auto flex items-center justify-center min-h-[600px]">
           {/* Center Info */}
@@ -301,7 +304,7 @@ const StepByStepProcess: React.FC = () => {
           </div>
 
           {/* Circle Steps using CSS Grid */}
-          <div className={`grid place-items-center w-96 h-96 relative ${
+          <div className={`grid place-items-center w-[420px] h-[420px] relative ${
             currentSteps.length === 6 
               ? 'grid-cols-5 grid-rows-5' 
               : 'grid-cols-5 grid-rows-5'
@@ -335,7 +338,8 @@ const StepByStepProcess: React.FC = () => {
                   }`}
                   style={{
                     gridColumn: gridPositions[index].gridColumn,
-                    gridRow: gridPositions[index].gridRow
+                    gridRow: gridPositions[index].gridRow,
+                    transform: 'translateX(-18px)'
                   }}
                 >
                   {/* Step Card */}
@@ -528,7 +532,7 @@ const StepByStepProcess: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 1.1 }}
-                  x1="307" y1="288" x2="337" y2="384"
+                  x1="307" y1="288" x2="307" y2="400"
                   stroke="#10b981" strokeWidth="3"
                   markerEnd="url(#arrowhead-green)"
                 />
@@ -547,8 +551,9 @@ const StepByStepProcess: React.FC = () => {
                   activeStep === 6 ? 'z-20' : 'z-10'
                 }`}
                 style={{
-                  left: '288px',
-                  top: '360px'
+                  left: '307px',
+                  top: '400px', // weiter nach unten
+                  transform: 'translateX(-50%)'
                 }}
               >
                 {/* External Step Card */}
@@ -561,7 +566,6 @@ const StepByStepProcess: React.FC = () => {
                   <div className={`w-10 h-10 rounded-full bg-gradient-to-r ${extraStep.color} flex items-center justify-center text-white text-lg`}>
                     {extraStep.icon}
                   </div>
-                  
                   {/* Step Number */}
                   <div className="text-white text-sm font-bold mt-1">
                     {extraStep.id}
@@ -572,86 +576,124 @@ const StepByStepProcess: React.FC = () => {
           </div>
         </div>
 
-        {/* Fragen-Sektion unter dem Kreislauf (verschoben vom rechten Sidebar) */}
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="backdrop-blur-xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-2xl border border-purple-500/30">
-            <button
-              onClick={() => setShowProfitableInfo(!showProfitableInfo)}
-              className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
+  {/* Content-Box jetzt mittig ausgerichtet und mit "Nächster Schritt" Button */}
+  <div className="w-full flex justify-center lg:justify-center">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5 }}
+      className="backdrop-blur-xl bg-gradient-to-br from-black/40 to-black/20 rounded-3xl overflow-hidden border border-white/10 shadow-2xl ring-1 ring-white/6 max-w-lg w-full"
+      style={{ backdropFilter: 'saturate(120%)' }}
+    >
+      {/* Header with step icon and title */}
+      <div className="flex items-center gap-4 p-5 border-b border-white/8 bg-black/10">
+        <div className={`w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl bg-gradient-to-r ${displayedData?.color ?? 'from-gray-500 to-gray-700'} shadow-md ring-2 ring-white/6`}>
+          {displayedData?.icon ?? <FaCheck />}
+        </div>
+        <div>
+          <h4 className="text-xl font-bold text-white">{displayedData ? displayedData.title : 'Wähle einen Schritt'}</h4>
+          <p className="text-sm text-gray-300 max-w-xs">{displayedData ? displayedData.description : 'Klicke auf einen Punkt im Kreislauf.'}</p>
+        </div>
+      </div>
+      <div className="p-6 flex flex-col justify-center bg-gradient-to-t from-white/3 to-transparent gap-4">
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={() => setActiveStep(-1)}
+            className="px-3 py-2 border border-white/20 text-white rounded-lg hover:bg-white/5 transition"
+          >
+            Schließen
+          </button>
+          <button
+            onClick={goNextStep}
+            className="px-3 py-2 border border-blue-400 text-white rounded-lg hover:bg-blue-500/20 transition"
+          >
+            Nächster Schritt
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  </div>
+      </div>
+
+      {/* Fragen-Sektion unter dem Kreislauf (verschoben vom rechten Sidebar) */}
+      <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="backdrop-blur-xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-2xl border border-purple-500/30">
+          <button
+            onClick={() => setShowProfitableInfo(!showProfitableInfo)}
+            className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
+          >
+            <h3 className="font-bold text-lg text-white">
+              💰 Was passiert wenn D.INVEST profitabel wird?
+            </h3>
+            <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
+              showProfitableInfo ? 'rotate-90' : ''
+            }`} />
+          </button>
+
+          {showProfitableInfo && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="px-6 pb-6"
             >
-              <h3 className="font-bold text-lg text-white">
-                💰 Was passiert wenn D.INVEST profitabel wird?
-              </h3>
-              <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
-                showProfitableInfo ? 'rotate-90' : ''
-              }`} />
-            </button>
-          
-            {showProfitableInfo && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="px-6 pb-6"
-              >
+              <div className="bg-white/5 rounded-xl p-4">
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Wenn D.INVEST profitabel wird, kaufen Investoren verstärkt D.INVEST Token. 
+                  Dadurch werden mehr D.FAITH Rewards ausgegeben, was zu fallenden D.FAITH Preisen führt. 
+                  Dieser Zyklus wiederholt sich solange, bis das automatische Halving eintritt und 
+                  die Ausgaberate halbiert wird, um den Markt zu stabilisieren.
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </div>
+
+        <div className="backdrop-blur-xl bg-gradient-to-r from-orange-600/20 to-yellow-600/20 rounded-2xl border border-orange-500/30">
+          <button
+            onClick={() => setShowRewardLevelsInfo(!showRewardLevelsInfo)}
+            className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
+          >
+            <h3 className="font-bold text-lg text-white">
+              🏆 Warum 6 Halving Stufen?
+            </h3>
+            <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
+              showRewardLevelsInfo ? 'rotate-90' : ''
+            }`} />
+          </button>
+
+          {showRewardLevelsInfo && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="px-6 pb-6"
+            >
+              <div className="text-center space-y-4">
                 <div className="bg-white/5 rounded-xl p-4">
                   <p className="text-gray-300 text-sm leading-relaxed">
-                    Wenn D.INVEST profitabel wird, kaufen Investoren verstärkt D.INVEST Token. 
-                    Dadurch werden mehr D.FAITH Rewards ausgegeben, was zu fallenden D.FAITH Preisen führt. 
-                    Dieser Zyklus wiederholt sich solange, bis das automatische Halving eintritt und 
-                    die Ausgaberate halbiert wird, um den Markt zu stabilisieren.
+                    Dieser Mechanismus soll dazu führen, dass Kapital an das Projekt in Zyklen fließt, 
+                    damit es sich weiterentwickelt und selbst Einnahmen erwirtschaften kann.
                   </p>
                 </div>
-              </motion.div>
-            )}
-          </div>
 
-          <div className="backdrop-blur-xl bg-gradient-to-r from-orange-600/20 to-yellow-600/20 rounded-2xl border border-orange-500/30">
-            <button
-              onClick={() => setShowRewardLevelsInfo(!showRewardLevelsInfo)}
-              className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
-            >
-              <h3 className="font-bold text-lg text-white">
-                🏆 Warum 6 Halving Stufen?
-              </h3>
-              <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
-                showRewardLevelsInfo ? 'rotate-90' : ''
-              }`} />
-            </button>
-          
-            {showRewardLevelsInfo && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="px-6 pb-6"
-              >
-                <div className="text-center space-y-4">
-                  <div className="bg-white/5 rounded-xl p-4">
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      Dieser Mechanismus soll dazu führen, dass Kapital an das Projekt in Zyklen fließt, 
-                      damit es sich weiterentwickelt und selbst Einnahmen erwirtschaften kann.
-                    </p>
-                  </div>
-                
-                  <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-xl p-4">
-                    <p className="text-white text-sm leading-relaxed font-medium">
-                      Sobald alle D.INVEST verkauft sind und das Projekt erfolgreich ist, werden weiterhin 
-                      aus den Einnahmen D.FAITH Tokens beim Marketing gekauft.
-                    </p>
-                  </div>
-                
-                  <div className="flex items-center justify-center gap-3 p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl">
-                    <FaChartLine className="text-yellow-400" />
-                    <span className="text-white font-medium">Langfristige Investoren profitieren dadurch am meisten</span>
-                    <FaChartLine className="text-orange-400" />
-                  </div>
+                <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-xl p-4">
+                  <p className="text-white text-sm leading-relaxed font-medium">
+                    Sobald alle D.INVEST verkauft sind und das Projekt erfolgreich ist, werden weiterhin 
+                    aus den Einnahmen D.FAITH Tokens beim Marketing gekauft.
+                  </p>
                 </div>
-              </motion.div>
-            )}
-          </div>
+
+                <div className="flex items-center justify-center gap-3 p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl">
+                  <FaChartLine className="text-yellow-400" />
+                  <span className="text-white font-medium">Langfristige Investoren profitieren dadurch am meisten</span>
+                  <FaChartLine className="text-orange-400" />
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
     </div>

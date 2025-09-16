@@ -68,16 +68,7 @@ const SolutionConcept = () => {
             </div>
           </div>
 
-          <div className="mt-6 p-4 bg-amber-900/30 rounded-lg border border-amber-500/20">
-            <h5 className="font-bold text-amber-300 mb-2">Wie Fans D.FAITH bekommen:</h5>
-            <ul className="text-sm text-gray-300 space-y-1">
-              <li>• Like (10 EXP) → Token-Reward</li>
-              <li>• Kommentar (10 EXP) → Token-Reward</li>
-              <li>• Share (10 EXP) → Token-Reward</li>
-              <li>• Story (20 EXP) → Token-Reward</li>
-              <li>• Live-Konzert Besuch (150 EXP) → Hohe Token-Reward</li>
-            </ul>
-          </div>
+          {/* entfernt: Wie Fans D.FAITH bekommen */}
         </motion.div>
 
         {/* D.INVEST Token */}
@@ -116,15 +107,7 @@ const SolutionConcept = () => {
             </div>
           </div>
 
-          <div className="mt-6 p-4 bg-blue-900/30 rounded-lg border border-blue-500/20">
-            <h5 className="font-bold text-blue-300 mb-2">Investment Details:</h5>
-            <ul className="text-sm text-gray-300 space-y-1">
-              <li>• Preis: <strong className="text-green-400">5€ pro D.INVEST</strong></li>
-              <li>• Total Supply: <strong>10.000 Token</strong></li>
-              <li>• Staking Rate: <strong>0.1 D.FAITH pro Woche</strong></li>
-              <li>• Entsperrt: <strong>80.000 gesperrte D.FAITH</strong></li>
-            </ul>
-          </div>
+          {/* entfernt: Investment Details */}
         </motion.div>
       </div>
 
