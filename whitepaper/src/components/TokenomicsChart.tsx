@@ -12,12 +12,15 @@ import {
   FaRocket,
   FaDollarSign,
   FaUsers,
-  FaChartLine
+  FaChartLine,
+  FaShieldAlt,
+  FaCode,
+  FaCog
 } from 'react-icons/fa'
 import Image from 'next/image'
 
 const TokenomicsChart = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'calculator' | 'halving'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'calculator' | 'halving' | 'tech'>('overview')
 
   // Live Price States
   const [tokenPrices, setTokenPrices] = useState({
@@ -838,6 +841,85 @@ const TokenomicsChart = () => {
     </div>
   )
 
+  // Tech Tab (Blockchain/Contracts/Specs)
+  const renderTech = () => (
+    <div className="space-y-8">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-gradient-to-br from-blue-900/90 to-cyan-900/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-500/30"
+      >
+        <div className="text-center mb-8">
+          <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-3">
+            <FaRocket className="inline mr-2" /> Blockchain-Infrastruktur
+          </h3>
+          <p className="text-zinc-400 text-lg">Ethereum-kompatible Layer-2, schnelle & günstige Transaktionen, optimiert für DeFi.</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-zinc-800/80 rounded-2xl p-6 border border-blue-500/20">
+            <div className="flex items-center gap-2 mb-2">
+              <FaShieldAlt className="text-blue-400" />
+              <span className="font-bold text-blue-400">Base Chain (Layer 2)</span>
+            </div>
+            <p className="text-zinc-300 text-sm">Niedrige Fees, schnelle Verarbeitung, voll Ethereum-kompatibel.</p>
+          </div>
+          <div className="bg-zinc-800/80 rounded-2xl p-6 border border-green-500/20">
+            <div className="flex items-center gap-2 mb-2">
+              <FaCode className="text-green-400" />
+              <span className="font-bold text-green-400">D.FAITH Contract</span>
+            </div>
+            <a href="https://basescan.org/address/0x69eFD833288605f320d77eB2aB99DDE62919BbC1" target="_blank" rel="noopener noreferrer" className="text-green-400 hover:underline text-xs font-mono">0x69eF...9BbC1 ↗</a>
+          </div>
+          <div className="bg-zinc-800/80 rounded-2xl p-6 border border-purple-500/20">
+            <div className="flex items-center gap-2 mb-2">
+              <FaCode className="text-purple-400" />
+              <span className="font-bold text-purple-400">D.INVEST Contract</span>
+            </div>
+            <a href="https://basescan.org/address/0x6F1fFd03106B27781E86b33Df5dBB734ac9DF4bb" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline text-xs font-mono">0x6F1f...F4bb ↗</a>
+          </div>
+          <div className="bg-zinc-800/80 rounded-2xl p-6 border border-orange-500/20">
+            <div className="flex items-center gap-2 mb-2">
+              <FaCode className="text-orange-400" />
+              <span className="font-bold text-orange-400">Staking Contract</span>
+            </div>
+            <a href="https://basescan.org/address/0xe85b32a44b9eD3ecf8bd331FED46fbdAcDBc9940" target="_blank" rel="noopener noreferrer" className="text-orange-400 hover:underline text-xs font-mono">0xe85b...9940 ↗</a>
+          </div>
+        </div>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-gradient-to-br from-purple-900/90 to-pink-900/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-500/30"
+      >
+        <div className="text-center mb-8">
+          <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-3">
+            <FaCog className="inline mr-2" /> Token-Spezifikationen
+          </h3>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-zinc-800/80 rounded-2xl p-6 border border-amber-500/20">
+            <h4 className="font-bold text-amber-400 mb-2">D.FAITH Token</h4>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between"><span className="text-zinc-400">Standard:</span><span className="text-white">ERC-20</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">Decimals:</span><span className="text-white">2</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">Supply:</span><span className="text-white">100.000</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">Type:</span><span className="text-white">Utility</span></div>
+            </div>
+          </div>
+          <div className="bg-zinc-800/80 rounded-2xl p-6 border border-purple-500/20">
+            <h4 className="font-bold text-purple-400 mb-2">D.INVEST Token</h4>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between"><span className="text-zinc-400">Standard:</span><span className="text-white">ERC-20</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">Decimals:</span><span className="text-white">0</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">Supply:</span><span className="text-white">10.000</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">Type:</span><span className="text-white">Investment</span></div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  )
+
   return (
     <div className="space-y-8">
       {/* Tab Navigation */}
@@ -860,6 +942,12 @@ const TokenomicsChart = () => {
           isActive={activeTab === 'halving'}
           onClick={() => setActiveTab('halving')}
         />
+        <TabButton
+          label="Tech"
+          icon={FaCog}
+          isActive={activeTab === 'tech'}
+          onClick={() => setActiveTab('tech')}
+        />
       </div>
 
       {/* Tab Content */}
@@ -874,6 +962,7 @@ const TokenomicsChart = () => {
           {activeTab === 'overview' && renderOverview()}
           {activeTab === 'calculator' && renderCalculator()}
           {activeTab === 'halving' && renderHalving()}
+          {activeTab === 'tech' && renderTech()}
         </motion.div>
       </AnimatePresence>
     </div>
