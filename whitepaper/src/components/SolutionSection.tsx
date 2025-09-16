@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import ProblemOverview from './solution/ProblemOverview'
 import SolutionConcept from './solution/SolutionConcept'
 import StepByStepProcess from './solution/StepByStepProcess'
-import EcosystemWebapp from './solution/EcosystemWebapp'
+// EcosystemWebapp entfernt
 
 
 const SolutionSection = () => {
@@ -59,18 +59,7 @@ const SolutionSection = () => {
           </div>
         </motion.div>
 
-        {/* 4. Ökosystem & Webapp */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <div className="bg-slate-800/30 backdrop-blur-xl rounded-3xl border border-slate-700/30 shadow-2xl shadow-black/20">
-            <EcosystemWebapp />
-          </div>
-        </motion.div>
+        {/* entfernt: Ökosystem & Webapp */}
 
         {/* Innovative Results Section */}
         <motion.div 

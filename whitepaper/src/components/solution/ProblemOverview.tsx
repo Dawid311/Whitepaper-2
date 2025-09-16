@@ -104,22 +104,116 @@ const ProblemOverview = () => {
         ))}
       </div>
       
-      {/* Problem Zusammenfassung */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
+      {/* Problem Zusammenfassung - Übernommener Mobile Teufelskreis (6 Knoten) */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="mt-12 bg-gradient-to-r from-red-900/40 to-orange-900/40 rounded-2xl p-8 border border-red-500/30"
+        className="mt-12 flex justify-center"
       >
-        <div className="text-center">
-          <h3 className="text-3xl font-bold text-red-400 mb-4">
-            ⚠️ Das zentrale Problem
-          </h3>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            <strong>Teufelskreis:</strong> Ohne Reichweite kein Engagement → Ohne Engagement keine neuen Fans → 
-            Ohne Fans kein Einkommen → Ohne Einkommen keine Investition in besseren Content → Ohne besseren Content keine Reichweite.
-          </p>
+        <div className="relative w-full max-w-4xl">
+          <div className="relative bg-slate-900/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700">
+            <h3 className="text-3xl font-bold text-red-400 text-center mb-6">⚠️ Das zentrale Problem</h3>
+
+            <div className="flex justify-center">
+              <svg viewBox="0 0 320 320" className="w-96 h-96">
+                {/* Background Circle */}
+                <circle
+                  cx="160"
+                  cy="160"
+                  r="120"
+                  fill="none"
+                  stroke="rgba(239, 68, 68, 0.15)"
+                  strokeWidth="2"
+                  strokeDasharray="5,5"
+                />
+                
+                {/* Animated Circle Path */}
+                <motion.circle
+                  cx="160"
+                  cy="160"
+                  r="120"
+                  fill="none"
+                  stroke="url(#gradient)"
+                  strokeWidth="3"
+                  strokeDasharray="4,4"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 2.6, delay: 0.6 }}
+                />
+
+                {/* Gradient Definition */}
+                <defs>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#ef4444" />
+                    <stop offset="25%" stopColor="#f97316" />
+                    <stop offset="50%" stopColor="#eab308" />
+                    <stop offset="75%" stopColor="#22c55e" />
+                    <stop offset="100%" stopColor="#3b82f6" />
+                  </linearGradient>
+                </defs>
+
+                {/* Problem Nodes (6) - positions mirror mobile layout */}
+                {
+                  [
+                    { x: 160, y: 40, text: 'Geringe\nReichweite', color: '#ef4444' },
+                    { x: 264, y: 104, text: 'Schwaches\nEngagement', color: '#f97316' },
+                    { x: 264, y: 216, text: 'Keine\nneuen Fans', color: '#eab308' },
+                    { x: 160, y: 280, text: 'Kein\nEinkommen', color: '#22c55e' },
+                    { x: 56, y: 216, text: 'Keine\nInvestition', color: '#3b82f6' },
+                    { x: 56, y: 104, text: 'Schlechter\nContent', color: '#8b5cf6' }
+                  ].map((node, index) => (
+                    <g key={index}>
+                      <motion.rect
+                        x={node.x - 35}
+                        y={node.y - 18}
+                        width="70"
+                        height="36"
+                        rx="8"
+                        fill={node.color}
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 0.95 }}
+                        transition={{ duration: 0.6, delay: 0.8 + index * 0.15 }}
+                      />
+                      <motion.text
+                        x={node.x}
+                        y={node.y}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        style={{ pointerEvents: 'none' }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.6, delay: 1.2 + index * 0.15 }}
+                        className="text-white text-xs font-bold"
+                      >
+                        {node.text.split('\n').map((line, li) => (
+                          <tspan key={li} x={node.x} dy={li === 0 ? -5 : 12}>{line}</tspan>
+                        ))}
+                      </motion.text>
+                    </g>
+                  ))
+                }
+
+                {/* Center overlay */}
+                <g />
+              </svg>
+            </div>
+
+            {/* Center Text Overlay (absolute) */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="text-center bg-black/40 backdrop-blur-sm rounded-full p-4 border border-red-500/30">
+                <div className="text-red-400 font-bold text-sm">TEUFELSKREIS</div>
+                <div className="text-gray-300 text-xs">Endlose Schleife</div>
+              </div>
+            </div>
+
+            <p className="text-center text-gray-300 mt-6">
+              Jeder Punkt verstärkt den nächsten in einem endlosen Kreislauf der Stagnation.
+              <br />
+              <span className="text-red-300 font-semibold">D.FAITH durchbricht diesen Kreislauf!</span>
+            </p>
+          </div>
         </div>
       </motion.div>
     </div>
