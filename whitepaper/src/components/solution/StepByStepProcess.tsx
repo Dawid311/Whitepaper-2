@@ -237,10 +237,10 @@ const StepByStepProcess: React.FC = () => {
         transition={{ duration: 0.6 }}
         className="text-center mb-16"
       >
-        <h2 className="text-5xl font-bold text-white mb-6">
-          Der D.FAITH Kreislauf
+        <h2 className="text-5xl md:text-6xl font-extrabold mb-4 bg-gradient-to-r from-amber-400 via-green-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg flex items-center justify-center gap-3">
+          <span>Der D.FAITH Kreislauf</span>
         </h2>
-        <p className="text-xl text-gray-300 mb-12">
+        <p className="text-2xl md:text-2xl font-medium text-zinc-300 mb-12 bg-gradient-to-r from-purple-400 to-amber-400 bg-clip-text text-transparent">
           Schritt-für-Schritt Prozesse - von Fan-Interaktion bis zur Wertsteigerung
         </p>
 

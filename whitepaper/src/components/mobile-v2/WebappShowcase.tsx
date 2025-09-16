@@ -24,7 +24,8 @@ import {
   FaArrowRight,
   FaStar,
   FaLock,
-  FaUnlock
+  FaUnlock,
+  FaRocket
 } from 'react-icons/fa'
 
 interface WebappShowcaseProps {
@@ -155,172 +156,54 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
 
   return (
     <div ref={ref} className="min-h-screen flex flex-col justify-center p-6 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8 }}
-        className="text-center mb-8"
-      >
-        <div className="flex justify-center mb-4">
-          <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full">
-            <FaMobileAlt className="text-2xl text-white" />
-          </div>
+      {/* Header mit Icon, Headline, Slogan */}
+      <div className="flex flex-col items-center gap-4 mb-8 mt-8">
+        <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 via-pink-500 to-purple-500 shadow-lg">
+          <FaRocket className="text-white text-3xl" />
         </div>
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-cyan-400 bg-clip-text text-transparent mb-4">
-          D.FAITH Ökosystem Webapp
-        </h2>
-        <p className="text-gray-300 text-lg mb-6">
-          Alle Features vereint in einer benutzerfreundlichen Web-Anwendung
-        </p>
-        
-        {/* Live Badge */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={inView ? { scale: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="inline-flex items-center gap-2 backdrop-blur-xl bg-green-500/20 px-4 py-2 rounded-full border border-green-500/30"
-        >
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          <span className="text-green-300 font-semibold">Komplett live und funktionsfähig!</span>
-        </motion.div>
-      </motion.div>
-
-      {/* Platform Integration */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="backdrop-blur-xl bg-white/5 rounded-2xl p-6 border border-white/10 mb-8"
-      >
-        <h3 className="text-lg font-bold text-white mb-4 text-center">
-          Cross-Platform Integration
-        </h3>
-        <div className="grid grid-cols-2 gap-4">
-          {platforms.map((platform, index) => (
-            <div key={index} className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
-              {platform.icon}
-              <div className="flex-1">
-                <div className="text-sm font-medium text-white">{platform.name}</div>
-                <div className="text-xs text-gray-400">
-                  {platform.connected ? (
-                    <span className="text-green-400 flex items-center gap-1">
-                      <FaUnlock className="text-xs" /> Verbunden
-                    </span>
-                  ) : platform.coming ? (
-                    <span className="text-amber-400 flex items-center gap-1">
-                      <FaLock className="text-xs" /> Bald verfügbar
-                    </span>
-                  ) : (
-                    <span className="text-gray-500">Nicht verfügbar</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
+        <h2 className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-1 mt-2">D.FAITH Webapp</h2>
+        <p className="text-base text-zinc-200 font-medium">Alle Funktionen. Alle Plattformen. Deine Community.</p>
+      </div>
+      {/* Feature-Grid */}
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div className="rounded-2xl bg-gradient-to-br from-amber-500/20 to-yellow-500/10 border border-amber-400/30 p-4 flex flex-col items-center text-center shadow">
+          <FaWallet className="text-xl text-amber-400 mb-1" />
+          <span className="font-bold text-amber-300 mb-0.5">Wallet</span>
+          <span className="text-xs text-zinc-200 mb-0.5">Token-Management & Staking</span>
+          <span className="text-xs text-zinc-400">Kaufen, verkaufen, verdienen</span>
         </div>
-      </motion.div>
-
-      {/* Feature Selection */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.5 }}
-        className="mb-6"
-      >
-        <h3 className="text-xl font-bold text-white mb-4 text-center">
-          Hauptfeatures der Webapp
-        </h3>
-        <div className="grid grid-cols-2 gap-3">
-          {features.map((feature) => (
-            <motion.button
-              key={feature.id}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setSelectedFeature(feature.id)}
-              className={`p-4 rounded-2xl border transition-all duration-300 ${
-                selectedFeature === feature.id
-                  ? `bg-gradient-to-r ${feature.gradient} border-white/30 text-white`
-                  : 'backdrop-blur-xl bg-white/5 border-white/10 text-gray-300 hover:bg-white/10'
-              }`}
-            >
-              <div className="flex flex-col items-center text-center">
-                {feature.icon}
-                <div className="text-sm font-semibold mt-2">{feature.title}</div>
-                <div className="text-xs mt-1 opacity-80">{feature.description}</div>
-              </div>
-            </motion.button>
-          ))}
+        <div className="rounded-2xl bg-gradient-to-br from-pink-500/20 to-purple-500/10 border border-pink-400/30 p-4 flex flex-col items-center text-center shadow">
+          <FaUsers className="text-xl text-pink-400 mb-1" />
+          <span className="font-bold text-pink-300 mb-0.5">Social Profiles</span>
+          <span className="text-xs text-zinc-200 mb-0.5">Fan-Engagement & Leaderboard</span>
+          <span className="text-xs text-zinc-400">Instagram, TikTok, Facebook</span>
         </div>
-      </motion.div>
-
-      {/* Feature Details */}
-      <motion.div
-        key={selectedFeature}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="backdrop-blur-xl bg-white/5 rounded-2xl p-6 border border-white/10 mb-8"
-      >
-        {(() => {
-          const feature = features.find(f => f.id === selectedFeature)!
-          return (
-            <>
-              <div className="flex items-center gap-3 mb-4">
-                <div className={`p-3 bg-gradient-to-r ${feature.gradient} rounded-xl`}>
-                  {feature.icon}
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-white">{feature.title}</h4>
-                  <p className="text-sm text-gray-400">{feature.description}</p>
-                </div>
-              </div>
-              <div className="space-y-3">
-                {feature.details.map((detail, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="flex items-start gap-3 text-sm"
-                  >
-                    <FaStar className="text-amber-400 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-300">{detail}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </>
-          )
-        })()}
-      </motion.div>
-
-      {/* Call to Action */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={inView ? { opacity: 1, scale: 1 } : {}}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className="backdrop-blur-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-6 border border-purple-500/30 text-center"
-      >
-        <h3 className="text-xl font-bold text-purple-300 mb-3">
-          Jetzt zur Webapp!
-        </h3>
-        <p className="text-gray-300 mb-4 text-sm">
-          Erleben Sie alle Features live und werden Sie Teil der D.FAITH Community
-        </p>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg transition-all duration-300"
-        >
-          <span>Webapp öffnen</span>
-          <FaExternalLinkAlt className="text-sm" />
-        </motion.button>
-        
-        <div className="flex justify-center items-center gap-2 mt-4 text-xs text-gray-400">
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          <span>Base Chain • Live • Sicher</span>
+        <div className="rounded-2xl bg-gradient-to-br from-emerald-500/20 to-green-500/10 border border-emerald-400/30 p-4 flex flex-col items-center text-center shadow">
+          <FaShoppingCart className="text-xl text-emerald-400 mb-1" />
+          <span className="font-bold text-emerald-300 mb-0.5">Exklusiv Shop</span>
+          <span className="text-xs text-zinc-200 mb-0.5">Merch, Tickets, Musik</span>
+          <span className="text-xs text-zinc-400">Nur mit D.FAITH Token</span>
         </div>
-      </motion.div>
+        <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/10 border border-blue-400/30 p-4 flex flex-col items-center text-center shadow">
+          <FaMusic className="text-xl text-blue-400 mb-1" />
+          <span className="font-bold text-blue-300 mb-0.5">Live Konzerte</span>
+          <span className="text-xs text-zinc-200 mb-0.5">Konzert-Integration & Codes</span>
+          <span className="text-xs text-zinc-400">Belohnungen & NFT-Plan</span>
+        </div>
+      </div>
+      {/* Plattform-Badges */}
+      <div className="flex flex-wrap gap-2 justify-center items-center mb-6">
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs font-semibold"><FaInstagram /> Instagram</span>
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 text-white text-xs font-semibold"><FaTiktok /> TikTok</span>
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold"><FaFacebook /> Facebook</span>
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-xs font-semibold"><FaSpotify /> Spotify</span>
+      </div>
+      {/* Call-to-Action */}
+      <div className="w-full flex justify-center mt-2 mb-4">
+        <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold shadow-lg hover:scale-105 transition-transform text-base flex items-center gap-2 animate-pulse">
+          Webapp entdecken <FaArrowRight className="text-base" />
+        </button>
+      </div>
     </div>
   )
 }

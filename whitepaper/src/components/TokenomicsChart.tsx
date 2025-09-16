@@ -43,6 +43,8 @@ const TokenomicsChart = () => {
     }
   })
   const [isTokenDataLoading, setIsTokenDataLoading] = useState(true)
+  // Live Halving Stage (aus Staking API)
+  const [liveHalvingStage, setLiveHalvingStage] = useState(1)
 
   // Calculator States (müssen auf oberster Ebene sein)
   const [investmentAmount, setInvestmentAmount] = useState(10)
@@ -143,6 +145,10 @@ const TokenomicsChart = () => {
           const stakingJson = await stakingResponse.json()
           if (stakingJson.data?.totalStaked) {
             contractBalance = parseFloat(stakingJson.data.totalStaked)
+          }
+          // Live Halving Stage aus Staking API
+          if (stakingJson.data?.halvingStage) {
+            setLiveHalvingStage(stakingJson.data.halvingStage)
           }
         }
 
@@ -278,7 +284,7 @@ const TokenomicsChart = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-orange-500/20 rounded-3xl blur-xl"></div>
           <div className="relative bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-xl rounded-3xl p-8 border border-amber-500/30">
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-4 mb-6 justify-between">
               <div className="relative">
                 <Image 
                   src="/d-faith-logo.png" 
@@ -291,73 +297,49 @@ const TokenomicsChart = () => {
               <div>
                 <h3 className="text-2xl font-bold text-amber-400">D.FAITH</h3>
                 <p className="text-zinc-400">Fan-Reward Token</p>
+                <p className="text-xs text-green-400 font-bold mt-1">Aktuelle Halving-Stufe: <span className="text-white">{liveHalvingStage}</span></p>
               </div>
+              {/* Live Daten Badge */}
+              <motion.div
+                animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-3 py-1 border border-green-500/30"
+              >
+                <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-green-400 font-semibold text-xs">Live Daten</span>
+              </motion.div>
             </div>
 
-            <div className="h-48 mb-6">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={dfaithChartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {dfaithChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.fill} />
-                    ))}
-                  </Pie>
-                  <Tooltip content={<CustomTooltip />} />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
-                  <span className="text-sm text-white">Smart Contract</span>
+            {/* Kacheln */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaInfoCircle className="text-amber-400" />
+                  <span className="text-gray-300 text-sm">Smart Contract</span>
                 </div>
-                <span className="font-bold text-amber-400">{formatNumber(tokenData.dfaith.contractBalance)}</span>
+                <p className="text-2xl font-bold text-amber-400">{formatNumber(tokenData.dfaith.contractBalance)}</p>
               </div>
-              <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-white">DEX Liquidität</span>
+              <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaDollarSign className="text-green-400" />
+                  <span className="text-gray-300 text-sm">Aktueller Preis</span>
                 </div>
-                <span className="font-bold text-blue-400">{formatNumber(tokenData.dfaith.dexLiquidity)}</span>
+                <p className="text-2xl font-bold text-green-400">€{tokenData.dfaith.currentPrice.toFixed(3)}</p>
               </div>
-              <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-white">Community Umlauf</span>
+              <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaChartLine className="text-blue-400" />
+                  <span className="text-gray-300 text-sm">DEX Liquidität</span>
                 </div>
-                <span className="font-bold text-green-400">{formatNumber(tokenData.dfaith.communityCirculation, 2)}</span>
+                <p className="text-2xl font-bold text-blue-400">{formatNumber(tokenData.dfaith.dexLiquidity)}</p>
               </div>
-            </div>
-
-            <div className="mt-6 bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-2xl p-4 border border-green-500/30">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-green-400 text-sm">Aktuell</div>
-                  <div className="text-xl font-bold text-white">
-                    €{isLoading ? '...' : tokenData.dfaith.currentPrice.toFixed(2)}
-                  </div>
+              <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaRocket className="text-purple-400" />
+                  <span className="text-gray-300 text-sm">Community</span>
                 </div>
-                <FaArrowRight className="text-green-400 text-xl" />
-                <div className="text-right">
-                  <div className="text-green-400 text-sm">Ziel</div>
-                  <div className="text-xl font-bold text-green-400">€{tokenData.dfaith.targetPrice}</div>
-                </div>
+                <p className="text-2xl font-bold text-purple-400">{formatNumber(tokenData.dfaith.communityCirculation, 2)}</p>
               </div>
-              {!isLoading && !isTokenDataLoading && (
-                <div className="mt-2 text-xs text-green-300 opacity-75">
-                  Live Daten von Blockchain & DEX
-                </div>
-              )}
             </div>
           </div>
         </motion.div>
@@ -371,7 +353,7 @@ const TokenomicsChart = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-3xl blur-xl"></div>
           <div className="relative bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-500/30">
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-4 mb-6 justify-between">
               <div className="relative">
                 <Image 
                   src="/d-invest-logo.png" 
@@ -385,469 +367,224 @@ const TokenomicsChart = () => {
                 <h3 className="text-2xl font-bold text-purple-400">D.INVEST</h3>
                 <p className="text-zinc-400">Investment Token</p>
               </div>
+              {/* Live Daten Badge */}
+              <motion.div
+                animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-3 py-1 border border-green-500/30"
+              >
+                <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-green-400 font-semibold text-xs">Live Daten</span>
+              </motion.div>
             </div>
 
-            <div className="h-48 mb-6">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={dinvestChartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {dinvestChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.fill} />
-                    ))}
-                  </Pie>
-                  <Tooltip content={<CustomTooltip />} />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm text-white">Verkauft</span>
+            {/* Kacheln */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaDollarSign className="text-purple-400" />
+                  <span className="text-gray-300 text-sm">Fester Preis</span>
                 </div>
-                <span className="font-bold text-purple-400">{formatNumber(tokenData.dinvest.sold, 0)}</span>
+                <p className="text-2xl font-bold text-purple-400">€{tokenData.dinvest.price.toFixed(2)}</p>
               </div>
-              <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
-                  <span className="text-sm text-white">Verfügbar</span>
+              <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaInfoCircle className="text-green-400" />
+                  <span className="text-gray-300 text-sm">Verkauft</span>
                 </div>
-                <span className="font-bold text-gray-400">{formatNumber(tokenData.dinvest.available, 0)}</span>
+                <p className="text-2xl font-bold text-green-400">{formatNumber(tokenData.dinvest.sold)}</p>
               </div>
-              <div className="flex items-center justify-between p-3 bg-zinc-800/30 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
-                  <span className="text-sm text-white">Verkaufsrate</span>
+              <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaRocket className="text-blue-400" />
+                  <span className="text-gray-300 text-sm">Verfügbar</span>
                 </div>
-                <span className="font-bold text-amber-400">
-                  {tokenData.dinvest.total > 0 ? ((tokenData.dinvest.sold / tokenData.dinvest.total) * 100).toFixed(1) : '0'}%
-                </span>
+                <p className="text-2xl font-bold text-blue-400">{formatNumber(tokenData.dinvest.available)}</p>
               </div>
-            </div>
-
-            <div className="mt-6 bg-gradient-to-r from-blue-900/40 to-purple-900/40 rounded-2xl p-4 border border-blue-500/30">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="text-blue-400 text-sm">Preis/Token</div>
-                  <div className="text-xl font-bold text-white">
-                    {isLoading ? '...' : tokenData.dinvest.price.toFixed(2)}€
-                  </div>
+              <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaChartLine className="text-orange-400" />
+                  <span className="text-gray-300 text-sm">Aktuelle Stufe</span>
                 </div>
-                <div className="text-center">
-                  <div className="text-purple-400 text-sm">Gesamtkapital</div>
-                  <div className="text-xl font-bold text-purple-400">
-                    {formatNumber(tokenData.dinvest.totalValue)}€
-                  </div>
-                </div>
+                <p className="text-2xl font-bold text-orange-400">Stufe {liveHalvingStage}</p>
               </div>
-              {!isLoading && !isTokenDataLoading && (
-                <div className="mt-2 text-xs text-blue-300 opacity-75 text-center">
-                  Live Token-Balances integriert
-                </div>
-              )}
             </div>
           </div>
         </motion.div>
       </div>
-
-      {/* Ecosystem Connection */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-xl rounded-3xl p-8 border border-zinc-700/50"
-      >
-        <div className="text-center mb-8">
-          <h3 className="text-3xl font-bold bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mb-3">
-            🔗 Dual-Token Ökosystem
-          </h3>
-          <p className="text-zinc-400 text-lg">Wie beide Token zusammenarbeiten für nachhaltiges Wachstum</p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="text-center group">
-            <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-              <FaUsers className="text-3xl text-white" />
-            </div>
-            <h4 className="text-lg font-bold text-green-400 mb-2">Fan Engagement</h4>
-            <p className="text-zinc-400 text-sm">Fans erhalten D.FAITH Token für Social Media Interaktionen</p>
-          </div>
-
-          <div className="text-center group">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-              <FaDollarSign className="text-3xl text-white" />
-            </div>
-            <h4 className="text-lg font-bold text-blue-400 mb-2">Kapitalbildung</h4>
-            <p className="text-zinc-400 text-sm">Investoren kaufen D.INVEST für Projekt-Finanzierung</p>
-          </div>
-
-          <div className="text-center group">
-            <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-              <FaRocket className="text-3xl text-white" />
-            </div>
-            <h4 className="text-lg font-bold text-purple-400 mb-2">Wertsteigerung</h4>
-            <p className="text-zinc-400 text-sm">Halving-System führt zu kontinuierlicher Verknappung</p>
-          </div>
-        </div>
-      </motion.div>
     </div>
   )
 
-  // D.INVEST Rentabilitäts-Rechner Tab
-  const renderCalculator = () => {
-    // D.INVEST Details
-    const dinvestPrice = 5 // Euro
-    
-    // Halving-abhängige Reward-Rate
-    const currentHalvingStage = halvingStages.find(stage => stage.stage === selectedHalvingStage) || halvingStages[0]
-    const weeklyDfaithRewards = currentHalvingStage.rate / 100 // Prozent zu Dezimal
-    const yearlyDfaithRewards = weeklyDfaithRewards * 52 // pro Jahr
-    
-    // Berechnungen
-    const totalInvestment = investmentAmount * dinvestPrice
-    const yearlyDfaithValue = yearlyDfaithRewards * dfaithPrice * investmentAmount
-    const yearlyRoi = (yearlyDfaithValue / totalInvestment) * 100
-    
-    // Verschiedene Preis-Szenarien
-    const priceScenarios = [
-      { price: 0.05, label: "0,05€ (Start)", priceIncrease: "+0%", color: "text-red-400" },
-      { price: 0.20, label: "0,20€", priceIncrease: "+300%", color: "text-yellow-400" },
-      { price: 0.50, label: "0,50€", priceIncrease: "+900%", color: "text-green-400" },
-      { price: 1.00, label: "1,00€", priceIncrease: "+1900%", color: "text-emerald-400" },
-    ]
-
-    return (
-      <div className="space-y-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-green-900/40 to-emerald-900/40 rounded-2xl p-6 border border-green-500/30"
-        >
-          <div className="text-center mb-6">
-            <div className="flex justify-center mb-3">
-              <div className="p-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full text-white">
-                <FaCalculator className="text-2xl" />
-              </div>
-            </div>
-            <h3 className="text-2xl font-bold text-green-400 mb-2">
-              🎯 D.INVEST Rentabilitäts-Rechner
-            </h3>
-            <p className="text-gray-300 mb-3">
-              Berechnen Sie Ihre Rendite bei verschiedenen D.FAITH Preisen
-            </p>
-            <div className="bg-blue-900/30 rounded-lg p-3 border border-blue-500/30">
-              <p className="text-blue-300 text-sm">
-                💡 Wählen Sie Investment-Anzahl, D.FAITH Preis und Halving-Stufe für Ihre Rendite-Berechnung
-              </p>
-            </div>
-          </div>
-
-          <div className="grid lg:grid-cols-4 gap-4 mb-6">
-            {/* Left Column - Input Controls */}
-            <div className="lg:col-span-2 space-y-3">
-              {/* Investment Amount */}
-              <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-1">
-                  💰 D.INVEST Token
-                </label>
-                <div className="relative">
-                  <input
-                    type="number"
-                    value={investmentAmount}
-                    onChange={(e) => setInvestmentAmount(Number(e.target.value))}
-                    min="1"
-                    max="1000"
-                    className="w-full bg-zinc-900/80 border border-zinc-600 rounded-lg py-2 px-3 text-lg font-bold text-green-400 focus:border-green-500 focus:outline-none pr-16"
-                    placeholder="10"
-                  />
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 text-sm">
-                    Token
-                  </div>
-                </div>
-                <p className="text-xs text-zinc-500 mt-1 mb-1">
-                  á 5€ • Gesamt: {formatNumber(investmentAmount * 5)}€
-                </p>
-                <div className="flex gap-1 flex-wrap">
-                  {[1, 5, 10, 20, 50].map((amount) => (
-                    <button
-                      key={amount}
-                      onClick={() => setInvestmentAmount(amount)}
-                      className={`px-2 py-1 rounded text-xs transition-colors ${
-                        investmentAmount === amount
-                          ? 'bg-green-500/30 text-green-400 border border-green-500/50'
-                          : 'bg-zinc-700/50 text-zinc-300 hover:bg-zinc-600/50'
-                      }`}
-                    >
-                      {amount}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* D.FAITH Price and Halving in same row */}
-              <div className="grid grid-cols-2 gap-3">
-                {/* D.FAITH Price Selector */}
-                <div>
-                  <label className="block text-sm font-medium text-zinc-300 mb-1">
-                    📈 D.FAITH Preis (€)
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      value={dfaithPrice}
-                      onChange={(e) => setDfaithPrice(Number(e.target.value))}
-                      min="0.01"
-                      max="5"
-                      step="0.01"
-                      className="w-full bg-zinc-900/80 border border-zinc-600 rounded-lg py-2 px-3 text-lg font-bold text-blue-400 focus:border-blue-500 focus:outline-none pr-8"
-                      placeholder="0.20"
-                    />
-                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 text-sm">
-                      €
-                    </div>
-                  </div>
-                  <div className="flex gap-1 flex-wrap mt-1">
-                    {priceScenarios.map((scenario) => (
-                      <button
-                        key={scenario.price}
-                        onClick={() => setDfaithPrice(scenario.price)}
-                        className={`px-1 py-0.5 rounded text-xs transition-colors ${
-                          dfaithPrice === scenario.price 
-                            ? 'bg-blue-500/30 text-blue-400 border border-blue-500/50' 
-                            : 'bg-zinc-700/50 text-zinc-300 hover:bg-zinc-600/50'
-                        }`}
-                      >
-                        {scenario.price}€
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Halving Stage Selector */}
-                <div>
-                  <label className="block text-sm font-medium text-zinc-300 mb-1">
-                    ⚡ Halving-Stufe
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={selectedHalvingStage}
-                      onChange={(e) => setSelectedHalvingStage(Number(e.target.value))}
-                      className="w-full bg-zinc-900/80 border border-zinc-600 rounded-lg py-2 px-3 text-sm font-bold text-purple-400 focus:border-purple-500 focus:outline-none appearance-none cursor-pointer pr-8"
-                    >
-                      {halvingStages.map((stage) => (
-                        <option 
-                          key={stage.stage} 
-                          value={stage.stage}
-                          className="bg-zinc-900 text-white"
-                        >
-                          Stufe {stage.stage} ({stage.rate}%)
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                      <svg className="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </div>
-                  </div>
-                  <p className="text-xs text-zinc-500 mt-1">
-                    {currentHalvingStage.rate}% wöchentlich
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column - Results */}
-            <div className="lg:col-span-2 grid grid-cols-2 gap-3">
-              {/* Yearly Earnings */}
-              <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-lg p-3 border border-green-500/30">
-                <div className="flex items-center gap-2 mb-2">
-                  <FaDollarSign className="text-lg text-green-400" />
-                  <h4 className="font-bold text-green-400 text-sm">Jährliche Einnahmen</h4>
-                </div>
-                <div className="text-xl font-bold text-green-400 mb-1">
-                  {yearlyDfaithValue.toFixed(2)}€
-                </div>
-                <div className="text-xs text-green-200">
-                  {(yearlyDfaithRewards * investmentAmount).toFixed(1)} D.FAITH × {dfaithPrice}€
-                </div>
-              </div>
-
-              {/* ROI */}
-              <div className="bg-gradient-to-r from-emerald-500/20 to-green-500/20 rounded-lg p-3 border border-emerald-500/30">
-                <div className="flex items-center gap-2 mb-2">
-                  <FaChartLine className="text-lg text-emerald-400" />
-                  <h4 className="font-bold text-emerald-400 text-sm">ROI pro Jahr</h4>
-                </div>
-                <div className={`text-xl font-bold mb-1 ${
-                  yearlyRoi >= 50 ? 'text-emerald-400' : 
-                  yearlyRoi >= 20 ? 'text-yellow-400' : 
-                  'text-red-400'
-                }`}>
-                  {yearlyRoi.toFixed(1)}%
-                </div>
-                <div className="text-xs text-emerald-200">
-                  Bei {investmentAmount} Token
-                </div>
-              </div>
-
-              {/* Break-even Time */}
-              <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-lg p-3 border border-blue-500/30">
-                <div className="flex items-center gap-2 mb-2">
-                  <FaClock className="text-lg text-blue-400" />
-                  <h4 className="font-bold text-blue-400 text-sm">Break-Even</h4>
-                </div>
-                <div className="text-lg font-bold text-blue-400">
-                  {yearlyRoi > 0 ? `${(100 / yearlyRoi).toFixed(1)} Jahre` : 'N/A'}
-                </div>
-              </div>
-
-              {/* Investment Summary */}
-              <div className="bg-gradient-to-r from-zinc-700/20 to-zinc-600/20 rounded-lg p-3 border border-zinc-600/30">
-                <div className="flex items-center gap-2 mb-2">
-                  <FaRocket className="text-lg text-zinc-400" />
-                  <h4 className="font-bold text-zinc-400 text-sm">Investment</h4>
-                </div>
-                <div className="text-lg font-bold text-white">
-                  {formatNumber(totalInvestment)}€
-                </div>
-                <div className="text-xs text-zinc-300">
-                  {investmentAmount} × 5€
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Disclaimer */}
-          <div className="mt-6 p-4 bg-zinc-800/50 rounded-xl border border-zinc-700">
-            <p className="text-sm text-zinc-400">
-              <strong className="text-amber-400">Hinweis:</strong> Diese Berechnungen basieren auf aktuellen Parametern und sind Schätzungen. 
-              Tatsächliche Renditen können durch Marktbedingungen, Token-Preisentwicklung und Smart Contract Updates variieren.
-            </p>
-          </div>
-        </motion.div>
-      </div>
-    )
+  // ROI-Rechner wie in GlassmorphismTokenomics
+  const calculateROI = (investment: number, dfaithPrice: number, halvingStage: number) => {
+    const currentHalving = halvingStages.find(stage => stage.stage === halvingStage) || halvingStages[0]
+    const weeklyDfaithRewards = (currentHalving.rate / 100)
+    const yearlyDfaithRewards = weeklyDfaithRewards * 52
+    const totalInvestment = investment * 5 // D.INVEST Preis
+    const yearlyDfaithValue = yearlyDfaithRewards * dfaithPrice * investment
+    const yearlyRoi = totalInvestment > 0 ? (yearlyDfaithValue / totalInvestment) * 100 : 0
+    return yearlyRoi
   }
 
-  // Halving Tab
+  const renderCalculator = () => (
+    <div className="space-y-6 flex justify-center">
+      <div className="backdrop-blur-xl bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-2xl p-6 border border-green-500/20 w-full max-w-md mx-auto">
+        <h3 className="text-xl font-bold text-center mb-4">
+          <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
+            <FaCalculator /> ROI Rechner <FaCalculator />
+          </span>
+        </h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-gray-300 text-sm mb-2">D.INVEST Token Anzahl</label>
+            <div className="flex items-center gap-4">
+              <input
+                type="range"
+                min="1"
+                max="10000"
+                value={investmentAmount}
+                onChange={e => setInvestmentAmount(Number(e.target.value))}
+                className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+              />
+              <span className="text-white font-bold w-16 text-right">{investmentAmount}</span>
+            </div>
+          </div>
+          <div>
+            <label className="block text-gray-300 text-sm mb-2">D.FAITH Preis (€)</label>
+            <div className="flex items-center gap-4">
+              <input
+                type="range"
+                min="0.05"
+                max="2.00"
+                step="0.05"
+                value={dfaithPrice}
+                onChange={e => setDfaithPrice(Number(e.target.value))}
+                className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+              />
+              <span className="text-white font-bold w-16 text-right">€{dfaithPrice.toFixed(2)}</span>
+            </div>
+          </div>
+          <div>
+            <label className="block text-gray-300 text-sm mb-2">Halving-Stufe</label>
+            <div className="grid grid-cols-3 gap-2">
+              {halvingStages.map(stage => (
+                <button
+                  key={stage.stage}
+                  onClick={() => setSelectedHalvingStage(stage.stage)}
+                  className={`py-2 px-3 rounded-lg font-bold transition-all duration-200 ${
+                    selectedHalvingStage === stage.stage
+                      ? 'bg-gradient-to-r from-orange-400 to-pink-500 text-white shadow'
+                      : 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/50 hover:text-white'
+                  }`}
+                >
+                  {stage.stage}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+              <p className="text-xs text-gray-400 mb-1">Jährliche Reward-Rate</p>
+              <p className="font-bold text-green-400 text-2xl">{(halvingStages.find(s => s.stage === selectedHalvingStage)?.rate ?? 0 * 52).toFixed(2)}%</p>
+            </div>
+            <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
+              <p className="text-xs text-gray-400 mb-1">Jährlicher ROI</p>
+              <p className="font-bold text-blue-400 text-2xl">{calculateROI(investmentAmount, dfaithPrice, selectedHalvingStage).toFixed(2)}%</p>
+            </div>
+            <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10 col-span-2">
+              <p className="text-xs text-gray-400 mb-1">Investition (D.INVEST x 5€)</p>
+              <p className="font-bold text-white text-lg">{investmentAmount} x 5€ = <span className="text-green-400">{(investmentAmount * 5).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  // Halving Tab (interaktiv wie in GlassmorphismTokenomics)
+  const [selectedStage, setSelectedStage] = useState(1)
+
   const renderHalving = () => (
-    <div className="space-y-8">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-xl rounded-3xl p-8 border border-orange-500/30"
-      >
-        <div className="text-center mb-8">
-          <h3 className="text-4xl font-bold bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent mb-3">
-            ⚡ Halving-System
-          </h3>
-          <p className="text-zinc-400 text-lg">6-Stufen Verknappungs-Mechanismus für kontinuierliche Wertsteigerung</p>
-        </div>
+    <div className="space-y-4 flex flex-col items-center">
+      <div className="text-center mb-6 w-full max-w-md">
+        <h3 className="text-xl font-bold text-orange-400 mb-2 flex items-center justify-center gap-2">
+          <FaFire /> 6-Stufen Halving System <FaFire />
+        </h3>
+        <p className="text-gray-400">Systematische Verknappung für nachhaltiges Wachstum</p>
+        <p className="text-green-400 text-sm mt-2">
+          🔴 Live: Stufe {liveHalvingStage} aktiv
+        </p>
+      </div>
 
-        {/* Current Status */}
-        <div className="bg-green-900/30 rounded-2xl p-6 border border-green-500/30 mb-8">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
-            <h4 className="text-xl font-bold text-green-400">Aktuelle Stufe: 1</h4>
-            <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-white mb-2">10.00%</div>
-            <div className="text-green-400">Wöchentliche Reward-Rate</div>
-            <div className="text-zinc-400 text-sm mt-2">Token Range: 0 - 10.000</div>
-          </div>
-        </div>
-
-        {/* Halving Stages */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {halvingStages.map((stage, index) => (
-            <motion.div
-              key={stage.stage}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-              className={`relative group cursor-pointer ${
-                stage.status === 'Aktiv' ? 'ring-2 ring-green-500/50' : ''
-              }`}
-            >
-              <div className={`absolute inset-0 rounded-2xl blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-300`} 
-                   style={{ backgroundColor: stage.color }}></div>
-              <div className={`relative bg-zinc-800/80 backdrop-blur-xl rounded-2xl p-6 border transition-all duration-300 ${
-                stage.status === 'Aktiv' ? 'border-green-500/50 bg-green-900/20' : 'border-zinc-700/50'
-              }`}>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-lg font-bold text-white">Stufe {stage.stage}</div>
-                  <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                    stage.status === 'Aktiv' ? 'bg-green-500/20 text-green-400' :
-                    stage.status === 'Bald' ? 'bg-blue-500/20 text-blue-400' :
-                    stage.status === 'Final' ? 'bg-red-500/20 text-red-400' :
-                    'bg-zinc-500/20 text-zinc-400'
-                  }`}>
-                    {stage.status}
-                  </div>
+      <div className="w-full flex flex-col items-center gap-3">
+        {halvingStages.map((stage, index) => (
+          <motion.div
+            key={stage.stage}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: index * 0.1 }}
+            onClick={() => setSelectedStage(stage.stage)}
+            className={`backdrop-blur-xl rounded-2xl p-4 border cursor-pointer transition-all duration-300 w-full max-w-md ${
+              selectedStage === stage.stage
+                ? 'bg-white/15 border-white/30 scale-105'
+                : stage.stage === liveHalvingStage
+                ? 'bg-green-500/20 border-green-500/40 hover:bg-green-500/30'
+                : 'bg-white/5 border-white/10 hover:bg-white/10'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div 
+                  className="w-12 h-12 rounded-xl flex items-center justify-center"
+                  style={{ backgroundColor: stage.color }}
+                >
+                  <span className="text-white font-bold text-lg">{stage.stage}</span>
                 </div>
-                
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-zinc-400 text-sm">Range:</span>
-                    <span className="text-white text-sm">{stage.range}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-zinc-400 text-sm">Rate:</span>
-                    <span className="font-bold" style={{ color: stage.color }}>{stage.rate}%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-zinc-400 text-sm">vs. Final:</span>
-                    <span className="text-amber-400 font-bold">{stage.multiplier}x</span>
-                  </div>
+                <div>
+                  <p className="font-bold text-white">Stufe {stage.stage} <span className="text-xs text-gray-400 ml-2">{stage.range}</span></p>
+                  <p className="text-gray-400 text-xs">{stage.status}</p>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Impact Visualization */}
-        <div className="mt-8 bg-gradient-to-r from-red-900/30 to-orange-900/30 rounded-2xl p-6 border border-red-500/30">
-          <h5 className="text-xl font-bold text-red-400 mb-4 flex items-center">
-            <FaFire className="mr-3" />
-            Verknappungs-Effekt
-          </h5>
-          <div className="grid md:grid-cols-3 gap-4 text-center">
-            <div>
-              <div className="text-2xl font-bold text-green-400 mb-1">32x</div>
-              <div className="text-zinc-400 text-sm">Weniger Rewards in Stufe 6 vs. Stufe 1</div>
+              <div className="text-right">
+                <p className="font-bold text-white">{stage.rate}%</p>
+                <p className="text-gray-400 text-xs">{stage.multiplier}x</p>
+              </div>
             </div>
-            <div>
-              <div className="text-2xl font-bold text-orange-400 mb-1">50%</div>
-              <div className="text-zinc-400 text-sm">Token permanent im Contract gesperrt</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-red-400 mb-1">∞</div>
-              <div className="text-zinc-400 text-sm">Unbegrenztes Wachstumspotenzial</div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
+            {selectedStage === stage.stage && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                className="mt-4 pt-4 border-t border-white/10"
+              >
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div>
+                    <p className="text-xs text-gray-400">Reward-Rate</p>
+                    <p className="font-bold text-white">{stage.rate}%</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400">Multiplikator</p>
+                    <p className="font-bold text-white">{stage.multiplier}x</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400">Status</p>
+                    <p className="font-bold text-white">{stage.status}</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        ))}
+      </div>
     </div>
   )
 
   // Tech Tab (Blockchain/Contracts/Specs)
   const renderTech = () => (
-    <div className="space-y-8">
+    <div className="space-y-8 flex flex-col items-center">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-blue-900/90 to-cyan-900/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-500/30"
+        className="bg-gradient-to-br from-blue-900/90 to-cyan-900/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-500/30 w-full max-w-md mx-auto"
       >
         <div className="text-center mb-8">
           <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-3">
@@ -855,7 +592,7 @@ const TokenomicsChart = () => {
           </h3>
           <p className="text-zinc-400 text-lg">Ethereum-kompatible Layer-2, schnelle & günstige Transaktionen, optimiert für DeFi.</p>
         </div>
-        <div className="grid md:grid-cols-3 gap-6">
+  <div className="grid grid-cols-1 gap-6">
           <div className="bg-zinc-800/80 rounded-2xl p-6 border border-blue-500/20">
             <div className="flex items-center gap-2 mb-2">
               <FaShieldAlt className="text-blue-400" />
@@ -868,28 +605,43 @@ const TokenomicsChart = () => {
               <FaCode className="text-green-400" />
               <span className="font-bold text-green-400">D.FAITH Contract</span>
             </div>
-            <a href="https://basescan.org/address/0x69eFD833288605f320d77eB2aB99DDE62919BbC1" target="_blank" rel="noopener noreferrer" className="text-green-400 hover:underline text-xs font-mono">0x69eF...9BbC1 ↗</a>
+            <button
+              onClick={() => window.open('https://basescan.org/address/0x69eFD833288605f320d77eB2aB99DDE62919BbC1', '_blank', 'noopener,noreferrer')}
+              className="mt-2 px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-mono text-xs rounded-lg shadow hover:scale-105 transition-transform"
+            >
+              0x69eF...9BbC1 ↗
+            </button>
           </div>
           <div className="bg-zinc-800/80 rounded-2xl p-6 border border-purple-500/20">
             <div className="flex items-center gap-2 mb-2">
               <FaCode className="text-purple-400" />
               <span className="font-bold text-purple-400">D.INVEST Contract</span>
             </div>
-            <a href="https://basescan.org/address/0x6F1fFd03106B27781E86b33Df5dBB734ac9DF4bb" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline text-xs font-mono">0x6F1f...F4bb ↗</a>
+            <button
+              onClick={() => window.open('https://basescan.org/address/0x6F1fFd03106B27781E86b33Df5dBB734ac9DF4bb', '_blank', 'noopener,noreferrer')}
+              className="mt-2 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-mono text-xs rounded-lg shadow hover:scale-105 transition-transform"
+            >
+              0x6F1f...F4bb ↗
+            </button>
           </div>
           <div className="bg-zinc-800/80 rounded-2xl p-6 border border-orange-500/20">
             <div className="flex items-center gap-2 mb-2">
               <FaCode className="text-orange-400" />
               <span className="font-bold text-orange-400">Staking Contract</span>
             </div>
-            <a href="https://basescan.org/address/0xe85b32a44b9eD3ecf8bd331FED46fbdAcDBc9940" target="_blank" rel="noopener noreferrer" className="text-orange-400 hover:underline text-xs font-mono">0xe85b...9940 ↗</a>
+            <button
+              onClick={() => window.open('https://basescan.org/address/0xe85b32a44b9eD3ecf8bd331FED46fbdAcDBc9940', '_blank', 'noopener,noreferrer')}
+              className="mt-2 px-3 py-1 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-mono text-xs rounded-lg shadow hover:scale-105 transition-transform"
+            >
+              0xe85b...9940 ↗
+            </button>
           </div>
         </div>
       </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-purple-900/90 to-pink-900/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-500/30"
+        className="bg-gradient-to-br from-purple-900/90 to-pink-900/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-500/30 w-full max-w-md mx-auto"
       >
         <div className="text-center mb-8">
           <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-3">
@@ -922,6 +674,16 @@ const TokenomicsChart = () => {
 
   return (
     <div className="space-y-8">
+      {/* Überschrift und Untertitel */}
+      <div className="text-center mb-8">
+        <h2 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-amber-400 via-green-400 to-purple-400 bg-clip-text text-transparent mb-3 drop-shadow-lg">
+          Tokenomics
+        </h2>
+        <p className="text-xl md:text-2xl text-zinc-400 font-medium">
+          Dual-Token Ökonomie mit intelligenter Verknappung
+        </p>
+      </div>
+
       {/* Tab Navigation */}
       <div className="flex flex-wrap justify-center gap-4 mb-8">
         <TabButton
@@ -952,18 +714,29 @@ const TokenomicsChart = () => {
 
       {/* Tab Content */}
       <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
-        >
-          {activeTab === 'overview' && renderOverview()}
-          {activeTab === 'calculator' && renderCalculator()}
-          {activeTab === 'halving' && renderHalving()}
-          {activeTab === 'tech' && renderTech()}
-        </motion.div>
+        {['calculator', 'halving'].includes(activeTab) ? (
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0 }}
+          >
+            {activeTab === 'calculator' && renderCalculator()}
+            {activeTab === 'halving' && renderHalving()}
+          </motion.div>
+        ) : (
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {activeTab === 'overview' && renderOverview()}
+            {activeTab === 'tech' && renderTech()}
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
   )
