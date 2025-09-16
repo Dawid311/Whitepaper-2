@@ -26,6 +26,38 @@ const StepByStepProcess: React.FC = () => {
   const [showProfitableInfo, setShowProfitableInfo] = useState(false)
   const [showRewardLevelsInfo, setShowRewardLevelsInfo] = useState(false)
 
+  // Advance to next step (wraps and includes extra step for main cycle)
+  const goNextStep = () => {
+    const stepsCount = currentSteps.length
+    // when main cycle has extra external step (index 6)
+    if (currentCycle === 'main') {
+      // if nothing selected, open first
+      if (activeStep === -1) {
+        setActiveStep(0)
+        return
+      }
+      // if on last main step (index stepsCount-1 -> 5), go to extraStep (6)
+      if (activeStep === stepsCount - 1) {
+        setActiveStep(6)
+        return
+      }
+      // if on extraStep, wrap to first
+      if (activeStep === 6) {
+        setActiveStep(0)
+        return
+      }
+      // otherwise advance
+      setActiveStep((prev) => (prev + 1) % stepsCount)
+    } else {
+      // market cycle: just wrap within steps
+      if (activeStep === -1) {
+        setActiveStep(0)
+        return
+      }
+      setActiveStep((prev) => (prev + 1) % stepsCount)
+    }
+  }
+
   const mainCycleSteps = [
     {
       id: 1,
@@ -244,59 +276,12 @@ const StepByStepProcess: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* Active Step Details */}
-      {activeStep !== -1 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20, height: 0 }}
-          animate={{ opacity: 1, y: 0, height: 'auto' }}
-          exit={{ opacity: 0, y: -20, height: 0 }}
-          transition={{ duration: 0.3 }}
-          className="backdrop-blur-xl bg-white/10 rounded-3xl p-8 border border-white/20 mb-12 max-w-4xl mx-auto"
-        >
-          {/* Header */}
-          <div className="flex items-center gap-6 mb-6">
-            <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${
-              activeStep === 6 ? extraStep.color : currentSteps[activeStep].color
-            } flex items-center justify-center text-white text-2xl`}>
-              {activeStep === 6 ? extraStep.icon : currentSteps[activeStep].icon}
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-white text-2xl leading-tight mb-2">
-                {activeStep === 6 ? extraStep.title : currentSteps[activeStep].title}
-              </h3>
-              <p className="text-gray-300 text-lg">
-                {activeStep === 6 ? extraStep.description : currentSteps[activeStep].description}
-              </p>
-            </div>
-            <button
-              onClick={() => setActiveStep(-1)}
-              className="text-gray-400 hover:text-white transition-colors p-2"
-            >
-              <FaArrowRight className="transform rotate-90 text-xl" />
-            </button>
-          </div>
+      {/* Active step details are rendered inside the right info panel (see below) */}
 
-          {/* Details */}
-          <div className="grid md:grid-cols-2 gap-4">
-            {(activeStep === 6 ? extraStep.details : currentSteps[activeStep].details).map((detail, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white/5 rounded-xl p-4 border border-white/10"
-              >
-                <p className="text-gray-300 text-sm leading-relaxed">{detail}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      )}
-
-      {/* Main Content Layout - Timeline und Info side by side */}
-      <div className="flex flex-col lg:flex-row gap-12 items-start">
+  {/* Main Content Layout - Timeline with responsive right-side info panel on lg */}
+  <div className="flex flex-col lg:flex-row gap-12 items-start">
         {/* Timeline Circle */}
-        <div className="relative w-full max-w-2xl mx-auto lg:mx-0 flex items-center justify-center min-h-[600px] flex-shrink-0">
+        <div className="relative w-full max-w-2xl mx-auto flex items-center justify-center min-h-[600px]">
           {/* Center Info */}
           <div className="absolute z-30 backdrop-blur-xl bg-white/10 rounded-full border border-white/20 flex flex-col items-center justify-center">
             <div className={`${
@@ -586,10 +571,9 @@ const StepByStepProcess: React.FC = () => {
             )}
           </div>
         </div>
-        
-        {/* Right Side Info Panel */}
-        <div className="flex-1 space-y-6 lg:max-w-md">
-          {/* Was passiert wenn D.INVEST profitabel wird? */}
+
+        {/* Fragen-Sektion unter dem Kreislauf (verschoben vom rechten Sidebar) */}
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="backdrop-blur-xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-2xl border border-purple-500/30">
             <button
               onClick={() => setShowProfitableInfo(!showProfitableInfo)}
@@ -602,7 +586,7 @@ const StepByStepProcess: React.FC = () => {
                 showProfitableInfo ? 'rotate-90' : ''
               }`} />
             </button>
-            
+          
             {showProfitableInfo && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
@@ -623,7 +607,6 @@ const StepByStepProcess: React.FC = () => {
             )}
           </div>
 
-          {/* Warum 6 Halving Stufen? */}
           <div className="backdrop-blur-xl bg-gradient-to-r from-orange-600/20 to-yellow-600/20 rounded-2xl border border-orange-500/30">
             <button
               onClick={() => setShowRewardLevelsInfo(!showRewardLevelsInfo)}
@@ -636,7 +619,7 @@ const StepByStepProcess: React.FC = () => {
                 showRewardLevelsInfo ? 'rotate-90' : ''
               }`} />
             </button>
-            
+          
             {showRewardLevelsInfo && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
@@ -652,14 +635,14 @@ const StepByStepProcess: React.FC = () => {
                       damit es sich weiterentwickelt und selbst Einnahmen erwirtschaften kann.
                     </p>
                   </div>
-                  
+                
                   <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-xl p-4">
                     <p className="text-white text-sm leading-relaxed font-medium">
                       Sobald alle D.INVEST verkauft sind und das Projekt erfolgreich ist, werden weiterhin 
                       aus den Einnahmen D.FAITH Tokens beim Marketing gekauft.
                     </p>
                   </div>
-                  
+                
                   <div className="flex items-center justify-center gap-3 p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl">
                     <FaChartLine className="text-yellow-400" />
                     <span className="text-white font-medium">Langfristige Investoren profitieren dadurch am meisten</span>

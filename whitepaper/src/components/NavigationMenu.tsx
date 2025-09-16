@@ -71,6 +71,7 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
         </div>
       </motion.nav>
 
+      
       {/* Mobile Menu */}
       {isMenuOpen && (
         <motion.div
