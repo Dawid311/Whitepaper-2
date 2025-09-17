@@ -13,6 +13,7 @@
     "@radix-ui/react-tabs": "^1.1.13",
     "@react-spring/web": "^10.0.2",
     "clsx": "^2.1.1",
+    "country-flag-icons": "^1.5.20",
     "framer-motion": "^12.23.12",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.542.0",

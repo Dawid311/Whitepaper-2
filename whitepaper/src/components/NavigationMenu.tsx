@@ -6,6 +6,46 @@ import { navigationMenuTranslations } from './NavigationMenuTranslations';
 import { motion } from 'framer-motion'
 import { FaBars, FaTimes } from 'react-icons/fa'
 
+// Flag components
+const DEFlag = () => (
+  <div className="inline-flex w-8 h-5 bg-gradient-to-b from-black via-red-600 to-yellow-400 rounded border border-gray-300 shadow-sm"></div>
+);
+
+const ENFlag = () => (
+  <div className="inline-flex w-8 h-5 relative bg-red-600 rounded border border-gray-300 overflow-hidden shadow-sm">
+    {/* Red and white stripes */}
+    <div className="absolute inset-0">
+      <div className="w-full h-0.5 bg-red-600 absolute top-0"></div>
+      <div className="w-full h-0.5 bg-white absolute top-0.5"></div>
+      <div className="w-full h-0.5 bg-red-600 absolute top-1"></div>
+      <div className="w-full h-0.5 bg-white absolute top-1.5"></div>
+      <div className="w-full h-0.5 bg-red-600 absolute top-2"></div>
+      <div className="w-full h-0.5 bg-white absolute top-2.5"></div>
+      <div className="w-full h-0.5 bg-red-600 absolute top-3"></div>
+      <div className="w-full h-0.5 bg-white absolute top-3.5"></div>
+      <div className="w-full h-0.5 bg-red-600 absolute top-4"></div>
+      <div className="w-full h-0.5 bg-white absolute bottom-0"></div>
+    </div>
+    {/* Blue canton */}
+    <div className="absolute top-0 left-0 w-3 h-2.5 bg-blue-800"></div>
+    {/* Stars (simplified as small white dots) */}
+    <div className="absolute top-0 left-0 w-3 h-2.5">
+      <div className="absolute top-0.5 left-0.5 w-0.5 h-0.5 bg-white rounded-full"></div>
+      <div className="absolute top-0.5 left-1.5 w-0.5 h-0.5 bg-white rounded-full"></div>
+      <div className="absolute top-0.5 left-2.5 w-0.5 h-0.5 bg-white rounded-full"></div>
+      <div className="absolute top-1.5 left-1 w-0.5 h-0.5 bg-white rounded-full"></div>
+      <div className="absolute top-1.5 left-2 w-0.5 h-0.5 bg-white rounded-full"></div>
+    </div>
+  </div>
+);
+
+const PLFlag = () => (
+  <div className="inline-flex w-8 h-5 relative rounded border border-gray-300 overflow-hidden shadow-sm">
+    <div className="absolute top-0 left-0 w-full h-2.5 bg-white"></div>
+    <div className="absolute bottom-0 left-0 w-full h-2.5 bg-red-600"></div>
+  </div>
+);
+
 interface NavigationMenuProps {
   activeSection: string
   onSectionChange: (section: string) => void
@@ -21,6 +61,7 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
 }) => {
   const { language, setLanguage } = useLanguage();
   const t = navigationMenuTranslations[language];
+  const [showLanguageDropdown, setShowLanguageDropdown] = React.useState(false);
 
   const navItems = [
     { id: 'hero', label: t.navItems.hero },
@@ -81,16 +122,42 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
                 </button>
               ))}
               {/* Sprachumschalter */}
-              <select
-                value={language}
-                onChange={e => setLanguage(e.target.value as 'de' | 'en' | 'pl')}
-                className="ml-4 px-2 py-1 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 focus:outline-none"
-                aria-label={t.languageLabel}
-              >
-                <option value="de">DE</option>
-                <option value="en">EN</option>
-                <option value="pl">PL</option>
-              </select>
+              {/* Language Selector */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+                  className="ml-4 px-3 py-2 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 hover:bg-zinc-700 transition-colors flex items-center gap-2"
+                  aria-label={t.languageLabel}
+                >
+                  {language === 'de' && <DEFlag />}
+                  {language === 'en' && <ENFlag />}
+                  {language === 'pl' && <PLFlag />}
+                  <span className="text-xs">▼</span>
+                </button>
+                
+                {showLanguageDropdown && (
+                  <div className="absolute top-full right-0 mt-1 bg-zinc-800 border border-zinc-700 rounded shadow-lg z-50">
+                    <button
+                      onClick={() => { setLanguage('de'); setShowLanguageDropdown(false); }}
+                      className="w-full px-3 py-2 text-left hover:bg-zinc-700 transition-colors flex items-center gap-2"
+                    >
+                      <DEFlag />
+                    </button>
+                    <button
+                      onClick={() => { setLanguage('en'); setShowLanguageDropdown(false); }}
+                      className="w-full px-3 py-2 text-left hover:bg-zinc-700 transition-colors flex items-center gap-2"
+                    >
+                      <ENFlag />
+                    </button>
+                    <button
+                      onClick={() => { setLanguage('pl'); setShowLanguageDropdown(false); }}
+                      className="w-full px-3 py-2 text-left hover:bg-zinc-700 transition-colors flex items-center gap-2"
+                    >
+                      <PLFlag />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Mobile Menu Button */}
@@ -131,15 +198,26 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
             {/* Mobile Sprachumschalter */}
             <div className="pt-3 border-t border-zinc-700">
               <label className="block text-sm text-zinc-400 mb-2">{t.languageLabel}</label>
-              <select
-                value={language}
-                onChange={e => setLanguage(e.target.value as 'de' | 'en' | 'pl')}
-                className="w-full px-3 py-2 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 focus:outline-none"
-              >
-                <option value="de">DE</option>
-                <option value="en">EN</option>
-                <option value="pl">PL</option>
-              </select>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  onClick={() => setLanguage('de')}
+                  className={`p-3 rounded bg-zinc-800 border ${language === 'de' ? 'border-blue-500' : 'border-zinc-700'} hover:bg-zinc-700 transition-colors flex items-center justify-center`}
+                >
+                  <DEFlag />
+                </button>
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`p-3 rounded bg-zinc-800 border ${language === 'en' ? 'border-blue-500' : 'border-zinc-700'} hover:bg-zinc-700 transition-colors flex items-center justify-center`}
+                >
+                  <ENFlag />
+                </button>
+                <button
+                  onClick={() => setLanguage('pl')}
+                  className={`p-3 rounded bg-zinc-800 border ${language === 'pl' ? 'border-blue-500' : 'border-zinc-700'} hover:bg-zinc-700 transition-colors flex items-center justify-center`}
+                >
+                  <PLFlag />
+                </button>
+              </div>
             </div>
           </div>
         </motion.div>
