@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { FaChevronDown, FaRocket, FaPlay } from 'react-icons/fa'
+import { HeroSectionTranslations } from './HeroSectionTranslations';
 
 interface HeroSectionProps {
   onScrollToNext: () => void;
@@ -77,38 +78,42 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext, language }) =
             className="space-y-8"
           >
             <div className="space-y-4">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.2 }}
-                className="inline-flex items-center gap-2 bg-amber-500/20 text-amber-400 px-4 py-2 rounded-full text-sm font-medium border border-amber-500/30"
-              >
-                <FaRocket className="text-sm" />
-                Live auf Base Chain
-              </motion.div>
-              
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.4 }}
-                className="text-5xl md:text-7xl font-bold leading-tight"
-              >
-                <span className="bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 bg-clip-text text-transparent">
-                  D.FAITH
-                </span>
-                <br />
-                <span className="text-white">Ökosystem</span>
-              </motion.h1>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.6 }}
-                className="text-xl md:text-2xl text-zinc-400 max-w-lg"
-              >
-                Revolutionäres Fan-Engagement durch{' '}
-                <span className="text-blue-400 font-semibold">Blockchain-Technologie</span>
-              </motion.p>
+              {/* Übersetzungs-Texte holen */}
+              {(() => {
+                const t = HeroSectionTranslations({ language });
+                return <>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.2 }}
+                    className="inline-flex items-center gap-2 bg-amber-500/20 text-amber-400 px-4 py-2 rounded-full text-sm font-medium border border-amber-500/30"
+                  >
+                    <FaRocket className="text-sm" />
+                    {t.live}
+                  </motion.div>
+                  <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.4 }}
+                    className="text-5xl md:text-7xl font-bold leading-tight"
+                  >
+                    <span className="bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 bg-clip-text text-transparent">
+                      {t.title1}
+                    </span>
+                    <br />
+                    <span className="text-white">{t.title2}</span>
+                  </motion.h1>
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.6 }}
+                    className="text-xl md:text-2xl text-zinc-400 max-w-lg"
+                  >
+                    {t.subtitle}
+                    <span className="text-blue-400 font-semibold">{t.subtitleHighlight}</span>
+                  </motion.p>
+                </>;
+              })()}
             </div>
 
             {/* Key Features */}
@@ -122,23 +127,23 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext, language }) =
                 <div className="text-2xl font-bold text-amber-400">
                   €{isLoading ? '...' : tokenPrices.dfaith.toFixed(2)}
                 </div>
-                <div className="text-sm text-zinc-400">D.FAITH Preis</div>
+                <div className="text-sm text-zinc-400">{HeroSectionTranslations({ language }).dfaithPrice}</div>
               </div>
               <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700">
                 <div className="text-2xl font-bold text-blue-400">
                   {isLoading ? '...' : tokenPrices.dinvest.toFixed(2)}€
                 </div>
-                <div className="text-sm text-zinc-400">D.INVEST Preis</div>
+                <div className="text-sm text-zinc-400">{HeroSectionTranslations({ language }).dinvestPrice}</div>
               </div>
               <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700">
                 <div className="text-2xl font-bold text-green-400">100K</div>
-                <div className="text-sm text-zinc-400">D.FAITH Supply</div>
+                <div className="text-sm text-zinc-400">{HeroSectionTranslations({ language }).dfaithSupply}</div>
               </div>
               <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700">
                 <div className="text-2xl font-bold text-purple-400">
                   {isLoading ? '...' : activeUsers}
                 </div>
-                <div className="text-sm text-zinc-400">Active Users</div>
+                <div className="text-sm text-zinc-400">{HeroSectionTranslations({ language }).activeUsers}</div>
               </div>
             </motion.div>
 
@@ -155,7 +160,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext, language }) =
                 className="bg-gradient-to-r from-amber-400 to-yellow-500 text-black font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity"
               >
                 <FaPlay className="text-sm" />
-                Jetzt mitmachen
+                {HeroSectionTranslations({ language }).cta1}
               </motion.button>
               
               <motion.button
@@ -164,7 +169,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext, language }) =
                 onClick={onScrollToNext}
                 className="border border-zinc-600 text-white font-bold py-4 px-8 rounded-xl hover:bg-zinc-800/50 transition-colors"
               >
-                Mehr erfahren
+                {HeroSectionTranslations({ language }).cta2}
               </motion.button>
             </motion.div>
           </motion.div>
@@ -261,7 +266,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext, language }) =
             transition={{ duration: 2, repeat: Infinity }}
             className="flex flex-col items-center gap-2 text-zinc-400 hover:text-white transition-colors"
           >
-            <span className="text-sm">Scroll für mehr</span>
+            <span className="text-sm">{HeroSectionTranslations({ language }).scroll}</span>
             <FaChevronDown className="text-xl" />
           </motion.div>
         </motion.div>

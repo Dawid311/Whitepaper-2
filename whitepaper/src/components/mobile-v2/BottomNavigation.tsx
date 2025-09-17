@@ -2,6 +2,8 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useLanguage } from '../../context/LanguageContext'
+import { getTranslatedSectionTitle } from './BottomNavigationTranslations'
 
 interface Section {
   id: string
@@ -21,6 +23,8 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
   currentSection, 
   onSectionChange 
 }) => {
+  const { language } = useLanguage()
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.querySelector(`[data-section="${sectionId}"]`)
     if (element) {
@@ -80,7 +84,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
                   className="absolute -top-8 left-1/2 transform -translate-x-1/2"
                 >
                   <div className="backdrop-blur-sm bg-black/50 text-white text-xs px-2 py-1 rounded-lg whitespace-nowrap">
-                    {section.title}
+                    {getTranslatedSectionTitle(section.id, language, section.title)}
                   </div>
                   <div className="w-2 h-2 bg-black/50 transform rotate-45 mx-auto -mt-1" />
                 </motion.div>

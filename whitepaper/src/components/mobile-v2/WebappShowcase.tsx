@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { useLanguage } from '../../context/LanguageContext'
+import { webappShowcaseTexts } from './WebappShowcaseTranslations'
 import Image from 'next/image'
 import { 
   FaWallet, 
@@ -43,6 +45,8 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
 }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
   const [selectedFeature, setSelectedFeature] = useState('wallet')
+  const { language } = useLanguage()
+  const texts = webappShowcaseTexts[language]
   
   // Live data states
   const [activeUsers, setActiveUsers] = useState(propActiveUsers || 774)
@@ -92,66 +96,43 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
   const features = [
     {
       id: 'wallet',
-      title: 'Dawid Faith Wallet',
+      title: texts.features[0].title,
       icon: <FaWallet className="text-2xl" />,
       gradient: 'from-amber-500 to-yellow-500',
-      description: 'Vollständiges Token-Management',
-      details: [
-        'D.FAITH Token kaufen/verkaufen gegen ETH',
-        'D.INVEST Token kaufen für 5€ pro Token',
-        'D.INVEST Staking mit 0,1 D.FAITH pro Woche',
-        'Wallet-zu-Wallet Transfers',
-        'Live Transaction History & Analytics'
-      ]
+      description: texts.features[0].description,
+      details: texts.features[0].details
     },
     {
       id: 'social',
-      title: 'Social Media Profile',
+      title: texts.features[1].title,
       icon: <FaUsers className="text-2xl" />,
       gradient: 'from-pink-500 to-purple-500',
-      description: 'Cross-Platform Fan-Engagement',
-      details: [
-        'Automatische Erkennung von Fan-Engagement',
-        'Instagram, TikTok, Facebook Integration',
-        'Globales Leaderboard-System',
-        'Automatische Profilerstellung beim ersten Claim',
-        'Level-System mit steigenden Rewards'
-      ]
+      description: texts.features[1].description,
+      details: texts.features[1].details
     },
     {
       id: 'shop',
-      title: 'D.FAITH Exklusiv Shop',
+      title: texts.features[2].title,
       icon: <FaShoppingCart className="text-2xl" />,
       gradient: 'from-emerald-500 to-green-500',
-      description: 'Exklusive Inhalte & Merchandise',
-      details: [
-        'Neue Songs früher erhältlich',
-        'Limitierte Merchandise (T-Shirts, Hoodies)',
-        'Signierte CD/Vinyl Editionen',
-        'Exklusive Konzert-Tickets',
-        'Nur mit D.FAITH Token bezahlbar (20-50% günstiger)'
-      ]
+      description: texts.features[2].description,
+      details: texts.features[2].details
     },
     {
       id: 'concerts',
-      title: 'Live Konzerte',
+      title: texts.features[3].title,
       icon: <FaMusic className="text-2xl" />,
       gradient: 'from-blue-500 to-cyan-500',
-      description: 'Konzert-Integration & Live Codes',
-      details: [
-        'Liste aller kommenden Dawid Faith Konzerte',
-        'Live Code Eingabe während Konzerten',
-        '+150 EXP pro gültigem Live Code (höchste Belohnung)',
-        'Exklusive Konzert-NFTs (zukünftig geplant)'
-      ]
+      description: texts.features[3].description,
+      details: texts.features[3].details
     }
   ]
 
   const platforms = [
-    { icon: <FaInstagram className="text-pink-500" />, name: 'Instagram', connected: true },
-    { icon: <FaTiktok className="text-white" />, name: 'TikTok', connected: true },
-    { icon: <FaFacebook className="text-blue-500" />, name: 'Facebook', connected: true },
-    { icon: <FaSpotify className="text-green-500" />, name: 'Spotify', connected: false, coming: true }
+    { icon: <FaInstagram className="text-pink-500" />, name: texts.platforms[0].name, connected: true },
+    { icon: <FaTiktok className="text-white" />, name: texts.platforms[1].name, connected: true },
+    { icon: <FaFacebook className="text-blue-500" />, name: texts.platforms[2].name, connected: true },
+    { icon: <FaSpotify className="text-green-500" />, name: texts.platforms[3].name, connected: false, coming: true }
   ]
 
   return (
@@ -161,47 +142,47 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
         <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 via-pink-500 to-purple-500 shadow-lg">
           <FaRocket className="text-white text-3xl" />
         </div>
-        <h2 className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-1 mt-2">D.FAITH Webapp</h2>
-        <p className="text-base text-zinc-200 font-medium">Alle Funktionen. Alle Plattformen. Deine Community.</p>
+        <h2 className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-1 mt-2">{texts.header.title}</h2>
+        <p className="text-base text-zinc-200 font-medium">{texts.header.subtitle}</p>
       </div>
       {/* Feature-Grid */}
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div className="rounded-2xl bg-gradient-to-br from-amber-500/20 to-yellow-500/10 border border-amber-400/30 p-4 flex flex-col items-center text-center shadow">
           <FaWallet className="text-xl text-amber-400 mb-1" />
           <span className="font-bold text-amber-300 mb-0.5">Wallet</span>
-          <span className="text-xs text-zinc-200 mb-0.5">Token-Management & Staking</span>
-          <span className="text-xs text-zinc-400">Kaufen, verkaufen, verdienen</span>
+          <span className="text-xs text-zinc-200 mb-0.5">{texts.features[0].shortDesc}</span>
+          <span className="text-xs text-zinc-400">{texts.features[0].briefDesc}</span>
         </div>
         <div className="rounded-2xl bg-gradient-to-br from-pink-500/20 to-purple-500/10 border border-pink-400/30 p-4 flex flex-col items-center text-center shadow">
           <FaUsers className="text-xl text-pink-400 mb-1" />
           <span className="font-bold text-pink-300 mb-0.5">Social Profiles</span>
-          <span className="text-xs text-zinc-200 mb-0.5">Fan-Engagement & Leaderboard</span>
-          <span className="text-xs text-zinc-400">Instagram, TikTok, Facebook</span>
+          <span className="text-xs text-zinc-200 mb-0.5">{texts.features[1].shortDesc}</span>
+          <span className="text-xs text-zinc-400">{texts.features[1].briefDesc}</span>
         </div>
         <div className="rounded-2xl bg-gradient-to-br from-emerald-500/20 to-green-500/10 border border-emerald-400/30 p-4 flex flex-col items-center text-center shadow">
           <FaShoppingCart className="text-xl text-emerald-400 mb-1" />
           <span className="font-bold text-emerald-300 mb-0.5">Exklusiv Shop</span>
-          <span className="text-xs text-zinc-200 mb-0.5">Merch, Tickets, Musik</span>
-          <span className="text-xs text-zinc-400">Nur mit D.FAITH Token</span>
+          <span className="text-xs text-zinc-200 mb-0.5">{texts.features[2].shortDesc}</span>
+          <span className="text-xs text-zinc-400">{texts.features[2].briefDesc}</span>
         </div>
         <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/10 border border-blue-400/30 p-4 flex flex-col items-center text-center shadow">
           <FaMusic className="text-xl text-blue-400 mb-1" />
           <span className="font-bold text-blue-300 mb-0.5">Live Konzerte</span>
-          <span className="text-xs text-zinc-200 mb-0.5">Konzert-Integration & Codes</span>
-          <span className="text-xs text-zinc-400">Belohnungen & NFT-Plan</span>
+          <span className="text-xs text-zinc-200 mb-0.5">{texts.features[3].shortDesc}</span>
+          <span className="text-xs text-zinc-400">{texts.features[3].briefDesc}</span>
         </div>
       </div>
       {/* Plattform-Badges */}
       <div className="flex flex-wrap gap-2 justify-center items-center mb-6">
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs font-semibold"><FaInstagram /> Instagram</span>
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 text-white text-xs font-semibold"><FaTiktok /> TikTok</span>
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold"><FaFacebook /> Facebook</span>
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-xs font-semibold"><FaSpotify /> Spotify</span>
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs font-semibold"><FaInstagram /> {texts.platforms[0].name}</span>
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 text-white text-xs font-semibold"><FaTiktok /> {texts.platforms[1].name}</span>
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold"><FaFacebook /> {texts.platforms[2].name}</span>
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-xs font-semibold"><FaSpotify /> {texts.platforms[3].name}</span>
       </div>
       {/* Call-to-Action */}
       <div className="w-full flex justify-center mt-2 mb-4">
         <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold shadow-lg hover:scale-105 transition-transform text-base flex items-center gap-2 animate-pulse">
-          Webapp entdecken <FaArrowRight className="text-base" />
+          {texts.callToAction.buttonText} <FaArrowRight className="text-base" />
         </button>
       </div>
     </div>

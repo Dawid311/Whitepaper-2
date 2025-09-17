@@ -1,5 +1,6 @@
 "use client";
 import { FaRocket, FaChartLine, FaUsers, FaLock, FaWallet, FaShoppingCart, FaMusic, FaInstagram, FaTiktok, FaFacebook, FaSpotify, FaArrowRight } from "react-icons/fa";
+import { webappShowcaseSectionTranslations } from './WebappShowcaseSectionTranslations';
 import React from 'react'
 import { motion } from 'framer-motion'
 // Inhalte aus WebappShowcase (Features, Plattformen, Live-Daten)
@@ -9,6 +10,20 @@ interface WebappShowcaseSectionProps {
 }
 
 const WebappShowcaseSection: React.FC<WebappShowcaseSectionProps> = ({ language }) => {
+  const t = webappShowcaseSectionTranslations[language];
+
+  // Hilfsfunktion für Icons
+  const iconMap: Record<string, React.ReactNode> = {
+    FaWallet: <FaWallet className="text-2xl text-amber-400 mb-2" />,
+    FaUsers: <FaUsers className="text-2xl text-pink-400 mb-2" />,
+    FaShoppingCart: <FaShoppingCart className="text-2xl text-emerald-400 mb-2" />,
+    FaMusic: <FaMusic className="text-2xl text-blue-400 mb-2" />,
+    FaInstagram: <FaInstagram />,
+    FaTiktok: <FaTiktok />,
+    FaFacebook: <FaFacebook />,
+    FaSpotify: <FaSpotify />,
+  };
+
   return (
     <section id="webapp" className="relative w-full py-24 px-0 bg-gradient-to-tr from-blue-950 via-zinc-900 to-purple-950 overflow-hidden">
       <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center gap-12">
@@ -18,48 +33,34 @@ const WebappShowcaseSection: React.FC<WebappShowcaseSectionProps> = ({ language 
             <FaRocket className="text-white text-4xl" />
           </div>
           <div className="text-center md:text-left">
-            <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">D.FAITH Webapp</h2>
-            <p className="text-lg md:text-xl text-zinc-200 font-medium">Alle Funktionen. Alle Plattformen. Deine Community.</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">{t.headline}</h2>
+            <p className="text-lg md:text-xl text-zinc-200 font-medium">{t.slogan}</p>
           </div>
         </div>
         {/* Feature-Grid */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
-          <div className="rounded-2xl bg-gradient-to-br from-amber-500/20 to-yellow-500/10 border border-amber-400/30 p-5 flex flex-col items-center text-center shadow">
-            <FaWallet className="text-2xl text-amber-400 mb-2" />
-            <span className="font-bold text-amber-300 mb-1">Wallet</span>
-            <span className="text-xs text-zinc-200 mb-1">Token-Management & Staking</span>
-            <span className="text-xs text-zinc-400">Kaufen, verkaufen, verdienen</span>
-          </div>
-          <div className="rounded-2xl bg-gradient-to-br from-pink-500/20 to-purple-500/10 border border-pink-400/30 p-5 flex flex-col items-center text-center shadow">
-            <FaUsers className="text-2xl text-pink-400 mb-2" />
-            <span className="font-bold text-pink-300 mb-1">Social Profiles</span>
-            <span className="text-xs text-zinc-200 mb-1">Fan-Engagement & Leaderboard</span>
-            <span className="text-xs text-zinc-400">Instagram, TikTok, Facebook</span>
-          </div>
-          <div className="rounded-2xl bg-gradient-to-br from-emerald-500/20 to-green-500/10 border border-emerald-400/30 p-5 flex flex-col items-center text-center shadow">
-            <FaShoppingCart className="text-2xl text-emerald-400 mb-2" />
-            <span className="font-bold text-emerald-300 mb-1">Exklusiv Shop</span>
-            <span className="text-xs text-zinc-200 mb-1">Merch, Tickets, Musik</span>
-            <span className="text-xs text-zinc-400">Nur mit D.FAITH Token</span>
-          </div>
-          <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/10 border border-blue-400/30 p-5 flex flex-col items-center text-center shadow">
-            <FaMusic className="text-2xl text-blue-400 mb-2" />
-            <span className="font-bold text-blue-300 mb-1">Live Konzerte</span>
-            <span className="text-xs text-zinc-200 mb-1">Konzert-Integration & Codes</span>
-            <span className="text-xs text-zinc-400">Belohnungen & NFT-Plan</span>
-          </div>
+          {t.features.map((feature, i) => (
+            <div key={feature.title + i} className={`rounded-2xl bg-gradient-to-br ${i === 0 ? 'from-amber-500/20 to-yellow-500/10 border-amber-400/30' : i === 1 ? 'from-pink-500/20 to-purple-500/10 border-pink-400/30' : i === 2 ? 'from-emerald-500/20 to-green-500/10 border-emerald-400/30' : 'from-blue-500/20 to-cyan-500/10 border-blue-400/30'} p-5 flex flex-col items-center text-center shadow`}>
+              {iconMap[feature.icon]}
+              <span className={`font-bold mb-1 ${i === 0 ? 'text-amber-300' : i === 1 ? 'text-pink-300' : i === 2 ? 'text-emerald-300' : 'text-blue-300'}`}>{feature.title}</span>
+              <span className="text-xs text-zinc-200 mb-1">{feature.subtitle}</span>
+              <span className="text-xs text-zinc-400">{feature.detail}</span>
+            </div>
+          ))}
         </div>
         {/* Plattform-Badges */}
         <div className="flex flex-wrap gap-3 justify-center items-center mt-2">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs font-semibold"><FaInstagram /> Instagram</span>
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 text-white text-xs font-semibold"><FaTiktok /> TikTok</span>
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold"><FaFacebook /> Facebook</span>
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-xs font-semibold"><FaSpotify /> Spotify</span>
+          {t.platforms.map((platform, i) => (
+            <span key={platform.label + i} className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${platform.icon === 'FaInstagram' ? 'bg-pink-500/20 text-pink-300' : platform.icon === 'FaTiktok' ? 'bg-black/40 text-white' : platform.icon === 'FaFacebook' ? 'bg-blue-500/20 text-blue-300' : 'bg-green-500/20 text-green-300'} text-xs font-semibold`}>
+              {iconMap[platform.icon]}
+              {platform.label}
+            </span>
+          ))}
         </div>
         {/* Call-to-Action */}
         <div className="w-full flex justify-center mt-4">
           <button className="px-8 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold shadow-lg hover:scale-105 transition-transform text-lg flex items-center gap-2 animate-pulse">
-            Webapp entdecken <FaArrowRight className="text-base" />
+            {t.cta} <FaArrowRight className="text-base" />
           </button>
         </div>
       </div>

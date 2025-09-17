@@ -3,6 +3,8 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { useLanguage } from '../../context/LanguageContext'
+import { interactiveTimelineTexts } from './InteractiveTimelineTranslations'
 import { 
   FaMusic,
   FaHeart,
@@ -25,171 +27,38 @@ const InteractiveTimeline: React.FC = () => {
   const [currentCycle, setCurrentCycle] = useState<'main' | 'market'>('main')
   const [showProfitableInfo, setShowProfitableInfo] = useState(false)
   const [showRewardLevelsInfo, setShowRewardLevelsInfo] = useState(false)
+  const { language } = useLanguage()
+  const texts = interactiveTimelineTexts[language]
 
-  const mainCycleSteps = [
-    {
-      id: 1,
-      title: "Dawid postet neuen Content",
-      description: "Song, Video oder Update auf Instagram, TikTok & Facebook",
-      details: [
-        "1.000€ für 20.000 D.FAITH Token bereitgestellt",
-        "1.500€ für spezifische Kampagne reserviert", 
-        "80.000 D.FAITH bleiben im Smart Contract gesperrt",
-        "Gleichzeitiges Posting auf allen Plattformen"
-      ],
-      icon: <FaMusic />,
-      color: "from-purple-500 to-pink-500"
-    },
-    {
-      id: 2,
-      title: "Fan Interaktion wird erkannt",
-      description: "Fans liken, kommentieren, teilen - automatisch erfasst",
-      details: [
-        "10 EXP pro Like → Level-basierte D.FAITH Rewards",
-        "Kommentar mit 'D.FAITH' → Automatischer Link zur Webapp",
-        "10-20 EXP für Shares & Stories → Höhere Rewards",
-        "Automatische Profilerstellung und Cross-Platform Tracking"
-      ],
-      icon: <FaHeart />,
-      color: "from-blue-500 to-cyan-500"
-    },
-    {
-      id: 3,
-      title: "Automatische Token-Käufe",
-      description: "System kauft D.FAITH Token basierend auf Engagement",
-      details: [
-        "Marketing Budget wird für Token-Käufe verwendet",
-        "Level-System bestimmt Token-Anzahl pro Fan",
-        "50% der gekauften Token gehen direkt an Fans",
-        "50% werden im Smart Contract für Staking gesperrt"
-      ],
-      icon: <FaCoins />,
-      color: "from-green-500 to-emerald-500"
-    },
-    {
-      id: 4,
-      title: "Smart Contract sammelt Token",
-      description: "50% der gekauften Token gehen an Smart Contract",
-      details: [
-        "50% der gekauften Token gehen automatisch an Smart Contract",
-        "6 Reward-Stufen mit Halving-Effekt implementiert",
-        "Startrate: 0,1 D.FAITH pro D.INVEST pro Woche (Initial)",
-        "Jede Stufe halbiert die Ausgaberate automatisch",
-        "Token nur durch D.INVEST Staking entsperrbar"
-      ],
-      icon: <FaLock />,
-      color: "from-orange-500 to-red-500"
-    },
-    {
-      id: 5,
-      title: "Preissteigerung durch Verknappung",
-      description: "D.FAITH wird wertvoller, D.INVEST wird attraktiver",
-      details: [
-        "Kontinuierliche Käufe reduzieren verfügbare Token",
-        "Preis steigt bei zunehmender Verknappung",
-        "D.INVEST Staking wird profitabler",
-        "Attraktive ROI lockt neue Investoren an"
-      ],
-      icon: <FaArrowUp />,
-      color: "from-yellow-500 to-orange-500"
-    },
-    {
-      id: 6,
-      title: "Kreislauf wiederholt sich",
-      description: "System verstärkt sich automatisch bei jedem neuen Post",
-      details: [
-        "Jeder Post kann das System weiter verbessern",
-        "System lernt aus jedem Durchlauf und wird effizienter",
-        "Fans erwarten bereits Belohnungen → Mehr Engagement",
-        "D.FAITH kann bei jedem Zyklus wertvoller werden"
-      ],
-      icon: <FaRedo />,
-      color: "from-cyan-500 to-blue-500"
-    }
-  ]
+  const mainCycleSteps = texts.mainCycle.steps.map((step, index) => ({
+    id: index + 1,
+    title: step.title,
+    description: step.description,
+    details: step.details,
+    icon: [<FaMusic />, <FaHeart />, <FaCoins />, <FaLock />, <FaArrowUp />, <FaRedo />][index],
+    color: ["from-purple-500 to-pink-500", "from-blue-500 to-cyan-500", "from-green-500 to-emerald-500", 
+            "from-orange-500 to-red-500", "from-yellow-500 to-orange-500", "from-cyan-500 to-blue-500"][index]
+  }))
 
   // Extra step outside the circle
   const extraStep = {
     id: 3.1,
-    title: "Fans claimen Tokens basierend auf Level",
-    description: "Fans können ihre verdienten D.FAITH Tokens über die Webapp abholen",
-    details: [
-      "Level-basierte Token-Mengen automatisch zugewiesen",
-      "Einfacher Claim-Prozess über die D.FAITH Webapp",
-      "Transparente Anzeige aller verfügbaren Rewards",
-      "→ Mehr zur Webapp-Funktionalität im entsprechenden Abschnitt"
-    ],
+    title: texts.extraStep.title,
+    description: texts.extraStep.description,
+    details: texts.extraStep.details,
     icon: <FaCheck />,
     color: "from-emerald-500 to-green-500"
   }
 
-  const marketCycleSteps = [
-    {
-      id: 1,
-      title: "D.INVEST wird profitabel",
-      description: "Hohe D.FAITH Preise machen Staking profitabel",
-      details: [
-        "Bei höheren D.FAITH Preisen kann attraktiver ROI auf D.INVEST entstehen",
-        "Investoren werden auf potentielle Renditen aufmerksam",
-        "0,1 D.FAITH pro D.INVEST pro Woche wird wertvoller",
-        "104% ROI möglich bei optimalen Bedingungen"
-      ],
-      icon: <FaDollarSign />,
-      color: "from-green-600 to-emerald-600"
-    },
-    {
-      id: 2,
-      title: "Investoren kaufen D.INVEST",
-      description: "Neue D.INVEST Käufe führen zu erhöhten D.FAITH Rewards",
-      details: [
-        "Weitere Investoren kaufen D.INVEST für 5€/Token",
-        "Mehr Staking-Rewards werden ausgegeben → temporärer Preisrückgang",
-        "Neues Kapital fließt in bessere Musikproduktion und Marketing",
-        "Preiskorrektur ist Teil des natürlichen Wachstumszyklus"
-      ],
-      icon: <FaUsers />,
-      color: "from-red-500 to-orange-500"
-    },
-    {
-      id: 3,
-      title: "Investoren verkaufen D.FAITH Rewards",
-      description: "Crash -80%: Massive Verkäufe führen zu drastischem Preisverfall",
-      details: [
-        "Investoren verkaufen ihre D.FAITH Rewards für sofortige Gewinne",
-        "Markt wird mit D.FAITH überflutet → Preiscrash -80%",
-        "Panikverkäufe verstärken den Abwärtstrend",
-        "D.INVEST Staking wird vorübergehend unattraktiv"
-      ],
-      icon: <FaArrowDown />,
-      color: "from-red-600 to-red-800"
-    },
-    {
-      id: 4,
-      title: "Halving aktiviert sich",
-      description: "Smart Contract reduziert Ausgaberate automatisch",
-      details: [
-        "Staking-Rate sinkt von 0,1 auf 0,05 D.FAITH pro Woche",
-        "Halving verhindert weitere Marktüberflutung",
-        "Neuer Zyklus startet auf höherem Preisniveau",
-        "Bewährtes Halving-Konzept aus der Krypto-Welt"
-      ],
-      icon: <FaCog />,
-      color: "from-purple-500 to-pink-500"
-    },
-    {
-      id: 5,
-      title: "D.FAITH Preis steigt",
-      description: "D.FAITH Preis steigt durch Halving auf neue Hochs",
-      details: [
-        "Reduzierte Token-Ausgabe führt zu natürlicher Verknappung",
-        "D.FAITH Preis steigt durch verringerte Staking-Rewards",
-        "Höhere D.FAITH Preise machen D.INVEST trotz Halving wieder profitabel",
-        "System ist bereit für den nächsten profitablen Zyklus bei höherem Preisniveau"
-      ],
-      icon: <FaChartLine />,
-      color: "from-cyan-500 to-purple-500"
-    }
-  ]
+  const marketCycleSteps = texts.marketCycle.steps.map((step, index) => ({
+    id: index + 1,
+    title: step.title,
+    description: step.description,
+    details: step.details,
+    icon: [<FaDollarSign />, <FaUsers />, <FaArrowDown />, <FaCog />, <FaChartLine />][index],
+    color: ["from-green-600 to-emerald-600", "from-red-500 to-orange-500", "from-red-600 to-red-800",
+            "from-purple-500 to-pink-500", "from-cyan-500 to-purple-500"][index]
+  }))
 
   const currentSteps = currentCycle === 'main' ? mainCycleSteps : marketCycleSteps
 
@@ -203,10 +72,10 @@ const InteractiveTimeline: React.FC = () => {
         className="text-center mb-10"
       >
         <h2 className="text-3xl font-bold text-white mb-3">
-          Wie das D.FAITH Ökosystem funktioniert
+          {texts.header.title}
         </h2>
         <p className="text-gray-300 text-base mb-8">
-          Schritt-für-Schritt Prozesse
+          {texts.header.subtitle}
         </p>
 
         {/* Cycle Selector */}
@@ -224,7 +93,7 @@ const InteractiveTimeline: React.FC = () => {
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                Haupt-Zyklus (6 Schritte)
+                {texts.header.mainCycleButton}
               </button>
               <button
                 onClick={() => {
@@ -237,7 +106,7 @@ const InteractiveTimeline: React.FC = () => {
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                Markt-Zyklus (5 Schritte)
+                {texts.header.marketCycleButton}
               </button>
             </div>
           </div>
@@ -293,7 +162,7 @@ const InteractiveTimeline: React.FC = () => {
             <span className={`text-gray-300 text-center ${
               currentSteps.length === 6 ? 'text-xs' : 'text-xs'
             }`}>
-              {currentCycle === 'main' ? 'Haupt-Zyklus' : 'Markt-Zyklus'}
+              {currentCycle === 'main' ? texts.header.mainCycleButton.split(' ')[0] : texts.header.marketCycleButton.split(' ')[0]}
             </span>
           </div>
         </div>
@@ -584,7 +453,7 @@ const InteractiveTimeline: React.FC = () => {
             className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
           >
             <h3 className="font-bold text-lg text-white">
-              💰 Was passiert wenn D.INVEST profitabel wird?
+              {texts.expandableInfo.profitableTitle}
             </h3>
             <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
               showProfitableInfo ? 'rotate-90' : ''
@@ -601,10 +470,7 @@ const InteractiveTimeline: React.FC = () => {
             >
               <div className="bg-white/5 rounded-xl p-4">
                 <p className="text-gray-300 text-sm leading-relaxed">
-                  Wenn D.INVEST profitabel wird, kaufen Investoren verstärkt D.INVEST Token. 
-                  Dadurch werden mehr D.FAITH Rewards ausgegeben, was zu fallenden D.FAITH Preisen führt. 
-                  Dieser Zyklus wiederholt sich solange, bis das automatische Halving eintritt und 
-                  die Ausgaberate halbiert wird, um den Markt zu stabilisieren.
+                  {texts.expandableInfo.profitableContent}
                 </p>
               </div>
             </motion.div>
@@ -618,7 +484,7 @@ const InteractiveTimeline: React.FC = () => {
             className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
           >
             <h3 className="font-bold text-lg text-white">
-              🏆 Warum 6 Halving Stufen?
+              {texts.expandableInfo.halvingTitle}
             </h3>
             <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
               showRewardLevelsInfo ? 'rotate-90' : ''
@@ -636,21 +502,19 @@ const InteractiveTimeline: React.FC = () => {
               <div className="text-center space-y-4">
                 <div className="bg-white/5 rounded-xl p-4">
                   <p className="text-gray-300 text-sm leading-relaxed">
-                    Dieser Mechanismus soll dazu führen, dass Kapital an das Projekt in Zyklen fließt, 
-                    damit es sich weiterentwickelt und selbst Einnahmen erwirtschaften kann.
+                    {texts.expandableInfo.halvingContent.description}
                   </p>
                 </div>
                 
                 <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-xl p-4">
                   <p className="text-white text-sm leading-relaxed font-medium">
-                    Sobald alle D.INVEST verkauft sind und das Projekt erfolgreich ist, werden weiterhin 
-                    aus den Einnahmen D.FAITH Tokens beim Marketing gekauft.
+                    {texts.expandableInfo.halvingContent.success}
                   </p>
                 </div>
                 
                 <div className="flex items-center justify-center gap-3 p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl">
                   <FaChartLine className="text-yellow-400" />
-                  <span className="text-white font-medium">Langfristige Investoren profitieren dadurch am meisten</span>
+                  <span className="text-white font-medium">{texts.expandableInfo.halvingContent.longTerm}</span>
                   <FaChartLine className="text-orange-400" />
                 </div>
               </div>

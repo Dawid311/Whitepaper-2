@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import ProblemOverview from './solution/ProblemOverview'
 import SolutionConcept from './solution/SolutionConcept'
 import StepByStepProcess from './solution/StepByStepProcess'
+import { solutionSectionTranslations } from './solution/SolutionSectionTranslations'
 // EcosystemWebapp entfernt
 
 
@@ -13,6 +14,7 @@ interface SolutionSectionProps {
 }
 
 const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
+  const t = solutionSectionTranslations[language];
   return (
     <section id="solution" className="relative py-20 bg-gradient-to-br from-slate-950 via-indigo-950/50 to-purple-950/30 overflow-hidden">
       {/* Dynamic Background */}
@@ -33,7 +35,7 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
           className="mb-20"
         >
           <div className="bg-slate-800/30 backdrop-blur-xl rounded-3xl border border-slate-700/30 shadow-2xl shadow-black/20">
-            <ProblemOverview />
+            <ProblemOverview language={language} />
           </div>
         </motion.div>
 
@@ -46,7 +48,7 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
           className="mb-20"
         >
           <div className="bg-slate-800/30 backdrop-blur-xl rounded-3xl border border-slate-700/30 shadow-2xl shadow-black/20">
-            <SolutionConcept />
+            <SolutionConcept language={language} />
           </div>
         </motion.div>
 
@@ -59,7 +61,7 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
           className="mb-20"
         >
           <div className="bg-slate-800/30 backdrop-blur-xl rounded-3xl border border-slate-700/30 shadow-2xl shadow-black/20">
-            <StepByStepProcess />
+            <StepByStepProcess language={language} />
           </div>
         </motion.div>
 
@@ -86,10 +88,10 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
               >
                 <div className="text-8xl mb-6">🎯</div>
                 <h3 className="text-6xl font-black bg-gradient-to-r from-cyan-300 via-violet-400 to-pink-400 bg-clip-text text-transparent mb-6">
-                  DAS ERGEBNIS
+                  {t.resultTitle}
                 </h3>
                 <p className="text-2xl text-slate-300 max-w-3xl mx-auto">
-                  Alle gewinnen im <span className="text-cyan-400 font-bold">D.FAITH Ökosystem</span>
+                  {t.resultDescription.replace('D.FAITH Ökosystem', <span className="text-cyan-400 font-bold">D.FAITH Ökosystem</span> as any)}
                 </p>
               </motion.div>
             </div>
@@ -112,9 +114,9 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
                         <span className="text-3xl">❤️</span>
                       </div>
                       <h4 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent mb-2">
-                        Fans
+                        {t.fans.title}
                       </h4>
-                      <p className="text-slate-400 text-lg">Verdienen durch Engagement</p>
+                      <p className="text-slate-400 text-lg">{t.fans.description}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -134,9 +136,9 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
                         <span className="text-3xl">🎤</span>
                       </div>
                       <h4 className="text-3xl font-bold bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent mb-2">
-                        Dawid Faith
+                        {t.creator.title}
                       </h4>
-                      <p className="text-slate-400 text-lg">Nachhaltige Finanzierung</p>
+                      <p className="text-slate-400 text-lg">{t.creator.description}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -156,9 +158,9 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
                         <span className="text-3xl">💎</span>
                       </div>
                       <h4 className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent mb-2">
-                        Investoren
+                        {t.investors.title}
                       </h4>
-                      <p className="text-slate-400 text-lg">Hohe Renditen</p>
+                      <p className="text-slate-400 text-lg">{t.investors.description}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -172,7 +174,7 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
                 className="mt-16 text-center"
               >
                 <h4 className="text-4xl font-bold text-white mb-6">
-                  Bereit für die Revolution? 🚀
+                  {t.ctaTitle}
                 </h4>
                 
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -183,7 +185,7 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
                   >
                     <span className="relative flex items-center gap-3">
                       <span className="text-2xl">❤️</span>
-                      Fan werden
+                      {t.fanButton}
                     </span>
                   </motion.button>
                   
@@ -194,7 +196,7 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
                   >
                     <span className="relative flex items-center gap-3">
                       <span className="text-2xl">💎</span>
-                      Investieren
+                      {t.investButton}
                     </span>
                   </motion.button>
                 </div>

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useLanguage } from '../context/LanguageContext';
+import { navigationMenuTranslations } from './NavigationMenuTranslations';
 import { motion } from 'framer-motion'
 import { FaBars, FaTimes } from 'react-icons/fa'
 
@@ -18,17 +19,34 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
   isMenuOpen,
   setIsMenuOpen
 }) => {
+  const { language, setLanguage } = useLanguage();
+  const t = navigationMenuTranslations[language];
+
   const navItems = [
-    { id: 'hero', label: 'Start' },
-    { id: 'solution', label: 'Problem & Lösung' },
-    { id: 'tokenomics', label: 'Tokenomics' },
-    { id: 'webapp', label: 'Webapp' },
-    { id: 'tech', label: 'Technik' },
-    { id: 'roadmap', label: 'Roadmap' },
-    { id: 'team', label: 'Team' }
+    { id: 'hero', label: t.navItems.hero },
+    { id: 'solution', label: t.navItems.solution },
+    { id: 'tokenomics', label: t.navItems.tokenomics },
+    { id: 'webapp', label: t.navItems.webapp },
+    { id: 'roadmap', label: t.navItems.roadmap },
+    { id: 'team', label: t.navItems.team }
   ]
 
-  const { language, setLanguage } = useLanguage();
+  const handleSectionClick = (sectionId: string) => {
+    // Schließe das mobile Menü
+    setIsMenuOpen(false);
+    
+    // Scrolle zum Element
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+    
+    // Aktualisiere aktive Sektion
+    onSectionChange(sectionId);
+  };
 
   return (
     <>
@@ -44,7 +62,7 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
               <div className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-yellow-500 bg-clip-text text-transparent">
                 D.FAITH
               </div>
-              <span className="text-zinc-400 text-sm hidden sm:block">Whitepaper</span>
+              <span className="text-zinc-400 text-sm hidden sm:block">{t.whitepaper}</span>
             </div>
 
             {/* Desktop Menu */}
@@ -52,7 +70,7 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
               {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => onSectionChange(item.id)}
+                  onClick={() => handleSectionClick(item.id)}
                   className={`px-3 py-2 rounded-lg font-medium transition-colors ${
                     activeSection === item.id
                       ? 'bg-amber-500/20 text-amber-400'
@@ -67,7 +85,7 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
                 value={language}
                 onChange={e => setLanguage(e.target.value as 'de' | 'en' | 'pl')}
                 className="ml-4 px-2 py-1 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 focus:outline-none"
-                aria-label="Sprache wählen"
+                aria-label={t.languageLabel}
               >
                 <option value="de">DE</option>
                 <option value="en">EN</option>
@@ -99,7 +117,7 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
             {navItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => onSectionChange(item.id)}
+                onClick={() => handleSectionClick(item.id)}
                 className={`block w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
                   activeSection === item.id
                     ? 'bg-amber-500/20 text-amber-400'
@@ -109,6 +127,20 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
                 {item.label}
               </button>
             ))}
+            
+            {/* Mobile Sprachumschalter */}
+            <div className="pt-3 border-t border-zinc-700">
+              <label className="block text-sm text-zinc-400 mb-2">{t.languageLabel}</label>
+              <select
+                value={language}
+                onChange={e => setLanguage(e.target.value as 'de' | 'en' | 'pl')}
+                className="w-full px-3 py-2 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 focus:outline-none"
+              >
+                <option value="de">DE</option>
+                <option value="en">EN</option>
+                <option value="pl">PL</option>
+              </select>
+            </div>
           </div>
         </motion.div>
       )}

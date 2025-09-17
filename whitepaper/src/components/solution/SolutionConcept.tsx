@@ -5,7 +5,13 @@ import { motion } from 'framer-motion'
 import { FaLightbulb, FaUsers, FaCoins, FaChartLine, FaArrowRight } from 'react-icons/fa'
 import Image from 'next/image'
 
-const SolutionConcept = () => {
+import { SolutionConceptTranslations } from './SolutionConceptTranslations';
+interface SolutionConceptProps {
+  language: 'de' | 'en' | 'pl';
+}
+
+const SolutionConcept: React.FC<SolutionConceptProps> = ({ language }) => {
+  const t = SolutionConceptTranslations(language);
   return (
     <div className="mb-16">
       {/* Lösung Header */}
@@ -22,11 +28,10 @@ const SolutionConcept = () => {
           </div>
         </div>
         <h3 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent mb-6">
-          Die D.FAITH Revolution
+          {t.revolution}
         </h3>
         <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-          Ein intelligentes Dual-Token-System, das den Teufelskreis durchbricht und 
-          eine Win-Win-Situation für Künstler und Fans schafft
+          {t.subtitle}
         </p>
       </motion.div>
 
@@ -48,24 +53,18 @@ const SolutionConcept = () => {
               height={80}
             />
             <div>
-              <h4 className="text-3xl font-bold text-amber-400">D.FAITH</h4>
-              <p className="text-amber-300">Fan-Belohnungstoken</p>
+              <h4 className="text-3xl font-bold text-amber-400">{t.dfaith}</h4>
+              <p className="text-amber-300">{t.dfaithDesc}</p>
             </div>
           </div>
           
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <FaUsers className="text-amber-400" />
-              <span className="text-gray-300">Belohnt treue Fans für ihr Engagement</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <FaCoins className="text-amber-400" />
-              <span className="text-gray-300">Kann in ETH getauscht oder im Shop verwendet werden</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <FaChartLine className="text-amber-400" />
-              <span className="text-gray-300">Wertsteigerung durch Verknappung</span>
-            </div>
+            {t.dfaithFeatures.map((feature, i) => (
+              <div className="flex items-center gap-3" key={i}>
+                {[<FaUsers className="text-amber-400" />, <FaCoins className="text-amber-400" />, <FaChartLine className="text-amber-400" />][i]}
+                <span className="text-gray-300">{feature}</span>
+              </div>
+            ))}
           </div>
 
           {/* entfernt: Wie Fans D.FAITH bekommen */}
@@ -87,24 +86,18 @@ const SolutionConcept = () => {
               height={80}
             />
             <div>
-              <h4 className="text-3xl font-bold text-blue-400">D.INVEST</h4>
-              <p className="text-blue-300">Investitions-Token</p>
+              <h4 className="text-3xl font-bold text-blue-400">{t.dinvest}</h4>
+              <p className="text-blue-300">{t.dinvestDesc}</p>
             </div>
           </div>
           
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <FaCoins className="text-blue-400" />
-              <span className="text-gray-300">Ermöglicht Kapitalbeschaffung für Musikproduktion</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <FaChartLine className="text-blue-400" />
-              <span className="text-gray-300">Entsperrt gesperrte D.FAITH Token durch Staking</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <FaUsers className="text-blue-400" />
-              <span className="text-gray-300">Investoren profitieren von steigenden D.FAITH Preisen</span>
-            </div>
+            {t.dinvestFeatures.map((feature, i) => (
+              <div className="flex items-center gap-3" key={i}>
+                {[<FaCoins className="text-blue-400" />, <FaChartLine className="text-blue-400" />, <FaUsers className="text-blue-400" />][i]}
+                <span className="text-gray-300">{feature}</span>
+              </div>
+            ))}
           </div>
 
           {/* entfernt: Investment Details */}
@@ -121,29 +114,25 @@ const SolutionConcept = () => {
       >
         <div className="text-center">
           <h3 className="text-3xl font-bold text-green-400 mb-4">
-            💡 Die Kernidee
+            {t.coreIdea}
           </h3>
           <p className="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            <strong>Statt Geld für Werbung auszugeben</strong>, investiert Dawid Faith direkt in 
-            <strong> Fan-Belohnungen</strong>. Fans werden für ihr Engagement bezahlt, wodurch sie 
-            <strong> motivierter</strong> sind zu interagieren. Mehr Engagement = bessere Reichweite = 
-            mehr neue Fans = <strong>selbstverstärkender Kreislauf</strong>. 
-            Gleichzeitig generiert das System Kapital für Musikproduktion durch D.INVEST.
+            {t.coreText}
           </p>
           
           <div className="flex justify-center items-center mt-6 space-x-4">
             <div className="text-center">
               <div className="bg-red-500/20 rounded-lg p-3 mb-2">
-                <span className="text-sm font-bold text-red-400">VORHER</span>
+                <span className="text-sm font-bold text-red-400">{t.before}</span>
               </div>
-              <p className="text-sm text-gray-400">Geld für Werbung ohne Garantie</p>
+              <p className="text-sm text-gray-400">{t.beforeDesc}</p>
             </div>
             <FaArrowRight className="text-green-400 text-2xl" />
             <div className="text-center">
               <div className="bg-green-500/20 rounded-lg p-3 mb-2">
-                <span className="text-sm font-bold text-green-400">NACHHER</span>
+                <span className="text-sm font-bold text-green-400">{t.after}</span>
               </div>
-              <p className="text-sm text-gray-400">Direkter Fan-Nutzen + Kapital</p>
+              <p className="text-sm text-gray-400">{t.afterDesc}</p>
             </div>
           </div>
         </div>

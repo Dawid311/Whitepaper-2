@@ -3,8 +3,13 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaCoins, FaUsers, FaChartLine, FaFire, FaChevronDown, FaChevronUp } from 'react-icons/fa'
+import { useLanguage } from '../context/LanguageContext'
+import { liveStatsTranslations } from './LiveStatsTranslations'
 
 const LiveStats = () => {
+  const { language } = useLanguage()
+  const t = liveStatsTranslations[language]
+  
   const [isLive, setIsLive] = useState(true)
   const [isExpanded, setIsExpanded] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -128,7 +133,7 @@ const LiveStats = () => {
         <div className="flex items-center gap-2">
           <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`} />
           <span className="text-sm font-medium text-white">
-            Live Daten
+            {t.liveData}
           </span>
         </div>
         
@@ -139,12 +144,12 @@ const LiveStats = () => {
           {isExpanded ? (
             <>
               <FaChevronUp className="text-xs" />
-              Min
+              {t.min}
             </>
           ) : (
             <>
               <FaChevronDown className="text-xs" />
-              Mehr
+              {t.more}
             </>
           )}
         </button>
@@ -185,7 +190,7 @@ const LiveStats = () => {
             }`}>
               {priceHistory.dinvest.trend === 'up' && <FaChevronUp className="text-xs" />}
               {priceHistory.dinvest.trend === 'down' && <FaChevronDown className="text-xs" />}
-              {priceHistory.dinvest.change !== 0 ? `${Math.abs(priceHistory.dinvest.change).toFixed(2)}%` : 'Stabil'}
+              {priceHistory.dinvest.change !== 0 ? `${Math.abs(priceHistory.dinvest.change).toFixed(2)}%` : t.stable}
             </div>
           </div>
         </div>
@@ -203,7 +208,7 @@ const LiveStats = () => {
               <div className="flex items-center justify-between bg-zinc-800/20 rounded p-2">
                 <div className="flex items-center gap-2">
                   <FaChartLine className="text-sm text-green-400" />
-                  <span className="text-xs text-zinc-400">Total Staked</span>
+                  <span className="text-xs text-zinc-400">{t.totalStaked}</span>
                 </div>
                 <span className="text-xs font-medium text-white">
                   {stats.totalStaked.toLocaleString()}
@@ -213,7 +218,7 @@ const LiveStats = () => {
               <div className="flex items-center justify-between bg-zinc-800/20 rounded p-2">
                 <div className="flex items-center gap-2">
                   <FaUsers className="text-sm text-purple-400" />
-                  <span className="text-xs text-zinc-400">Rewards verteilt</span>
+                  <span className="text-xs text-zinc-400">{t.rewardsDistributed}</span>
                 </div>
                 <span className="text-xs font-medium text-white">
                   {stats.totalRewardsDistributed.toFixed(1)}
@@ -223,17 +228,17 @@ const LiveStats = () => {
               <div className="flex items-center justify-between bg-zinc-800/20 rounded p-2">
                 <div className="flex items-center gap-2">
                   <FaChartLine className="text-sm text-yellow-400" />
-                  <span className="text-xs text-zinc-400">Halving Stufe</span>
+                  <span className="text-xs text-zinc-400">{t.halvingStage}</span>
                 </div>
                 <span className="text-xs font-medium text-yellow-400">
-                  Stufe {stats.halvingStage}
+                  {t.stage} {stats.halvingStage}
                 </span>
               </div>
               
               <div className="flex items-center justify-between bg-zinc-800/20 rounded p-2">
                 <div className="flex items-center gap-2">
                   <FaFire className="text-sm text-red-400" />
-                  <span className="text-xs text-zinc-400">Bis Halving</span>
+                  <span className="text-xs text-zinc-400">{t.toHalving}</span>
                 </div>
                 <span className="text-xs font-medium text-white">
                   {stats.tokensToNextHalving.toLocaleString()}
@@ -243,7 +248,7 @@ const LiveStats = () => {
               <div className="flex items-center justify-between bg-zinc-800/20 rounded p-2">
                 <div className="flex items-center gap-2">
                   <FaUsers className="text-sm text-purple-400" />
-                  <span className="text-xs text-zinc-400">Active Users</span>
+                  <span className="text-xs text-zinc-400">{t.activeUsers}</span>
                 </div>
                 <span className="text-xs font-medium text-white">
                   {isLoading ? '...' : stats.activeUsers}
@@ -251,7 +256,7 @@ const LiveStats = () => {
               </div>
               
               <div className="text-center pt-2 border-t border-zinc-800">
-                <div className="text-xs text-zinc-500 mb-1">Netzwerk</div>
+                <div className="text-xs text-zinc-500 mb-1">{t.network}</div>
                 <div className="flex items-center justify-center gap-1">
                   <div className="w-1.5 h-1.5 bg-blue-400 rounded-full" />
                   <span className="text-xs text-blue-400">Base Chain</span>
@@ -263,7 +268,7 @@ const LiveStats = () => {
       </div>
       
       <div className="text-xs text-zinc-500 text-center mt-3 pt-2 border-t border-zinc-800">
-        Update alle 30s
+        {t.updateInterval}
       </div>
     </motion.div>
   )

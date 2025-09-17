@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { EnhancedHeroSectionTranslations } from './EnhancedHeroSectionTranslations';
 import { motion } from 'framer-motion'
 import { useSpring, animated, config } from '@react-spring/web'
 import { useInView } from 'react-intersection-observer'
@@ -13,20 +14,22 @@ import {
 import Image from 'next/image'
 
 interface EnhancedHeroSectionProps {
-  // Optional props for fallback values
   tokenPrices?: {
     dfaith: number
     dinvest: number
   }
   activeUsers?: number
   isLoading?: boolean
+  language?: 'de' | 'en' | 'pl';
 }
 
 const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({ 
   tokenPrices: propTokenPrices, 
   activeUsers: propActiveUsers, 
-  isLoading: propIsLoading 
+  isLoading: propIsLoading,
+  language = 'de'
 }) => {
+  const t = EnhancedHeroSectionTranslations(language);
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
   const [particleCount] = useState(20)
   
@@ -172,18 +175,18 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
         {/* Main Title */}
         <animated.div style={titleSpring} className="text-center mb-4">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
-            D.FAITH
+            {t.title1}
           </h1>
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-            Ökosystem
+            {t.title2}
           </h2>
         </animated.div>
 
         {/* Subtitle */}
         <animated.div style={subtitleSpring} className="text-center mb-8">
           <p className="text-lg text-gray-300 leading-relaxed">
-            Revolutionäres Fan-Engagement durch{' '}
-            <span className="text-blue-400 font-semibold">Blockchain-Technologie</span>
+            {t.subtitle}
+            <span className="text-blue-400 font-semibold">{t.subtitleHighlight}</span>
           </p>
         </animated.div>
 
@@ -234,7 +237,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
                     <FaUsers className="text-white" />
                   </div>
                   <div>
-                    <p className="text-gray-400 text-sm">Active Users</p>
+                    <p className="text-gray-400 text-sm">{t.activeUsers}</p>
                     <p className="text-white font-bold text-xl">
                       {isLoading || stats.users === null ? (
                         <div className="w-16 h-6 bg-gray-600 rounded animate-pulse" />
@@ -257,7 +260,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
               >
                 <div className="text-center">
                   <Image src="/d-faith-logo.png" alt="D.FAITH" width={32} height={32} className="rounded-lg mx-auto mb-2" />
-                  <p className="text-gray-400 text-xs">D.FAITH</p>
+                  <p className="text-gray-400 text-xs">{t.dfaith}</p>
                   <p className="text-amber-400 font-bold">
                     {isLoading || stats.dfaithPrice === null ? (
                       <div className="w-12 h-5 bg-gray-600 rounded animate-pulse mx-auto" />
@@ -275,7 +278,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
               >
                 <div className="text-center">
                   <Image src="/d-invest-logo.png" alt="D.INVEST" width={32} height={32} className="rounded-lg mx-auto mb-2" />
-                  <p className="text-gray-400 text-xs">D.INVEST</p>
+                  <p className="text-gray-400 text-xs">{t.dinvest}</p>
                   <p className="text-purple-400 font-bold">
                     {isLoading || stats.dinvestPrice === null ? (
                       <div className="w-12 h-5 bg-gray-600 rounded animate-pulse mx-auto" />
@@ -303,7 +306,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
           >
             <div className="flex items-center justify-center gap-2">
               <FaRocket />
-              <span>Jetzt mitmachen</span>
+              <span>{t.cta1}</span>
             </div>
           </motion.button>
 
@@ -314,7 +317,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
           >
             <div className="flex items-center justify-center gap-2">
               <FaPlay />
-              <span>Mehr erfahren</span>
+              <span>{t.cta2}</span>
             </div>
           </motion.button>
         </motion.div>
@@ -332,7 +335,7 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
             className="text-gray-400"
           >
             <div className="flex flex-col items-center gap-2">
-              <span className="text-xs">Scroll für mehr</span>
+              <span className="text-xs">{t.scroll}</span>
               <div className="w-1 h-8 bg-gradient-to-b from-blue-400 to-transparent rounded-full" />
             </div>
           </motion.div>

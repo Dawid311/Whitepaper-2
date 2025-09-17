@@ -3,6 +3,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { useLanguage } from '../../context/LanguageContext'
+import { teamSectionTexts } from './TeamSectionV3Translations'
 import { 
   FaMusic,
   FaEthereum,
@@ -20,45 +22,47 @@ import Image from 'next/image'
 
 const TeamSectionV3: React.FC = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
+  const { language } = useLanguage()
+  const texts = teamSectionTexts[language]
   
   const teamMember = {
-    name: "Dawid Faith",
-    role: "Gründer, Entwickler & Künstler", 
-    description: "Visionär und Vollzeit-Entwickler des D.FAITH Ökosystems",
+    name: texts.teamMember.name,
+    role: texts.teamMember.role, 
+    description: texts.teamMember.description,
     image: "/dawid-faith-photo.jpg",
     skills: [
-      { skill: "Blockchain", icon: <FaEthereum />, color: "from-blue-500 to-cyan-500" },
-      { skill: "Musik & Kreativität", icon: <FaMusic />, color: "from-purple-500 to-pink-500" },
-      { skill: "Business Strategy", icon: <FaChartLine />, color: "from-green-500 to-emerald-500" },
-      { skill: "Full-Stack", icon: <FaCode />, color: "from-orange-500 to-red-500" }
+      { skill: texts.teamMember.skills[0], icon: <FaEthereum />, color: "from-blue-500 to-cyan-500" },
+      { skill: texts.teamMember.skills[1], icon: <FaMusic />, color: "from-purple-500 to-pink-500" },
+      { skill: texts.teamMember.skills[2], icon: <FaChartLine />, color: "from-green-500 to-emerald-500" },
+      { skill: texts.teamMember.skills[3], icon: <FaCode />, color: "from-orange-500 to-red-500" }
     ],
     socialLinks: [
       { 
-        platform: "Instagram", 
+        platform: texts.teamMember.socialLinks[0].platform, 
         icon: <FaInstagram />, 
         color: "text-pink-400", 
-        handle: "@dawidfaith",
+        handle: texts.teamMember.socialLinks[0].handle,
         url: "https://www.instagram.com/dawidfaith/"
       },
       { 
-        platform: "TikTok", 
+        platform: texts.teamMember.socialLinks[1].platform, 
         icon: <FaTiktok />, 
         color: "text-gray-300", 
-        handle: "@dawidfaith",
+        handle: texts.teamMember.socialLinks[1].handle,
         url: "https://www.tiktok.com/@dawidfaith"
       },
       { 
-        platform: "Facebook", 
+        platform: texts.teamMember.socialLinks[2].platform, 
         icon: <FaFacebook />, 
         color: "text-blue-400", 
-        handle: "Dawid Faith",
+        handle: texts.teamMember.socialLinks[2].handle,
         url: "https://www.facebook.com/profile.php?id=61572473614500"
       },
       { 
-        platform: "Email", 
+        platform: texts.teamMember.socialLinks[3].platform, 
         icon: <FaEnvelope />, 
         color: "text-green-400", 
-        handle: "dawid.faith@gmail.com",
+        handle: texts.teamMember.socialLinks[3].handle,
         url: "mailto:dawid.faith@gmail.com"
       }
     ]
@@ -74,10 +78,10 @@ const TeamSectionV3: React.FC = () => {
         className="text-center mb-8"
       >
         <h2 className="text-3xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent mb-4">
-          Das Team
+          {texts.header.title}
         </h2>
         <p className="text-gray-300 text-lg">
-          Die Visionäre hinter der D.FAITH Revolution
+          {texts.header.subtitle}
         </p>
       </motion.div>
 
@@ -162,17 +166,14 @@ const TeamSectionV3: React.FC = () => {
       >
         <div className="text-center">
           <h4 className="text-lg font-bold text-purple-400 mb-4">
-            💡 Vision & Mission
+            {texts.visionStatement.title}
           </h4>
           <p className="text-gray-300 leading-relaxed italic">
-            &ldquo;Ich glaube daran, dass Technologie die Creator Economy revolutionieren kann. 
-            Durch D.FAITH schaffen wir eine Welt, in der Fans direkt von ihrem Engagement profitieren 
-            und Künstler nachhaltig finanziert werden können. Das ist erst der Anfang einer 
-            größeren Bewegung.&rdquo;
+            &ldquo;{texts.visionStatement.quote}&rdquo;
           </p>
           <div className="flex items-center justify-center gap-2 mt-4">
             <div className="w-8 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500" />
-            <span className="text-purple-400 font-semibold text-sm">Dawid Faith</span>
+            <span className="text-purple-400 font-semibold text-sm">{texts.visionStatement.author}</span>
             <div className="w-8 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500" />
           </div>
         </div>

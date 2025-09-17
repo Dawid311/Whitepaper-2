@@ -13,22 +13,25 @@ import {
   FaEnvelope
 } from 'react-icons/fa';
 import Image from 'next/image';
+import { teamSectionWebTranslations } from './TeamSectionWebTranslations';
 
 interface TeamSectionWebProps {
   language: 'de' | 'en' | 'pl';
 }
 
 const TeamSectionWeb: React.FC<TeamSectionWebProps> = ({ language }) => {
+  const t = teamSectionWebTranslations[language];
+
   const teamMember = {
-    name: "Dawid Faith",
-    role: "Gründer, Entwickler & Künstler", 
-    description: "Visionär und Vollzeit-Entwickler des D.FAITH Ökosystems",
+    name: t.member.name,
+    role: t.member.role, 
+    description: t.member.description,
     image: "/dawid-faith-photo.jpg",
     skills: [
-      { skill: "Blockchain", icon: <FaEthereum />, color: "from-blue-500 to-cyan-500" },
-      { skill: "Musik & Kreativität", icon: <FaMusic />, color: "from-purple-500 to-pink-500" },
-      { skill: "Business Strategy", icon: <FaChartLine />, color: "from-green-500 to-emerald-500" },
-      { skill: "Full-Stack", icon: <FaCode />, color: "from-orange-500 to-red-500" }
+      { skill: t.member.skills[0], icon: <FaEthereum />, color: "from-blue-500 to-cyan-500" },
+      { skill: t.member.skills[1], icon: <FaMusic />, color: "from-purple-500 to-pink-500" },
+      { skill: t.member.skills[2], icon: <FaChartLine />, color: "from-green-500 to-emerald-500" },
+      { skill: t.member.skills[3], icon: <FaCode />, color: "from-orange-500 to-red-500" }
     ],
     socialLinks: [
       { 
@@ -73,10 +76,10 @@ const TeamSectionWeb: React.FC<TeamSectionWebProps> = ({ language }) => {
           className="text-center mb-10"
         >
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent mb-4">
-            Das Team
+            {t.title}
           </h2>
           <p className="text-gray-300 text-lg">
-            Die Visionäre hinter der D.FAITH Revolution
+            {t.subtitle}
           </p>
         </motion.div>
         <motion.div
@@ -136,16 +139,14 @@ const TeamSectionWeb: React.FC<TeamSectionWebProps> = ({ language }) => {
         <div className="mt-6">
           <div className="bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-xl p-6 border border-purple-500/20 text-center">
             <h4 className="text-lg font-bold text-purple-400 mb-3 flex items-center justify-center gap-2">
-              💡 Vision & Mission
+              💡 {t.visionQuote.title}
             </h4>
             <p className="text-gray-200 leading-relaxed italic text-base md:text-lg mb-2">
-              &ldquo;Ich glaube daran, dass Technologie die Creator Economy revolutionieren kann. <br/>
-              Durch D.FAITH schaffen wir eine Welt, in der Fans direkt von ihrem Engagement profitieren 
-              und Künstler nachhaltig finanziert werden können. Das ist erst der Anfang einer größeren Bewegung.&rdquo;
+              &ldquo;{t.visionQuote.quote}&rdquo;
             </p>
             <div className="flex items-center justify-center gap-2 mt-3">
               <div className="w-8 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500" />
-              <span className="text-purple-400 font-semibold text-sm">Dawid Faith</span>
+              <span className="text-purple-400 font-semibold text-sm">{t.visionQuote.author}</span>
               <div className="w-8 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500" />
             </div>
           </div>

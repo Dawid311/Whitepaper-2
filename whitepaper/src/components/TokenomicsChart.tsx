@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { tokenomicsChartTranslations } from './TokenomicsChartTranslations'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { 
@@ -15,7 +16,8 @@ import {
   FaChartLine,
   FaShieldAlt,
   FaCode,
-  FaCog
+  FaCog,
+  FaCube
 } from 'react-icons/fa'
 import Image from 'next/image'
 
@@ -191,6 +193,9 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
   }
 
+  // Übersetzungen laden
+  const t = tokenomicsChartTranslations[language]
+
   // Token Data (jetzt mit Live-Daten)
   const tokenData = {
     dfaith: {
@@ -236,17 +241,30 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
   const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ name: string; value: number; color: string }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0]
-      const isDfaith = data.name.includes('Rewards') || data.name.includes('DEX') || data.name.includes('Community')
+      // Übersetzte Namen für die Charts
+      let translatedName = data.name
+      if (data.name === 'Smart Contract') translatedName = t.chart.smartContract
+      if (data.name === 'DEX Liquidität') translatedName = t.chart.dexLiquidity
+      if (data.name === 'Community Umlauf') translatedName = t.chart.communityCirculation
+      if (data.name === 'Verkauft') translatedName = t.chart.sold
+      if (data.name === 'Verfügbar') translatedName = t.chart.available
+      if (data.name === 'Community Circulation') translatedName = t.chart.communityCirculation
+      if (data.name === 'Sold') translatedName = t.chart.sold
+      if (data.name === 'Available') translatedName = t.chart.available
+      if (data.name === 'DEX liquidity') translatedName = t.chart.dexLiquidity
+      if (data.name === 'Smart contract') translatedName = t.chart.smartContract
+
+      const isDfaith = [t.chart.smartContract, t.chart.dexLiquidity, t.chart.communityCirculation].includes(translatedName)
       const total = isDfaith ? tokenData.dfaith.total : tokenData.dinvest.total
       const percentage = ((data.value / total) * 100).toFixed(1)
       
       return (
         <div className="bg-zinc-900/95 backdrop-blur-xl border border-zinc-700 rounded-lg p-3">
-          <p className="text-white font-semibold">{data.name}</p>
-          <p className="text-zinc-300">{formatNumber(data.value)} Token</p>
-          <p className="text-zinc-400 text-sm">{percentage}%</p>
+          <p className="text-white font-semibold">{translatedName}</p>
+          <p className="text-zinc-300">{formatNumber(data.value)} {t.tooltip.tokens}</p>
+          <p className="text-zinc-400 text-sm">{percentage}{t.tooltip.percent}</p>
           {!isTokenDataLoading && isDfaith && (
-            <p className="text-green-400 text-xs mt-1">Live Daten</p>
+            <p className="text-green-400 text-xs mt-1">{t.tooltip.liveData}</p>
           )}
         </div>
       )
@@ -299,9 +317,9 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
                 />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-amber-400">D.FAITH</h3>
-                <p className="text-zinc-400">Fan-Reward Token</p>
-                <p className="text-xs text-green-400 font-bold mt-1">Aktuelle Halving-Stufe: <span className="text-white">{liveHalvingStage}</span></p>
+                <h3 className="text-2xl font-bold text-amber-400">{t.dfaith.name}</h3>
+                <p className="text-zinc-400">{t.dfaith.description}</p>
+                <p className="text-xs text-green-400 font-bold mt-1">{t.dfaith.halvingStage}: <span className="text-white">{liveHalvingStage}</span></p>
               </div>
               {/* Live Daten Badge */}
               <motion.div
@@ -310,7 +328,7 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
                 className="flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-3 py-1 border border-green-500/30"
               >
                 <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-green-400 font-semibold text-xs">Live Daten</span>
+                <span className="text-green-400 font-semibold text-xs">{t.dfaith.liveData}</span>
               </motion.div>
             </div>
 
@@ -319,28 +337,28 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
               <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <FaInfoCircle className="text-amber-400" />
-                  <span className="text-gray-300 text-sm">Smart Contract</span>
+                  <span className="text-gray-300 text-sm">{t.dfaith.contract}</span>
                 </div>
                 <p className="text-2xl font-bold text-amber-400">{formatNumber(tokenData.dfaith.contractBalance)}</p>
               </div>
               <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <FaDollarSign className="text-green-400" />
-                  <span className="text-gray-300 text-sm">Aktueller Preis</span>
+                  <span className="text-gray-300 text-sm">{t.dfaith.price}</span>
                 </div>
                 <p className="text-2xl font-bold text-green-400">€{tokenData.dfaith.currentPrice.toFixed(3)}</p>
               </div>
               <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <FaChartLine className="text-blue-400" />
-                  <span className="text-gray-300 text-sm">DEX Liquidität</span>
+                  <span className="text-gray-300 text-sm">{t.dfaith.dexLiquidity}</span>
                 </div>
                 <p className="text-2xl font-bold text-blue-400">{formatNumber(tokenData.dfaith.dexLiquidity)}</p>
               </div>
               <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <FaRocket className="text-purple-400" />
-                  <span className="text-gray-300 text-sm">Community</span>
+                  <span className="text-gray-300 text-sm">{t.dfaith.community}</span>
                 </div>
                 <p className="text-2xl font-bold text-purple-400">{formatNumber(tokenData.dfaith.communityCirculation, 2)}</p>
               </div>
@@ -368,8 +386,8 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
                 />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-purple-400">D.INVEST</h3>
-                <p className="text-zinc-400">Investment Token</p>
+                <h3 className="text-2xl font-bold text-purple-400">{t.dinvest.name}</h3>
+                <p className="text-zinc-400">{t.dinvest.description}</p>
               </div>
               {/* Live Daten Badge */}
               <motion.div
@@ -378,7 +396,7 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
                 className="flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-3 py-1 border border-green-500/30"
               >
                 <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-green-400 font-semibold text-xs">Live Daten</span>
+                <span className="text-green-400 font-semibold text-xs">{t.dinvest.liveData}</span>
               </motion.div>
             </div>
 
@@ -387,30 +405,30 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
               <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <FaDollarSign className="text-purple-400" />
-                  <span className="text-gray-300 text-sm">Fester Preis</span>
+                  <span className="text-gray-300 text-sm">{t.dinvest.price}</span>
                 </div>
                 <p className="text-2xl font-bold text-purple-400">€{tokenData.dinvest.price.toFixed(2)}</p>
               </div>
               <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <FaInfoCircle className="text-green-400" />
-                  <span className="text-gray-300 text-sm">Verkauft</span>
+                  <span className="text-gray-300 text-sm">{t.dinvest.sold}</span>
                 </div>
                 <p className="text-2xl font-bold text-green-400">{formatNumber(tokenData.dinvest.sold)}</p>
               </div>
               <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <FaRocket className="text-blue-400" />
-                  <span className="text-gray-300 text-sm">Verfügbar</span>
+                  <span className="text-gray-300 text-sm">{t.dinvest.available}</span>
                 </div>
                 <p className="text-2xl font-bold text-blue-400">{formatNumber(tokenData.dinvest.available)}</p>
               </div>
               <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <FaChartLine className="text-orange-400" />
-                  <span className="text-gray-300 text-sm">Aktuelle Stufe</span>
+                  <span className="text-gray-300 text-sm">{t.dinvest.stage}</span>
                 </div>
-                <p className="text-2xl font-bold text-orange-400">Stufe {liveHalvingStage}</p>
+                <p className="text-2xl font-bold text-orange-400">{t.halving.stage} {liveHalvingStage}</p>
               </div>
             </div>
           </div>
@@ -435,12 +453,12 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
       <div className="backdrop-blur-xl bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-2xl p-6 border border-green-500/20 w-full max-w-md mx-auto">
         <h3 className="text-xl font-bold text-center mb-4">
           <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
-            <FaCalculator /> ROI Rechner <FaCalculator />
+            <FaCalculator /> {t.calculator.title} <FaCalculator />
           </span>
         </h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-gray-300 text-sm mb-2">D.INVEST Token Anzahl</label>
+            <label className="block text-gray-300 text-sm mb-2">{t.calculator.tokenAmount}</label>
             <div className="flex items-center gap-4">
               <input
                 type="range"
@@ -454,7 +472,7 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
             </div>
           </div>
           <div>
-            <label className="block text-gray-300 text-sm mb-2">D.FAITH Preis (€)</label>
+            <label className="block text-gray-300 text-sm mb-2">{t.calculator.dfaithPrice}</label>
             <div className="flex items-center gap-4">
               <input
                 type="range"
@@ -469,7 +487,7 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
             </div>
           </div>
           <div>
-            <label className="block text-gray-300 text-sm mb-2">Halving-Stufe</label>
+            <label className="block text-gray-300 text-sm mb-2">{t.calculator.halvingStage}</label>
             <div className="grid grid-cols-3 gap-2">
               {halvingStages.map(stage => (
                 <button
@@ -488,15 +506,15 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
-              <p className="text-xs text-gray-400 mb-1">Jährliche Reward-Rate</p>
+              <p className="text-xs text-gray-400 mb-1">{t.calculator.annualReward}</p>
               <p className="font-bold text-green-400 text-2xl">{(halvingStages.find(s => s.stage === selectedHalvingStage)?.rate ?? 0 * 52).toFixed(2)}%</p>
             </div>
             <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
-              <p className="text-xs text-gray-400 mb-1">Jährlicher ROI</p>
+              <p className="text-xs text-gray-400 mb-1">{t.calculator.annualRoi}</p>
               <p className="font-bold text-blue-400 text-2xl">{calculateROI(investmentAmount, dfaithPrice, selectedHalvingStage).toFixed(2)}%</p>
             </div>
             <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10 col-span-2">
-              <p className="text-xs text-gray-400 mb-1">Investition (D.INVEST x 5€)</p>
+              <p className="text-xs text-gray-400 mb-1">{t.calculator.investment}</p>
               <p className="font-bold text-white text-lg">{investmentAmount} x 5€ = <span className="text-green-400">{(investmentAmount * 5).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</span></p>
             </div>
           </div>
@@ -512,11 +530,11 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
     <div className="space-y-4 flex flex-col items-center">
       <div className="text-center mb-6 w-full max-w-md">
         <h3 className="text-xl font-bold text-orange-400 mb-2 flex items-center justify-center gap-2">
-          <FaFire /> 6-Stufen Halving System <FaFire />
+          <FaFire /> {t.halving.title} <FaFire />
         </h3>
-        <p className="text-gray-400">Systematische Verknappung für nachhaltiges Wachstum</p>
+        <p className="text-gray-400">{t.halving.description}</p>
         <p className="text-green-400 text-sm mt-2">
-          🔴 Live: Stufe {liveHalvingStage} aktiv
+          {t.halving.live.replace('{stage}', String(liveHalvingStage))}
         </p>
       </div>
 
@@ -545,7 +563,7 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
                   <span className="text-white font-bold text-lg">{stage.stage}</span>
                 </div>
                 <div>
-                  <p className="font-bold text-white">Stufe {stage.stage} <span className="text-xs text-gray-400 ml-2">{stage.range}</span></p>
+                  <p className="font-bold text-white">{t.halving.stage} {stage.stage} <span className="text-xs text-gray-400 ml-2">{stage.range}</span></p>
                   <p className="text-gray-400 text-xs">{stage.status}</p>
                 </div>
               </div>
@@ -562,15 +580,15 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
               >
                 <div className="grid grid-cols-3 gap-4 text-center">
                   <div>
-                    <p className="text-xs text-gray-400">Reward-Rate</p>
+                    <p className="text-xs text-gray-400">{t.halving.rewardRate}</p>
                     <p className="font-bold text-white">{stage.rate}%</p>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-400">Multiplikator</p>
+                    <p className="text-xs text-gray-400">{t.halving.multiplier}</p>
                     <p className="font-bold text-white">{stage.multiplier}x</p>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-400">Status</p>
+                    <p className="text-xs text-gray-400">{t.halving.status}</p>
                     <p className="font-bold text-white">{stage.status}</p>
                   </div>
                 </div>
@@ -591,53 +609,54 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
         className="bg-gradient-to-br from-blue-900/90 to-cyan-900/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-500/30 w-full max-w-md mx-auto"
       >
         <div className="text-center mb-8">
-          <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-3">
-            <FaRocket className="inline mr-2" /> Blockchain-Infrastruktur
+          <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-3 flex items-center justify-center gap-2">
+            <FaCube className="inline text-blue-400 drop-shadow" />
+            {t.tech.blockchain}
           </h3>
-          <p className="text-zinc-400 text-lg">Ethereum-kompatible Layer-2, schnelle & günstige Transaktionen, optimiert für DeFi.</p>
+          <p className="text-zinc-400 text-lg">{t.tech.blockchainDesc}</p>
         </div>
-  <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           <div className="bg-zinc-800/80 rounded-2xl p-6 border border-blue-500/20">
             <div className="flex items-center gap-2 mb-2">
               <FaShieldAlt className="text-blue-400" />
-              <span className="font-bold text-blue-400">Base Chain (Layer 2)</span>
+              <span className="font-bold text-blue-400">{t.tech.baseChain}</span>
             </div>
-            <p className="text-zinc-300 text-sm">Niedrige Fees, schnelle Verarbeitung, voll Ethereum-kompatibel.</p>
+            <p className="text-zinc-300 text-sm">{t.tech.baseChainDesc}</p>
           </div>
           <div className="bg-zinc-800/80 rounded-2xl p-6 border border-green-500/20">
             <div className="flex items-center gap-2 mb-2">
               <FaCode className="text-green-400" />
-              <span className="font-bold text-green-400">D.FAITH Contract</span>
+              <span className="font-bold text-green-400">{t.tech.dfaithContract}</span>
             </div>
             <button
               onClick={() => window.open('https://basescan.org/address/0x69eFD833288605f320d77eB2aB99DDE62919BbC1', '_blank', 'noopener,noreferrer')}
               className="mt-2 px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-mono text-xs rounded-lg shadow hover:scale-105 transition-transform"
             >
-              0x69eF...9BbC1 ↗
+              0x69eF...9BbC1 {t.tech.contractBtn}
             </button>
           </div>
           <div className="bg-zinc-800/80 rounded-2xl p-6 border border-purple-500/20">
             <div className="flex items-center gap-2 mb-2">
               <FaCode className="text-purple-400" />
-              <span className="font-bold text-purple-400">D.INVEST Contract</span>
+              <span className="font-bold text-purple-400">{t.tech.dinvestContract}</span>
             </div>
             <button
               onClick={() => window.open('https://basescan.org/address/0x6F1fFd03106B27781E86b33Df5dBB734ac9DF4bb', '_blank', 'noopener,noreferrer')}
               className="mt-2 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-mono text-xs rounded-lg shadow hover:scale-105 transition-transform"
             >
-              0x6F1f...F4bb ↗
+              0x6F1f...F4bb {t.tech.contractBtn}
             </button>
           </div>
           <div className="bg-zinc-800/80 rounded-2xl p-6 border border-orange-500/20">
             <div className="flex items-center gap-2 mb-2">
               <FaCode className="text-orange-400" />
-              <span className="font-bold text-orange-400">Staking Contract</span>
+              <span className="font-bold text-orange-400">{t.tech.stakingContract}</span>
             </div>
             <button
               onClick={() => window.open('https://basescan.org/address/0xe85b32a44b9eD3ecf8bd331FED46fbdAcDBc9940', '_blank', 'noopener,noreferrer')}
               className="mt-2 px-3 py-1 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-mono text-xs rounded-lg shadow hover:scale-105 transition-transform"
             >
-              0xe85b...9940 ↗
+              0xe85b...9940 {t.tech.contractBtn}
             </button>
           </div>
         </div>
@@ -649,26 +668,26 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
       >
         <div className="text-center mb-8">
           <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-3">
-            <FaCog className="inline mr-2" /> Token-Spezifikationen
+            <FaCog className="inline mr-2" /> {t.tech.tokenSpecs}
           </h3>
         </div>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-zinc-800/80 rounded-2xl p-6 border border-amber-500/20">
-            <h4 className="font-bold text-amber-400 mb-2">D.FAITH Token</h4>
+            <h4 className="font-bold text-amber-400 mb-2">{t.tech.dfaith}</h4>
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-zinc-400">Standard:</span><span className="text-white">ERC-20</span></div>
-              <div className="flex justify-between"><span className="text-zinc-400">Decimals:</span><span className="text-white">2</span></div>
-              <div className="flex justify-between"><span className="text-zinc-400">Supply:</span><span className="text-white">100.000</span></div>
-              <div className="flex justify-between"><span className="text-zinc-400">Type:</span><span className="text-white">Utility</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">{t.tech.standard}:</span><span className="text-white">ERC-20</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">{t.tech.decimals}:</span><span className="text-white">2</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">{t.tech.supply}:</span><span className="text-white">100.000</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">{t.tech.type}:</span><span className="text-white">{t.tech.utility}</span></div>
             </div>
           </div>
           <div className="bg-zinc-800/80 rounded-2xl p-6 border border-purple-500/20">
-            <h4 className="font-bold text-purple-400 mb-2">D.INVEST Token</h4>
+            <h4 className="font-bold text-purple-400 mb-2">{t.tech.dinvest}</h4>
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-zinc-400">Standard:</span><span className="text-white">ERC-20</span></div>
-              <div className="flex justify-between"><span className="text-zinc-400">Decimals:</span><span className="text-white">0</span></div>
-              <div className="flex justify-between"><span className="text-zinc-400">Supply:</span><span className="text-white">10.000</span></div>
-              <div className="flex justify-between"><span className="text-zinc-400">Type:</span><span className="text-white">Investment</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">{t.tech.standard}:</span><span className="text-white">ERC-20</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">{t.tech.decimals}:</span><span className="text-white">0</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">{t.tech.supply}:</span><span className="text-white">10.000</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">{t.tech.type}:</span><span className="text-white">{t.tech.investment}</span></div>
             </div>
           </div>
         </div>
@@ -681,35 +700,35 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
       {/* Überschrift und Untertitel */}
       <div className="text-center mb-8">
         <h2 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-amber-400 via-green-400 to-purple-400 bg-clip-text text-transparent mb-3 drop-shadow-lg">
-          Tokenomics
+          {t.title}
         </h2>
         <p className="text-xl md:text-2xl text-zinc-400 font-medium">
-          Dual-Token Ökonomie mit intelligenter Verknappung
+          {t.subtitle}
         </p>
       </div>
 
       {/* Tab Navigation */}
       <div className="flex flex-wrap justify-center gap-4 mb-8">
         <TabButton
-          label="Überblick"
+          label={t.tabs.overview}
           icon={FaInfoCircle}
           isActive={activeTab === 'overview'}
           onClick={() => setActiveTab('overview')}
         />
         <TabButton
-          label="Rentabilitäts-Rechner"
+          label={t.tabs.calculator}
           icon={FaCalculator}
           isActive={activeTab === 'calculator'}
           onClick={() => setActiveTab('calculator')}
         />
         <TabButton
-          label="Halving"
+          label={t.tabs.halving}
           icon={FaFire}
           isActive={activeTab === 'halving'}
           onClick={() => setActiveTab('halving')}
         />
         <TabButton
-          label="Tech"
+          label={t.tabs.tech}
           icon={FaCog}
           isActive={activeTab === 'tech'}
           onClick={() => setActiveTab('tech')}

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSpring, animated, config } from '@react-spring/web'
 import { useInView } from 'react-intersection-observer'
+import { useLanguage } from '../../context/LanguageContext'
+import { glassmorphismTokenomicsTranslations } from './GlassmorphismTokenomicsTranslations'
 import { 
   FaCoins,
   FaDollarSign,
@@ -19,28 +21,7 @@ import {
   FaEthereum
 } from 'react-icons/fa'
 import Image from 'next/image'
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-xl font-bold text-cyan-400">D.INVEST Token</h3>
-                      <p className="text-cyan-300/70">Investment Token</p>
-                    </div>
-                    
-                    {/* Live Data Indicator for D.INVEST */}
-                    <motion.div
-                      animate={{ 
-                        scale: [1, 1.05, 1],
-                        opacity: [0.8, 1, 0.8]
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-3 py-1 border border-green-500/30"
-                    >
-                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-green-400 font-semibold text-xs">
-                        Live Daten
-                      </span>
-                    </motion.div>
-                  </div>
-                  
+
 interface GlassmorphismTokenomicsProps {
   tokenPrices?: {
     dfaith: number
@@ -49,6 +30,9 @@ interface GlassmorphismTokenomicsProps {
 }
 
 const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ tokenPrices: propTokenPrices }) => {
+  const { language } = useLanguage()
+  const t = glassmorphismTokenomicsTranslations[language]
+  
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
   const [activeTab, setActiveTab] = useState<'overview' | 'halving' | 'roi' | 'tech'>('overview')
   const [selectedStage, setSelectedStage] = useState(1)
@@ -282,12 +266,12 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
   }
 
   const halvingStages = [
-    { stage: 1, range: "0-10k", rate: 10.0, color: "#10b981", status: "Aktiv", multiplier: "32" },
-    { stage: 2, range: "10k-20k", rate: 5.0, color: "#3b82f6", status: "Bald", multiplier: "16" },
-    { stage: 3, range: "20k-40k", rate: 2.5, color: "#8b5cf6", status: "Zukunft", multiplier: "8" },
-    { stage: 4, range: "40k-60k", rate: 1.25, color: "#f59e0b", status: "Zukunft", multiplier: "4" },
-    { stage: 5, range: "60k-80k", rate: 0.63, color: "#ef4444", status: "Zukunft", multiplier: "2" },
-    { stage: 6, range: "80k+", rate: 0.31, color: "#991b1b", status: "Final", multiplier: "1" }
+    { stage: 1, range: "0-10k", rate: 10.0, color: "#10b981", status: t.halving.active, multiplier: "32" },
+    { stage: 2, range: "10k-20k", rate: 5.0, color: "#3b82f6", status: t.halving.soon, multiplier: "16" },
+    { stage: 3, range: "20k-40k", rate: 2.5, color: "#8b5cf6", status: t.halving.future, multiplier: "8" },
+    { stage: 4, range: "40k-60k", rate: 1.25, color: "#f59e0b", status: t.halving.future, multiplier: "4" },
+    { stage: 5, range: "60k-80k", rate: 0.63, color: "#ef4444", status: t.halving.future, multiplier: "2" },
+    { stage: 6, range: "80k+", rate: 0.31, color: "#991b1b", status: t.halving.final, multiplier: "1" }
   ]
 
   const roiScenarios = [
@@ -321,10 +305,10 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
         className="text-center mb-8"
       >
         <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
-          Tokenomics
+          {t.title}
         </h2>
         <p className="text-gray-300 text-lg">
-          Dual-Token Ökonomie mit intelligenter Verknappung
+          {t.subtitle}
         </p>
       </motion.div>
 
@@ -342,10 +326,10 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
           />
           
           {[
-            { id: 'overview', label: 'Übersicht', icon: <FaCoins /> },
-            { id: 'halving', label: 'Halving', icon: <FaBolt /> },
-            { id: 'roi', label: 'ROI', icon: <FaChartLine /> },
-            { id: 'tech', label: 'Tech', icon: <FaCog /> }
+            { id: 'overview', label: t.tabs.overview, icon: <FaCoins /> },
+            { id: 'halving', label: t.tabs.halving, icon: <FaBolt /> },
+            { id: 'roi', label: t.tabs.roi, icon: <FaChartLine /> },
+            { id: 'tech', label: t.tabs.tech, icon: <FaCog /> }
           ].map((tab) => (
             <motion.button
               key={tab.id}
@@ -393,8 +377,8 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-xl font-bold text-amber-400">D.FAITH Token</h3>
-                      <p className="text-amber-300/70">Fan-Reward Token</p>
+                      <h3 className="text-xl font-bold text-amber-400">{t.dfaith.title}</h3>
+                      <p className="text-amber-300/70">{t.dfaith.subtitle}</p>
                     </div>
                     
                     {/* Live Data Indicator for D.FAITH */}
@@ -408,7 +392,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                     >
                       <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
                       <span className="text-green-400 font-semibold text-xs">
-                        Live Daten
+                        {t.liveData}
                       </span>
                     </motion.div>
                   </div>
@@ -418,7 +402,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <div className="flex items-center gap-2 mb-2">
                       <FaCoins className="text-amber-400" />
-                      <span className="text-gray-300 text-sm">Smart Contract</span>
+                      <span className="text-gray-300 text-sm">{t.dfaith.smartContract}</span>
                     </div>
                     <p className="text-2xl font-bold text-amber-400">
                       {formatNumber(tokenData.dfaith.contractBalance)}
@@ -428,7 +412,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <div className="flex items-center gap-2 mb-2">
                       <FaDollarSign className="text-green-400" />
-                      <span className="text-gray-300 text-sm">Aktueller Preis</span>
+                      <span className="text-gray-300 text-sm">{t.dfaith.currentPrice}</span>
                     </div>
                     <p className="text-2xl font-bold text-green-400">
                       €{tokenData.dfaith.currentPrice.toFixed(3)}
@@ -438,7 +422,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <div className="flex items-center gap-2 mb-2">
                       <FaChartLine className="text-blue-400" />
-                      <span className="text-gray-300 text-sm">DEX Liquidität</span>
+                      <span className="text-gray-300 text-sm">{t.dfaith.dexLiquidity}</span>
                     </div>
                     <p className="text-2xl font-bold text-blue-400">
                       {formatNumber(tokenData.dfaith.dexLiquidity)}
@@ -448,7 +432,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <div className="flex items-center gap-2 mb-2">
                       <FaRocket className="text-purple-400" />
-                      <span className="text-gray-300 text-sm">Community</span>
+                      <span className="text-gray-300 text-sm">{t.dfaith.community}</span>
                     </div>
                     <p className="text-2xl font-bold text-purple-400">
                       {formatNumber(tokenData.dfaith.communityCirculation, 2)}
@@ -473,8 +457,8 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-xl font-bold text-purple-400">D.INVEST Token</h3>
-                      <p className="text-purple-300/70">Investment Token</p>
+                      <h3 className="text-xl font-bold text-purple-400">{t.dinvest.title}</h3>
+                      <p className="text-purple-300/70">{t.dinvest.subtitle}</p>
                     </div>
                     
                     {/* Live Data Indicator for D.INVEST */}

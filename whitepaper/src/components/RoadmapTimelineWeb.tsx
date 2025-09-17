@@ -21,6 +21,7 @@ import {
   FaCrown,
   FaExpand
 } from "react-icons/fa";
+import { roadmapTimelineWebTranslations } from './RoadmapTimelineWebTranslations';
 
 interface RoadmapTimelineWebProps {
   language: 'de' | 'en' | 'pl';
@@ -30,87 +31,87 @@ interface RoadmapTimelineWebProps {
 const RoadmapTimelineWeb: React.FC<RoadmapTimelineWebProps> = ({ language }) => {
   const [selectedPhase, setSelectedPhase] = useState<number | null>(null);
 
+  const t = roadmapTimelineWebTranslations[language]; // Polnisch ist jetzt verfügbar
+
   const phases = [
     {
       id: 1,
-      title: "Foundation",
+      title: t.phases[0].title,
       period: "Q4 2025",
       status: "completed",
       progress: 100,
       statusIcon: <FaCheckCircle />,
-      statusText: "✅ ABGESCHLOSSEN",
+      statusText: t.statusLabels.completed,
       color: "from-green-500 to-emerald-500",
       bgColor: "from-green-500/10 to-emerald-500/10",
       borderColor: "border-green-500/30",
-      description:
-        "Vollständig funktionsfähige technische Infrastruktur mit allen Core-Features implementiert und live auf Base Chain.",
+      description: t.phases[0].description,
       milestones: [
-        { text: "Konzeptentwicklung und Whitepaper", completed: true, icon: <FaLightbulb /> },
-        { text: "Smart Contract Entwicklung und Deployment", completed: true, icon: <FaCode /> },
-        { text: "Vollständige Dawid Faith Wallet Implementation", completed: true, icon: <FaShoppingCart /> },
-        { text: "D.INVEST und D.FAITH Token Launch auf Base Chain", completed: true, icon: <FaRocket /> },
-        { text: "Advanced Staking System mit 6 Reward-Stufen", completed: true, icon: <FaCog /> },
-        { text: "Social Media Integration (Proprietary APIs)", completed: true, icon: <FaUsers /> },
-        { text: "Live Testing und Security Audits", completed: true, icon: <FaCheckCircle /> }
+        { text: t.phases[0].milestones[0], completed: true, icon: <FaLightbulb /> },
+        { text: t.phases[0].milestones[1], completed: true, icon: <FaCode /> },
+        { text: t.phases[0].milestones[2], completed: true, icon: <FaShoppingCart /> },
+        { text: t.phases[0].milestones[3], completed: true, icon: <FaRocket /> },
+        { text: t.phases[0].milestones[4], completed: true, icon: <FaCog /> },
+        { text: t.phases[0].milestones[5], completed: true, icon: <FaUsers /> },
+        { text: t.phases[0].milestones[6], completed: true, icon: <FaCheckCircle /> }
       ]
     },
     {
       id: 2,
-      title: "Community Building",
+      title: t.phases[1].title,
       period: "Q1 2026",
       status: "active",
       progress: 70,
       statusIcon: <FaCog />,
-      statusText: "🔄 IN BEARBEITUNG",
+      statusText: t.statusLabels.active,
       color: "from-blue-500 to-cyan-500",
       bgColor: "from-blue-500/10 to-cyan-500/10",
       borderColor: "border-blue-500/30",
-      description:
-        "Mit der vollständigen technischen Infrastruktur konzentrieren wir uns auf Community-Wachstum und Marketing-Expansion.",
+      description: t.phases[1].description,
       milestones: [
-        { text: "Live Webapp mit allen Features", completed: true, icon: <FaGlobe /> },
-        { text: "Instagram/TikTok Fan-Engagement System", completed: true, icon: <FaUsers /> },
-        { text: "EXP-System und Real-time Leaderboards", completed: true, icon: <FaChartLine /> },
-        { text: "Live-Event-Integration bei Konzerten", completed: true, icon: <FaMusic /> },
-        { text: "Erste groß angelegte Marketing-Kampagne", completed: false, icon: <FaRocket /> },
-        { text: "Community-Wachstum von 774 auf 5.000+ Follower", completed: false, icon: <FaUsers /> }
+        { text: t.phases[1].milestones[0], completed: true, icon: <FaGlobe /> },
+        { text: t.phases[1].milestones[1], completed: true, icon: <FaUsers /> },
+        { text: t.phases[1].milestones[2], completed: true, icon: <FaChartLine /> },
+        { text: t.phases[1].milestones[3], completed: true, icon: <FaMusic /> },
+        { text: t.phases[1].milestones[4], completed: false, icon: <FaRocket /> },
+        { text: t.phases[1].milestones[5], completed: false, icon: <FaUsers /> }
       ]
     },
     {
       id: 3,
-      title: "Expansion",
+      title: t.phases[2].title,
       period: "Q2-Q3 2026",
       status: "planned",
       progress: 0,
       statusIcon: <FaClipboardList />,
-      statusText: "📋 GEPLANT",
+      statusText: t.statusLabels.planned,
       color: "from-orange-500 to-red-500",
       bgColor: "from-orange-500/10 to-red-500/10",
       borderColor: "border-orange-500/30",
-      description: "Ausbau der Plattform-Features und erste internationale Expansion.",
+      description: t.phases[2].description,
       milestones: [
-        { text: "Spotify API Integration für Stream-Rewards", completed: false, icon: <FaMusic /> },
-        { text: "Partnerships mit anderen Künstlern", completed: false, icon: <FaUsers /> },
-        { text: "NFT-Integration (Pilotprojekt)", completed: false, icon: <FaCrown /> }
+        { text: t.phases[2].milestones[0], completed: false, icon: <FaMusic /> },
+        { text: t.phases[2].milestones[1], completed: false, icon: <FaUsers /> },
+        { text: t.phases[2].milestones[2], completed: false, icon: <FaCrown /> }
       ]
     },
     {
       id: 4,
-      title: "Ecosystem",
+      title: t.phases[3].title,
       period: "Q4 2026 - Q1 2027",
       status: "future",
       progress: 0,
       statusIcon: <FaEye />,
-      statusText: "🔮 GEPLANT",
+      statusText: t.statusLabels.future,
       color: "from-purple-500 to-pink-500",
       bgColor: "from-purple-500/10 to-pink-500/10",
       borderColor: "border-purple-500/30",
-      description: "Transformation zu einer umfassenden Creator Economy Platform.",
+      description: t.phases[3].description,
       milestones: [
-        { text: "Multi-Artist Platform", completed: false, icon: <FaExpand /> },
-        { text: "Eigene Streaming-Platform (Beta)", completed: false, icon: <FaPlayCircle /> },
-        { text: "Advanced Governance Features", completed: false, icon: <FaCog /> },
-        { text: "Internationale Expansion", completed: false, icon: <FaGlobe /> }
+        { text: t.phases[3].milestones[0], completed: false, icon: <FaExpand /> },
+        { text: t.phases[3].milestones[1], completed: false, icon: <FaPlayCircle /> },
+        { text: t.phases[3].milestones[2], completed: false, icon: <FaCog /> },
+        { text: t.phases[3].milestones[3], completed: false, icon: <FaGlobe /> }
       ]
     }
   ];
@@ -120,10 +121,10 @@ const RoadmapTimelineWeb: React.FC<RoadmapTimelineWebProps> = ({ language }) => 
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h2 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
-            Strategische Roadmap
+            {t.title}
           </h2>
           <p className="text-zinc-300 text-xl max-w-2xl mx-auto">
-            Die wichtigsten Meilensteine und Visionen für das D.FAITH Ökosystem – transparent, ambitioniert und community-driven.
+            {t.subtitle}
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -166,7 +167,7 @@ const RoadmapTimelineWeb: React.FC<RoadmapTimelineWebProps> = ({ language }) => 
                     className="border-t border-white/10 pt-4 mt-4"
                   >
                     <h4 className="font-semibold text-white mb-3 flex items-center gap-2">
-                      <FaClipboardList /> Meilensteine:
+                      <FaClipboardList /> {t.milestonesLabel}
                     </h4>
                     <div className="space-y-2">
                       {phase.milestones.map((milestone, milestoneIndex) => (
@@ -205,7 +206,7 @@ const RoadmapTimelineWeb: React.FC<RoadmapTimelineWebProps> = ({ language }) => 
                   selectedPhase === phase.id ? 'rotate-90' : ''
                 }`} />
                 <span className="ml-2">
-                  {selectedPhase === phase.id ? 'Details ausblenden' : 'Details anzeigen'}
+                  {selectedPhase === phase.id ? t.hideDetails : t.showDetails}
                 </span>
               </div>
             </motion.div>

@@ -5,37 +5,21 @@ import { motion } from 'framer-motion'
 import { FaInstagram, FaChartLine, FaMusic, FaUsers } from 'react-icons/fa'
 import Image from 'next/image'
 
-const ProblemOverview = () => {
-  const problems = [
-    {
-      icon: <FaInstagram className="text-3xl text-purple-500" />,
-      title: "Geringe Reichweite",
-      description: "Qualitätsvoller Content erreicht nicht genug Menschen organisch",
-      pain: "🔴 HOCH",
-      impact: "Wenige neue Follower trotz gutem Content"
-    },
-    {
-      icon: <FaChartLine className="text-3xl text-red-500" />,
-      title: "Teure Werbung",
-      description: "Paid Ads kosten viel, bringen aber nicht nachhaltige Fans",
-      pain: "🔴 HOCH",
-      impact: "Hohe Kosten ohne garantierte ROI"
-    },
-    {
-      icon: <FaMusic className="text-3xl text-blue-500" />,
-      title: "Fehlendes Kapital",
-      description: "Keine Mittel für Musikproduktion und professionelle Videos",
-      pain: "🟠 MITTEL",
-      impact: "Limitierte Produktionsqualität"
-    },
-    {
-      icon: <FaUsers className="text-3xl text-green-500" />,
-      title: "Schwaches Engagement",
-      description: "Fan-Interaktionen bringen keinen direkten Mehrwert",
-      pain: "🟡 NIEDRIG",
-      impact: "Oberflächliche Fan-Beziehungen"
-    }
-  ]
+import { ProblemOverviewTranslations } from './ProblemOverviewTranslations';
+interface ProblemOverviewProps {
+  language: 'de' | 'en' | 'pl';
+}
+
+const icons = [
+  <FaInstagram className="text-3xl text-purple-500" />,
+  <FaChartLine className="text-3xl text-red-500" />,
+  <FaMusic className="text-3xl text-blue-500" />,
+  <FaUsers className="text-3xl text-green-500" />,
+];
+
+const ProblemOverview: React.FC<ProblemOverviewProps> = ({ language }) => {
+  const t = ProblemOverviewTranslations(language);
+  const problems = t.problems.map((p, i) => ({ ...p, icon: icons[i] }));
 
   return (
     <div className="mb-16">
@@ -56,16 +40,12 @@ const ProblemOverview = () => {
             className="rounded-full border-2 border-purple-500"
           />
           <div>
-            <h3 className="text-2xl font-bold text-white">Dawid Faith</h3>
-            <p className="text-purple-400">Künstler & D.FAITH Entwickler</p>
+            <h3 className="text-2xl font-bold text-white">{t.author}</h3>
+            <p className="text-purple-400">{t.authorRole}</p>
           </div>
         </div>
         <blockquote className="text-gray-300 italic text-lg leading-relaxed border-l-4 border-purple-500 pl-4">
-          &quot;Als unabhängiger Künstler stehe ich vor den gleichen Problemen wie viele andere: 
-          Mein Content bekommt nicht die Reichweite, die er verdient. Bezahlte Werbung ist 
-          teuer und zeitintensiv - und das Geld habe ich nicht. Außerdem fehlt mir das 
-          Kapital für Musikproduktion. Deshalb entwickelte ich D.FAITH: um Fans direkt 
-          für ihr Engagement zu belohnen und gleichzeitig Kapital für meine Musik zu generieren.&quot;
+          &quot;{t.quote}&quot;
         </blockquote>
       </motion.div>
 
@@ -92,7 +72,7 @@ const ProblemOverview = () => {
               </p>
               <div className="mt-auto space-y-2">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-500">Schmerzgrad:</span>
+                  <span className="text-gray-500">{t.painLabel}</span>
                   <span className="font-bold">{problem.pain}</span>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2">
@@ -114,7 +94,7 @@ const ProblemOverview = () => {
       >
         <div className="relative w-full max-w-4xl">
           <div className="relative bg-slate-900/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700">
-            <h3 className="text-3xl font-bold text-red-400 text-center mb-6">⚠️ Das zentrale Problem</h3>
+            <h3 className="text-3xl font-bold text-red-400 text-center mb-6">{t.centralProblem}</h3>
 
             <div className="flex justify-center">
               <svg viewBox="0 0 320 320" className="w-96 h-96">
@@ -157,12 +137,12 @@ const ProblemOverview = () => {
                 {/* Problem Nodes (6) - positions mirror mobile layout */}
                 {
                   [
-                    { x: 160, y: 40, text: 'Geringe\nReichweite', color: '#ef4444' },
-                    { x: 264, y: 104, text: 'Schwaches\nEngagement', color: '#f97316' },
-                    { x: 264, y: 216, text: 'Keine\nneuen Fans', color: '#eab308' },
-                    { x: 160, y: 280, text: 'Kein\nEinkommen', color: '#22c55e' },
-                    { x: 56, y: 216, text: 'Keine\nInvestition', color: '#3b82f6' },
-                    { x: 56, y: 104, text: 'Schlechter\nContent', color: '#8b5cf6' }
+                    { x: 160, y: 40, text: t.nodes[0], color: '#ef4444' },
+                    { x: 264, y: 104, text: t.nodes[1], color: '#f97316' },
+                    { x: 264, y: 216, text: t.nodes[2], color: '#eab308' },
+                    { x: 160, y: 280, text: t.nodes[3], color: '#22c55e' },
+                    { x: 56, y: 216, text: t.nodes[4], color: '#3b82f6' },
+                    { x: 56, y: 104, text: t.nodes[5], color: '#8b5cf6' }
                   ].map((node, index) => (
                     <g key={index}>
                       <motion.rect
@@ -203,15 +183,15 @@ const ProblemOverview = () => {
             {/* Center Text Overlay (absolute) */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="text-center bg-black/40 backdrop-blur-sm rounded-full p-4 border border-red-500/30">
-                <div className="text-red-400 font-bold text-sm">TEUFELSKREIS</div>
-                <div className="text-gray-300 text-xs">Endlose Schleife</div>
+                <div className="text-red-400 font-bold text-sm">{t.teufelskreis}</div>
+                <div className="text-gray-300 text-xs">{t.endlessLoop}</div>
               </div>
             </div>
 
             <p className="text-center text-gray-300 mt-6">
-              Jeder Punkt verstärkt den nächsten in einem endlosen Kreislauf der Stagnation.
+              {t.summary}
               <br />
-              <span className="text-red-300 font-semibold">D.FAITH durchbricht diesen Kreislauf!</span>
+              <span className="text-red-300 font-semibold">{t.breakLoop}</span>
             </p>
           </div>
         </div>
