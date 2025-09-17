@@ -40,12 +40,14 @@ interface MobileWhitepaperV2Props {
   }
   activeUsers: number
   isLoading: boolean
+  language: 'de' | 'en' | 'pl';
 }
 
 const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({ 
   tokenPrices, 
   activeUsers, 
-  isLoading 
+  isLoading,
+  language
 }) => {
   const [currentSection, setCurrentSection] = useState('hero')
   const [showConfetti, setShowConfetti] = useState(false)

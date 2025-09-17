@@ -19,7 +19,11 @@ import {
 } from 'react-icons/fa'
 import Image from 'next/image'
 
-const TokenomicsChart = () => {
+interface TokenomicsChartProps {
+  language: 'de' | 'en' | 'pl';
+}
+
+const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'calculator' | 'halving' | 'tech'>('overview')
 
   // Live Price States

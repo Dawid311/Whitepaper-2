@@ -8,7 +8,11 @@ import StepByStepProcess from './solution/StepByStepProcess'
 // EcosystemWebapp entfernt
 
 
-const SolutionSection = () => {
+interface SolutionSectionProps {
+  language: 'de' | 'en' | 'pl';
+}
+
+const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
   return (
     <section id="solution" className="relative py-20 bg-gradient-to-br from-slate-950 via-indigo-950/50 to-purple-950/30 overflow-hidden">
       {/* Dynamic Background */}

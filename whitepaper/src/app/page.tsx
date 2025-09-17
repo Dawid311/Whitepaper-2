@@ -20,8 +20,10 @@ import WebappShowcaseSection from '../components/WebappShowcaseSection'
 import LiveStatsFixed from '../components/LiveStatsFixed'
 import MobileWhitepaperV2 from '../components/MobileWhitepaperV2'
 import useDeviceDetection from '../hooks/useDeviceDetection'
+import { useLanguage } from '../context/LanguageContext';
 
 const WhitepaperPage = () => {
+  const { language } = useLanguage();
   const [activeSection, setActiveSection] = useState('hero')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { isMobile } = useDeviceDetection();
@@ -63,6 +65,7 @@ const WhitepaperPage = () => {
         tokenPrices={tokenPrices}
         activeUsers={activeUsers}
         isLoading={isLoading}
+        language={language}
       />
     );
   }
@@ -76,25 +79,25 @@ const WhitepaperPage = () => {
         setIsMenuOpen={setIsMenuOpen}
       />
       <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <HeroSection onScrollToNext={() => {}} />
+        <HeroSection onScrollToNext={() => {}} language={language} />
       </section>
       <div className="fixed top-20 right-4 z-40 hidden lg:block">
         <LiveStatsFixed />
       </div>
-      <SolutionSection />
+      <SolutionSection language={language} />
       <section id="tokenomics" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <TokenomicsChart />
+          <TokenomicsChart language={language} />
         </div>
       </section>
-      <WebappShowcaseSection />
+      <WebappShowcaseSection language={language} />
       <section id="roadmap" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <RoadmapTimelineWeb />
+          <RoadmapTimelineWeb language={language} />
         </div>
       </section>
       <section id="team" className="py-20 px-4">
-        <TeamSectionWeb />
+        <TeamSectionWeb language={language} />
       </section>
       <section className="py-20 px-4 bg-gradient-to-r from-amber-500/20 to-yellow-500/20">
         <div className="max-w-4xl mx-auto text-center">
@@ -105,10 +108,14 @@ const WhitepaperPage = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-amber-400 to-yellow-500 bg-clip-text text-transparent">
-              Werden Sie Teil der Revolution
+              {language === 'de' && 'Werden Sie Teil der Revolution'}
+              {language === 'en' && 'Join the Revolution'}
+              {language === 'pl' && 'Dołącz do rewolucji'}
             </h2>
             <p className="text-xl text-zinc-400 mb-8 max-w-2xl mx-auto">
-              Investieren Sie in die Zukunft des Fan-Engagements und profitieren Sie von innovativer Blockchain-Technologie
+              {language === 'de' && 'Investieren Sie in die Zukunft des Fan-Engagements und profitieren Sie von innovativer Blockchain-Technologie'}
+              {language === 'en' && 'Invest in the future of fan engagement and benefit from innovative blockchain technology'}
+              {language === 'pl' && 'Zainwestuj w przyszłość zaangażowania fanów i skorzystaj z innowacyjnej technologii blockchain'}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
@@ -117,7 +124,9 @@ const WhitepaperPage = () => {
                 className="bg-gradient-to-r from-amber-400 to-yellow-500 text-black font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity"
               >
                 <FaRocket className="text-xl" />
-                D.INVEST Token kaufen
+                {language === 'de' && 'D.INVEST Token kaufen'}
+                {language === 'en' && 'Buy D.INVEST Token'}
+                {language === 'pl' && 'Kup token D.INVEST'}
                 <FaExternalLinkAlt className="text-sm" />
               </motion.button>
               <motion.button
@@ -126,7 +135,7 @@ const WhitepaperPage = () => {
                 className="border border-amber-400 text-amber-400 font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 hover:bg-amber-400/10 transition-colors"
               >
                 <FaInstagram className="text-xl" />
-                @dawidfaith folgen
+                @dawidfaith {language === 'pl' && 'obserwuj'}{language === 'en' && 'follow'}{language === 'de' && 'folgen'}
               </motion.button>
             </div>
           </motion.div>

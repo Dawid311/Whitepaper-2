@@ -22,8 +22,12 @@ import {
   FaExpand
 } from "react-icons/fa";
 
+interface RoadmapTimelineWebProps {
+  language: 'de' | 'en' | 'pl';
+}
+
 // Desktop-optimierte Roadmap-Komponente, inspiriert von der mobilen Version, aber mit neuem Layout
-const RoadmapTimelineWeb: React.FC = () => {
+const RoadmapTimelineWeb: React.FC<RoadmapTimelineWebProps> = ({ language }) => {
   const [selectedPhase, setSelectedPhase] = useState<number | null>(null);
 
   const phases = [

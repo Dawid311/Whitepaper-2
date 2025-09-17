@@ -6,10 +6,11 @@ import { motion } from 'framer-motion'
 import { FaChevronDown, FaRocket, FaPlay } from 'react-icons/fa'
 
 interface HeroSectionProps {
-  onScrollToNext: () => void
+  onScrollToNext: () => void;
+  language: 'de' | 'en' | 'pl';
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToNext, language }) => {
   const [activeUsers, setActiveUsers] = useState(0) // Live-Daten ohne Fallback
   const [isLoading, setIsLoading] = useState(true)
   const [tokenPrices, setTokenPrices] = useState({

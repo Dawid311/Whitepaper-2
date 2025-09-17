@@ -14,7 +14,11 @@ import {
 } from 'react-icons/fa';
 import Image from 'next/image';
 
-const TeamSectionWeb: React.FC = () => {
+interface TeamSectionWebProps {
+  language: 'de' | 'en' | 'pl';
+}
+
+const TeamSectionWeb: React.FC<TeamSectionWebProps> = ({ language }) => {
   const teamMember = {
     name: "Dawid Faith",
     role: "Gründer, Entwickler & Künstler", 

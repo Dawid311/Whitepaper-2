@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { useLanguage } from '../context/LanguageContext';
 import { motion } from 'framer-motion'
 import { FaBars, FaTimes } from 'react-icons/fa'
 
@@ -26,6 +27,8 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
     { id: 'roadmap', label: 'Roadmap' },
     { id: 'team', label: 'Team' }
   ]
+
+  const { language, setLanguage } = useLanguage();
 
   return (
     <>
@@ -59,6 +62,17 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
                   {item.label}
                 </button>
               ))}
+              {/* Sprachumschalter */}
+              <select
+                value={language}
+                onChange={e => setLanguage(e.target.value as 'de' | 'en' | 'pl')}
+                className="ml-4 px-2 py-1 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 focus:outline-none"
+                aria-label="Sprache wählen"
+              >
+                <option value="de">DE</option>
+                <option value="en">EN</option>
+                <option value="pl">PL</option>
+              </select>
             </div>
 
             {/* Mobile Menu Button */}

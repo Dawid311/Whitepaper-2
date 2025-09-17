@@ -4,7 +4,11 @@ import React from 'react'
 import { motion } from 'framer-motion'
 // Inhalte aus WebappShowcase (Features, Plattformen, Live-Daten)
 
-const WebappShowcaseSection: React.FC = () => {
+interface WebappShowcaseSectionProps {
+  language: 'de' | 'en' | 'pl';
+}
+
+const WebappShowcaseSection: React.FC<WebappShowcaseSectionProps> = ({ language }) => {
   return (
     <section id="webapp" className="relative w-full py-24 px-0 bg-gradient-to-tr from-blue-950 via-zinc-900 to-purple-950 overflow-hidden">
       <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center gap-12">
