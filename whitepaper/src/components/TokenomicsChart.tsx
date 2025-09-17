@@ -53,7 +53,7 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
   const [liveHalvingStage, setLiveHalvingStage] = useState(1)
 
   // Calculator States (müssen auf oberster Ebene sein)
-  const [investmentAmount, setInvestmentAmount] = useState(10)
+  const [investmentAmount, setInvestmentAmount] = useState(100)
   const [dfaithPrice, setDfaithPrice] = useState(0.20)
   const [selectedHalvingStage, setSelectedHalvingStage] = useState(1)
 
@@ -448,6 +448,13 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
     return yearlyRoi
   }
 
+  // Euro-Wert des ROI berechnen
+  const calculateROIValue = (investment: number, dfaithPrice: number, halvingStage: number) => {
+    const totalInvestment = investment * 5 // D.INVEST Preis
+    const roiPercentage = calculateROI(investment, dfaithPrice, halvingStage)
+    return (totalInvestment * roiPercentage) / 100
+  }
+
   const renderCalculator = () => (
     <div className="space-y-6 flex justify-center">
       <div className="backdrop-blur-xl bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-2xl p-6 border border-green-500/20 w-full max-w-md mx-auto">
@@ -463,7 +470,7 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
               <input
                 type="range"
                 min="1"
-                max="10000"
+                max="200"
                 value={investmentAmount}
                 onChange={e => setInvestmentAmount(Number(e.target.value))}
                 className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
@@ -512,6 +519,7 @@ const TokenomicsChart: React.FC<TokenomicsChartProps> = ({ language }) => {
             <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
               <p className="text-xs text-gray-400 mb-1">{t.calculator.annualRoi}</p>
               <p className="font-bold text-blue-400 text-2xl">{calculateROI(investmentAmount, dfaithPrice, selectedHalvingStage).toFixed(2)}%</p>
+              <p className="text-xs text-blue-300 mt-1">≈ {calculateROIValue(investmentAmount, dfaithPrice, selectedHalvingStage).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</p>
             </div>
             <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10 col-span-2">
               <p className="text-xs text-gray-400 mb-1">{t.calculator.investment}</p>
