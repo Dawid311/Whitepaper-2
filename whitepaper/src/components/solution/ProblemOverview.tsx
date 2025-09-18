@@ -10,16 +10,16 @@ interface ProblemOverviewProps {
   language: 'de' | 'en' | 'pl';
 }
 
-const icons = [
-  <FaInstagram className="text-3xl text-purple-500" />,
-  <FaChartLine className="text-3xl text-red-500" />,
-  <FaMusic className="text-3xl text-blue-500" />,
-  <FaUsers className="text-3xl text-green-500" />,
+const iconComponents = [
+  { id: 'instagram', component: <FaInstagram className="text-3xl text-purple-500" /> },
+  { id: 'chart', component: <FaChartLine className="text-3xl text-red-500" /> },
+  { id: 'music', component: <FaMusic className="text-3xl text-blue-500" /> },
+  { id: 'users', component: <FaUsers className="text-3xl text-green-500" /> },
 ];
 
 const ProblemOverview: React.FC<ProblemOverviewProps> = ({ language }) => {
   const t = ProblemOverviewTranslations(language);
-  const problems = t.problems.map((p, i) => ({ ...p, icon: icons[i] }));
+  const problems = t.problems.map((p, i) => ({ ...p, icon: iconComponents[i].component }));
 
   return (
     <div className="mb-16">
