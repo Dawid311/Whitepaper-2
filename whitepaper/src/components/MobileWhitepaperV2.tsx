@@ -62,7 +62,6 @@ import EnhancedHeroSection from './mobile-v2/EnhancedHeroSection'
 import InteractiveTimeline from './mobile-v2/InteractiveTimeline'
 import GlassmorphismTokenomics from './mobile-v2/GlassmorphismTokenomics'
 import WebappShowcase from './mobile-v2/WebappShowcase'
-import BottomNavigation from './mobile-v2/BottomNavigation'
 import TeamSectionV3 from './mobile-v2/TeamSectionV3'
 import RoadmapTimelineV2 from './mobile-v2/RoadmapTimelineV2'
 
@@ -84,6 +83,7 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
   const [currentSection, setCurrentSection] = useState('hero')
   const [showConfetti, setShowConfetti] = useState(false)
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
+  const [showNav, setShowNav] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   
   const { scrollYProgress } = useScroll({
@@ -201,6 +201,16 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
     }
   }, [currentSection])
 
+  // Scroll to section helper
+  const scrollToSection = (sectionId: string) => {
+    const element = document.querySelector(`[data-section="${sectionId}"]`)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+      setCurrentSection(sectionId)
+      setShowNav(false)
+    }
+  }
+
   return (
     <animated.div 
       ref={containerRef}
@@ -217,6 +227,21 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
           gravity={0.1}
         />
       )}
+
+      {/* Hamburger Navigation - Top Left */}
+      <div className="fixed top-4 left-4 z-50">
+        <button
+          onClick={() => setShowNav(true)}
+          className="p-2 bg-black/60 backdrop-blur-md rounded-lg border border-white/20 hover:bg-black/70 transition-colors flex items-center justify-center"
+          aria-label="Navigation öffnen"
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white w-7 h-7">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
 
       {/* Mobile Language Switcher - Top Right */}
       <div className="fixed top-4 right-4 z-50">
@@ -267,6 +292,45 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Hamburger Navigation Overlay */}
+      <AnimatePresence>
+        {showNav && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex flex-col"
+          >
+            <div className="flex items-center justify-between px-6 py-4">
+              <span className="text-white text-lg font-bold">Navigation</span>
+              <button
+                onClick={() => setShowNav(false)}
+                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white"
+                aria-label="Navigation schließen"
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+            <nav className="flex-1 flex flex-col items-center justify-center gap-6">
+              {sections.map((section) => (
+                <button
+                  key={section.id}
+                  onClick={() => scrollToSection(section.id)}
+                  className={`w-64 max-w-[90vw] py-4 px-6 rounded-2xl text-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2 shadow-lg
+                    ${currentSection === section.id ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white scale-105' : 'bg-white/10 text-white/80 hover:bg-white/20'}`}
+                >
+                  {section.title}
+                </button>
+              ))}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
