@@ -65,7 +65,14 @@ const StepByStepProcess: React.FC<StepByStepProcessProps> = ({ language }) => {
   }
 
   // Icons und Farben für die Schritte (Index-basiert, Reihenfolge wie in Übersetzung)
-  const mainIcons = [<FaMusic />, <FaHeart />, <FaCoins />, <FaLock />, <FaArrowUp />, <FaRedo />];
+  const mainIconComponents = [
+    { id: 'music', component: <FaMusic /> },
+    { id: 'heart', component: <FaHeart /> },
+    { id: 'coins', component: <FaCoins /> },
+    { id: 'lock', component: <FaLock /> },
+    { id: 'arrow-up', component: <FaArrowUp /> },
+    { id: 'redo', component: <FaRedo /> }
+  ];
   const mainColors = [
     "from-purple-500 to-pink-500",
     "from-blue-500 to-cyan-500",
@@ -74,9 +81,15 @@ const StepByStepProcess: React.FC<StepByStepProcessProps> = ({ language }) => {
     "from-yellow-500 to-orange-500",
     "from-cyan-500 to-blue-500"
   ];
-  const extraIcon = <FaCheck />;
+  const extraIconComponent = { id: 'check', component: <FaCheck /> };
   const extraColor = "from-emerald-500 to-green-500";
-  const marketIcons = [<FaDollarSign />, <FaUsers />, <FaArrowDown />, <FaCog />, <FaChartLine />];
+  const marketIconComponents = [
+    { id: 'dollar', component: <FaDollarSign /> },
+    { id: 'users', component: <FaUsers /> },
+    { id: 'arrow-down', component: <FaArrowDown /> },
+    { id: 'cog', component: <FaCog /> },
+    { id: 'chart', component: <FaChartLine /> }
+  ];
   const marketColors = [
     "from-green-600 to-emerald-600",
     "from-red-500 to-orange-500",
@@ -85,9 +98,9 @@ const StepByStepProcess: React.FC<StepByStepProcessProps> = ({ language }) => {
     "from-cyan-500 to-purple-500"
   ];
 
-  const mainCycleSteps = t.mainCycleSteps.map((step, i) => ({ ...step, icon: mainIcons[i], color: mainColors[i] }));
-  const marketCycleSteps = t.marketCycleSteps.map((step, i) => ({ ...step, icon: marketIcons[i], color: marketColors[i] }));
-  const extraStep = { ...t.extraStep, icon: extraIcon, color: extraColor };
+  const mainCycleSteps = t.mainCycleSteps.map((step, i) => ({ ...step, icon: mainIconComponents[i].component, color: mainColors[i] }));
+  const marketCycleSteps = t.marketCycleSteps.map((step, i) => ({ ...step, icon: marketIconComponents[i].component, color: marketColors[i] }));
+  const extraStep = { ...t.extraStep, icon: extraIconComponent.component, color: extraColor };
 
   const currentSteps = currentCycle === 'main' ? mainCycleSteps : marketCycleSteps;
   // the data object for the currently selected step (handles extra step)

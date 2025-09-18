@@ -28,6 +28,24 @@ const InteractiveTimeline: React.FC = () => {
   const [showProfitableInfo, setShowProfitableInfo] = useState(false)
   const [showRewardLevelsInfo, setShowRewardLevelsInfo] = useState(false)
   const { language } = useLanguage()
+
+  // Icon components with unique keys
+  const mainCycleIconComponents = [
+    { id: 'music', component: <FaMusic /> },
+    { id: 'heart', component: <FaHeart /> },
+    { id: 'coins', component: <FaCoins /> },
+    { id: 'lock', component: <FaLock /> },
+    { id: 'arrow-up', component: <FaArrowUp /> },
+    { id: 'redo', component: <FaRedo /> }
+  ];
+
+  const marketCycleIconComponents = [
+    { id: 'dollar-sign', component: <FaDollarSign /> },
+    { id: 'users', component: <FaUsers /> },
+    { id: 'arrow-down', component: <FaArrowDown /> },
+    { id: 'cog', component: <FaCog /> },
+    { id: 'chart-line', component: <FaChartLine /> }
+  ];
   const texts = interactiveTimelineTexts[language]
 
   const mainCycleSteps = texts.mainCycle.steps.map((step, index) => ({
@@ -35,7 +53,7 @@ const InteractiveTimeline: React.FC = () => {
     title: step.title,
     description: step.description,
     details: step.details,
-    icon: [<FaMusic />, <FaHeart />, <FaCoins />, <FaLock />, <FaArrowUp />, <FaRedo />][index],
+    icon: mainCycleIconComponents[index].component,
     color: ["from-purple-500 to-pink-500", "from-blue-500 to-cyan-500", "from-green-500 to-emerald-500", 
             "from-orange-500 to-red-500", "from-yellow-500 to-orange-500", "from-cyan-500 to-blue-500"][index]
   }))
@@ -55,7 +73,7 @@ const InteractiveTimeline: React.FC = () => {
     title: step.title,
     description: step.description,
     details: step.details,
-    icon: [<FaDollarSign />, <FaUsers />, <FaArrowDown />, <FaCog />, <FaChartLine />][index],
+    icon: marketCycleIconComponents[index].component,
     color: ["from-green-600 to-emerald-600", "from-red-500 to-orange-500", "from-red-600 to-red-800",
             "from-purple-500 to-pink-500", "from-cyan-500 to-purple-500"][index]
   }))

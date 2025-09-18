@@ -6,12 +6,26 @@ import { FaLightbulb, FaUsers, FaCoins, FaChartLine, FaArrowRight } from 'react-
 import Image from 'next/image'
 
 import { SolutionConceptTranslations } from './SolutionConceptTranslations';
+
 interface SolutionConceptProps {
   language: 'de' | 'en' | 'pl';
 }
 
 const SolutionConcept: React.FC<SolutionConceptProps> = ({ language }) => {
   const t = SolutionConceptTranslations(language);
+
+  // Icon components with unique keys
+  const dfaithIconComponents = [
+    { id: 'users', component: <FaUsers className="text-amber-400" /> },
+    { id: 'coins', component: <FaCoins className="text-amber-400" /> },
+    { id: 'chart', component: <FaChartLine className="text-amber-400" /> }
+  ];
+
+  const dinvestIconComponents = [
+    { id: 'coins', component: <FaCoins className="text-blue-400" /> },
+    { id: 'chart', component: <FaChartLine className="text-blue-400" /> },
+    { id: 'users', component: <FaUsers className="text-blue-400" /> }
+  ];
   return (
     <div className="mb-16">
       {/* Lösung Header */}
@@ -61,7 +75,7 @@ const SolutionConcept: React.FC<SolutionConceptProps> = ({ language }) => {
           <div className="space-y-4">
             {t.dfaithFeatures.map((feature, i) => (
               <div className="flex items-center gap-3" key={i}>
-                {[<FaUsers className="text-amber-400" />, <FaCoins className="text-amber-400" />, <FaChartLine className="text-amber-400" />][i]}
+                {dfaithIconComponents[i].component}
                 <span className="text-gray-300">{feature}</span>
               </div>
             ))}
@@ -94,7 +108,7 @@ const SolutionConcept: React.FC<SolutionConceptProps> = ({ language }) => {
           <div className="space-y-4">
             {t.dinvestFeatures.map((feature, i) => (
               <div className="flex items-center gap-3" key={i}>
-                {[<FaCoins className="text-blue-400" />, <FaChartLine className="text-blue-400" />, <FaUsers className="text-blue-400" />][i]}
+                {dinvestIconComponents[i].component}
                 <span className="text-gray-300">{feature}</span>
               </div>
             ))}
