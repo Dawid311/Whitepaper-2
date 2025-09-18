@@ -211,6 +211,27 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
     }
   }
 
+  // Navigation labels for different languages
+  const navLabels = {
+    de: {
+      navigation: 'Navigation',
+      openNav: 'Navigation öffnen',
+      closeNav: 'Navigation schließen'
+    },
+    en: {
+      navigation: 'Navigation',
+      openNav: 'Open navigation',
+      closeNav: 'Close navigation'
+    },
+    pl: {
+      navigation: 'Nawigacja',
+      openNav: 'Otwórz nawigację',
+      closeNav: 'Zamknij nawigację'
+    }
+  }
+
+  const currentNavLabels = navLabels[language] || navLabels.de
+
   return (
     <animated.div 
       ref={containerRef}
@@ -233,7 +254,7 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
         <button
           onClick={() => setShowNav(true)}
           className="p-2 bg-black/60 backdrop-blur-md rounded-lg border border-white/20 hover:bg-black/70 transition-colors flex items-center justify-center"
-          aria-label="Navigation öffnen"
+          aria-label={currentNavLabels.openNav}
         >
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white w-7 h-7">
             <line x1="3" y1="6" x2="21" y2="6" />
@@ -304,11 +325,11 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
             className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex flex-col"
           >
             <div className="flex items-center justify-between px-6 py-4">
-              <span className="text-white text-lg font-bold">Navigation</span>
+              <span className="text-white text-lg font-bold">{currentNavLabels.navigation}</span>
               <button
                 onClick={() => setShowNav(false)}
                 className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white"
-                aria-label="Navigation schließen"
+                aria-label={currentNavLabels.closeNav}
               >
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7">
                   <line x1="18" y1="6" x2="6" y2="18" />
