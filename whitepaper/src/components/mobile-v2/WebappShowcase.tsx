@@ -156,13 +156,13 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
       {/* Content Container */}
       <div className="relative z-10">{/* Header mit Icon, Headline, Slogan */}
       <div className="flex flex-col items-center gap-4 mb-8 mt-8">
-        <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 via-pink-500 to-purple-500 shadow-lg p-1">
+        <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-lg">
           <Image 
             src="/dawid-faith-still.jpg" 
             alt="Dawid Faith" 
-            width={56} 
-            height={56} 
-            className="rounded-xl object-cover" 
+            width={64} 
+            height={64} 
+            className="w-full h-full object-cover" 
           />
         </div>
         <h2 className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-1 mt-2">{texts.header.title}</h2>
