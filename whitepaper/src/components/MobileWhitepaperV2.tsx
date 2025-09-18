@@ -118,21 +118,26 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
       title: 'D.FAITH Ökosystem',
       icon: <FaRocket className="text-blue-400" />,
       gradient: 'from-blue-500 to-purple-600',
-      component: <EnhancedHeroSection />
+      component: <EnhancedHeroSection 
+        tokenPrices={tokenPrices} 
+        activeUsers={activeUsers} 
+        isLoading={isLoading}
+        language={language} 
+      />
     },
     {
       id: 'problem',
       title: 'Das Problem',
       icon: <FaBolt className="text-red-400" />,
       gradient: 'from-red-500 to-orange-500',
-      component: <ProblemSectionV2 />
+      component: <ProblemSectionV2 language={language} />
     },
     {
       id: 'solution',
       title: 'Die Lösung',
       icon: <FaLightbulb className="text-green-400" />,
       gradient: 'from-green-500 to-emerald-500',
-      component: <SolutionSectionV2 />
+      component: <SolutionSectionV2 language={language} />
     },
     {
       id: 'process',
@@ -342,44 +347,284 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
   )
 }
 
-// Enhanced Problem Section Component
-const ProblemSectionV2: React.FC = () => {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
-  
-  const problems = [
-    {
-      title: "Geringe Reichweite",
-      level: "HOCH",
-      color: "red",
-      icon: <FaBolt className="text-red-500" />,
-      description: "Qualitätsvoller Content erreicht nicht genug Menschen organisch",
-      impact: "Wenige neue Follower trotz gutem Content"
+// Problem Section Translations
+const ProblemSectionTranslations = (language: 'de' | 'en' | 'pl') => {
+  const content = {
+    de: {
+      title: 'Das Problem',
+      subtitle: 'Zentrale Herausforderungen für unabhängige Künstler',
+      founderTitle: 'Gründer & Künstler',
+      quote: 'Als unabhängiger Künstler stehe ich vor den gleichen Problemen wie viele andere: Mein Content bekommt nicht die Reichweite, die er verdient. Bezahlte Werbung ist teuer und zeitintensiv - und das Geld habe ich nicht. Außerdem fehlt mir das Kapital für Musikproduktion. Deshalb entwickelte ich D.FAITH: um Fans direkt für ihr Engagement zu belohnen und gleichzeitig Kapital für meine Musik zu generieren.',
+      problems: [
+        {
+          title: "Geringe Reichweite",
+          level: "HOCH",
+          description: "Qualitätsvoller Content erreicht nicht genug Menschen organisch",
+          impact: "Wenige neue Follower trotz gutem Content"
+        },
+        {
+          title: "Teure Werbung",
+          level: "HOCH",
+          description: "Paid Ads kosten viel, bringen aber nicht nachhaltige Fans",
+          impact: "Hohe Kosten ohne garantierte ROI"
+        },
+        {
+          title: "Fehlendes Kapital",
+          level: "MITTEL",
+          description: "Keine Mittel für Musikproduktion und professionelle Videos",
+          impact: "Limitierte Produktionsqualität"
+        },
+        {
+          title: "Schwaches Engagement",
+          level: "NIEDRIG",
+          description: "Fan-Interaktionen bringen keinen direkten Mehrwert",
+          impact: "Oberflächliche Fan-Beziehungen"
+        }
+      ],
+      viciouscircle: {
+        title: 'Der Teufelskreis',
+        centerText: 'TEUFELSKREIS',
+        centerSubtext: 'Endlose Schleife',
+        explanation: 'Jeder Punkt verstärkt den nächsten in einem endlosen Kreislauf der Stagnation.',
+        solution: 'D.FAITH durchbricht diesen Kreislauf!',
+        nodes: [
+          'Geringe\nReichweite',
+          'Schwaches\nEngagement',
+          'Keine\nneuen Fans',
+          'Kein\nEinkommen',
+          'Keine\nInvestition',
+          'Schlechter\nContent'
+        ]
+      },
+      impact: 'Impact'
     },
-    {
-      title: "Teure Werbung",
-      level: "HOCH", 
-      color: "red",
-      icon: <FaCoins className="text-red-500" />,
-      description: "Paid Ads kosten viel, bringen aber nicht nachhaltige Fans",
-      impact: "Hohe Kosten ohne garantierte ROI"
+    en: {
+      title: 'The Problem',
+      subtitle: 'Core challenges for independent artists',
+      founderTitle: 'Founder & Artist',
+      quote: 'As an independent artist, I face the same problems as many others: My content doesn\'t get the reach it deserves. Paid advertising is expensive and time-consuming - and I don\'t have the money. I also lack the capital for music production. That\'s why I developed D.FAITH: to reward fans directly for their engagement while generating capital for my music.',
+      problems: [
+        {
+          title: "Low Reach",
+          level: "HIGH",
+          description: "Quality content doesn't reach enough people organically",
+          impact: "Few new followers despite good content"
+        },
+        {
+          title: "Expensive Advertising",
+          level: "HIGH",
+          description: "Paid ads cost a lot but don't bring sustainable fans",
+          impact: "High costs without guaranteed ROI"
+        },
+        {
+          title: "Missing Capital",
+          level: "MEDIUM",
+          description: "No funds for music production and professional videos",
+          impact: "Limited production quality"
+        },
+        {
+          title: "Weak Engagement",
+          level: "LOW",
+          description: "Fan interactions don't bring direct added value",
+          impact: "Superficial fan relationships"
+        }
+      ],
+      viciouscircle: {
+        title: 'The Vicious Cycle',
+        centerText: 'VICIOUS CYCLE',
+        centerSubtext: 'Endless Loop',
+        explanation: 'Each point reinforces the next in an endless cycle of stagnation.',
+        solution: 'D.FAITH breaks this cycle!',
+        nodes: [
+          'Low\nReach',
+          'Weak\nEngagement',
+          'No new\nFans',
+          'No\nIncome',
+          'No\nInvestment',
+          'Poor\nContent'
+        ]
+      },
+      impact: 'Impact'
     },
-    {
-      title: "Fehlendes Kapital",
-      level: "MITTEL",
-      color: "orange",
-      icon: <FaChartLine className="text-orange-500" />,
-      description: "Keine Mittel für Musikproduktion und professionelle Videos",
-      impact: "Limitierte Produktionsqualität"
-    },
-    {
-      title: "Schwaches Engagement",
-      level: "NIEDRIG",
-      color: "yellow",
-      icon: <FaHeart className="text-yellow-500" />,
-      description: "Fan-Interaktionen bringen keinen direkten Mehrwert",
-      impact: "Oberflächliche Fan-Beziehungen"
+    pl: {
+      title: 'Problem',
+      subtitle: 'Główne wyzwania dla niezależnych artystów',
+      founderTitle: 'Założyciel i Artysta',
+      quote: 'Jako niezależny artysta stoję przed tymi samymi problemami co wielu innych: Moja treść nie dostaje zasięgu, na który zasługuje. Płatne reklamy są drogie i czasochłonne - a nie mam pieniędzy. Brakuje mi także kapitału na produkcję muzyczną. Dlatego stworzyłem D.FAITH: aby nagradzać fanów bezpośrednio za ich zaangażowanie, jednocześnie generując kapitał na moją muzykę.',
+      problems: [
+        {
+          title: "Niski Zasięg",
+          level: "WYSOKI",
+          description: "Jakościowe treści nie docierają organicznie do wystarczającej liczby osób",
+          impact: "Mało nowych obserwujących pomimo dobrej treści"
+        },
+        {
+          title: "Droga Reklama",
+          level: "WYSOKI",
+          description: "Płatne reklamy kosztują dużo, ale nie przynoszą trwałych fanów",
+          impact: "Wysokie koszty bez gwarantowanego zwrotu"
+        },
+        {
+          title: "Brakujący Kapitał",
+          level: "ŚREDNI",
+          description: "Brak środków na produkcję muzyczną i profesjonalne wideo",
+          impact: "Ograniczona jakość produkcji"
+        },
+        {
+          title: "Słabe Zaangażowanie",
+          level: "NISKI",
+          description: "Interakcje z fanami nie przynoszą bezpośredniej wartości dodanej",
+          impact: "Powierzchowne relacje z fanami"
+        }
+      ],
+      viciouscircle: {
+        title: 'Błędne Koło',
+        centerText: 'BŁĘDNE KOŁO',
+        centerSubtext: 'Niekończąca się Pętla',
+        explanation: 'Każdy punkt wzmacnia następny w niekończącym się cyklu stagnacji.',
+        solution: 'D.FAITH przerywa ten cykl!',
+        nodes: [
+          'Niski\nZasięg',
+          'Słabe\nZaangażowanie',
+          'Brak nowych\nFanów',
+          'Brak\nDochodu',
+          'Brak\nInwestycji',
+          'Słaba\nTreść'
+        ]
+      },
+      impact: 'Wpływ'
     }
-  ]
+  };
+  return content[language];
+};
+
+// Solution Section Translations
+const SolutionSectionTranslations = (language: 'de' | 'en' | 'pl') => {
+  const content = {
+    de: {
+      title: 'Die D.FAITH Revolution',
+      subtitle: 'Ein intelligentes Dual-Token-System, das den Teufelskreis durchbricht und eine Win-Win-Situation für Künstler und Fans schafft',
+      dfaith: {
+        name: 'D.FAITH',
+        subtitle: 'Fan-Belohnungstoken',
+        features: [
+          'Belohnt treue Fans für ihr Engagement',
+          'Kann in ETH getauscht oder im Shop verwendet werden',
+          'Wertsteigerung durch Verknappung'
+        ]
+      },
+      dinvest: {
+        name: 'D.INVEST',
+        subtitle: 'Investitions-Token',
+        features: [
+          'Ermöglicht Kapitalbeschaffung für Musikproduktion',
+          'Entsperrt gesperrte D.FAITH Token durch Staking',
+          'Investoren profitieren von steigenden D.FAITH Preisen'
+        ]
+      },
+      coreIdea: {
+        title: '💡 Die Kernidee',
+        description: 'investiert Dawid Faith direkt in',
+        highlight1: 'Statt Geld für Werbung auszugeben',
+        highlight2: 'Fan-Belohnungen',
+        highlight3: 'selbstverstärkenden Kreislauf',
+        continuation: '. Das motiviert Fans zu mehr Engagement, was zu besserer Reichweite und einem',
+        end: 'führt.',
+        beforeLabel: 'VORHER',
+        beforeText: 'Geld für Werbung ohne Garantie',
+        afterLabel: 'NACHHER',
+        afterText: 'Direkter Fan-Nutzen + Kapital'
+      }
+    },
+    en: {
+      title: 'The D.FAITH Revolution',
+      subtitle: 'An intelligent dual-token system that breaks the vicious cycle and creates a win-win situation for artists and fans',
+      dfaith: {
+        name: 'D.FAITH',
+        subtitle: 'Fan Reward Token',
+        features: [
+          'Rewards loyal fans for their engagement',
+          'Can be exchanged for ETH or used in the shop',
+          'Value increase through scarcity'
+        ]
+      },
+      dinvest: {
+        name: 'D.INVEST',
+        subtitle: 'Investment Token',
+        features: [
+          'Enables capital raising for music production',
+          'Unlocks locked D.FAITH tokens through staking',
+          'Investors profit from rising D.FAITH prices'
+        ]
+      },
+      coreIdea: {
+        title: '💡 The Core Idea',
+        description: ', Dawid Faith invests directly in',
+        highlight1: 'Instead of spending money on advertising',
+        highlight2: 'fan rewards',
+        highlight3: 'self-reinforcing cycle',
+        continuation: '. This motivates fans to engage more, leading to better reach and a',
+        end: '.',
+        beforeLabel: 'BEFORE',
+        beforeText: 'Money for ads without guarantee',
+        afterLabel: 'AFTER',
+        afterText: 'Direct fan benefit + capital'
+      }
+    },
+    pl: {
+      title: 'Rewolucja D.FAITH',
+      subtitle: 'Inteligentny system podwójnych tokenów, który przerywa błędne koło i tworzy sytuację korzystną dla artystów i fanów',
+      dfaith: {
+        name: 'D.FAITH',
+        subtitle: 'Token Nagrody dla Fanów',
+        features: [
+          'Nagradza lojalnych fanów za ich zaangażowanie',
+          'Może być wymieniony na ETH lub używany w sklepie',
+          'Wzrost wartości przez rzadkość'
+        ]
+      },
+      dinvest: {
+        name: 'D.INVEST',
+        subtitle: 'Token Inwestycyjny',
+        features: [
+          'Umożliwia pozyskiwanie kapitału na produkcję muzyczną',
+          'Odblokowuje zablokowane tokeny D.FAITH przez staking',
+          'Inwestorzy zyskują na rosnących cenach D.FAITH'
+        ]
+      },
+      coreIdea: {
+        title: '💡 Główna Idea',
+        description: ', Dawid Faith inwestuje bezpośrednio w',
+        highlight1: 'Zamiast wydawać pieniądze na reklamę',
+        highlight2: 'nagrody dla fanów',
+        highlight3: 'samonapędzający się cykl',
+        continuation: '. To motywuje fanów do większego zaangażowania, co prowadzi do lepszego zasięgu i',
+        end: '.',
+        beforeLabel: 'WCZEŚNIEJ',
+        beforeText: 'Pieniądze na reklamy bez gwarancji',
+        afterLabel: 'TERAZ',
+        afterText: 'Bezpośrednie korzyści dla fanów + kapitał'
+      }
+    }
+  };
+  return content[language];
+};
+
+// Enhanced Problem Section Component
+const ProblemSectionV2: React.FC<{ language?: 'de' | 'en' | 'pl' }> = ({ language = 'de' }) => {
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
+  const t = ProblemSectionTranslations(language)
+  
+  const problems = t.problems.map((problem, index) => ({
+    ...problem,
+    color: index < 2 ? "red" : index === 2 ? "orange" : "yellow",
+    icon: [
+      <FaBolt className="text-red-500" />,
+      <FaCoins className="text-red-500" />,
+      <FaChartLine className="text-orange-500" />,
+      <FaHeart className="text-yellow-500" />
+    ][index]
+  }))
 
   return (
     <div ref={ref} className="min-h-screen flex flex-col justify-center p-6">
@@ -390,10 +635,10 @@ const ProblemSectionV2: React.FC = () => {
         className="text-center mb-8"
       >
         <h2 className="text-3xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent mb-4">
-          Das Problem
+          {t.title}
         </h2>
         <p className="text-gray-300 text-lg">
-          Zentrale Herausforderungen für unabhängige Künstler
+          {t.subtitle}
         </p>
       </motion.div>
 
@@ -419,15 +664,11 @@ const ProblemSectionV2: React.FC = () => {
           </div>
           <div>
             <h4 className="font-bold text-red-400 text-lg">Dawid Faith</h4>
-            <p className="text-gray-400 text-sm">Gründer & Künstler</p>
+            <p className="text-gray-400 text-sm">{t.founderTitle}</p>
           </div>
         </div>
         <p className="text-white leading-relaxed italic">
-          &quot;Als unabhängiger Künstler stehe ich vor den gleichen Problemen wie viele andere: 
-          Mein Content bekommt nicht die Reichweite, die er verdient. Bezahlte Werbung ist teuer 
-          und zeitintensiv - und das Geld habe ich nicht. Außerdem fehlt mir das Kapital für 
-          Musikproduktion. Deshalb entwickelte ich D.FAITH: um Fans direkt für ihr Engagement 
-          zu belohnen und gleichzeitig Kapital für meine Musik zu generieren.&quot;
+          &quot;{t.quote}&quot;
         </p>
       </motion.div>
 
@@ -457,7 +698,7 @@ const ProblemSectionV2: React.FC = () => {
                   </span>
                 </div>
                 <p className="text-gray-300 text-sm mb-2">{problem.description}</p>
-                <p className="text-gray-400 text-xs">Impact: {problem.impact}</p>
+                <p className="text-gray-400 text-xs">{t.impact}: {problem.impact}</p>
               </div>
             </div>
           </motion.div>
@@ -471,7 +712,7 @@ const ProblemSectionV2: React.FC = () => {
         transition={{ duration: 0.8, delay: 0.8 }}
         className="mt-8 backdrop-blur-xl bg-gradient-to-r from-red-500/10 to-orange-500/10 rounded-2xl p-6 border border-red-500/20"
       >
-        <h4 className="text-lg font-bold text-red-400 mb-6 text-center">Der Teufelskreis</h4>
+        <h4 className="text-lg font-bold text-red-400 mb-6 text-center">{t.viciouscircle.title}</h4>
         
         {/* Circular Visualization */}
         <div className="relative w-80 h-80 mx-auto mb-4">
@@ -514,12 +755,12 @@ const ProblemSectionV2: React.FC = () => {
             
             {/* Problem Nodes */}
             {[
-              { x: 160, y: 40, text: 'Geringe\nReichweite', color: '#ef4444', angle: 0 },
-              { x: 264, y: 104, text: 'Schwaches\nEngagement', color: '#f97316', angle: 72 },
-              { x: 264, y: 216, text: 'Keine\nneuen Fans', color: '#eab308', angle: 144 },
-              { x: 160, y: 280, text: 'Kein\nEinkommen', color: '#22c55e', angle: 216 },
-              { x: 56, y: 216, text: 'Keine\nInvestition', color: '#3b82f6', angle: 288 },
-              { x: 56, y: 104, text: 'Schlechter\nContent', color: '#8b5cf6', angle: 360 }
+              { x: 160, y: 40, color: '#ef4444', angle: 0 },
+              { x: 264, y: 104, color: '#f97316', angle: 72 },
+              { x: 264, y: 216, color: '#eab308', angle: 144 },
+              { x: 160, y: 280, color: '#22c55e', angle: 216 },
+              { x: 56, y: 216, color: '#3b82f6', angle: 288 },
+              { x: 56, y: 104, color: '#8b5cf6', angle: 360 }
             ].map((node, index) => (
               <g key={index}>
                 <motion.rect
@@ -543,7 +784,7 @@ const ProblemSectionV2: React.FC = () => {
                   animate={inView ? { opacity: 1 } : {}}
                   transition={{ duration: 0.6, delay: 2 + index * 0.2 }}
                 >
-                  {node.text.split('\n').map((line, lineIndex) => (
+                  {t.viciouscircle.nodes[index].split('\n').map((line, lineIndex) => (
                     <tspan key={lineIndex} x={node.x} dy={lineIndex === 0 ? -4 : 10}>
                       {line}
                     </tspan>
@@ -562,8 +803,8 @@ const ProblemSectionV2: React.FC = () => {
             className="absolute inset-0 flex items-center justify-center"
           >
             <div className="text-center bg-black/40 backdrop-blur-sm rounded-full p-4 border border-red-500/30">
-              <div className="text-red-400 font-bold text-sm">TEUFELSKREIS</div>
-              <div className="text-gray-300 text-xs">Endlose Schleife</div>
+              <div className="text-red-400 font-bold text-sm">{t.viciouscircle.centerText}</div>
+              <div className="text-gray-300 text-xs">{t.viciouscircle.centerSubtext}</div>
             </div>
           </motion.div>
         </div>
@@ -575,9 +816,9 @@ const ProblemSectionV2: React.FC = () => {
           transition={{ duration: 0.8, delay: 3.2 }}
           className="text-center text-sm text-gray-400 leading-relaxed"
         >
-          Jeder Punkt verstärkt den nächsten in einem endlosen Kreislauf der Stagnation.
+          {t.viciouscircle.explanation}
           <br />
-          <span className="text-red-300 font-semibold">D.FAITH durchbricht diesen Kreislauf!</span>
+          <span className="text-red-300 font-semibold">{t.viciouscircle.solution}</span>
         </motion.p>
       </motion.div>
     </div>
@@ -585,8 +826,9 @@ const ProblemSectionV2: React.FC = () => {
 }
 
 // Enhanced Solution Section Component
-const SolutionSectionV2: React.FC = () => {
+const SolutionSectionV2: React.FC<{ language?: 'de' | 'en' | 'pl' }> = ({ language = 'de' }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
+  const t = SolutionSectionTranslations(language)
   
   return (
     <div ref={ref} className="min-h-screen flex flex-col justify-center p-6">
@@ -603,10 +845,10 @@ const SolutionSectionV2: React.FC = () => {
           </div>
         </div>
         <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent mb-4">
-          Die D.FAITH Revolution
+          {t.title}
         </h2>
         <p className="text-gray-300 text-lg">
-          Ein intelligentes Dual-Token-System, das den Teufelskreis durchbricht und eine Win-Win-Situation für Künstler und Fans schafft
+          {t.subtitle}
         </p>
       </motion.div>
 
@@ -622,24 +864,20 @@ const SolutionSectionV2: React.FC = () => {
           <div className="flex items-center gap-4 mb-6">
             <Image src="/d-faith-logo.png" alt="D.FAITH Logo" width={60} height={60} className="rounded-xl" />
             <div>
-              <h3 className="text-2xl font-bold text-amber-400">D.FAITH</h3>
-              <p className="text-amber-300">Fan-Belohnungstoken</p>
+              <h3 className="text-2xl font-bold text-amber-400">{t.dfaith.name}</h3>
+              <p className="text-amber-300">{t.dfaith.subtitle}</p>
             </div>
           </div>
           
           <div className="space-y-3 mb-6">
-            <div className="flex items-center gap-3">
-              <FaUsers className="text-amber-400" />
-              <span className="text-gray-300 text-sm">Belohnt treue Fans für ihr Engagement</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <FaCoins className="text-amber-400" />
-              <span className="text-gray-300 text-sm">Kann in ETH getauscht oder im Shop verwendet werden</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <FaChartLine className="text-amber-400" />
-              <span className="text-gray-300 text-sm">Wertsteigerung durch Verknappung</span>
-            </div>
+            {t.dfaith.features.map((feature, index) => (
+              <div key={index} className="flex items-center gap-3">
+                {index === 0 && <FaUsers className="text-amber-400" />}
+                {index === 1 && <FaCoins className="text-amber-400" />}
+                {index === 2 && <FaChartLine className="text-amber-400" />}
+                <span className="text-gray-300 text-sm">{feature}</span>
+              </div>
+            ))}
           </div>
         </motion.div>
 
@@ -653,24 +891,20 @@ const SolutionSectionV2: React.FC = () => {
           <div className="flex items-center gap-4 mb-6">
             <Image src="/d-invest-logo.png" alt="D.INVEST Logo" width={60} height={60} className="rounded-xl" />
             <div>
-              <h3 className="text-2xl font-bold text-blue-400">D.INVEST</h3>
-              <p className="text-blue-300">Investitions-Token</p>
+              <h3 className="text-2xl font-bold text-blue-400">{t.dinvest.name}</h3>
+              <p className="text-blue-300">{t.dinvest.subtitle}</p>
             </div>
           </div>
           
           <div className="space-y-3 mb-6">
-            <div className="flex items-center gap-3">
-              <FaCoins className="text-blue-400" />
-              <span className="text-gray-300 text-sm">Ermöglicht Kapitalbeschaffung für Musikproduktion</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <FaChartLine className="text-blue-400" />
-              <span className="text-gray-300 text-sm">Entsperrt gesperrte D.FAITH Token durch Staking</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <FaUsers className="text-blue-400" />
-              <span className="text-gray-300 text-sm">Investoren profitieren von steigenden D.FAITH Preisen</span>
-            </div>
+            {t.dinvest.features.map((feature, index) => (
+              <div key={index} className="flex items-center gap-3">
+                {index === 0 && <FaCoins className="text-blue-400" />}
+                {index === 1 && <FaChartLine className="text-blue-400" />}
+                {index === 2 && <FaUsers className="text-blue-400" />}
+                <span className="text-gray-300 text-sm">{feature}</span>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>
@@ -684,27 +918,28 @@ const SolutionSectionV2: React.FC = () => {
       >
         <div className="text-center">
           <h3 className="text-2xl font-bold text-green-400 mb-4">
-            💡 Die Kernidee
+            {t.coreIdea.title}
           </h3>
           <p className="text-gray-300 leading-relaxed mb-4">
-            <span className="font-bold text-red-300">Statt Geld für Werbung auszugeben</span>, investiert Dawid Faith direkt in 
-            <span className="font-bold text-green-300"> Fan-Belohnungen</span>. Das motiviert Fans zu mehr Engagement, 
-            was zu besserer Reichweite und einem <span className="font-bold text-purple-300">selbstverstärkenden Kreislauf</span> führt.
+            <span className="font-bold text-red-300">{t.coreIdea.highlight1}</span>
+            {t.coreIdea.description} <span className="font-bold text-green-300">{t.coreIdea.highlight2}</span>
+            {t.coreIdea.continuation} <span className="font-bold text-purple-300">{t.coreIdea.highlight3}</span>
+            {t.coreIdea.end}
           </p>
           
           <div className="flex justify-center items-center space-x-3">
             <div className="text-center">
               <div className="bg-red-500/20 rounded-lg p-2 mb-1">
-                <span className="text-xs font-bold text-red-400">VORHER</span>
+                <span className="text-xs font-bold text-red-400">{t.coreIdea.beforeLabel}</span>
               </div>
-              <p className="text-xs text-gray-400">Geld für Werbung ohne Garantie</p>
+              <p className="text-xs text-gray-400">{t.coreIdea.beforeText}</p>
             </div>
             <FaArrowRight className="text-green-400 text-lg" />
             <div className="text-center">
               <div className="bg-green-500/20 rounded-lg p-2 mb-1">
-                <span className="text-xs font-bold text-green-400">NACHHER</span>
+                <span className="text-xs font-bold text-green-400">{t.coreIdea.afterLabel}</span>
               </div>
-              <p className="text-xs text-gray-400">Direkter Fan-Nutzen + Kapital</p>
+              <p className="text-xs text-gray-400">{t.coreIdea.afterText}</p>
             </div>
           </div>
         </div>
