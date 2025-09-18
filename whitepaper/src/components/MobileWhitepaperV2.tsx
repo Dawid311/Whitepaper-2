@@ -21,7 +21,7 @@ import {
 } from 'react-icons/fa'
 import Image from 'next/image'
 
-// Flag components (same as NavigationMenu)
+// Flag components
 const DEFlag = () => (
   <div className="inline-flex w-6 h-4 bg-gradient-to-b from-black via-red-600 to-yellow-400 rounded border border-gray-300 shadow-sm"></div>
 );
@@ -333,12 +333,7 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
         </section>
       </div>
 
-      {/* Bottom Navigation */}
-      <BottomNavigation 
-        sections={sections}
-        currentSection={currentSection}
-        onSectionChange={setCurrentSection}
-      />
+      {/* Navigation entfernt: keine BottomNavigation mehr */}
     </animated.div>
   )
 }
