@@ -507,16 +507,14 @@ const InteractiveTimeline: React.FC = () => {
         <div className="backdrop-blur-xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-2xl border border-purple-500/30">
           <button
             onClick={() => setShowProfitableInfo(!showProfitableInfo)}
-            className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
+            className="w-full p-6 text-left hover:bg-white/5 transition-colors rounded-2xl"
           >
-            <h3 className="font-bold text-lg text-white">
+            <span className="text-white text-base font-medium">
               {texts.expandableInfo.profitableTitle}
-            </h3>
-            <div className="flex items-center gap-2 text-gray-400 text-xs">
-              <span>
-                {showProfitableInfo ? texts.ui.hideDetails : texts.ui.showDetails}
-              </span>
-            </div>
+            </span>
+            <span className="ml-2 text-gray-400 text-xs">
+              {showProfitableInfo ? texts.ui.hideDetails : texts.ui.showDetails}
+            </span>
           </button>
           
           {showProfitableInfo && (
@@ -540,16 +538,14 @@ const InteractiveTimeline: React.FC = () => {
         <div className="backdrop-blur-xl bg-gradient-to-r from-orange-600/20 to-yellow-600/20 rounded-2xl border border-orange-500/30">
           <button
             onClick={() => setShowRewardLevelsInfo(!showRewardLevelsInfo)}
-            className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-2xl"
+            className="w-full p-6 text-left hover:bg-white/5 transition-colors rounded-2xl"
           >
-            <h3 className="font-bold text-lg text-white">
+            <span className="text-white text-base font-medium">
               {texts.expandableInfo.halvingTitle}
-            </h3>
-            <div className="flex items-center gap-2 text-gray-400 text-xs">
-              <span>
-                {showRewardLevelsInfo ? texts.ui.hideDetails : texts.ui.showDetails}
-              </span>
-            </div>
+            </span>
+            <span className="ml-2 text-gray-400 text-xs">
+              {showRewardLevelsInfo ? texts.ui.hideDetails : texts.ui.showDetails}
+            </span>
           </button>
           
           {showRewardLevelsInfo && (
