@@ -91,7 +91,14 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({ language }) => {
                   {t.resultTitle}
                 </h3>
                 <p className="text-2xl text-slate-300 max-w-3xl mx-auto">
-                  {t.resultDescription.replace('D.FAITH Ökosystem', <span className="text-cyan-400 font-bold">D.FAITH Ökosystem</span> as any)}
+                  {t.resultDescription.split('D.FAITH Ökosystem').map((part: string, index: number) => (
+                    index === 0 ? part : (
+                      <React.Fragment key={index}>
+                        <span className="text-cyan-400 font-bold">D.FAITH Ökosystem</span>
+                        {part}
+                      </React.Fragment>
+                    )
+                  ))}
                 </p>
               </motion.div>
             </div>
