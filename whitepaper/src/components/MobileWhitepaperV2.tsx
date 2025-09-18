@@ -103,6 +103,66 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
     config: config.gentle
   })
 
+  // Navigation labels for different languages
+  const navLabels = {
+    de: {
+      navigation: 'Navigation',
+      openNav: 'Navigation öffnen',
+      closeNav: 'Navigation schließen'
+    },
+    en: {
+      navigation: 'Navigation',
+      openNav: 'Open navigation',
+      closeNav: 'Close navigation'
+    },
+    pl: {
+      navigation: 'Nawigacja',
+      openNav: 'Otwórz nawigację',
+      closeNav: 'Zamknij nawigację'
+    }
+  }
+
+  const currentNavLabels = navLabels[language] || navLabels.de
+
+  // Section titles for different languages
+  const getSectionTitles = (lang: 'de' | 'en' | 'pl') => {
+    const titles = {
+      de: {
+        hero: 'D.FAITH Ökosystem',
+        problem: 'Das Problem',
+        solution: 'Die Lösung',
+        process: 'Prozess',
+        tokenomics: 'Tokenomics',
+        webapp: 'Webapp',
+        team: 'Team',
+        roadmap: 'Roadmap'
+      },
+      en: {
+        hero: 'D.FAITH Ecosystem',
+        problem: 'The Problem',
+        solution: 'The Solution',
+        process: 'Process',
+        tokenomics: 'Tokenomics',
+        webapp: 'Webapp',
+        team: 'Team',
+        roadmap: 'Roadmap'
+      },
+      pl: {
+        hero: 'Ekosystem D.FAITH',
+        problem: 'Problem',
+        solution: 'Rozwiązanie',
+        process: 'Proces',
+        tokenomics: 'Tokenomics',
+        webapp: 'Webapp',
+        team: 'Zespół',
+        roadmap: 'Mapa drogowa'
+      }
+    }
+    return titles[lang] || titles.de
+  }
+
+  const sectionTitles = getSectionTitles(language)
+
   // Parallax transforms
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -50])
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -100])
@@ -111,7 +171,7 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
   const sections = [
     {
       id: 'hero',
-      title: 'D.FAITH Ökosystem',
+      title: sectionTitles.hero,
       icon: <FaRocket className="text-blue-400" />,
       gradient: 'from-blue-500 to-purple-600',
       component: <EnhancedHeroSection 
@@ -123,49 +183,49 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
     },
     {
       id: 'problem',
-      title: 'Das Problem',
+      title: sectionTitles.problem,
       icon: <FaBolt className="text-red-400" />,
       gradient: 'from-red-500 to-orange-500',
       component: <ProblemSectionV2 language={language} />
     },
     {
       id: 'solution',
-      title: 'Die Lösung',
+      title: sectionTitles.solution,
       icon: <FaLightbulb className="text-green-400" />,
       gradient: 'from-green-500 to-emerald-500',
       component: <SolutionSectionV2 language={language} />
     },
     {
       id: 'process',
-      title: 'Prozess',
+      title: sectionTitles.process,
       icon: <FaCog className="text-blue-400" />,
       gradient: 'from-blue-500 to-cyan-500',
       component: <InteractiveTimeline />
     },
     {
       id: 'tokenomics',
-      title: 'Tokenomics',
+      title: sectionTitles.tokenomics,
       icon: <FaCoins className="text-purple-400" />,
       gradient: 'from-purple-500 to-pink-500',
       component: <GlassmorphismTokenomics tokenPrices={tokenPrices} />
     },
     {
       id: 'webapp',
-      title: 'Webapp',
+      title: sectionTitles.webapp,
       icon: <FaMobileAlt className="text-cyan-400" />,
       gradient: 'from-cyan-500 to-blue-500',
       component: <WebappShowcase />
     },
     {
       id: 'team',
-      title: 'Team',
+      title: sectionTitles.team,
       icon: <FaUsers className="text-amber-400" />,
       gradient: 'from-amber-500 to-orange-500',
       component: <TeamSectionV3 />
     },
     {
       id: 'roadmap',
-      title: 'Roadmap',
+      title: sectionTitles.roadmap,
       icon: <FaChartLine className="text-cyan-400" />,
       gradient: 'from-cyan-500 to-purple-500',
       component: <RoadmapTimelineV2 />
@@ -210,27 +270,6 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
       setShowNav(false)
     }
   }
-
-  // Navigation labels for different languages
-  const navLabels = {
-    de: {
-      navigation: 'Navigation',
-      openNav: 'Navigation öffnen',
-      closeNav: 'Navigation schließen'
-    },
-    en: {
-      navigation: 'Navigation',
-      openNav: 'Open navigation',
-      closeNav: 'Close navigation'
-    },
-    pl: {
-      navigation: 'Nawigacja',
-      openNav: 'Otwórz nawigację',
-      closeNav: 'Zamknij nawigację'
-    }
-  }
-
-  const currentNavLabels = navLabels[language] || navLabels.de
 
   return (
     <animated.div 
