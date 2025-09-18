@@ -143,10 +143,10 @@ const InteractiveTimeline: React.FC = () => {
         {/* Center Info */}
         <div className="absolute z-30 backdrop-blur-xl bg-white/10 rounded-full border border-white/20 flex flex-col items-center justify-center">
           <div className={`${
-            currentSteps.length === 6 ? 'w-32 h-32' : 'w-24 h-24'
+            currentSteps.length === 6 ? 'w-28 h-28' : 'w-20 h-20'
           } flex flex-col items-center justify-center`}>
             <span className={`text-white font-bold ${
-              currentSteps.length === 6 ? 'text-lg' : 'text-base'
+              currentSteps.length === 6 ? 'text-base' : 'text-sm'
             }`}>
               {currentCycle === 'main' ? '6' : '5'} Schritte
             </span>
@@ -159,7 +159,7 @@ const InteractiveTimeline: React.FC = () => {
         </div>
 
         {/* Circle Steps using CSS Grid */}
-        <div className={`grid place-items-center w-80 h-80 relative ${
+        <div className={`grid place-items-center w-72 h-72 relative ${
           currentSteps.length === 6 
             ? 'grid-cols-5 grid-rows-5' 
             : 'grid-cols-5 grid-rows-5'
@@ -201,9 +201,9 @@ const InteractiveTimeline: React.FC = () => {
                   index === activeStep
                     ? 'bg-white/20 border-white/40 scale-110 shadow-2xl'
                     : 'bg-white/10 border-white/20 hover:bg-white/15 hover:scale-105'
-                } w-20 h-20 flex flex-col items-center justify-center`}>
+                } w-16 h-16 flex flex-col items-center justify-center`}>
                   {/* Step Icon */}
-                  <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white text-sm`}>
+                  <div className={`w-6 h-6 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white text-xs`}>
                     {step.icon}
                   </div>
                   
@@ -219,7 +219,7 @@ const InteractiveTimeline: React.FC = () => {
           {/* SVG Connection Lines with Arrows */}
           <svg 
             className="absolute inset-0 w-full h-full pointer-events-none" 
-            viewBox="0 0 320 320"
+            viewBox="0 0 288 288"
             style={{ zIndex: 5 }}
           >
             <defs>
@@ -271,7 +271,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  x1="160" y1="32" x2="256" y2="64"
+                  x1="144" y1="29" x2="230" y2="58"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
@@ -281,7 +281,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  x1="256" y1="96" x2="256" y2="224"
+                  x1="230" y1="86" x2="230" y2="202"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
@@ -291,7 +291,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.7 }}
-                  x1="224" y1="256" x2="160" y2="288"
+                  x1="202" y1="230" x2="144" y2="259"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
@@ -301,7 +301,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.8 }}
-                  x1="128" y1="288" x2="64" y2="256"
+                  x1="115" y1="259" x2="58" y2="230"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
@@ -311,7 +311,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.9 }}
-                  x1="64" y1="224" x2="64" y2="96"
+                  x1="58" y1="202" x2="58" y2="86"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
@@ -321,7 +321,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 1.0 }}
-                  x1="96" y1="64" x2="128" y2="32"
+                  x1="86" y1="58" x2="115" y2="29"
                   stroke="#a855f7" strokeWidth="2"
                   markerEnd="url(#arrowhead-purple)"
                 />
@@ -333,7 +333,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  x1="160" y1="32" x2="256" y2="64"
+                  x1="144" y1="29" x2="230" y2="58"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
@@ -343,7 +343,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  x1="240" y1="96" x2="224" y2="288"
+                  x1="216" y1="86" x2="202" y2="259"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
@@ -353,7 +353,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.7 }}
-                  x1="192" y1="288" x2="128" y2="288"
+                  x1="173" y1="259" x2="115" y2="259"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
@@ -363,7 +363,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.8 }}
-                  x1="96" y1="256" x2="64" y2="96"
+                  x1="86" y1="230" x2="58" y2="86"
                   stroke="#60a5fa" strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
@@ -373,7 +373,7 @@ const InteractiveTimeline: React.FC = () => {
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.9 }}
-                  x1="96" y1="64" x2="128" y2="32"
+                  x1="86" y1="58" x2="115" y2="29"
                   stroke="#a855f7" strokeWidth="2"
                   markerEnd="url(#arrowhead-purple)"
                 />
@@ -386,7 +386,7 @@ const InteractiveTimeline: React.FC = () => {
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                 transition={{ duration: 0.5, delay: 1.1 }}
-                x1="256" y1="240" x2="280" y2="320"
+                x1="230" y1="216" x2="252" y2="288"
                 stroke="#10b981" strokeWidth="2"
                 markerEnd="url(#arrowhead-green)"
               />
@@ -405,8 +405,8 @@ const InteractiveTimeline: React.FC = () => {
                 activeStep === 6 ? 'z-20' : 'z-10'
               }`}
               style={{
-                left: '240px',
-                top: '300px'
+                left: '216px',
+                top: '270px'
               }}
             >
               {/* External Step Card */}
@@ -414,9 +414,9 @@ const InteractiveTimeline: React.FC = () => {
                 activeStep === 6
                   ? 'bg-white/20 border-white/40 scale-110 shadow-2xl'
                   : 'bg-white/10 border-white/20 hover:bg-white/15 hover:scale-105'
-              } w-20 h-20 flex flex-col items-center justify-center`}>
+              } w-16 h-16 flex flex-col items-center justify-center`}>
                 {/* Step Icon */}
-                <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${extraStep.color} flex items-center justify-center text-white text-sm`}>
+                <div className={`w-6 h-6 rounded-full bg-gradient-to-r ${extraStep.color} flex items-center justify-center text-white text-xs`}>
                   {extraStep.icon}
                 </div>
                 
