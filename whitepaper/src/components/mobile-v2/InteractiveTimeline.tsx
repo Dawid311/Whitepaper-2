@@ -461,6 +461,38 @@ const InteractiveTimeline: React.FC = () => {
                 <FaArrowRight className="transform rotate-90" />
               </button>
             </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex items-center gap-3 justify-end mt-4">
+              <button
+                onClick={() => {
+                  // Schritt zurück
+                  if (activeStep === 0) return setActiveStep(-1)
+                  setActiveStep((s) => s - 1)
+                }}
+                className="px-4 py-2 rounded-xl border border-white/20 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-sm"
+              >
+                {uiLabels.back}
+              </button>
+              <button
+                onClick={() => {
+                  // Nächster Schritt Logik (inkl. extraStep bei main cycle)
+                  const isMain = currentCycle === 'main'
+                  const maxIdx = currentSteps.length - 1 // 5 bei main, 4 bei market
+                  if (isMain) {
+                    if (activeStep < maxIdx) return setActiveStep(activeStep + 1)
+                    if (activeStep === maxIdx) return setActiveStep(6) // extraStep
+                    if (activeStep === 6) return setActiveStep(-1) // Ende -> schließen
+                  } else {
+                    if (activeStep < maxIdx) return setActiveStep(activeStep + 1)
+                    return setActiveStep(-1) // Ende -> schließen
+                  }
+                }}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity text-sm"
+              >
+                {uiLabels.next}
+              </button>
+            </div>
           </motion.div>
         )}
 
