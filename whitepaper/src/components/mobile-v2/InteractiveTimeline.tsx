@@ -516,9 +516,6 @@ const InteractiveTimeline: React.FC = () => {
               <span>
                 {showProfitableInfo ? texts.ui.hideDetails : texts.ui.showDetails}
               </span>
-              <FaArrowRight className={`transition-transform duration-300 ${
-                showProfitableInfo ? 'rotate-90' : ''
-              }`} />
             </div>
           </button>
           
@@ -552,9 +549,6 @@ const InteractiveTimeline: React.FC = () => {
               <span>
                 {showRewardLevelsInfo ? texts.ui.hideDetails : texts.ui.showDetails}
               </span>
-              <FaArrowRight className={`transition-transform duration-300 ${
-                showRewardLevelsInfo ? 'rotate-90' : ''
-              }`} />
             </div>
           </button>
           
@@ -580,9 +574,7 @@ const InteractiveTimeline: React.FC = () => {
                 </div>
                 
                 <div className="flex items-center justify-center gap-3 p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl">
-                  <FaChartLine className="text-yellow-400" />
                   <span className="text-white font-medium">{texts.expandableInfo.halvingContent.longTerm}</span>
-                  <FaChartLine className="text-orange-400" />
                 </div>
               </div>
             </motion.div>
