@@ -178,13 +178,13 @@ export const interactiveTimelineTexts: Record<string, InteractiveTimelineTexts> 
       ]
     },
     expandableInfo: {
-      profitableTitle: "💰 Was passiert wenn D.INVEST profitabel wird?",
-      profitableContent: "Wenn D.INVEST profitabel wird, kaufen Investoren verstärkt D.INVEST Token. Dadurch werden mehr D.FAITH Rewards ausgegeben, was zu fallenden D.FAITH Preisen führt. Dieser Zyklus wiederholt sich solange, bis das automatische Halving eintritt und die Ausgaberate halbiert wird, um den Markt zu stabilisieren.",
-      halvingTitle: "🏆 Warum 6 Halving Stufen?",
+      profitableTitle: "Was passiert wenn D.INVEST profitabel wird?",
+      profitableContent: "Wenn D.INVEST die Break-Even-Phase erreicht und Gewinne erwirtschaftet, fließen 100% der Profits zusätzlich in den Hauptzyklus: D.FAITH Token werden weiterhin gekauft → Preise steigen → D.INVEST Staking wird noch profitabler → Mehr Menschen kaufen D.INVEST → Dawid kann größere Marketing-Kampagnen finanzieren → Noch stärkerer Wachstumszyklus entsteht. Ein sich selbst verstärkender Kreislauf der Profitabilität.",
+      halvingTitle: "Warum 6 Halving Stufen?",
       halvingContent: {
-        description: "Dieser Mechanismus soll dazu führen, dass Kapital an das Projekt in Zyklen fließt, damit es sich weiterentwickelt und selbst Einnahmen erwirtschaften kann.",
-        success: "Sobald alle D.INVEST verkauft sind und das Projekt erfolgreich ist, werden weiterhin aus den Einnahmen D.FAITH Tokens beim Marketing gekauft.",
-        longTerm: "Langfristige Investoren profitieren dadurch am meisten"
+        description: "Dieser Mechanismus ist darauf ausgelegt sicherzustellen, dass Kapital in Zyklen zum Projekt fließt und es sich entwickeln und eigene Einnahmen generieren kann.",
+        success: "Sobald alle D.INVEST verkauft sind und das Projekt erfolgreich ist, werden D.FAITH Token weiterhin aus den Einnahmen während des Marketings gekauft.",
+        longTerm: "Langzeit-Investoren profitieren am meisten davon"
       }
     },
     ui: {
@@ -329,9 +329,9 @@ export const interactiveTimelineTexts: Record<string, InteractiveTimelineTexts> 
       ]
     },
     expandableInfo: {
-      profitableTitle: "💰 What happens when D.INVEST becomes profitable?",
+      profitableTitle: "What happens when D.INVEST becomes profitable?",
       profitableContent: "When D.INVEST becomes profitable, investors increasingly buy D.INVEST tokens. This leads to more D.FAITH rewards being distributed, causing falling D.FAITH prices. This cycle repeats until automatic halving occurs and the distribution rate is halved to stabilize the market.",
-      halvingTitle: "🏆 Why 6 halving levels?",
+      halvingTitle: "Why 6 halving levels?",
       halvingContent: {
         description: "This mechanism is designed to ensure that capital flows to the project in cycles, allowing it to develop and generate its own revenue.",
         success: "Once all D.INVEST are sold and the project is successful, D.FAITH tokens will continue to be purchased from revenue during marketing.",
@@ -480,9 +480,9 @@ export const interactiveTimelineTexts: Record<string, InteractiveTimelineTexts> 
       ]
     },
     expandableInfo: {
-      profitableTitle: "💰 Co się dzieje, gdy D.INVEST staje się opłacalny?",
+      profitableTitle: "Co się dzieje, gdy D.INVEST staje się opłacalny?",
       profitableContent: "Gdy D.INVEST staje się opłacalny, inwestorzy coraz częściej kupują tokeny D.INVEST. Prowadzi to do dystrybucji większej ilości nagród D.FAITH, powodując spadek cen D.FAITH. Ten cykl powtarza się do momentu wystąpienia automatycznego halving i zmniejszenia o połowę stopy dystrybucji w celu stabilizacji rynku.",
-      halvingTitle: "🏆 Dlaczego 6 poziomów halving?",
+      halvingTitle: "Dlaczego 6 poziomów halving?",
       halvingContent: {
         description: "Ten mechanizm ma na celu zapewnienie, że kapitał płynie do projektu w cyklach, pozwalając mu się rozwijać i generować własne przychody.",
         success: "Gdy wszystkie D.INVEST zostaną sprzedane, a projekt będzie udany, tokeny D.FAITH będą nadal kupowane z przychodów podczas marketingu.",
