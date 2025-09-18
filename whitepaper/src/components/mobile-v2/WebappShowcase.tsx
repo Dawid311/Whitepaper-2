@@ -142,7 +142,7 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
       style={{
         background: `
           linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(88, 28, 135, 0.85) 50%, rgba(15, 23, 42, 0.95) 100%),
-          url('/d-faith-logo.png')
+          url('/dawid-faith-still.jpg')
         `,
         backgroundSize: '400px 400px, cover',
         backgroundPosition: 'center, center',
@@ -158,8 +158,8 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
       <div className="flex flex-col items-center gap-4 mb-8 mt-8">
         <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 via-pink-500 to-purple-500 shadow-lg p-1">
           <Image 
-            src="/d-faith-logo.png" 
-            alt="D.FAITH Logo" 
+            src="/dawid-faith-still.jpg" 
+            alt="Dawid Faith" 
             width={56} 
             height={56} 
             className="rounded-xl object-cover" 
