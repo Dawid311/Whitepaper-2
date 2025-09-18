@@ -15,10 +15,6 @@ import {
   FaChartLine,
   FaMusic,
   FaHeart,
-  FaInstagram,
-  FaTiktok,
-  FaFacebook,
-  FaEthereum,
   FaBolt,
   FaArrowRight,
   FaMobileAlt
@@ -614,16 +610,13 @@ const SolutionSectionTranslations = (language: 'de' | 'en' | 'pl') => {
 const ProblemSectionV2: React.FC<{ language?: 'de' | 'en' | 'pl' }> = ({ language = 'de' }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
   const t = ProblemSectionTranslations(language)
-  
+
+  // Use component types instead of an array of JSX elements to avoid jsx-key lint errors
+  const problemIconComponents = [FaBolt, FaCoins, FaChartLine, FaHeart] as const
   const problems = t.problems.map((problem, index) => ({
     ...problem,
-    color: index < 2 ? "red" : index === 2 ? "orange" : "yellow",
-    icon: [
-      <FaBolt className="text-red-500" />,
-      <FaCoins className="text-red-500" />,
-      <FaChartLine className="text-orange-500" />,
-      <FaHeart className="text-yellow-500" />
-    ][index]
+    color: index < 2 ? 'red' : index === 2 ? 'orange' : 'yellow',
+    icon: problemIconComponents[index]
   }))
 
   return (
@@ -684,7 +677,15 @@ const ProblemSectionV2: React.FC<{ language?: 'de' | 'en' | 'pl' }> = ({ languag
           >
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
-                {problem.icon}
+                {(() => {
+                  const IconComp = problem.icon
+                  const iconClass = problem.color === 'red'
+                    ? 'text-red-500'
+                    : problem.color === 'orange'
+                    ? 'text-orange-500'
+                    : 'text-yellow-500'
+                  return <IconComp className={iconClass} />
+                })()}
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
