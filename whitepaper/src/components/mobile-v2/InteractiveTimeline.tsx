@@ -430,7 +430,7 @@ const InteractiveTimeline: React.FC = () => {
         </div>
       </div>
 
-        {/* Aktiver Schritt – Details unter dem Kreis */}
+        {/* Aktiver Schritt – Nur Überschrift und Unterüberschrift unter dem Kreis */}
         {activeStep !== -1 && (
           <motion.div
             initial={{ opacity: 0, y: 20, height: 0 }}
@@ -439,8 +439,7 @@ const InteractiveTimeline: React.FC = () => {
             transition={{ duration: 0.3 }}
             className="backdrop-blur-xl bg-white/10 rounded-2xl p-6 border border-white/20 mb-8"
           >
-            {/* Header */}
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-4 mb-2">
               <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${
                 activeStep === 6 ? extraStep.color : currentSteps[activeStep].color
               } flex items-center justify-center text-white text-lg`}>
@@ -460,45 +459,6 @@ const InteractiveTimeline: React.FC = () => {
                 aria-label={uiLabels.closeDetails}
               >
                 <FaArrowRight className="transform rotate-90" />
-              </button>
-            </div>
-
-            {/* Details Text */}
-            <div className="bg-white/5 rounded-xl p-4 mb-4">
-              <p className="text-gray-300 text-sm leading-relaxed">
-                {activeStep === 6 ? extraStep.details : currentSteps[activeStep].details}
-              </p>
-            </div>
-
-            {/* Navigation Buttons */}
-            <div className="flex items-center gap-3 justify-end">
-              <button
-                onClick={() => {
-                  // Schritt zurück
-                  if (activeStep === 0) return setActiveStep(-1)
-                  setActiveStep((s) => s - 1)
-                }}
-                className="px-4 py-2 rounded-xl border border-white/20 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-sm"
-              >
-                {uiLabels.back}
-              </button>
-              <button
-                onClick={() => {
-                  // Nächster Schritt Logik (inkl. extraStep bei main cycle)
-                  const isMain = currentCycle === 'main'
-                  const maxIdx = currentSteps.length - 1 // 5 bei main, 4 bei market
-                  if (isMain) {
-                    if (activeStep < maxIdx) return setActiveStep(activeStep + 1)
-                    if (activeStep === maxIdx) return setActiveStep(6) // extraStep
-                    if (activeStep === 6) return setActiveStep(-1) // Ende -> schließen
-                  } else {
-                    if (activeStep < maxIdx) return setActiveStep(activeStep + 1)
-                    return setActiveStep(-1) // Ende -> schließen
-                  }
-                }}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity text-sm"
-              >
-                {uiLabels.next}
               </button>
             </div>
           </motion.div>
