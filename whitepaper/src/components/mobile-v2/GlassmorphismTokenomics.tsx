@@ -36,7 +36,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
   const [activeTab, setActiveTab] = useState<'overview' | 'halving' | 'roi' | 'tech'>('overview')
   const [selectedStage, setSelectedStage] = useState(1)
-  const [investmentAmount, setInvestmentAmount] = useState(10)
+  const [investmentAmount, setInvestmentAmount] = useState(100)
   const [dfaithPrice, setDfaithPrice] = useState(0.20)
   const [selectedHalvingStage, setSelectedHalvingStage] = useState(1)
 
@@ -634,7 +634,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                     <input
                       type="range"
                       min="1"
-                      max="10000"
+                      max="200"
                       value={investmentAmount}
                       onChange={(e) => setInvestmentAmount(Number(e.target.value))}
                       className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
@@ -694,6 +694,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                     <p className="text-gray-400 text-sm mb-1">Jährlicher ROI</p>
                     <p className="text-2xl font-bold text-blue-400">{calculateROI(investmentAmount, dfaithPrice).toFixed(1)}%</p>
+                    <p className="text-xs text-blue-300 mt-1">≈ €{((investmentAmount * 5 * calculateROI(investmentAmount, dfaithPrice)) / 100).toLocaleString()}</p>
                   </div>
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10 col-span-2">
                     <p className="text-gray-400 text-sm mb-1">Jährlicher Gewinn</p>
