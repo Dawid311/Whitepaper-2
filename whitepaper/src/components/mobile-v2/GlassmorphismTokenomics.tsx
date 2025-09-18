@@ -535,11 +535,11 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
           >
             <div className="text-center mb-6">
               <h3 className="text-xl font-bold text-orange-400 mb-2 flex items-center justify-center gap-2">
-                <FaBolt /> 6-Stufen Halving System <FaBolt />
+                <FaBolt /> {t.halving.halvingSystemTitle} <FaBolt />
               </h3>
-              <p className="text-gray-400">Systematische Verknappung für nachhaltiges Wachstum</p>
+              <p className="text-gray-400">{t.halving.halvingSystemSubtitle}</p>
               <p className="text-green-400 text-sm mt-2">
-                🔴 Live: Stufe {liveHalvingStage} aktiv
+                {t.halving.livePrefix} {liveHalvingStage} {t.halving.activeStatus}
               </p>
             </div>
 
@@ -623,13 +623,13 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
             <div className="backdrop-blur-xl bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-2xl p-6 border border-green-500/20">
               <h3 className="text-xl font-bold text-center mb-4">
                 <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
-                  <FaTrophy /> ROI Rechner <FaTrophy />
+                  <FaTrophy /> {t.roi.roiCalculatorTitle} <FaTrophy />
                 </span>
               </h3>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-gray-300 text-sm mb-2">D.INVEST Token Anzahl</label>
+                  <label className="block text-gray-300 text-sm mb-2">{t.roi.tokenAmount}</label>
                   <div className="flex items-center gap-4">
                     <input
                       type="range"
@@ -646,7 +646,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 text-sm mb-2">D.FAITH Preis (€)</label>
+                  <label className="block text-gray-300 text-sm mb-2">{t.roi.priceLabel}</label>
                   <div className="flex items-center gap-4">
                     <input
                       type="range"
@@ -664,7 +664,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 text-sm mb-2">Halving-Stufe</label>
+                  <label className="block text-gray-300 text-sm mb-2">{t.roi.halvingStage}</label>
                   <div className="grid grid-cols-3 gap-2">
                     {halvingStages.slice(0, 6).map((stage) => (
                       <button
@@ -721,7 +721,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
             <div className="backdrop-blur-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl p-6 border border-blue-500/20">
               <h3 className="text-xl font-bold text-center mb-4">
                 <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
-                  <FaEthereum /> Blockchain-Infrastruktur <FaEthereum />
+                  <FaEthereum /> {t.tech.blockchainInfraTitle} <FaEthereum />
                 </span>
               </h3>
 
@@ -729,11 +729,10 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                 <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
                   <div className="flex items-center gap-3 mb-3">
                     <FaShieldAlt className="text-blue-400" />
-                    <h4 className="font-bold text-blue-400">Base Chain (Layer 2)</h4>
+                    <h4 className="font-bold text-blue-400">{t.tech.blockchainSubtitle}</h4>
                   </div>
                   <p className="text-gray-300 text-sm leading-relaxed">
-                    Niedrige Transaction-Fees, schnelle Verarbeitung und vollständig Ethereum-kompatibel. 
-                    Optimiert für DeFi-Anwendungen mit enterprise-level Security.
+                    {t.tech.baseChainDesc}
                   </p>
                 </div>
 
@@ -790,52 +789,52 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
             <div className="backdrop-blur-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl p-6 border border-purple-500/20">
               <h3 className="text-xl font-bold text-center mb-4">
                 <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
-                  <FaCog /> Token-Spezifikationen <FaCog />
+                  <FaCog /> {t.tech.tokenSpecsTitle} <FaCog />
                 </span>
               </h3>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
-                    <h4 className="font-bold text-amber-400 mb-2">D.FAITH Token</h4>
+                    <h4 className="font-bold text-amber-400 mb-2">{t.dfaith.title}</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Standard:</span>
+                        <span className="text-gray-400">{t.tech.standard}</span>
                         <span className="text-white">ERC-20</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Decimals:</span>
+                        <span className="text-gray-400">{t.tech.decimals}</span>
                         <span className="text-white">2</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Supply:</span>
+                        <span className="text-gray-400">{t.tech.supply}</span>
                         <span className="text-white">100.000</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Type:</span>
-                        <span className="text-white">Utility</span>
+                        <span className="text-gray-400">{t.tech.type}</span>
+                        <span className="text-white">{t.tech.utility}</span>
                       </div>
                     </div>
                   </div>
 
                   <div className="backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10">
-                    <h4 className="font-bold text-purple-400 mb-2">D.INVEST Token</h4>
+                    <h4 className="font-bold text-purple-400 mb-2">{t.dinvest.title}</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Standard:</span>
+                        <span className="text-gray-400">{t.tech.standard}</span>
                         <span className="text-white">ERC-20</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Decimals:</span>
+                        <span className="text-gray-400">{t.tech.decimals}</span>
                         <span className="text-white">0</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Supply:</span>
+                        <span className="text-gray-400">{t.tech.supply}</span>
                         <span className="text-white">10.000</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Type:</span>
-                        <span className="text-white">Investment</span>
+                        <span className="text-gray-400">{t.tech.type}</span>
+                        <span className="text-white">{t.tech.investmentType}</span>
                       </div>
                     </div>
                   </div>

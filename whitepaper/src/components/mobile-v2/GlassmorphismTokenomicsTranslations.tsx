@@ -17,6 +17,8 @@ export type GlassmorphismTokenomicsTranslations = {
     currentPrice: string;
     dexLiquidity: string;
     community: string;
+    totalSupply: string;
+    marketCap: string;
   };
   dinvest: {
     title: string;
@@ -26,6 +28,7 @@ export type GlassmorphismTokenomicsTranslations = {
     available: string;
     currentStage: string;
     stage: string;
+    totalValue: string;
   };
   halving: {
     title: string;
@@ -38,6 +41,10 @@ export type GlassmorphismTokenomicsTranslations = {
     status: string;
     weeklyRate: string;
     vsFinal: string;
+    halvingSystemTitle: string;
+    halvingSystemSubtitle: string;
+    livePrefix: string;
+    activeStatus: string;
   };
   roi: {
     title: string;
@@ -47,6 +54,7 @@ export type GlassmorphismTokenomicsTranslations = {
     investment: string;
     yearlyROI: string;
     yearlyProfit: string;
+    roiCalculatorTitle: string;
   };
   tech: {
     blockchainTitle: string;
@@ -59,6 +67,14 @@ export type GlassmorphismTokenomicsTranslations = {
     type: string;
     utility: string;
     investmentType: string;
+    blockchainInfraTitle: string;
+    tokenSpecsTitle: string;
+    security: string;
+    decentralized: string;
+    crosschain: string;
+    securityDesc: string;
+    decentralizedDesc: string;
+    crosschainDesc: string;
   };
 };
 
@@ -79,7 +95,9 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       smartContract: 'Smart Contract',
       currentPrice: 'Aktueller Preis',
       dexLiquidity: 'DEX Liquidität',
-      community: 'Community'
+      community: 'Community',
+      totalSupply: 'Gesamtversorgung',
+      marketCap: 'Marktkapitalisierung'
     },
     dinvest: {
       title: 'D.INVEST Token',
@@ -88,7 +106,8 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       sold: 'Verkauft',
       available: 'Verfügbar',
       currentStage: 'Aktuelle Stufe',
-      stage: 'Stufe'
+      stage: 'Stufe',
+      totalValue: 'Gesamtwert'
     },
     halving: {
       title: '6-Stufen Halving System',
@@ -100,7 +119,11 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       final: 'Final',
       status: 'Status',
       weeklyRate: 'Wöchentliche Rate',
-      vsFinal: 'vs. Final'
+      vsFinal: 'vs. Final',
+      halvingSystemTitle: '6-Stufen Halving System',
+      halvingSystemSubtitle: 'Systematische Verknappung für nachhaltiges Wachstum',
+      livePrefix: '🔴 Live: Stufe',
+      activeStatus: 'aktiv'
     },
     roi: {
       title: 'ROI Rechner',
@@ -109,7 +132,8 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       halvingStage: 'Halving-Stufe',
       investment: 'Investment',
       yearlyROI: 'Jährlicher ROI',
-      yearlyProfit: 'Jährlicher Gewinn'
+      yearlyProfit: 'Jährlicher Gewinn',
+      roiCalculatorTitle: 'ROI Rechner'
     },
     tech: {
       blockchainTitle: 'Blockchain-Infrastruktur',
@@ -121,7 +145,15 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       supply: 'Supply:',
       type: 'Type:',
       utility: 'Utility',
-      investmentType: 'Investment'
+      investmentType: 'Investment',
+      blockchainInfraTitle: 'Blockchain-Infrastruktur',
+      tokenSpecsTitle: 'Token-Spezifikationen',
+      security: 'Sicherheit',
+      decentralized: 'Dezentralisiert',
+      crosschain: 'Cross-Chain',
+      securityDesc: 'Multi-Sig Wallets, audited Smart Contracts',
+      decentralizedDesc: 'Community-driven, transparente Governance',
+      crosschainDesc: 'Ethereum & Base Chain kompatibel'
     }
   },
   en: {
@@ -140,7 +172,9 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       smartContract: 'Smart Contract',
       currentPrice: 'Current Price',
       dexLiquidity: 'DEX Liquidity',
-      community: 'Community'
+      community: 'Community',
+      totalSupply: 'Total Supply',
+      marketCap: 'Market Cap'
     },
     dinvest: {
       title: 'D.INVEST Token',
@@ -149,7 +183,8 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       sold: 'Sold',
       available: 'Available',
       currentStage: 'Current Stage',
-      stage: 'Stage'
+      stage: 'Stage',
+      totalValue: 'Total Value'
     },
     halving: {
       title: '6-Stage Halving System',
@@ -161,7 +196,11 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       final: 'Final',
       status: 'Status',
       weeklyRate: 'Weekly Rate',
-      vsFinal: 'vs. Final'
+      vsFinal: 'vs. Final',
+      halvingSystemTitle: '6-Stage Halving System',
+      halvingSystemSubtitle: 'Systematic Scarcity for Sustainable Growth',
+      livePrefix: '🔴 Live: Stage',
+      activeStatus: 'active'
     },
     roi: {
       title: 'ROI Calculator',
@@ -170,7 +209,8 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       halvingStage: 'Halving Stage',
       investment: 'Investment',
       yearlyROI: 'Yearly ROI',
-      yearlyProfit: 'Yearly Profit'
+      yearlyProfit: 'Yearly Profit',
+      roiCalculatorTitle: 'ROI Calculator'
     },
     tech: {
       blockchainTitle: 'Blockchain Infrastructure',
@@ -182,7 +222,15 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       supply: 'Supply:',
       type: 'Type:',
       utility: 'Utility',
-      investmentType: 'Investment'
+      investmentType: 'Investment',
+      blockchainInfraTitle: 'Blockchain Infrastructure',
+      tokenSpecsTitle: 'Token Specifications',
+      security: 'Security',
+      decentralized: 'Decentralized',
+      crosschain: 'Cross-Chain',
+      securityDesc: 'Multi-Sig Wallets, audited Smart Contracts',
+      decentralizedDesc: 'Community-driven, transparent Governance',
+      crosschainDesc: 'Ethereum & Base Chain compatible'
     }
   },
   pl: {
@@ -201,7 +249,9 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       smartContract: 'Smart Contract',
       currentPrice: 'Aktualna Cena',
       dexLiquidity: 'Płynność DEX',
-      community: 'Społeczność'
+      community: 'Społeczność',
+      totalSupply: 'Całkowita Podaż',
+      marketCap: 'Kapitalizacja Rynkowa'
     },
     dinvest: {
       title: 'Token D.INVEST',
@@ -210,7 +260,8 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       sold: 'Sprzedane',
       available: 'Dostępne',
       currentStage: 'Aktualny Etap',
-      stage: 'Etap'
+      stage: 'Etap',
+      totalValue: 'Całkowita Wartość'
     },
     halving: {
       title: '6-Etapowy System Halvingu',
@@ -222,7 +273,11 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       final: 'Końcowy',
       status: 'Status',
       weeklyRate: 'Tygodniowa Stopa',
-      vsFinal: 'vs. Końcowy'
+      vsFinal: 'vs. Końcowy',
+      halvingSystemTitle: '6-Etapowy System Halvingu',
+      halvingSystemSubtitle: 'Systematyczny Niedobór dla Zrównoważonego Wzrostu',
+      livePrefix: '🔴 Na Żywo: Etap',
+      activeStatus: 'aktywny'
     },
     roi: {
       title: 'Kalkulator ROI',
@@ -231,7 +286,8 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       halvingStage: 'Etap Halvingu',
       investment: 'Inwestycja',
       yearlyROI: 'Roczny ROI',
-      yearlyProfit: 'Roczny Zysk'
+      yearlyProfit: 'Roczny Zysk',
+      roiCalculatorTitle: 'Kalkulator ROI'
     },
     tech: {
       blockchainTitle: 'Infrastruktura Blockchain',
@@ -243,7 +299,15 @@ export const glassmorphismTokenomicsTranslations: Record<'de' | 'en' | 'pl', Gla
       supply: 'Podaż:',
       type: 'Typ:',
       utility: 'Użytkowy',
-      investmentType: 'Inwestycyjny'
+      investmentType: 'Inwestycyjny',
+      blockchainInfraTitle: 'Infrastruktura Blockchain',
+      tokenSpecsTitle: 'Specyfikacje Tokenów',
+      security: 'Bezpieczeństwo',
+      decentralized: 'Zdecentralizowany',
+      crosschain: 'Cross-Chain',
+      securityDesc: 'Portfele Multi-Sig, audytowane Smart Contracts',
+      decentralizedDesc: 'Kierowany przez społeczność, przejrzyste zarządzanie',
+      crosschainDesc: 'Kompatybilny z Ethereum i Base Chain'
     }
   }
 };
