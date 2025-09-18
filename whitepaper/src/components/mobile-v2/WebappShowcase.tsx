@@ -136,11 +136,34 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
   ]
 
   return (
-    <div ref={ref} className="min-h-screen flex flex-col justify-center p-6 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Header mit Icon, Headline, Slogan */}
+    <div 
+      ref={ref} 
+      className="min-h-screen flex flex-col justify-center p-6 relative"
+      style={{
+        background: `
+          linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(88, 28, 135, 0.85) 50%, rgba(15, 23, 42, 0.95) 100%),
+          url('/d-faith-logo.png')
+        `,
+        backgroundSize: '400px 400px, cover',
+        backgroundPosition: 'center, center',
+        backgroundRepeat: 'no-repeat, no-repeat',
+        backgroundBlendMode: 'overlay'
+      }}
+    >
+      {/* Overlay für bessere Lesbarkeit */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-purple-900/70 to-slate-900/80 backdrop-blur-sm"></div>
+      
+      {/* Content Container */}
+      <div className="relative z-10">{/* Header mit Icon, Headline, Slogan */}
       <div className="flex flex-col items-center gap-4 mb-8 mt-8">
-        <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 via-pink-500 to-purple-500 shadow-lg">
-          <FaRocket className="text-white text-3xl" />
+        <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 via-pink-500 to-purple-500 shadow-lg p-1">
+          <Image 
+            src="/d-faith-logo.png" 
+            alt="D.FAITH Logo" 
+            width={56} 
+            height={56} 
+            className="rounded-xl object-cover" 
+          />
         </div>
         <h2 className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-1 mt-2">{texts.header.title}</h2>
         <p className="text-base text-zinc-200 font-medium">{texts.header.subtitle}</p>
@@ -184,6 +207,7 @@ const WebappShowcase: React.FC<WebappShowcaseProps> = ({
         <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold shadow-lg hover:scale-105 transition-transform text-base flex items-center gap-2 animate-pulse">
           {texts.callToAction.buttonText} <FaArrowRight className="text-base" />
         </button>
+      </div>
       </div>
     </div>
   )
