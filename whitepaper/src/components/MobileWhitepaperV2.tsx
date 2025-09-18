@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { useSpring, animated, config } from '@react-spring/web'
 import { useInView } from 'react-intersection-observer'
+import { useLanguage } from '../context/LanguageContext'
 import Confetti from 'react-confetti'
 import { 
   FaRocket, 
@@ -24,6 +25,42 @@ import {
 } from 'react-icons/fa'
 import Image from 'next/image'
 
+// Flag components (same as NavigationMenu)
+const DEFlag = () => (
+  <div className="inline-flex w-6 h-4 bg-gradient-to-b from-black via-red-600 to-yellow-400 rounded border border-gray-300 shadow-sm"></div>
+);
+
+const ENFlag = () => (
+  <div className="inline-flex w-6 h-4 relative bg-red-600 rounded border border-gray-300 overflow-hidden shadow-sm">
+    {/* Red and white stripes */}
+    <div className="absolute inset-0">
+      <div className="w-full h-0.5 bg-red-600 absolute top-0"></div>
+      <div className="w-full h-0.5 bg-white absolute top-0.5"></div>
+      <div className="w-full h-0.5 bg-red-600 absolute top-1"></div>
+      <div className="w-full h-0.5 bg-white absolute top-1.5"></div>
+      <div className="w-full h-0.5 bg-red-600 absolute top-2"></div>
+      <div className="w-full h-0.5 bg-white absolute top-2.5"></div>
+      <div className="w-full h-0.5 bg-red-600 absolute top-3"></div>
+      <div className="w-full h-0.5 bg-white absolute bottom-0"></div>
+    </div>
+    {/* Blue canton */}
+    <div className="absolute top-0 left-0 w-2.5 h-2 bg-blue-800"></div>
+    {/* Stars (simplified as small white dots) */}
+    <div className="absolute top-0 left-0 w-2.5 h-2">
+      <div className="absolute top-0.5 left-0.5 w-0.5 h-0.5 bg-white rounded-full"></div>
+      <div className="absolute top-0.5 left-1.5 w-0.5 h-0.5 bg-white rounded-full"></div>
+      <div className="absolute top-1.5 left-1 w-0.5 h-0.5 bg-white rounded-full"></div>
+    </div>
+  </div>
+);
+
+const PLFlag = () => (
+  <div className="inline-flex w-6 h-4 relative rounded border border-gray-300 overflow-hidden shadow-sm">
+    <div className="absolute top-0 left-0 w-full h-2 bg-white"></div>
+    <div className="absolute bottom-0 left-0 w-full h-2 bg-red-600"></div>
+  </div>
+);
+
 // Enhanced Mobile Components (to be created)
 import EnhancedHeroSection from './mobile-v2/EnhancedHeroSection'
 import InteractiveTimeline from './mobile-v2/InteractiveTimeline'
@@ -40,17 +77,17 @@ interface MobileWhitepaperV2Props {
   }
   activeUsers: number
   isLoading: boolean
-  language: 'de' | 'en' | 'pl';
 }
 
 const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({ 
   tokenPrices, 
   activeUsers, 
-  isLoading,
-  language
+  isLoading
 }) => {
+  const { language, setLanguage } = useLanguage()
   const [currentSection, setCurrentSection] = useState('hero')
   const [showConfetti, setShowConfetti] = useState(false)
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   
   const { scrollYProgress } = useScroll({
@@ -179,6 +216,56 @@ const MobileWhitepaperV2: React.FC<MobileWhitepaperV2Props> = ({
           gravity={0.1}
         />
       )}
+
+      {/* Mobile Language Switcher - Top Right */}
+      <div className="fixed top-4 right-4 z-50">
+        <div className="relative">
+          <button
+            onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+            className="p-2 bg-black/60 backdrop-blur-md rounded-lg border border-white/20 hover:bg-black/70 transition-colors flex items-center gap-2"
+            aria-label="Sprache wechseln"
+          >
+            {language === 'de' && <DEFlag />}
+            {language === 'en' && <ENFlag />}
+            {language === 'pl' && <PLFlag />}
+            <span className="text-white text-xs">▼</span>
+          </button>
+          
+          <AnimatePresence>
+            {showLanguageDropdown && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                transition={{ duration: 0.15 }}
+                className="absolute top-full right-0 mt-2 bg-black/80 backdrop-blur-md border border-white/20 rounded-lg shadow-xl overflow-hidden"
+              >
+                <button
+                  onClick={() => { setLanguage('de'); setShowLanguageDropdown(false); }}
+                  className="w-full px-3 py-2 text-left hover:bg-white/10 transition-colors flex items-center gap-2 text-white"
+                >
+                  <DEFlag />
+                  <span className="text-xs">Deutsch</span>
+                </button>
+                <button
+                  onClick={() => { setLanguage('en'); setShowLanguageDropdown(false); }}
+                  className="w-full px-3 py-2 text-left hover:bg-white/10 transition-colors flex items-center gap-2 text-white"
+                >
+                  <ENFlag />
+                  <span className="text-xs">English</span>
+                </button>
+                <button
+                  onClick={() => { setLanguage('pl'); setShowLanguageDropdown(false); }}
+                  className="w-full px-3 py-2 text-left hover:bg-white/10 transition-colors flex items-center gap-2 text-white"
+                >
+                  <PLFlag />
+                  <span className="text-xs">Polski</span>
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
 
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">

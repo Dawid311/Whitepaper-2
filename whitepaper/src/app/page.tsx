@@ -65,7 +65,6 @@ const WhitepaperPage = () => {
         tokenPrices={tokenPrices}
         activeUsers={activeUsers}
         isLoading={isLoading}
-        language={language}
       />
     );
   }

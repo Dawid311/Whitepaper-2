@@ -34,6 +34,10 @@ export interface InteractiveTimelineTexts {
       longTerm: string;
     };
   };
+  ui: {
+    showDetails: string;
+    hideDetails: string;
+  };
 }
 
 export const interactiveTimelineTexts: Record<string, InteractiveTimelineTexts> = {
@@ -182,6 +186,10 @@ export const interactiveTimelineTexts: Record<string, InteractiveTimelineTexts> 
         success: "Sobald alle D.INVEST verkauft sind und das Projekt erfolgreich ist, werden weiterhin aus den Einnahmen D.FAITH Tokens beim Marketing gekauft.",
         longTerm: "Langfristige Investoren profitieren dadurch am meisten"
       }
+    },
+    ui: {
+      showDetails: "Details anzeigen",
+      hideDetails: "Details ausblenden"
     }
   },
   en: {
@@ -329,6 +337,10 @@ export const interactiveTimelineTexts: Record<string, InteractiveTimelineTexts> 
         success: "Once all D.INVEST are sold and the project is successful, D.FAITH tokens will continue to be purchased from revenue during marketing.",
         longTerm: "Long-term investors benefit the most from this"
       }
+    },
+    ui: {
+      showDetails: "Show details",
+      hideDetails: "Hide details"
     }
   },
   pl: {
@@ -476,6 +488,10 @@ export const interactiveTimelineTexts: Record<string, InteractiveTimelineTexts> 
         success: "Gdy wszystkie D.INVEST zostaną sprzedane, a projekt będzie udany, tokeny D.FAITH będą nadal kupowane z przychodów podczas marketingu.",
         longTerm: "Długoterminowi inwestorzy zyskują na tym najbardziej"
       }
+    },
+    ui: {
+      showDetails: "Pokaż szczegóły",
+      hideDetails: "Ukryj szczegóły"
     }
   }
 };

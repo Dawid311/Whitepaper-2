@@ -473,9 +473,14 @@ const InteractiveTimeline: React.FC = () => {
             <h3 className="font-bold text-lg text-white">
               {texts.expandableInfo.profitableTitle}
             </h3>
-            <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
-              showProfitableInfo ? 'rotate-90' : ''
-            }`} />
+            <div className="flex items-center gap-2 text-gray-400 text-xs">
+              <span>
+                {showProfitableInfo ? texts.ui.hideDetails : texts.ui.showDetails}
+              </span>
+              <FaArrowRight className={`transition-transform duration-300 ${
+                showProfitableInfo ? 'rotate-90' : ''
+              }`} />
+            </div>
           </button>
           
           {showProfitableInfo && (
@@ -504,9 +509,14 @@ const InteractiveTimeline: React.FC = () => {
             <h3 className="font-bold text-lg text-white">
               {texts.expandableInfo.halvingTitle}
             </h3>
-            <FaArrowRight className={`text-gray-400 transition-transform duration-300 ${
-              showRewardLevelsInfo ? 'rotate-90' : ''
-            }`} />
+            <div className="flex items-center gap-2 text-gray-400 text-xs">
+              <span>
+                {showRewardLevelsInfo ? texts.ui.hideDetails : texts.ui.showDetails}
+              </span>
+              <FaArrowRight className={`transition-transform duration-300 ${
+                showRewardLevelsInfo ? 'rotate-90' : ''
+              }`} />
+            </div>
           </button>
           
           {showRewardLevelsInfo && (
