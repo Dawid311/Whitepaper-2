@@ -25,12 +25,31 @@ const WebappShowcaseSection: React.FC<WebappShowcaseSectionProps> = ({ language 
   };
 
   return (
-    <section id="webapp" className="relative w-full py-24 px-0 bg-gradient-to-tr from-blue-950 via-zinc-900 to-purple-950 overflow-hidden">
+    <section 
+      id="webapp" 
+      className="relative w-full py-24 px-0 overflow-hidden"
+      style={{
+        background: `
+          linear-gradient(135deg, rgba(30, 41, 59, 0.96) 0%, rgba(88, 28, 135, 0.90) 50%, rgba(30, 41, 59, 0.96) 100%),
+          url('/dawid-faith-still.jpg')
+        `,
+        backgroundSize: '600px 600px, cover',
+        backgroundPosition: 'center, center',
+        backgroundRepeat: 'no-repeat, no-repeat',
+        backgroundBlendMode: 'overlay'
+      }}
+    >
       <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center gap-12">
         {/* Header mit Icon, Headline, Slogan */}
         <div className="flex flex-col md:flex-row items-center gap-6 w-full justify-center">
-          <div className="flex-shrink-0 flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-400 via-pink-500 to-purple-500 shadow-lg">
-            <FaRocket className="text-white text-4xl" />
+          <div className="flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden shadow-lg">
+            <img 
+              src="/dawid-faith-still.jpg" 
+              alt="Dawid Faith" 
+              width={80} 
+              height={80} 
+              className="w-full h-full object-cover" 
+            />
           </div>
           <div className="text-center md:text-left">
             <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">{t.headline}</h2>
