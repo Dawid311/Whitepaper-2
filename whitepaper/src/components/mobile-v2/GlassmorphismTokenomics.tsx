@@ -390,7 +390,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                       transition={{ duration: 2, repeat: Infinity }}
                       className="flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-3 py-1 border border-green-500/30"
                     >
-                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                      <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
                       <span className="text-green-400 font-semibold text-xs">
                         {t.liveData}
                       </span>
@@ -470,7 +470,7 @@ const GlassmorphismTokenomics: React.FC<GlassmorphismTokenomicsProps> = ({ token
                       transition={{ duration: 2, repeat: Infinity }}
                       className="flex items-center gap-2 backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full px-3 py-1 border border-green-500/30"
                     >
-                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                      <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
                       <span className="text-green-400 font-semibold text-xs">
                         Live Daten
                       </span>
